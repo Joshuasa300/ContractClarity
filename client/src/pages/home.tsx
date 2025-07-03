@@ -12,7 +12,7 @@ import { FileText, Upload, Clock, CheckCircle, AlertCircle, LogOut, ChevronDown,
 import { useState } from "react";
 import { Link } from "wouter";
 import ContractUpload from "@/components/ContractUpload";
-import type { Contract } from "@shared/schema";
+import type { Contract, User } from "@shared/schema";
 
 export default function Home() {
   const { toast } = useToast();
@@ -35,7 +35,7 @@ export default function Home() {
   }, [isAuthenticated, isLoading, toast]);
 
   // Fetch user's contracts
-  const { data: contracts = [], isLoading: contractsLoading } = useQuery({
+  const { data: contracts = [], isLoading: contractsLoading } = useQuery<Contract[]>({
     queryKey: ["/api/contracts"],
     enabled: isAuthenticated,
     retry: (failureCount, error) => {
@@ -227,7 +227,7 @@ export default function Home() {
                             {/* Summary */}
                             <div className="mb-6">
                               <h4 className="text-lg font-semibold text-text-primary mb-3">Summary</h4>
-                              <p className="text-gray-700 leading-relaxed">{contract.summary}</p>
+                              <p className="text-gray-700 leading-relaxed">{String(contract.summary)}</p>
                             </div>
 
                             {/* Risk Assessment */}
@@ -237,15 +237,16 @@ export default function Home() {
                                 <div className="space-y-4">
                                   {(() => {
                                     try {
-                                      const riskData = contract.riskAssessment;
+                                      const riskData = contract.riskAssessment as any;
                                       if (!riskData || typeof riskData !== 'object') return null;
+                                      
                                       return Object.entries(riskData).map(([level, risks]) => (
                                         <div key={level}>
                                           <h5 className="font-medium text-gray-900 mb-2 capitalize">
                                             {level} Risk Items
                                           </h5>
                                           <div className="space-y-2">
-                                            {(risks as any[]).map((risk, index) => (
+                                            {Array.isArray(risks) && risks.map((risk: any, index: number) => (
                                               <div key={index} className={`p-3 rounded-lg border ${getRiskColor(level)}`}>
                                                 <h6 className="font-medium">{risk.title}</h6>
                                                 <p className="text-sm mt-1">{risk.description}</p>
@@ -269,7 +270,7 @@ export default function Home() {
                                 <div className="grid gap-3">
                                   {(() => {
                                     try {
-                                      const keyTermsData = contract.keyTerms;
+                                      const keyTermsData = contract.keyTerms as any;
                                       if (!keyTermsData || !Array.isArray(keyTermsData)) return null;
                                       return keyTermsData.map((term: any, index: number) => (
                                         <div key={index} className="p-4 border border-gray-200 rounded-lg">
@@ -302,7 +303,7 @@ export default function Home() {
                                 <div className="space-y-3">
                                   {(() => {
                                     try {
-                                      const recData = contract.recommendations;
+                                      const recData = contract.recommendations as any;
                                       if (!recData || !Array.isArray(recData)) return null;
                                       return recData.map((rec: any, index: number) => (
                                         <div key={index} className={`p-4 rounded-lg border ${getPriorityColor(rec.priority)}`}>

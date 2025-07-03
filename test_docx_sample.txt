@@ -1,0 +1,29 @@
+EMPLOYMENT AGREEMENT
+
+This Employment Agreement ("Agreement") is made between TechCorp Inc. ("Company") and John Smith ("Employee") effective January 1, 2024.
+
+POSITION AND DUTIES
+Employee will serve as Senior Software Engineer and will perform duties as assigned by the Company.
+
+COMPENSATION
+Base Salary: $120,000 per year
+Performance Bonus: Discretionary annual bonus based on company performance
+Benefits: Health insurance, dental coverage, 401(k) plan, 15 days vacation
+
+TERMINATION
+Either party may terminate this agreement with 30 days written notice. Company may terminate immediately for cause.
+
+CONFIDENTIALITY
+Employee agrees to maintain confidentiality of all company information indefinitely.
+
+NON-COMPETE
+Employee agrees not to work for competitors within 50 miles for 12 months after termination.
+
+INTELLECTUAL PROPERTY
+All work products created during employment belong to the Company.
+
+This agreement is governed by Delaware law.
+
+Signatures:
+TechCorp Inc.
+John Smith

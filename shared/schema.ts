@@ -70,7 +70,35 @@ export const insertContractSchema = createInsertSchema(contracts).omit({
   updatedAt: true,
 });
 
+// Type definitions for analysis results
+export interface RiskItem {
+  title: string;
+  description: string;
+}
+
+export interface RiskAssessment {
+  low: RiskItem[];
+  medium: RiskItem[];
+  high: RiskItem[];
+}
+
+export interface KeyTerm {
+  title: string;
+  category: string;
+  riskLevel: string;
+  description: string;
+}
+
+export interface Recommendation {
+  action: string;
+  priority: string;
+}
+
 export type UpsertUser = typeof users.$inferInsert;
 export type User = typeof users.$inferSelect;
-export type Contract = typeof contracts.$inferSelect;
+export type Contract = typeof contracts.$inferSelect & {
+  riskAssessment?: RiskAssessment;
+  keyTerms?: KeyTerm[];
+  recommendations?: Recommendation[];
+};
 export type InsertContract = z.infer<typeof insertContractSchema>;

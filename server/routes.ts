@@ -8,6 +8,8 @@ import multer from "multer";
 import { z } from "zod";
 // PDF2JSON for reliable PDF text extraction
 import PDFParser from "pdf2json";
+// Mammoth for DOCX text extraction
+import mammoth from "mammoth";
 
 // Configure multer for file uploads
 const upload = multer({ 
@@ -108,9 +110,25 @@ export async function registerRoutes(app: Express): Promise<Server> {
             message: "Failed to parse PDF file. Please ensure it's a valid PDF with readable text, or try converting it to a text file (.txt)." 
           });
         }
+      } else if (file.mimetype === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' || 
+                 file.originalname.toLowerCase().endsWith('.docx')) {
+        // Handle DOCX files
+        try {
+          const result = await mammoth.extractRawText({ buffer: file.buffer });
+          fileContent = result.value;
+          
+          if (result.messages && result.messages.length > 0) {
+            console.warn("DOCX parsing warnings:", result.messages);
+          }
+        } catch (error) {
+          console.error("DOCX parsing error:", error);
+          return res.status(400).json({ 
+            message: "Failed to parse DOCX file. Please ensure it's a valid Word document with readable text." 
+          });
+        }
       } else {
         return res.status(400).json({ 
-          message: "Unsupported file type. Please upload a PDF (.pdf) or plain text file (.txt)." 
+          message: "Unsupported file type. Please upload a PDF (.pdf), Word document (.docx), or plain text file (.txt)." 
         });
       }
 
