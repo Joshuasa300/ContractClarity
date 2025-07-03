@@ -33,6 +33,7 @@ This is a full-stack web application called "ContractAI" that provides AI-powere
 
 2. **Contract Management**
    - File upload system supporting PDF, DOC, DOCX, and TXT formats
+   - PDF text extraction using pdf-parse library
    - Contract storage with metadata and analysis results
    - User-specific contract isolation
 
@@ -106,6 +107,7 @@ This is a full-stack web application called "ContractAI" that provides AI-powere
 
 Changelog:
 - July 03, 2025. Initial setup
+- July 03, 2025. Implemented PDF parsing support with pdf-parse library
 
 ## User Preferences
 

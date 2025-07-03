@@ -124,10 +124,7 @@ export default function ContractUpload() {
               Drag and drop your contract here, or click to browse
             </p>
             <p className="text-sm text-gray-500 mb-4">
-              Supports TXT (Max 10MB)
-            </p>
-            <p className="text-xs text-yellow-600 mb-4">
-              Note: PDF support is coming soon. For now, please upload plain text (.txt) files.
+              Supports PDF, TXT, DOC, DOCX (Max 10MB)
             </p>
             <Button 
               type="button" 
