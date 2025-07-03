@@ -18,12 +18,18 @@ const upload = multer({
   fileFilter: (req, file, cb) => {
     const allowedTypes = [
       'application/pdf',
-      'text/plain'
+      'text/plain',
+      'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
     ];
-    if (allowedTypes.includes(file.mimetype)) {
+    
+    // Also check file extension as backup
+    const allowedExtensions = ['.pdf', '.txt', '.docx'];
+    const fileExtension = file.originalname.toLowerCase().substring(file.originalname.lastIndexOf('.'));
+    
+    if (allowedTypes.includes(file.mimetype) || allowedExtensions.includes(fileExtension)) {
       cb(null, true);
     } else {
-      cb(new Error('Invalid file type. Only PDF and TXT files are allowed.'));
+      cb(new Error('Invalid file type. Only PDF, DOCX, and TXT files are allowed.'));
     }
   }
 });
