@@ -1,0 +1,36 @@
+EMPLOYMENT AGREEMENT
+
+This Employment Agreement ("Agreement") is entered into on January 15, 2024, between TechCorp Inc., a Delaware corporation ("Company"), and John Smith ("Employee").
+
+1. POSITION AND DUTIES
+Employee agrees to serve as Senior Software Engineer and will perform duties as assigned by the Company. Employee will work full-time and devote best efforts to the Company's business.
+
+2. COMPENSATION
+Company shall pay Employee a base salary of $120,000 per year, payable in bi-weekly installments. Employee is eligible for annual performance bonuses at Company's discretion.
+
+3. BENEFITS
+Employee shall be entitled to participate in Company's health insurance plan, dental coverage, and 401(k) retirement plan. Employee receives 15 days of paid vacation annually.
+
+4. TERMINATION
+Either party may terminate this agreement with 30 days written notice. Company may terminate immediately for cause, including violation of company policies, poor performance, or misconduct.
+
+5. CONFIDENTIALITY
+Employee agrees not to disclose any confidential information obtained during employment. This obligation continues indefinitely after termination.
+
+6. NON-COMPETE
+Employee agrees not to work for direct competitors within 50 miles of Company headquarters for 12 months after termination.
+
+7. INTELLECTUAL PROPERTY
+All work products, inventions, and ideas created during employment belong to the Company. Employee assigns all rights to such intellectual property.
+
+8. GOVERNING LAW
+This agreement is governed by Delaware law. Any disputes will be resolved through binding arbitration.
+
+By signing below, both parties agree to the terms of this Employment Agreement.
+
+Company: TechCorp Inc.
+By: Sarah Johnson, CEO
+Date: January 15, 2024
+
+Employee: John Smith
+Date: January 15, 2024
