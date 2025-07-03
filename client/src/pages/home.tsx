@@ -235,21 +235,29 @@ export default function Home() {
                               <div className="mb-6">
                                 <h4 className="text-lg font-semibold text-text-primary mb-3">Risk Assessment</h4>
                                 <div className="space-y-4">
-                                  {Object.entries(JSON.parse(contract.riskAssessment)).map(([level, risks]) => (
-                                    <div key={level}>
-                                      <h5 className="font-medium text-gray-900 mb-2 capitalize">
-                                        {level} Risk Items
-                                      </h5>
-                                      <div className="space-y-2">
-                                        {(risks as any[]).map((risk, index) => (
-                                          <div key={index} className={`p-3 rounded-lg border ${getRiskColor(level)}`}>
-                                            <h6 className="font-medium">{risk.title}</h6>
-                                            <p className="text-sm mt-1">{risk.description}</p>
+                                  {(() => {
+                                    try {
+                                      const riskData = contract.riskAssessment;
+                                      if (!riskData || typeof riskData !== 'object') return null;
+                                      return Object.entries(riskData).map(([level, risks]) => (
+                                        <div key={level}>
+                                          <h5 className="font-medium text-gray-900 mb-2 capitalize">
+                                            {level} Risk Items
+                                          </h5>
+                                          <div className="space-y-2">
+                                            {(risks as any[]).map((risk, index) => (
+                                              <div key={index} className={`p-3 rounded-lg border ${getRiskColor(level)}`}>
+                                                <h6 className="font-medium">{risk.title}</h6>
+                                                <p className="text-sm mt-1">{risk.description}</p>
+                                              </div>
+                                            ))}
                                           </div>
-                                        ))}
-                                      </div>
-                                    </div>
-                                  ))}
+                                        </div>
+                                      ));
+                                    } catch (e) {
+                                      return <p className="text-gray-500 text-sm">Risk assessment data unavailable</p>;
+                                    }
+                                  })()}
                                 </div>
                               </div>
                             )}
@@ -259,22 +267,30 @@ export default function Home() {
                               <div className="mb-6">
                                 <h4 className="text-lg font-semibold text-text-primary mb-3">Key Terms</h4>
                                 <div className="grid gap-3">
-                                  {JSON.parse(contract.keyTerms).map((term: any, index: number) => (
-                                    <div key={index} className="p-4 border border-gray-200 rounded-lg">
-                                      <div className="flex items-start justify-between mb-2">
-                                        <h6 className="font-medium text-gray-900">{term.title}</h6>
-                                        <div className="flex space-x-2">
-                                          <Badge variant="secondary" className="text-xs">
-                                            {term.category}
-                                          </Badge>
-                                          <Badge className={`text-xs ${getRiskColor(term.riskLevel)}`}>
-                                            {term.riskLevel}
-                                          </Badge>
+                                  {(() => {
+                                    try {
+                                      const keyTermsData = contract.keyTerms;
+                                      if (!keyTermsData || !Array.isArray(keyTermsData)) return null;
+                                      return keyTermsData.map((term: any, index: number) => (
+                                        <div key={index} className="p-4 border border-gray-200 rounded-lg">
+                                          <div className="flex items-start justify-between mb-2">
+                                            <h6 className="font-medium text-gray-900">{term.title}</h6>
+                                            <div className="flex space-x-2">
+                                              <Badge variant="secondary" className="text-xs">
+                                                {term.category}
+                                              </Badge>
+                                              <Badge className={`text-xs ${getRiskColor(term.riskLevel)}`}>
+                                                {term.riskLevel}
+                                              </Badge>
+                                            </div>
+                                          </div>
+                                          <p className="text-sm text-gray-600">{term.description}</p>
                                         </div>
-                                      </div>
-                                      <p className="text-sm text-gray-600">{term.description}</p>
-                                    </div>
-                                  ))}
+                                      ));
+                                    } catch (e) {
+                                      return <p className="text-gray-500 text-sm">Key terms data unavailable</p>;
+                                    }
+                                  })()}
                                 </div>
                               </div>
                             )}
@@ -284,16 +300,24 @@ export default function Home() {
                               <div>
                                 <h4 className="text-lg font-semibold text-text-primary mb-3">Recommendations</h4>
                                 <div className="space-y-3">
-                                  {JSON.parse(contract.recommendations).map((rec: any, index: number) => (
-                                    <div key={index} className={`p-4 rounded-lg border ${getPriorityColor(rec.priority)}`}>
-                                      <div className="flex items-start justify-between mb-2">
-                                        <p className="font-medium">{rec.action}</p>
-                                        <Badge className={`text-xs ${getPriorityColor(rec.priority)}`}>
-                                          {rec.priority} priority
-                                        </Badge>
-                                      </div>
-                                    </div>
-                                  ))}
+                                  {(() => {
+                                    try {
+                                      const recData = contract.recommendations;
+                                      if (!recData || !Array.isArray(recData)) return null;
+                                      return recData.map((rec: any, index: number) => (
+                                        <div key={index} className={`p-4 rounded-lg border ${getPriorityColor(rec.priority)}`}>
+                                          <div className="flex items-start justify-between mb-2">
+                                            <p className="font-medium">{rec.action}</p>
+                                            <Badge className={`text-xs ${getPriorityColor(rec.priority)}`}>
+                                              {rec.priority} priority
+                                            </Badge>
+                                          </div>
+                                        </div>
+                                      ));
+                                    } catch (e) {
+                                      return <p className="text-gray-500 text-sm">Recommendations data unavailable</p>;
+                                    }
+                                  })()}
                                 </div>
                               </div>
                             )}
