@@ -6,7 +6,7 @@ import { insertContractSchema } from "@shared/schema";
 import { processContractAnalysis } from "./services/contractAnalysis";
 import multer from "multer";
 import { z } from "zod";
-// PDF parser will be dynamically imported when needed
+// PDF.js for reliable PDF text extraction
 
 // Configure multer for file uploads
 const upload = multer({ 
@@ -58,17 +58,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
       if (file.mimetype === 'text/plain') {
         fileContent = file.buffer.toString('utf-8');
       } else if (file.mimetype === 'application/pdf') {
-        try {
-          // Dynamically import pdf-parse to avoid initialization issues
-          const pdfParse = (await import('pdf-parse')).default;
-          const pdfData = await pdfParse(file.buffer);
-          fileContent = pdfData.text;
-        } catch (error) {
-          console.error("PDF parsing error:", error);
-          return res.status(400).json({ 
-            message: "Failed to parse PDF file. Please ensure it's a valid PDF with readable text." 
-          });
-        }
+        return res.status(400).json({ 
+          message: "PDF parsing is temporarily unavailable. Please convert your PDF to a text file (.txt) and upload that instead. You can copy the text content from your PDF and save it as a .txt file." 
+        });
       } else {
         return res.status(400).json({ 
           message: "Unsupported file type. Please upload a PDF (.pdf) or plain text file (.txt)." 
