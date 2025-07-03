@@ -6,7 +6,8 @@ import { insertContractSchema } from "@shared/schema";
 import { processContractAnalysis } from "./services/contractAnalysis";
 import multer from "multer";
 import { z } from "zod";
-// PDF.js for reliable PDF text extraction
+// PDF2JSON for reliable PDF text extraction
+import PDFParser from "pdf2json";
 
 // Configure multer for file uploads
 const upload = multer({ 
@@ -15,14 +16,12 @@ const upload = multer({
   fileFilter: (req, file, cb) => {
     const allowedTypes = [
       'application/pdf',
-      'application/msword',
-      'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
       'text/plain'
     ];
     if (allowedTypes.includes(file.mimetype)) {
       cb(null, true);
     } else {
-      cb(new Error('Invalid file type. Only PDF, DOC, DOCX, and TXT files are allowed.'));
+      cb(new Error('Invalid file type. Only PDF and TXT files are allowed.'));
     }
   }
 });
@@ -58,9 +57,57 @@ export async function registerRoutes(app: Express): Promise<Server> {
       if (file.mimetype === 'text/plain') {
         fileContent = file.buffer.toString('utf-8');
       } else if (file.mimetype === 'application/pdf') {
-        return res.status(400).json({ 
-          message: "PDF parsing is temporarily unavailable. Please convert your PDF to a text file (.txt) and upload that instead. You can copy the text content from your PDF and save it as a .txt file." 
-        });
+        try {
+          // Parse PDF using pdf2json
+          const pdfParser = new PDFParser();
+          
+          // Create a promise to handle the async PDF parsing
+          const extractedText = await new Promise<string>((resolve, reject) => {
+            pdfParser.on("pdfParser_dataError", (errData: any) => {
+              reject(new Error(`PDF parsing error: ${errData.parserError}`));
+            });
+            
+            pdfParser.on("pdfParser_dataReady", (pdfData: any) => {
+              try {
+                let text = '';
+                
+                // Extract text from all pages
+                if (pdfData.Pages) {
+                  for (const page of pdfData.Pages) {
+                    if (page.Texts) {
+                      for (const textItem of page.Texts) {
+                        if (textItem.R) {
+                          for (const run of textItem.R) {
+                            if (run.T) {
+                              // Decode URI component and add space
+                              text += decodeURIComponent(run.T) + ' ';
+                            }
+                          }
+                        }
+                      }
+                    }
+                    text += '\n'; // Add newline between pages
+                  }
+                }
+                
+                resolve(text.trim());
+              } catch (parseError) {
+                reject(new Error(`Text extraction error: ${parseError}`));
+              }
+            });
+            
+            // Parse the PDF buffer
+            pdfParser.parseBuffer(file.buffer);
+          });
+          
+          fileContent = extractedText;
+          
+        } catch (error) {
+          console.error("PDF parsing error:", error);
+          return res.status(400).json({ 
+            message: "Failed to parse PDF file. Please ensure it's a valid PDF with readable text, or try converting it to a text file (.txt)." 
+          });
+        }
       } else {
         return res.status(400).json({ 
           message: "Unsupported file type. Please upload a PDF (.pdf) or plain text file (.txt)." 

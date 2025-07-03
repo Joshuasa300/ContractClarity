@@ -87,8 +87,6 @@ export default function ContractUpload() {
     accept: {
       'text/plain': ['.txt'],
       'application/pdf': ['.pdf'],
-      'application/msword': ['.doc'],
-      'application/vnd.openxmlformats-officedocument.wordprocessingml.document': ['.docx'],
     },
     maxFiles: 1,
     maxSize: 10 * 1024 * 1024, // 10MB
@@ -124,7 +122,7 @@ export default function ContractUpload() {
               Drag and drop your contract here, or click to browse
             </p>
             <p className="text-sm text-gray-500 mb-4">
-              Supports PDF, TXT, DOC, DOCX (Max 10MB)
+              Supports PDF and TXT files (Max 10MB)
             </p>
             <Button 
               type="button" 
