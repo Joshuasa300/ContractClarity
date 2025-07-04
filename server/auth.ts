@@ -7,12 +7,12 @@ import { scrypt, randomBytes, timingSafeEqual } from "crypto";
 import { promisify } from "util";
 import bcrypt from "bcryptjs";
 import { storage } from "./storage";
-import { User as SelectUser } from "@shared/schema";
+import { type User as DbUser } from "@shared/schema";
 import connectPg from "connect-pg-simple";
 
 declare global {
   namespace Express {
-    interface User extends SelectUser {}
+    interface User extends DbUser {}
   }
 }
 

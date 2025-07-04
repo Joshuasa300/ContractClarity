@@ -1,26 +1,18 @@
-import { useQuery } from "@tanstack/react-query";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { Input } from "@/components/ui/input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { FileText, Search, Filter, BookOpen } from "lucide-react";
-import { useState } from "react";
-import { Link } from "wouter";
-import Header from "@/components/Header";
-
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
+import { Link, useLocation } from "wouter";
 import { useAuth } from "@/hooks/useAuth";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { 
+  FileText, 
   Search, 
   Filter, 
+  BookOpen,
   Copy, 
   AlertTriangle, 
   CheckCircle,
@@ -28,7 +20,7 @@ import {
   Loader2,
   Library
 } from "lucide-react";
-import { useLocation } from "wouter";
+import Header from "@/components/Header";
 import type { ClauseLibraryItem } from "@shared/schema";
 
 export default function Clauses() {
@@ -49,7 +41,7 @@ export default function Clauses() {
     retry: false,
   });
 
-  const categories = ["all", ...new Set(clauses.map(c => c.category))];
+  const categories = ["all", ...Array.from(new Set((clauses || []).map(c => c.category).filter(Boolean)))];
 
   const getRiskLevelIcon = (level: string | null) => {
     switch (level) {
@@ -179,7 +171,7 @@ export default function Clauses() {
                       <DialogContent className="max-w-3xl max-h-[80vh] overflow-y-auto">
                         <DialogHeader>
                           <DialogTitle className="flex items-center space-x-2">
-                            {getRiskLevelIcon(selectedClause?.riskLevel)}
+                            {getRiskLevelIcon(selectedClause?.riskLevel || null)}
                             <span>{selectedClause?.title}</span>
                           </DialogTitle>
                         </DialogHeader>
