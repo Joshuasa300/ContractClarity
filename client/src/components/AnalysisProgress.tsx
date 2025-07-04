@@ -13,12 +13,16 @@ export default function AnalysisProgress({ contractId, onComplete }: AnalysisPro
   const [progress, setProgress] = useState(0);
   const [isComplete, setIsComplete] = useState(false);
 
-  const { data: contract, isLoading, isError } = useQuery<Contract>({
-    queryKey: ["/api/contracts", contractId],
+  // Use the contracts list query to find our specific contract
+  const { data: contracts, isLoading, isError } = useQuery<Contract[]>({
+    queryKey: ["/api/contracts"],
     refetchInterval: isComplete ? false : 2000, // Poll every 2 seconds until complete
     refetchOnMount: true,
     refetchOnWindowFocus: false,
   });
+
+  // Find the specific contract from the list
+  const contract = contracts?.find(c => c.id === contractId);
 
   // Helper function to check if analysis is complete
   const isAnalysisComplete = (value: any): boolean => {
