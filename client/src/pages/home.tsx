@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
-import { FileText, Upload, Clock, CheckCircle, AlertCircle, LogOut, ChevronDown, ChevronUp } from "lucide-react";
+import { FileText, Upload, Clock, CheckCircle, AlertCircle, LogOut, ChevronDown, ChevronUp, Plus } from "lucide-react";
 import { useState } from "react";
 import { Link } from "wouter";
 import ContractUpload from "@/components/ContractUpload";
@@ -345,6 +345,17 @@ export default function Home() {
           )}
         </div>
       </div>
+
+      {/* Floating Action Button */}
+      <Link href="/upload">
+        <Button 
+          size="lg"
+          className="fixed bottom-6 right-6 rounded-full h-14 w-14 shadow-lg hover:shadow-xl transition-shadow z-50"
+          aria-label="Upload Contract"
+        >
+          <Plus className="h-6 w-6" />
+        </Button>
+      </Link>
     </div>
   );
 }
