@@ -7,6 +7,8 @@ import { useState } from "react";
 import { Link, useLocation } from "wouter";
 import { useAuth } from "@/hooks/useAuth";
 import { useToast } from "@/hooks/use-toast";
+import { useLanguage } from "@/contexts/LanguageContext";
+import LanguageSelector from "@/components/LanguageSelector";
 
 interface BreadcrumbItem {
   label: string;
@@ -22,6 +24,7 @@ export default function Header({ breadcrumbs }: HeaderProps) {
   const [location] = useLocation();
   const { user } = useAuth();
   const { toast } = useToast();
+  const { t } = useLanguage();
 
   const handleLogout = async () => {
     try {
@@ -49,9 +52,9 @@ export default function Header({ breadcrumbs }: HeaderProps) {
   };
 
   const navigationItems = [
-    { label: "Home", href: "/", icon: null },
-    { label: "Templates", href: "/templates", icon: null },
-    { label: "Clauses", href: "/clauses", icon: null },
+    { label: t("nav.home"), href: "/", icon: null },
+    { label: t("nav.templates"), href: "/templates", icon: null },
+    { label: t("nav.clauses"), href: "/clauses", icon: null },
   ];
 
   const isActiveRoute = (href: string) => {
@@ -90,6 +93,9 @@ export default function Header({ breadcrumbs }: HeaderProps) {
           
           {/* User Actions */}
           <div className="flex items-center space-x-4">
+            {/* Language Selector */}
+            <LanguageSelector />
+            
             {/* User Profile */}
             <div className="flex items-center space-x-2">
               <Avatar className="h-8 w-8">
@@ -109,7 +115,7 @@ export default function Header({ breadcrumbs }: HeaderProps) {
             {/* Desktop Logout */}
             <Button variant="ghost" size="sm" onClick={handleLogout} className="hidden md:flex">
               <LogOut className="h-4 w-4 mr-2" />
-              Logout
+              {t("nav.logout")}
             </Button>
             
             {/* Mobile Menu Button */}
@@ -195,7 +201,7 @@ export default function Header({ breadcrumbs }: HeaderProps) {
                 }}
               >
                 <LogOut className="h-4 w-4 mr-2" />
-                Logout
+                {t("nav.logout")}
               </Button>
             </div>
           </div>
