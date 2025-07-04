@@ -1,13 +1,15 @@
 export const fr = {
   // Navigation & Header
-  'nav.home': 'Accueil',
-  'nav.contracts': 'Contrats',
-  'nav.templates': 'Modèles',
-  'nav.clauses': 'Bibliothèque de Clauses',
-  'nav.signIn': 'Se connecter',
-  'nav.signOut': 'Se déconnecter',
-  'nav.getStarted': 'Commencer',
-  'nav.signUp': "S'inscrire",
+  nav: {
+    home: 'Accueil',
+    contracts: 'Contrats',
+    templates: 'Modèles',
+    clauses: 'Bibliothèque de Clauses',
+    signIn: 'Se connecter',
+    signOut: 'Se déconnecter',
+    getStarted: 'Commencer',
+    signUp: "S'inscrire",
+  },
 
   // Landing Page
   'landing.title': 'Analyse de Contrats par IA',

@@ -1,13 +1,15 @@
 export const de = {
   // Navigation & Header
-  'nav.home': 'Startseite',
-  'nav.contracts': 'Verträge',
-  'nav.templates': 'Vorlagen',
-  'nav.clauses': 'Klausel-Bibliothek',
-  'nav.signIn': 'Anmelden',
-  'nav.signOut': 'Abmelden',
-  'nav.getStarted': 'Loslegen',
-  'nav.signUp': 'Registrieren',
+  nav: {
+    home: 'Startseite',
+    contracts: 'Verträge',
+    templates: 'Vorlagen',
+    clauses: 'Klausel-Bibliothek',
+    signIn: 'Anmelden',
+    signOut: 'Abmelden',
+    getStarted: 'Loslegen',
+    signUp: 'Registrieren',
+  },
 
   // Landing Page
   'landing.title': 'KI-gestützte Vertragsanalyse',

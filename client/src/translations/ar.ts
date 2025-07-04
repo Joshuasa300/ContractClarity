@@ -1,13 +1,15 @@
 export const ar = {
   // Navigation & Header
-  'nav.home': 'الرئيسية',
-  'nav.contracts': 'العقود',
-  'nav.templates': 'القوالب',
-  'nav.clauses': 'مكتبة البنود',
-  'nav.signIn': 'تسجيل الدخول',
-  'nav.signOut': 'تسجيل الخروج',
-  'nav.getStarted': 'ابدأ الآن',
-  'nav.signUp': 'إنشاء حساب',
+  nav: {
+    home: 'الرئيسية',
+    contracts: 'العقود',
+    templates: 'القوالب',
+    clauses: 'مكتبة البنود',
+    signIn: 'تسجيل الدخول',
+    signOut: 'تسجيل الخروج',
+    getStarted: 'ابدأ الآن',
+    signUp: 'إنشاء حساب',
+  },
 
   // Landing Page
   'landing.title': 'تحليل العقود بالذكاء الاصطناعي',

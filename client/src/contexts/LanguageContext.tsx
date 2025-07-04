@@ -18,7 +18,20 @@ export function LanguageProvider({ children }: LanguageProviderProps) {
   // Function to get translated text
   const t = (key: string): string => {
     const translation = translations[language];
-    return (translation as any)[key] || key;
+    
+    // Handle nested keys like 'nav.signIn'
+    const keys = key.split('.');
+    let result: any = translation;
+    
+    for (const k of keys) {
+      if (result && typeof result === 'object' && k in result) {
+        result = result[k];
+      } else {
+        return key; // Return the key itself if not found
+      }
+    }
+    
+    return typeof result === 'string' ? result : key;
   };
 
   // Handle language change

@@ -1,13 +1,15 @@
 export const en = {
   // Navigation & Header
-  'nav.home': 'Home',
-  'nav.contracts': 'Contracts',
-  'nav.templates': 'Templates',
-  'nav.clauses': 'Clause Library',
-  'nav.signIn': 'Sign In',
-  'nav.signOut': 'Sign Out',
-  'nav.getStarted': 'Get Started',
-  'nav.signUp': 'Sign Up',
+  nav: {
+    home: 'Home',
+    contracts: 'Contracts',
+    templates: 'Templates',
+    clauses: 'Clause Library',
+    signIn: 'Sign In',
+    signOut: 'Sign Out',
+    getStarted: 'Get Started',
+    signUp: 'Sign Up',
+  },
 
   // Landing Page
   'landing.title': 'AI-Powered Contract Analysis',
