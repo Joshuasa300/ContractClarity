@@ -15,7 +15,7 @@ interface LanguageProviderProps {
 export function LanguageProvider({ children }: LanguageProviderProps) {
   const [language, setLanguage] = useState<Language>(getStoredLanguage());
 
-  // Function to get translated text
+  // Function to get translated text with English fallback
   const t = (key: string): string => {
     const translation = translations[language];
     
@@ -27,7 +27,22 @@ export function LanguageProvider({ children }: LanguageProviderProps) {
       if (result && typeof result === 'object' && k in result) {
         result = result[k];
       } else {
-        return key; // Return the key itself if not found
+        // Fallback to English if not found in current language
+        if (language !== 'en') {
+          const englishTranslation = translations.en;
+          let englishResult: any = englishTranslation;
+          
+          for (const k of keys) {
+            if (englishResult && typeof englishResult === 'object' && k in englishResult) {
+              englishResult = englishResult[k];
+            } else {
+              return key; // Return the key if not found in English either
+            }
+          }
+          
+          return typeof englishResult === 'string' ? englishResult : key;
+        }
+        return key; // Return the key itself if not found and already in English
       }
     }
     
