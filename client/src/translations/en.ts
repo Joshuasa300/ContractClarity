@@ -12,9 +12,25 @@ export const en = {
   },
 
   // Landing Page
-  'landing.title': 'AI-Powered Contract Analysis',
-  'landing.subtitle': 'Simplify legal document interpretation with intelligent insights and user-friendly tools',
-  'landing.description': 'Upload your contracts and get instant analysis, risk assessment, and plain-language summaries powered by advanced AI technology.',
+  landing: {
+    title: 'Simplify Complex',
+    titleHighlight: 'Legal Contracts',
+    subtitle: 'Upload any contract and get instant AI-powered analysis in plain language. Understand key terms, risks, and obligations without legal jargon.',
+    uploadContract: 'Upload Contract',
+    seeDemo: 'See Demo',
+  },
+
+  // Home/Dashboard
+  home: {
+    welcome: 'Welcome back',
+    yourContracts: 'Your Contracts',
+    noContracts: 'No contracts yet',
+    uploadFirst: 'Upload your first contract to get started',
+    analysisComplete: 'Analysis Complete',
+    analysisInProgress: 'Analysis in Progress',
+    viewAnalysis: 'View Analysis',
+  },
+
   'landing.features.analysis': 'Smart Analysis',
   'landing.features.analysisDesc': 'Get comprehensive contract analysis with AI-powered insights',
   'landing.features.risk': 'Risk Assessment',

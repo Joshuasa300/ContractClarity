@@ -12,9 +12,13 @@ export const fr = {
   },
 
   // Landing Page
-  'landing.title': 'Analyse de Contrats par IA',
-  'landing.subtitle': 'Simplifiez l\'interprétation des documents juridiques avec des insights intelligents et des outils conviviaux',
-  'landing.description': 'Téléchargez vos contrats et obtenez une analyse instantanée, une évaluation des risques et des résumés en langage simple grâce à une technologie IA avancée.',
+  landing: {
+    title: 'Simplifiez les contrats',
+    titleHighlight: 'Juridiques complexes',
+    subtitle: 'Téléchargez tout contrat et obtenez une analyse instantanée par IA en langage simple. Comprenez les termes clés, les risques et les obligations sans jargon juridique.',
+    uploadContract: 'Télécharger contrat',
+    seeDemo: 'Voir la démo',
+  },
   'landing.features.analysis': 'Analyse Intelligente',
   'landing.features.analysisDesc': 'Obtenez une analyse complète des contrats avec des insights alimentés par l\'IA',
   'landing.features.risk': 'Évaluation des Risques',

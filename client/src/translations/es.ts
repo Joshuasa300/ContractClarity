@@ -12,9 +12,13 @@ export const es = {
   },
 
   // Landing Page
-  'landing.title': 'Análisis de Contratos con IA',
-  'landing.subtitle': 'Simplifica la interpretación de documentos legales con perspectivas inteligentes y herramientas fáciles de usar',
-  'landing.description': 'Sube tus contratos y obtén análisis instantáneo, evaluación de riesgos y resúmenes en lenguaje sencillo impulsados por tecnología IA avanzada.',
+  landing: {
+    title: 'Simplifica Contratos',
+    titleHighlight: 'Legales Complejos',
+    subtitle: 'Sube cualquier contrato y obtén análisis instantáneo con IA en lenguaje sencillo. Entiende términos clave, riesgos y obligaciones sin jerga legal.',
+    uploadContract: 'Subir Contrato',
+    seeDemo: 'Ver Demo',
+  },
   'landing.features.analysis': 'Análisis Inteligente',
   'landing.features.analysisDesc': 'Obtén análisis integral de contratos con perspectivas impulsadas por IA',
   'landing.features.risk': 'Evaluación de Riesgos',

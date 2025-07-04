@@ -31,14 +31,13 @@ export default function Landing() {
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
             <h1 className="text-4xl md:text-6xl font-bold mb-6 leading-tight">
-              Simplify Complex<br />
+              {t('landing.title')}<br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-orange-500">
-                Legal Contracts
+                {t('landing.titleHighlight')}
               </span>
             </h1>
             <p className="text-xl md:text-2xl mb-8 text-gray-100 max-w-3xl mx-auto">
-              Upload any contract and get instant AI-powered analysis in plain language. 
-              Understand key terms, risks, and obligations without legal jargon.
+              {t('landing.subtitle')}
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button 
@@ -47,7 +46,7 @@ export default function Landing() {
                 onClick={handleGetStarted}
               >
                 <Upload className="mr-2 h-5 w-5" />
-                Upload Contract
+                {t('landing.uploadContract')}
               </Button>
               <Button 
                 size="lg" 
@@ -55,7 +54,7 @@ export default function Landing() {
                 className="border-2 border-white text-white hover:bg-white hover:text-primary px-8 py-4 text-lg"
               >
                 <Play className="mr-2 h-5 w-5" />
-                See Demo
+                {t('landing.seeDemo')}
               </Button>
             </div>
           </div>

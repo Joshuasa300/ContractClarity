@@ -12,9 +12,13 @@ export const de = {
   },
 
   // Landing Page
-  'landing.title': 'KI-gestützte Vertragsanalyse',
-  'landing.subtitle': 'Vereinfachen Sie die Interpretation von Rechtsdokumenten mit intelligenten Erkenntnissen und benutzerfreundlichen Tools',
-  'landing.description': 'Laden Sie Ihre Verträge hoch und erhalten Sie sofortige Analysen, Risikobewertungen und verständliche Zusammenfassungen mit fortschrittlicher KI-Technologie.',
+  landing: {
+    title: 'Vereinfachen Sie komplexe',
+    titleHighlight: 'Rechtsverträge',
+    subtitle: 'Laden Sie jeden Vertrag hoch und erhalten Sie sofortige KI-gestützte Analyse in verständlicher Sprache. Verstehen Sie wichtige Begriffe, Risiken und Verpflichtungen ohne Rechtsjargon.',
+    uploadContract: 'Vertrag hochladen',
+    seeDemo: 'Demo ansehen',
+  },
   'landing.features.analysis': 'Intelligente Analyse',
   'landing.features.analysisDesc': 'Erhalten Sie umfassende Vertragsanalysen mit KI-gestützten Erkenntnissen',
   'landing.features.risk': 'Risikobewertung',
