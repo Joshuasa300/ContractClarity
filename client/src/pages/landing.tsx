@@ -1,19 +1,22 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { FileText, Brain, Shield, Clock, Upload, Play } from "lucide-react";
+import { useLocation } from "wouter";
 import Navigation from "@/components/Navigation";
 
 export default function Landing() {
+  const [, setLocation] = useLocation();
+  
   const handleGetStarted = () => {
-    window.location.href = "/api/login";
+    setLocation("/auth");
   };
 
   const handleSignIn = () => {
-    window.location.href = "/api/login";
+    setLocation("/auth");
   };
 
   const handleSignUp = () => {
-    window.location.href = "/api/login";
+    setLocation("/auth");
   };
 
   return (

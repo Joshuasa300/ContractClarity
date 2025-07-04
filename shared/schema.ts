@@ -26,13 +26,16 @@ export const sessions = pgTable(
 );
 
 // User storage table.
-// (IMPORTANT) This table is mandatory for Replit Auth, don't drop it.
 export const users = pgTable("users", {
   id: varchar("id").primaryKey().notNull(),
-  email: varchar("email").unique(),
+  email: varchar("email").unique().notNull(),
   firstName: varchar("first_name"),
   lastName: varchar("last_name"),
   profileImageUrl: varchar("profile_image_url"),
+  password: varchar("password"), // For email/password auth, null for OAuth users
+  authProvider: varchar("auth_provider").notNull().default("local"), // 'local', 'google', 'replit'
+  googleId: varchar("google_id").unique(), // For Google OAuth
+  replitId: varchar("replit_id").unique(), // For Replit Auth (legacy)
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
 });
