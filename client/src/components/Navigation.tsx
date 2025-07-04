@@ -5,9 +5,10 @@ import { useState } from "react";
 interface NavigationProps {
   onSignIn: () => void;
   onGetStarted: () => void;
+  onSignUp?: () => void;
 }
 
-export default function Navigation({ onSignIn, onGetStarted }: NavigationProps) {
+export default function Navigation({ onSignIn, onGetStarted, onSignUp }: NavigationProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
@@ -41,6 +42,9 @@ export default function Navigation({ onSignIn, onGetStarted }: NavigationProps) 
           <div className="hidden md:flex items-center space-x-4">
             <Button variant="ghost" onClick={onSignIn}>
               Sign In
+            </Button>
+            <Button variant="outline" onClick={onSignUp || onSignIn}>
+              Sign Up
             </Button>
             <Button onClick={onGetStarted}>
               Get Started
@@ -81,6 +85,9 @@ export default function Navigation({ onSignIn, onGetStarted }: NavigationProps) 
             <div className="px-2 space-y-1">
               <Button variant="ghost" className="w-full justify-start" onClick={onSignIn}>
                 Sign In
+              </Button>
+              <Button variant="outline" className="w-full justify-start" onClick={onSignUp || onSignIn}>
+                Sign Up
               </Button>
               <Button className="w-full justify-start" onClick={onGetStarted}>
                 Get Started

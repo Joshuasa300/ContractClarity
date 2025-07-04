@@ -12,9 +12,13 @@ export default function Landing() {
     window.location.href = "/api/login";
   };
 
+  const handleSignUp = () => {
+    window.location.href = "/api/login";
+  };
+
   return (
     <div className="min-h-screen bg-bg-primary">
-      <Navigation onSignIn={handleSignIn} onGetStarted={handleGetStarted} />
+      <Navigation onSignIn={handleSignIn} onGetStarted={handleGetStarted} onSignUp={handleSignUp} />
       
       {/* Hero Section */}
       <section className="relative gradient-hero text-white py-24 overflow-hidden">
