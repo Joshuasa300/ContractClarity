@@ -66,10 +66,10 @@ export default function Landing() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-text-primary mb-4">
-              Why Choose ContractAI?
+              {t('landing.whyChoose')}
             </h2>
             <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              Powered by advanced AI technology to make legal documents accessible to everyone
+              {t('landing.whyChooseDesc')}
             </p>
           </div>
           
@@ -79,9 +79,9 @@ export default function Landing() {
                 <div className="w-16 h-16 bg-primary/10 rounded-lg flex items-center justify-center mb-6">
                   <Brain className="h-8 w-8 text-primary" />
                 </div>
-                <h3 className="text-xl font-semibold mb-4 text-text-primary">AI-Powered Analysis</h3>
+                <h3 className="text-xl font-semibold mb-4 text-text-primary">{t('landing.features.aiTitle')}</h3>
                 <p className="text-gray-600">
-                  Our advanced AI breaks down complex legal language into simple, understandable terms that anyone can comprehend.
+                  {t('landing.features.aiDesc')}
                 </p>
               </CardContent>
             </Card>
@@ -91,9 +91,9 @@ export default function Landing() {
                 <div className="w-16 h-16 bg-accent/10 rounded-lg flex items-center justify-center mb-6">
                   <Shield className="h-8 w-8 text-accent" />
                 </div>
-                <h3 className="text-xl font-semibold mb-4 text-text-primary">Risk Assessment</h3>
+                <h3 className="text-xl font-semibold mb-4 text-text-primary">{t('landing.features.riskTitle')}</h3>
                 <p className="text-gray-600">
-                  Identify potential risks and red flags in contracts before you sign, helping you make informed decisions.
+                  {t('landing.features.riskDesc')}
                 </p>
               </CardContent>
             </Card>
@@ -103,9 +103,9 @@ export default function Landing() {
                 <div className="w-16 h-16 bg-secondary/10 rounded-lg flex items-center justify-center mb-6">
                   <Clock className="h-8 w-8 text-secondary" />
                 </div>
-                <h3 className="text-xl font-semibold mb-4 text-text-primary">Instant Results</h3>
+                <h3 className="text-xl font-semibold mb-4 text-text-primary">{t('landing.features.instantTitle')}</h3>
                 <p className="text-gray-600">
-                  Get comprehensive contract analysis in seconds, not hours. Save time and money on legal consultations.
+                  {t('landing.features.instantDesc')}
                 </p>
               </CardContent>
             </Card>
@@ -117,10 +117,10 @@ export default function Landing() {
       <section className="py-24 bg-gray-50">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl md:text-4xl font-bold text-text-primary mb-4">
-            Ready to Get Started?
+            {t('landing.cta.title')}
           </h2>
           <p className="text-xl text-gray-600 mb-8">
-            Sign up now and analyze your first contract for free
+            {t('landing.cta.subtitle')}
           </p>
           <Button 
             size="lg" 
@@ -128,7 +128,7 @@ export default function Landing() {
             onClick={handleGetStarted}
           >
             <FileText className="mr-2 h-5 w-5" />
-            Start Analyzing Contracts
+            {t('landing.cta.button')}
           </Button>
         </div>
       </section>
@@ -143,33 +143,32 @@ export default function Landing() {
                 <span className="text-xl font-bold">ContractAI</span>
               </div>
               <p className="text-gray-400 mb-4 max-w-md">
-                Simplifying complex legal contracts with AI-powered analysis. 
-                Understand your agreements in plain language.
+                {t('footer.description')}
               </p>
             </div>
             
             <div>
-              <h4 className="font-semibold mb-4">Product</h4>
+              <h4 className="font-semibold mb-4">{t('footer.product')}</h4>
               <ul className="space-y-2 text-gray-400">
-                <li><a href="#" className="hover:text-primary transition-colors">Features</a></li>
-                <li><a href="#" className="hover:text-primary transition-colors">Pricing</a></li>
-                <li><a href="#" className="hover:text-primary transition-colors">Security</a></li>
+                <li><a href="#" className="hover:text-primary transition-colors">{t('footer.features')}</a></li>
+                <li><a href="#" className="hover:text-primary transition-colors">{t('footer.pricing')}</a></li>
+                <li><a href="#" className="hover:text-primary transition-colors">{t('footer.security')}</a></li>
               </ul>
             </div>
             
             <div>
-              <h4 className="font-semibold mb-4">Support</h4>
+              <h4 className="font-semibold mb-4">{t('footer.support')}</h4>
               <ul className="space-y-2 text-gray-400">
-                <li><a href="#" className="hover:text-primary transition-colors">Help Center</a></li>
-                <li><a href="#" className="hover:text-primary transition-colors">Contact</a></li>
-                <li><a href="#" className="hover:text-primary transition-colors">Privacy Policy</a></li>
-                <li><a href="#" className="hover:text-primary transition-colors">Terms of Service</a></li>
+                <li><a href="#" className="hover:text-primary transition-colors">{t('footer.helpCenter')}</a></li>
+                <li><a href="#" className="hover:text-primary transition-colors">{t('footer.contact')}</a></li>
+                <li><a href="#" className="hover:text-primary transition-colors">{t('footer.privacyPolicy')}</a></li>
+                <li><a href="#" className="hover:text-primary transition-colors">{t('footer.termsOfService')}</a></li>
               </ul>
             </div>
           </div>
           
           <div className="border-t border-gray-800 mt-12 pt-8 text-center text-gray-400">
-            <p>&copy; 2024 ContractAI. All rights reserved.</p>
+            <p>{t('footer.copyright')}</p>
           </div>
         </div>
       </footer>

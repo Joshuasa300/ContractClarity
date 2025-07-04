@@ -18,6 +18,21 @@ export const en = {
     subtitle: 'Upload any contract and get instant AI-powered analysis in plain language. Understand key terms, risks, and obligations without legal jargon.',
     uploadContract: 'Upload Contract',
     seeDemo: 'See Demo',
+    whyChoose: 'Why Choose ContractAI?',
+    whyChooseDesc: 'Powered by advanced AI technology to make legal documents accessible to everyone',
+    features: {
+      aiTitle: 'AI-Powered Analysis',
+      aiDesc: 'Our advanced AI breaks down complex legal language into simple, understandable terms that anyone can comprehend.',
+      riskTitle: 'Risk Assessment',
+      riskDesc: 'Identify potential risks and red flags in contracts before you sign, helping you make informed decisions.',
+      instantTitle: 'Instant Results',
+      instantDesc: 'Get comprehensive contract analysis in seconds, not hours. Save time and money on legal consultations.',
+    },
+    cta: {
+      title: 'Ready to Get Started?',
+      subtitle: 'Sign up now and analyze your first contract for free',
+      button: 'Start Analyzing Contracts',
+    },
   },
 
   // Home/Dashboard
@@ -29,6 +44,21 @@ export const en = {
     analysisComplete: 'Analysis Complete',
     analysisInProgress: 'Analysis in Progress',
     viewAnalysis: 'View Analysis',
+  },
+
+  // Footer
+  footer: {
+    description: 'Simplifying complex legal contracts with AI-powered analysis. Understand your agreements in plain language.',
+    product: 'Product',
+    features: 'Features',
+    pricing: 'Pricing',
+    security: 'Security',
+    support: 'Support',
+    helpCenter: 'Help Center',
+    contact: 'Contact',
+    privacyPolicy: 'Privacy Policy',
+    termsOfService: 'Terms of Service',
+    copyright: '© 2024 ContractAI. All rights reserved.',
   },
 
   'landing.features.analysis': 'Smart Analysis',
