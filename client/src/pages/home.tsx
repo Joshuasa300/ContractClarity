@@ -15,7 +15,6 @@ import ContractUpload from "@/components/ContractUpload";
 import Header from "@/components/Header";
 import QuickActions from "@/components/QuickActions";
 import type { Contract, User } from "@shared/schema";
-import { useLanguage } from "@/contexts/LanguageContext";
 
 // Helper function to check if analysis is complete
 const isAnalysisComplete = (value: any): boolean => {
@@ -26,7 +25,6 @@ export default function Home() {
   const { toast } = useToast();
   const { user, isAuthenticated, isLoading } = useAuth();
   const [expandedContracts, setExpandedContracts] = useState<Set<number>>(new Set());
-  const { t } = useLanguage();
 
   // Redirect to login if not authenticated
   useEffect(() => {
@@ -63,7 +61,7 @@ export default function Home() {
     },
   });
 
-
+  
 
   const toggleContract = (contractId: number) => {
     const newExpanded = new Set(expandedContracts);
@@ -126,7 +124,7 @@ export default function Home() {
             <h3 className="text-lg font-semibold text-text-primary mb-2">Upload & Analyze</h3>
             <p className="text-gray-600 text-sm">Upload contracts for AI analysis below</p>
           </div>
-
+          
           <Link href="/clauses">
             <div className="bg-white p-6 rounded-lg border border-gray-200 hover:shadow-lg transition-shadow cursor-pointer">
               <Library className="h-12 w-12 text-accent mx-auto mb-4" />
@@ -144,7 +142,7 @@ export default function Home() {
         {/* Recent Contracts */}
         <div>
           <h2 className="text-2xl font-semibold text-text-primary mb-6">Your Contracts</h2>
-
+          
           {contractsLoading ? (
             <div className="grid gap-4">
               {[1, 2, 3].map((i) => (
@@ -192,7 +190,7 @@ export default function Home() {
                               </p>
                             </div>
                           </div>
-
+                          
                           <div className="flex items-center space-x-4">
                             <div className="flex items-center space-x-2">
                               {isAnalysisComplete(contract.analysisComplete) ? (
@@ -204,7 +202,7 @@ export default function Home() {
                                 {isAnalysisComplete(contract.analysisComplete) ? "Complete" : "Processing"}
                               </span>
                             </div>
-
+                            
                             {expandedContracts.has(contract.id) ? (
                               <ChevronUp className="h-5 w-5 text-gray-400" />
                             ) : (
@@ -213,7 +211,7 @@ export default function Home() {
                           </div>
                         </div>
                       </CollapsibleTrigger>
-
+                      
                       <CollapsibleContent>
                         {isAnalysisComplete(contract.analysisComplete) && contract.summary ? (
                           <div className="px-6 pb-6 border-t border-gray-100">
@@ -232,7 +230,7 @@ export default function Home() {
                                     try {
                                       const riskData = contract.riskAssessment as any;
                                       if (!riskData || typeof riskData !== 'object') return null;
-
+                                      
                                       return Object.entries(riskData).map(([level, risks]) => (
                                         <div key={level}>
                                           <h5 className="font-medium text-gray-900 mb-2 capitalize">
@@ -333,7 +331,7 @@ export default function Home() {
           )}
         </div>
       </div>
-
+      
       <QuickActions />
     </div>
   );
