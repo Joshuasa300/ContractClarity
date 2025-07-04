@@ -108,9 +108,22 @@ export default function Home() {
       <header className="bg-white border-b border-gray-200 sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
-            <div className="flex items-center">
-              <FileText className="h-8 w-8 text-primary mr-2" />
-              <span className="text-xl font-bold text-text-primary">ContractAI</span>
+            <div className="flex items-center space-x-8">
+              <div className="flex items-center">
+                <FileText className="h-8 w-8 text-primary mr-2" />
+                <span className="text-xl font-bold text-text-primary">ContractAI</span>
+              </div>
+              <nav className="hidden md:flex space-x-6">
+                <Link href="/" className="text-sm font-medium text-gray-900 hover:text-primary">
+                  Home
+                </Link>
+                <Link href="/templates" className="text-sm font-medium text-gray-600 hover:text-primary">
+                  Templates
+                </Link>
+                <Link href="/clauses" className="text-sm font-medium text-gray-600 hover:text-primary">
+                  Clauses
+                </Link>
+              </nav>
             </div>
             
             <div className="flex items-center space-x-4">
@@ -149,19 +162,11 @@ export default function Home() {
         </div>
 
         {/* Quick Actions */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          <Link href="/templates">
-            <div className="bg-white p-6 rounded-lg border border-gray-200 hover:shadow-lg transition-shadow cursor-pointer">
-              <FileText className="h-12 w-12 text-primary mx-auto mb-4" />
-              <h3 className="text-lg font-semibold text-text-primary mb-2">Contract Templates</h3>
-              <p className="text-gray-600 text-sm">Create contracts from pre-built templates</p>
-            </div>
-          </Link>
-          
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
           <div className="bg-white p-6 rounded-lg border border-gray-200">
             <Upload className="h-12 w-12 text-secondary mx-auto mb-4" />
             <h3 className="text-lg font-semibold text-text-primary mb-2">Upload & Analyze</h3>
-            <p className="text-gray-600 text-sm">Upload contracts for AI analysis</p>
+            <p className="text-gray-600 text-sm">Upload contracts for AI analysis below</p>
           </div>
           
           <Link href="/clauses">
