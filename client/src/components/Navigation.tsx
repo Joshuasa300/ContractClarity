@@ -1,5 +1,7 @@
 import { FileText, Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { LanguageSelector } from "@/components/LanguageSelector";
+import { useLanguage } from "@/lib/i18n";
 import { useState } from "react";
 
 interface NavigationProps {
@@ -10,6 +12,7 @@ interface NavigationProps {
 
 export default function Navigation({ onSignIn, onGetStarted, onSignUp }: NavigationProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { t } = useLanguage();
 
   return (
     <nav className="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-50">
@@ -40,14 +43,15 @@ export default function Navigation({ onSignIn, onGetStarted, onSignUp }: Navigat
           </div>
           
           <div className="hidden md:flex items-center space-x-4">
+            <LanguageSelector />
             <Button variant="ghost" onClick={onSignIn}>
-              Sign In
+              {t('nav.signIn')}
             </Button>
             <Button variant="outline" onClick={onSignUp || onSignIn}>
-              Sign Up
+              {t('nav.signUp')}
             </Button>
             <Button onClick={onGetStarted}>
-              Get Started
+              {t('nav.getStarted')}
             </Button>
           </div>
           

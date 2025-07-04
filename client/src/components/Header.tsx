@@ -3,6 +3,7 @@ import { FileText, LogOut, Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList } from "@/components/ui/breadcrumb";
+import { LanguageSelector } from "@/components/LanguageSelector";
 import { useState } from "react";
 import { Link, useLocation } from "wouter";
 import { useAuth } from "@/hooks/useAuth";
@@ -90,6 +91,9 @@ export default function Header({ breadcrumbs }: HeaderProps) {
           
           {/* User Actions */}
           <div className="flex items-center space-x-4">
+            {/* Language Selector */}
+            <LanguageSelector />
+            
             {/* User Profile */}
             <div className="flex items-center space-x-2">
               <Avatar className="h-8 w-8">

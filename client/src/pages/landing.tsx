@@ -3,9 +3,11 @@ import { Button } from "@/components/ui/button";
 import { FileText, Brain, Shield, Clock, Upload, Play } from "lucide-react";
 import { useLocation } from "wouter";
 import Navigation from "@/components/Navigation";
+import { useLanguage } from "@/lib/i18n";
 
 export default function Landing() {
   const [, setLocation] = useLocation();
+  const { t } = useLanguage();
   
   const handleGetStarted = () => {
     setLocation("/auth");
