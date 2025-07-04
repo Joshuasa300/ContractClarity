@@ -22,6 +22,7 @@ import {
 } from "lucide-react";
 import { useLocation } from "wouter";
 import type { ContractTemplate, TemplateVariable } from "@shared/schema";
+import Header from "@/components/Header";
 
 export default function Templates() {
   const { toast } = useToast();
@@ -89,7 +90,7 @@ export default function Templates() {
   const handleTemplateSelect = (template: ContractTemplate) => {
     setSelectedTemplate(template);
     setFileName(`${template.name} - ${new Date().toLocaleDateString()}`);
-    
+
     // Initialize variables
     const variables = template.variables as TemplateVariable[] || [];
     const initialVariables: Record<string, string> = {};
@@ -111,7 +112,7 @@ export default function Templates() {
 
   const renderVariableInput = (variable: TemplateVariable) => {
     const value = templateVariables[variable.name] || "";
-    
+
     switch (variable.type) {
       case 'select':
         return (
@@ -186,8 +187,15 @@ export default function Templates() {
     );
   }
 
+  const breadcrumbs = [
+    { label: "Home", href: "/" },
+    { label: "Templates" }
+  ];
+
   return (
-    <div className="max-w-6xl mx-auto p-6">
+    <div className="min-h-screen bg-bg-primary">
+      <Header breadcrumbs={breadcrumbs} />
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-text-primary mb-2">Contract Templates</h1>
         <p className="text-gray-600">
@@ -238,7 +246,7 @@ export default function Templates() {
                   <DialogHeader>
                     <DialogTitle>Create Contract: {selectedTemplate?.name}</DialogTitle>
                   </DialogHeader>
-                  
+
                   {selectedTemplate && (
                     <div className="space-y-6">
                       <div>
@@ -306,6 +314,7 @@ export default function Templates() {
           </p>
         </div>
       )}
+    </div>
     </div>
   );
 }

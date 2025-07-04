@@ -12,6 +12,8 @@ import { FileText, Upload, Clock, CheckCircle, AlertCircle, LogOut, ChevronDown,
 import { useState } from "react";
 import { Link } from "wouter";
 import ContractUpload from "@/components/ContractUpload";
+import Header from "@/components/Header";
+import QuickActions from "@/components/QuickActions";
 import type { Contract, User } from "@shared/schema";
 
 // Helper function to check if analysis is complete
@@ -59,31 +61,7 @@ export default function Home() {
     },
   });
 
-  const handleLogout = async () => {
-    try {
-      const response = await fetch("/api/logout", {
-        method: "POST",
-        credentials: "include",
-      });
-      
-      if (response.ok) {
-        // Clear local state and redirect
-        window.location.href = "/";
-      } else {
-        toast({
-          title: "Error",
-          description: "Failed to log out. Please try again.",
-          variant: "destructive",
-        });
-      }
-    } catch (error) {
-      toast({
-        title: "Error",
-        description: "Failed to log out. Please try again.",
-        variant: "destructive",
-      });
-    }
-  };
+  
 
   const toggleContract = (contractId: number) => {
     const newExpanded = new Set(expandedContracts);
@@ -126,51 +104,7 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-bg-primary">
-      {/* Header */}
-      <header className="bg-white border-b border-gray-200 sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <div className="flex items-center space-x-8">
-              <div className="flex items-center">
-                <FileText className="h-8 w-8 text-primary mr-2" />
-                <span className="text-xl font-bold text-text-primary">ContractAI</span>
-              </div>
-              <nav className="hidden md:flex space-x-6">
-                <Link href="/" className="text-sm font-medium text-gray-900 hover:text-primary">
-                  Home
-                </Link>
-                <Link href="/templates" className="text-sm font-medium text-gray-600 hover:text-primary">
-                  Templates
-                </Link>
-                <Link href="/clauses" className="text-sm font-medium text-gray-600 hover:text-primary">
-                  Clauses
-                </Link>
-              </nav>
-            </div>
-            
-            <div className="flex items-center space-x-4">
-              <div className="flex items-center space-x-2">
-                <Avatar>
-                  <AvatarImage src={user?.profileImageUrl || ""} />
-                  <AvatarFallback>
-                    {user?.firstName?.[0] || user?.email?.[0] || "U"}
-                  </AvatarFallback>
-                </Avatar>
-                <div className="hidden sm:block">
-                  <p className="text-sm font-medium text-text-primary">
-                    {user?.firstName || user?.email || "User"}
-                  </p>
-                  <p className="text-xs text-gray-500">{user?.email}</p>
-                </div>
-              </div>
-              <Button variant="ghost" size="sm" onClick={handleLogout}>
-                <LogOut className="h-4 w-4 mr-2" />
-                Logout
-              </Button>
-            </div>
-          </div>
-        </div>
-      </header>
+      <Header />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Welcome Section */}
@@ -201,7 +135,7 @@ export default function Home() {
         </div>
 
         {/* Upload Section */}
-        <div className="mb-8">
+        <div className="mb-8" data-upload-section>
           <ContractUpload />
         </div>
 
@@ -397,6 +331,8 @@ export default function Home() {
           )}
         </div>
       </div>
+      
+      <QuickActions />
     </div>
   );
 }
