@@ -226,6 +226,101 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Template routes
+  app.get('/api/templates', isAuthenticated, async (req: any, res) => {
+    try {
+      const { category } = req.query;
+      let templates;
+      
+      if (category) {
+        templates = await storage.getTemplatesByCategory(category);
+      } else {
+        templates = await storage.getTemplates();
+      }
+      
+      res.json(templates);
+    } catch (error) {
+      console.error("Error fetching templates:", error);
+      res.status(500).json({ message: "Failed to fetch templates" });
+    }
+  });
+
+  app.get('/api/templates/:id', isAuthenticated, async (req: any, res) => {
+    try {
+      const templateId = parseInt(req.params.id);
+      const template = await storage.getTemplate(templateId);
+      
+      if (!template) {
+        return res.status(404).json({ message: "Template not found" });
+      }
+      
+      res.json(template);
+    } catch (error) {
+      console.error("Error fetching template:", error);
+      res.status(500).json({ message: "Failed to fetch template" });
+    }
+  });
+
+  app.post('/api/contracts/from-template', isAuthenticated, async (req: any, res) => {
+    try {
+      const userId = req.user.claims.sub;
+      const { templateId, variables, fileName } = req.body;
+      
+      if (!templateId || !variables || !fileName) {
+        return res.status(400).json({ message: "Missing required fields" });
+      }
+      
+      const contract = await storage.createContractFromTemplate(
+        templateId,
+        userId,
+        variables,
+        fileName
+      );
+      
+      res.json({ contractId: contract.id, message: "Contract created successfully" });
+    } catch (error) {
+      console.error("Error creating contract from template:", error);
+      res.status(500).json({ message: "Failed to create contract from template" });
+    }
+  });
+
+  // Clause library routes
+  app.get('/api/clauses', isAuthenticated, async (req: any, res) => {
+    try {
+      const { category, search } = req.query;
+      let clauses;
+      
+      if (search) {
+        clauses = await storage.searchClauses(search as string);
+      } else if (category) {
+        clauses = await storage.getClausesByCategory(category as string);
+      } else {
+        clauses = await storage.getClauses();
+      }
+      
+      res.json(clauses);
+    } catch (error) {
+      console.error("Error fetching clauses:", error);
+      res.status(500).json({ message: "Failed to fetch clauses" });
+    }
+  });
+
+  app.get('/api/clauses/:id', isAuthenticated, async (req: any, res) => {
+    try {
+      const clauseId = parseInt(req.params.id);
+      const clause = await storage.getClause(clauseId);
+      
+      if (!clause) {
+        return res.status(404).json({ message: "Clause not found" });
+      }
+      
+      res.json(clause);
+    } catch (error) {
+      console.error("Error fetching clause:", error);
+      res.status(500).json({ message: "Failed to fetch clause" });
+    }
+  });
+
   const httpServer = createServer(app);
   return httpServer;
 }

@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
-import { FileText, Upload, Clock, CheckCircle, AlertCircle, LogOut, ChevronDown, ChevronUp } from "lucide-react";
+import { FileText, Upload, Clock, CheckCircle, AlertCircle, LogOut, ChevronDown, ChevronUp, Library } from "lucide-react";
 import { useState } from "react";
 import { Link } from "wouter";
 import ContractUpload from "@/components/ContractUpload";
@@ -146,6 +146,31 @@ export default function Home() {
           <p className="text-gray-600">
             Upload and analyze your contracts with AI-powered insights
           </p>
+        </div>
+
+        {/* Quick Actions */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+          <Link href="/templates">
+            <div className="bg-white p-6 rounded-lg border border-gray-200 hover:shadow-lg transition-shadow cursor-pointer">
+              <FileText className="h-12 w-12 text-primary mx-auto mb-4" />
+              <h3 className="text-lg font-semibold text-text-primary mb-2">Contract Templates</h3>
+              <p className="text-gray-600 text-sm">Create contracts from pre-built templates</p>
+            </div>
+          </Link>
+          
+          <div className="bg-white p-6 rounded-lg border border-gray-200">
+            <Upload className="h-12 w-12 text-secondary mx-auto mb-4" />
+            <h3 className="text-lg font-semibold text-text-primary mb-2">Upload & Analyze</h3>
+            <p className="text-gray-600 text-sm">Upload contracts for AI analysis</p>
+          </div>
+          
+          <Link href="/clauses">
+            <div className="bg-white p-6 rounded-lg border border-gray-200 hover:shadow-lg transition-shadow cursor-pointer">
+              <Library className="h-12 w-12 text-accent mx-auto mb-4" />
+              <h3 className="text-lg font-semibold text-text-primary mb-2">Clause Library</h3>
+              <p className="text-gray-600 text-sm">Browse standardized contract clauses</p>
+            </div>
+          </Link>
         </div>
 
         {/* Upload Section */}

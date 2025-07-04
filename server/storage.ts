@@ -1,13 +1,19 @@
 import {
   users,
   contracts,
+  contractTemplates,
+  clauseLibrary,
   type User,
   type UpsertUser,
   type Contract,
   type InsertContract,
+  type ContractTemplate,
+  type InsertContractTemplate,
+  type ClauseLibraryItem,
+  type InsertClauseLibraryItem,
 } from "@shared/schema";
 import { db } from "./db";
-import { eq, desc } from "drizzle-orm";
+import { eq, desc, ilike, or } from "drizzle-orm";
 
 // Interface for storage operations
 export interface IStorage {
@@ -29,6 +35,23 @@ export interface IStorage {
       recommendations: any;
     }
   ): Promise<Contract>;
+
+  // Template operations
+  getTemplates(): Promise<ContractTemplate[]>;
+  getTemplate(id: number): Promise<ContractTemplate | undefined>;
+  getTemplatesByCategory(category: string): Promise<ContractTemplate[]>;
+  createContractFromTemplate(
+    templateId: number,
+    userId: string,
+    variables: Record<string, string>,
+    fileName: string
+  ): Promise<Contract>;
+
+  // Clause library operations
+  getClauses(): Promise<ClauseLibraryItem[]>;
+  getClause(id: number): Promise<ClauseLibraryItem | undefined>;
+  getClausesByCategory(category: string): Promise<ClauseLibraryItem[]>;
+  searchClauses(query: string): Promise<ClauseLibraryItem[]>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -102,6 +125,83 @@ export class DatabaseStorage implements IStorage {
       .where(eq(contracts.id, id))
       .returning();
     return updatedContract;
+  }
+
+  // Template operations
+  async getTemplates(): Promise<ContractTemplate[]> {
+    return await db.select().from(contractTemplates).where(eq(contractTemplates.isActive, true));
+  }
+
+  async getTemplate(id: number): Promise<ContractTemplate | undefined> {
+    const [template] = await db.select().from(contractTemplates).where(eq(contractTemplates.id, id));
+    return template;
+  }
+
+  async getTemplatesByCategory(category: string): Promise<ContractTemplate[]> {
+    return await db.select().from(contractTemplates)
+      .where(eq(contractTemplates.category, category))
+      .where(eq(contractTemplates.isActive, true));
+  }
+
+  async createContractFromTemplate(
+    templateId: number,
+    userId: string,
+    variables: Record<string, string>,
+    fileName: string
+  ): Promise<Contract> {
+    const template = await this.getTemplate(templateId);
+    if (!template) {
+      throw new Error("Template not found");
+    }
+
+    // Replace variables in template content
+    let content = template.content;
+    Object.entries(variables).forEach(([key, value]) => {
+      const regex = new RegExp(`{{${key}}}`, 'g');
+      content = content.replace(regex, value);
+    });
+
+    const contractData = {
+      userId,
+      fileName,
+      fileContent: content,
+      templateId,
+      analysisComplete: false,
+    };
+
+    const [contract] = await db
+      .insert(contracts)
+      .values(contractData)
+      .returning();
+    return contract as Contract;
+  }
+
+  // Clause library operations
+  async getClauses(): Promise<ClauseLibraryItem[]> {
+    return await db.select().from(clauseLibrary).where(eq(clauseLibrary.isActive, true));
+  }
+
+  async getClause(id: number): Promise<ClauseLibraryItem | undefined> {
+    const [clause] = await db.select().from(clauseLibrary).where(eq(clauseLibrary.id, id));
+    return clause;
+  }
+
+  async getClausesByCategory(category: string): Promise<ClauseLibraryItem[]> {
+    return await db.select().from(clauseLibrary)
+      .where(eq(clauseLibrary.category, category))
+      .where(eq(clauseLibrary.isActive, true));
+  }
+
+  async searchClauses(query: string): Promise<ClauseLibraryItem[]> {
+    return await db.select().from(clauseLibrary)
+      .where(
+        or(
+          ilike(clauseLibrary.title, `%${query}%`),
+          ilike(clauseLibrary.description, `%${query}%`),
+          ilike(clauseLibrary.content, `%${query}%`)
+        )
+      )
+      .where(eq(clauseLibrary.isActive, true));
   }
 }
 

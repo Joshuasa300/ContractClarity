@@ -108,6 +108,7 @@ This is a full-stack web application called "ContractAI" that provides AI-powere
 Changelog:
 - July 03, 2025. Initial setup
 - July 03, 2025. Implemented PDF parsing support with pdf2json library
+- July 04, 2025. Added Contract Templates and Clause Library feature with database tables, API routes, and UI components
 
 ## User Preferences
 

@@ -7,6 +7,7 @@ import {
   index,
   serial,
   boolean,
+  integer,
 } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
@@ -47,6 +48,32 @@ export const contracts = pgTable("contracts", {
   keyTerms: jsonb("key_terms"),
   recommendations: jsonb("recommendations"),
   analysisComplete: boolean("analysis_complete").default(false),
+  templateId: integer("template_id").references(() => contractTemplates.id),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+export const contractTemplates = pgTable("contract_templates", {
+  id: serial("id").primaryKey(),
+  name: varchar("name").notNull(),
+  description: text("description"),
+  category: varchar("category").notNull(),
+  content: text("content").notNull(),
+  variables: jsonb("variables"), // Array of variable placeholders like [{name: "party1", label: "First Party Name", type: "text"}]
+  isActive: boolean("is_active").default(true),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+export const clauseLibrary = pgTable("clause_library", {
+  id: serial("id").primaryKey(),
+  title: varchar("title").notNull(),
+  description: text("description"),
+  category: varchar("category").notNull(),
+  content: text("content").notNull(),
+  tags: text("tags").array(),
+  riskLevel: varchar("risk_level"), // "low", "medium", "high"
+  isActive: boolean("is_active").default(true),
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
 });
@@ -61,6 +88,14 @@ export const contractRelations = relations(contracts, ({ one }) => ({
     fields: [contracts.userId],
     references: [users.id],
   }),
+  template: one(contractTemplates, {
+    fields: [contracts.templateId],
+    references: [contractTemplates.id],
+  }),
+}));
+
+export const templateRelations = relations(contractTemplates, ({ many }) => ({
+  contracts: many(contracts),
 }));
 
 // Schemas
@@ -102,3 +137,18 @@ export type Contract = typeof contracts.$inferSelect & {
   recommendations?: Recommendation[];
 };
 export type InsertContract = z.infer<typeof insertContractSchema>;
+
+export type ContractTemplate = typeof contractTemplates.$inferSelect;
+export type InsertContractTemplate = typeof contractTemplates.$inferInsert;
+
+export type ClauseLibraryItem = typeof clauseLibrary.$inferSelect;
+export type InsertClauseLibraryItem = typeof clauseLibrary.$inferInsert;
+
+export interface TemplateVariable {
+  name: string;
+  label: string;
+  type: 'text' | 'number' | 'date' | 'select';
+  options?: string[]; // For select type
+  required?: boolean;
+  placeholder?: string;
+}

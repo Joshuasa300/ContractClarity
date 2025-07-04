@@ -8,6 +8,8 @@ import NotFound from "@/pages/not-found";
 import Landing from "@/pages/landing";
 import Home from "@/pages/home";
 import Analysis from "@/pages/analysis";
+import Templates from "@/pages/templates";
+import Clauses from "@/pages/clauses";
 
 function Router() {
   const { isAuthenticated, isLoading } = useAuth();
@@ -20,6 +22,8 @@ function Router() {
         <>
           <Route path="/" component={Home} />
           <Route path="/analysis/:contractId" component={Analysis} />
+          <Route path="/templates" component={Templates} />
+          <Route path="/clauses" component={Clauses} />
         </>
       )}
       <Route component={NotFound} />
