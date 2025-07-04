@@ -14,6 +14,11 @@ import { Link } from "wouter";
 import ContractUpload from "@/components/ContractUpload";
 import type { Contract, User } from "@shared/schema";
 
+// Helper function to check if analysis is complete
+const isAnalysisComplete = (value: any): boolean => {
+  return value === true || value === 't' || value === 'true' || value === 1;
+};
+
 export default function Home() {
   const { toast } = useToast();
   const { user, isAuthenticated, isLoading } = useAuth();
@@ -202,13 +207,13 @@ export default function Home() {
                           
                           <div className="flex items-center space-x-4">
                             <div className="flex items-center space-x-2">
-                              {contract.analysisComplete ? (
+                              {isAnalysisComplete(contract.analysisComplete) ? (
                                 <CheckCircle className="h-5 w-5 text-accent" />
                               ) : (
                                 <Clock className="h-5 w-5 text-yellow-500" />
                               )}
                               <span className="text-sm text-gray-600">
-                                {contract.analysisComplete ? "Complete" : "Processing"}
+                                {isAnalysisComplete(contract.analysisComplete) ? "Complete" : "Processing"}
                               </span>
                             </div>
                             
@@ -222,7 +227,7 @@ export default function Home() {
                       </CollapsibleTrigger>
                       
                       <CollapsibleContent>
-                        {contract.analysisComplete && contract.summary ? (
+                        {isAnalysisComplete(contract.analysisComplete) && contract.summary ? (
                           <div className="px-6 pb-6 border-t border-gray-100">
                             {/* Summary */}
                             <div className="mb-6">
