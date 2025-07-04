@@ -15,12 +15,16 @@ import {
   Loader2 
 } from "lucide-react";
 import { useLocation } from "wouter";
+import AnalysisProgress from "./AnalysisProgress";
+import type { Contract } from "@shared/schema";
 
 export default function ContractUpload() {
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const [, setLocation] = useLocation();
   const [uploadProgress, setUploadProgress] = useState(0);
+  const [showAnalysisProgress, setShowAnalysisProgress] = useState(false);
+  const [contractId, setContractId] = useState<number | null>(null);
 
   const uploadMutation = useMutation({
     mutationFn: async (file: File) => {
@@ -51,11 +55,13 @@ export default function ContractUpload() {
         description: "Your contract has been uploaded and analysis is starting.",
       });
       setUploadProgress(0);
-      // Navigate to analysis page
-      setLocation(`/analysis/${data.contractId}`);
+      setContractId(data.contractId);
+      setShowAnalysisProgress(true);
     },
     onError: (error) => {
       setUploadProgress(0);
+      setShowAnalysisProgress(false);
+      setContractId(null);
       if (isUnauthorizedError(error)) {
         toast({
           title: "Unauthorized",
@@ -78,9 +84,23 @@ export default function ContractUpload() {
   const onDrop = useCallback((acceptedFiles: File[]) => {
     const file = acceptedFiles[0];
     if (file) {
+      // Reset states
+      setShowAnalysisProgress(false);
+      setContractId(null);
       uploadMutation.mutate(file);
     }
   }, [uploadMutation]);
+
+  const handleAnalysisComplete = (contract: Contract) => {
+    toast({
+      title: "Analysis Complete!",
+      description: "Your contract analysis is ready to view.",
+    });
+    // Navigate to the home page where they can see the results
+    setTimeout(() => {
+      setLocation("/");
+    }, 2000);
+  };
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
@@ -165,7 +185,7 @@ export default function ContractUpload() {
           </div>
         )}
 
-        {uploadMutation.isSuccess && (
+        {uploadMutation.isSuccess && !showAnalysisProgress && (
           <div className="mt-6 p-4 bg-green-50 border border-green-200 rounded-lg">
             <div className="flex items-center">
               <CheckCircle className="h-5 w-5 text-green-500 mr-2" />
@@ -173,6 +193,15 @@ export default function ContractUpload() {
                 Contract uploaded successfully! Analysis is starting...
               </span>
             </div>
+          </div>
+        )}
+
+        {showAnalysisProgress && contractId && (
+          <div className="mt-6">
+            <AnalysisProgress 
+              contractId={contractId} 
+              onComplete={handleAnalysisComplete}
+            />
           </div>
         )}
       </CardContent>
