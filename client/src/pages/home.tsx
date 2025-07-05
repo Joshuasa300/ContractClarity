@@ -201,7 +201,9 @@ export default function Home() {
                                 <Clock className="h-5 w-5 text-yellow-500" />
                               )}
                               <span className="text-sm text-gray-600">
-                                {isAnalysisComplete(contract.analysisComplete) ? "Complete" : "Processing"}
+                                {isAnalysisComplete(contract.analysisComplete) ? 
+                                  (contract.templateId ? "Ready to View" : "Analysis Complete") : 
+                                  "Processing"}
                               </span>
                             </div>
                             

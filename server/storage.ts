@@ -182,26 +182,16 @@ export class DatabaseStorage implements IStorage {
     variables: Record<string, string>,
     fileName: string
   ): Promise<Contract> {
-    console.log("Storage: Creating contract from template", { templateId, userId, fileName, variableCount: Object.keys(variables).length });
-    
     const template = await this.getTemplate(templateId);
     if (!template) {
-      console.error("Template not found:", templateId);
       throw new Error("Template not found");
     }
 
-    console.log("Template found:", template.name, "Content length:", template.content.length);
-
     // Replace variables in template content
     let content = template.content;
-    console.log("Variables to replace:", Object.keys(variables));
-    
     Object.entries(variables).forEach(([key, value]) => {
       const regex = new RegExp(`{{${key}}}`, 'g');
-      const beforeCount = (content.match(regex) || []).length;
       content = content.replace(regex, value || '');
-      const afterCount = (content.match(regex) || []).length;
-      console.log(`Replaced ${beforeCount - afterCount} instances of {{${key}}} with "${value}"`);
     });
 
     // Check for unreplaced variables and warn
@@ -209,24 +199,21 @@ export class DatabaseStorage implements IStorage {
     if (unreplacedMatches) {
       console.warn(`Unreplaced variables in template ${templateId}:`, unreplacedMatches);
     }
-    
-    console.log("Final content length after replacement:", content.length);
 
     const contractData = {
       userId,
       fileName,
       fileContent: content,
       templateId,
-      analysisComplete: false,
+      analysisComplete: true, // Template contracts are ready to use immediately
+      summary: `Contract generated from template: ${template.name}`,
     };
 
-    console.log("Inserting contract into database...");
     const [contract] = await db
       .insert(contracts)
       .values(contractData)
       .returning();
     
-    console.log("Contract successfully created with ID:", contract.id);
     return contract as Contract;
   }
 

@@ -264,14 +264,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const userId = req.user.id;
       const { templateId, variables, fileName } = req.body;
       
-      console.log("Contract creation request:", { userId, templateId, variables, fileName });
-      
       if (!templateId || !variables || !fileName) {
-        console.log("Missing required fields:", { templateId: !!templateId, variables: !!variables, fileName: !!fileName });
         return res.status(400).json({ message: "Missing required fields" });
       }
       
-      console.log("Creating contract from template...");
       const contract = await storage.createContractFromTemplate(
         templateId,
         userId,
@@ -279,11 +275,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
         fileName
       );
       
-      console.log("Contract created successfully:", contract.id);
       res.json({ contractId: contract.id, message: "Contract created successfully" });
     } catch (error) {
       console.error("Error creating contract from template:", error);
-      res.status(500).json({ message: "Failed to create contract from template", error: error.message });
+      res.status(500).json({ message: "Failed to create contract from template" });
     }
   });
 

@@ -211,6 +211,46 @@ export default function Analysis() {
               </div>
             </CardContent>
           </Card>
+        ) : contract.templateId ? (
+          // Show contract content for template-generated contracts
+          <div className="space-y-8">
+            <div className="text-center">
+              <h1 className="text-3xl md:text-4xl font-bold text-text-primary mb-4">
+                {contract.fileName}
+              </h1>
+              <p className="text-xl text-gray-600">
+                Generated Contract Document
+              </p>
+            </div>
+
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center">
+                  <FileText className="h-5 w-5 text-primary mr-2" />
+                  Contract Content
+                </CardTitle>
+                <div className="flex space-x-2">
+                  <Button variant="outline" size="sm">
+                    <Download className="h-4 w-4 mr-2" />
+                    Download PDF
+                  </Button>
+                  <Button variant="outline" size="sm">
+                    <Download className="h-4 w-4 mr-2" />
+                    Download TXT
+                  </Button>
+                </div>
+              </CardHeader>
+              <CardContent>
+                <div className="prose prose-sm max-w-none">
+                  <div className="bg-white border border-gray-200 rounded-lg p-6">
+                    <pre className="whitespace-pre-wrap font-serif text-sm leading-relaxed text-gray-800">
+                      {contract.fileContent}
+                    </pre>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
         ) : (
           <AnalysisResults contract={contract} />
         )}
