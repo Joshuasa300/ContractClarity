@@ -35,6 +35,17 @@ export const es = {
     },
   },
 
+  // Home/Dashboard
+  home: {
+    welcome: 'Bienvenido de vuelta',
+    yourContracts: 'Sus Contratos',
+    noContracts: 'Aún no hay contratos',
+    uploadFirst: 'Sube tu primer contrato para comenzar',
+    analysisComplete: 'Análisis Completo',
+    analysisInProgress: 'Análisis en Progreso',
+    viewAnalysis: 'Ver Análisis',
+  },
+
   // Footer
   footer: {
     description: 'Simplificando contratos legales complejos con análisis impulsado por IA. Entiende tus acuerdos en lenguaje sencillo.',

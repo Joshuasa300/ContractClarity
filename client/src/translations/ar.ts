@@ -35,6 +35,17 @@ export const ar = {
     },
   },
 
+  // Home/Dashboard
+  home: {
+    welcome: 'مرحبا بعودتك',
+    yourContracts: 'عقودك',
+    noContracts: 'لا توجد عقود بعد',
+    uploadFirst: 'ارفع عقدك الأول للبدء',
+    analysisComplete: 'اكتمل التحليل',
+    analysisInProgress: 'التحليل قيد التقدم',
+    viewAnalysis: 'عرض التحليل',
+  },
+
   // Footer
   footer: {
     description: 'تبسيط العقود القانونية المعقدة بتحليل مدعوم بالذكاء الاصطناعي. افهم اتفاقياتك بلغة بسيطة.',

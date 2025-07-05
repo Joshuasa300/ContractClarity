@@ -21,11 +21,13 @@ import {
   Library
 } from "lucide-react";
 import Header from "@/components/Header";
+import { useLanguage } from "@/lib/i18n";
 import type { ClauseLibraryItem } from "@shared/schema";
 
 export default function Clauses() {
   const { user, isAuthenticated, isLoading: authLoading } = useAuth();
   const [, setLocation] = useLocation();
+  const { t } = useLanguage();
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
   const [selectedClause, setSelectedClause] = useState<ClauseLibraryItem | null>(null);
@@ -82,8 +84,8 @@ export default function Clauses() {
   }
 
   const breadcrumbs = [
-    { label: "Home", href: "/" },
-    { label: "Clause Library" }
+    { label: t('nav.home'), href: "/" },
+    { label: t('clauses.title') }
   ];
 
   return (
@@ -91,9 +93,9 @@ export default function Clauses() {
       <Header breadcrumbs={breadcrumbs} />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-text-primary mb-2">Clause Library</h1>
+          <h1 className="text-3xl font-bold text-text-primary mb-2">{t('clauses.title')}</h1>
           <p className="text-gray-600">
-            Browse and copy standardized contract clauses for your agreements
+            {t('clauses.description')}
           </p>
         </div>
 
@@ -102,7 +104,7 @@ export default function Clauses() {
           <div className="relative flex-1">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
             <Input
-              placeholder="Search clauses by title, description, or content..."
+              placeholder={t('clauses.search')}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="pl-10"
@@ -117,7 +119,7 @@ export default function Clauses() {
               <SelectContent>
                 {categories.map((category) => (
                   <SelectItem key={category} value={category}>
-                    {category === "all" ? "All Categories" : category}
+                    {category === "all" ? t('clauses.allCategories') : category}
                   </SelectItem>
                 ))}
               </SelectContent>

@@ -107,6 +107,9 @@ export const en = {
   'templates.preview': 'Preview',
   'templates.variables': 'Template Variables',
   'templates.generate': 'Generate Contract',
+  'templates.fileName': 'Contract File Name',
+  'templates.fillDetails': 'Fill in Contract Details',
+  'templates.createContract': 'Create Contract',
 
   // Clause Library
   'clauses.title': 'Clause Library',

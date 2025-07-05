@@ -23,11 +23,13 @@ import {
 import { useLocation } from "wouter";
 import type { ContractTemplate, TemplateVariable } from "@shared/schema";
 import Header from "@/components/Header";
+import { useLanguage } from "@/lib/i18n";
 
 export default function Templates() {
   const { toast } = useToast();
   const { user, isAuthenticated, isLoading: authLoading } = useAuth();
   const [, setLocation] = useLocation();
+  const { t } = useLanguage();
   const queryClient = useQueryClient();
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
   const [selectedTemplate, setSelectedTemplate] = useState<ContractTemplate | null>(null);
@@ -82,7 +84,7 @@ export default function Templates() {
     },
   });
 
-  const categories = ["all", ...new Set(templates.map(t => t.category))];
+  const categories = ["all", ...Array.from(new Set(templates.map(t => t.category)))];
   const filteredTemplates = selectedCategory === "all" 
     ? templates 
     : templates.filter(t => t.category === selectedCategory);
@@ -188,8 +190,8 @@ export default function Templates() {
   }
 
   const breadcrumbs = [
-    { label: "Home", href: "/" },
-    { label: "Templates" }
+    { label: t('nav.home'), href: "/" },
+    { label: t('templates.title') }
   ];
 
   return (
@@ -197,9 +199,9 @@ export default function Templates() {
       <Header breadcrumbs={breadcrumbs} />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-text-primary mb-2">Contract Templates</h1>
+        <h1 className="text-3xl font-bold text-text-primary mb-2">{t('templates.title')}</h1>
         <p className="text-gray-600">
-          Create contracts quickly using our pre-built templates
+          {t('templates.description')}
         </p>
       </div>
 
@@ -213,7 +215,7 @@ export default function Templates() {
           <SelectContent>
             {categories.map((category) => (
               <SelectItem key={category} value={category}>
-                {category === "all" ? "All Categories" : category}
+                {category === "all" ? t('templates.allCategories') : category}
               </SelectItem>
             ))}
           </SelectContent>
@@ -239,7 +241,7 @@ export default function Templates() {
                     className="w-full" 
                     onClick={() => handleTemplateSelect(template)}
                   >
-                    Use Template <ChevronRight className="h-4 w-4 ml-2" />
+{t('templates.useTemplate')} <ChevronRight className="h-4 w-4 ml-2" />
                   </Button>
                 </DialogTrigger>
                 <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
@@ -250,7 +252,7 @@ export default function Templates() {
                   {selectedTemplate && (
                     <div className="space-y-6">
                       <div>
-                        <Label htmlFor="fileName">Contract File Name</Label>
+                        <Label htmlFor="fileName">{t('templates.fileName')}</Label>
                         <Input
                           id="fileName"
                           value={fileName}
@@ -260,7 +262,7 @@ export default function Templates() {
                       </div>
 
                       <div className="space-y-4">
-                        <h3 className="text-lg font-semibold">Fill in Contract Details</h3>
+                        <h3 className="text-lg font-semibold">{t('templates.fillDetails')}</h3>
                         {(selectedTemplate.variables as TemplateVariable[] || []).map((variable) => (
                           <div key={variable.name}>
                             <Label htmlFor={variable.name}>
@@ -274,7 +276,7 @@ export default function Templates() {
 
                       <div className="flex justify-end space-x-3">
                         <DialogTrigger asChild>
-                          <Button variant="outline">Cancel</Button>
+                          <Button variant="outline">{t('common.cancel')}</Button>
                         </DialogTrigger>
                         <Button 
                           onClick={handleCreateContract}
@@ -283,12 +285,12 @@ export default function Templates() {
                           {createContractMutation.isPending ? (
                             <>
                               <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                              Creating...
+{t('common.loading')}
                             </>
                           ) : (
                             <>
                               <Plus className="h-4 w-4 mr-2" />
-                              Create Contract
+{t('templates.createContract')}
                             </>
                           )}
                         </Button>

@@ -35,6 +35,17 @@ export const de = {
     },
   },
 
+  // Home/Dashboard
+  home: {
+    welcome: 'Willkommen zurück',
+    yourContracts: 'Ihre Verträge',
+    noContracts: 'Noch keine Verträge',
+    uploadFirst: 'Laden Sie Ihren ersten Vertrag hoch, um zu beginnen',
+    analysisComplete: 'Analyse abgeschlossen',
+    analysisInProgress: 'Analyse läuft',
+    viewAnalysis: 'Analyse anzeigen',
+  },
+
   // Footer
   footer: {
     description: 'Vereinfachung komplexer Rechtsverträge mit KI-gestützter Analyse. Verstehen Sie Ihre Vereinbarungen in verständlicher Sprache.',
