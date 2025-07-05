@@ -63,8 +63,12 @@ export default function Home() {
   });
 
   const handleDeleteContract = (contractId: number) => {
+    console.log('Delete button clicked for contract:', contractId);
     if (window.confirm('Are you sure you want to delete this contract? This action cannot be undone.')) {
+      console.log('User confirmed deletion');
       deleteContractMutation.mutate(contractId);
+    } else {
+      console.log('User cancelled deletion');
     }
   };
 
