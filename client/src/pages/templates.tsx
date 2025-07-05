@@ -194,12 +194,8 @@ export default function Templates() {
   };
 
   const handleDeleteContract = (contractId: number) => {
-    console.log('Delete button clicked for contract:', contractId);
     if (window.confirm('Are you sure you want to delete this contract? This action cannot be undone.')) {
-      console.log('User confirmed deletion');
       deleteContractMutation.mutate(contractId);
-    } else {
-      console.log('User cancelled deletion');
     }
   };
 
@@ -427,30 +423,8 @@ export default function Templates() {
             {generatedContracts.map((contract) => (
               <Card key={contract.id} className="hover:shadow-md transition-shadow">
                 <CardHeader className="pb-3">
-                  <div className="flex items-start justify-between">
-                    <FileText className="h-6 w-6 text-primary" />
-                    <Badge variant="outline" className="text-xs">
-                      Template
-                    </Badge>
-                  </div>
-                  <CardTitle className="text-lg leading-tight">
-                    {contract.fileName}
-                  </CardTitle>
-                  <div className="flex items-center text-sm text-gray-500">
-                    <Calendar className="h-4 w-4 mr-1" />
-                    {new Date(contract.createdAt || '').toLocaleDateString()}
-                  </div>
-                </CardHeader>
-                <CardContent className="pt-0">
-                  <div className="flex gap-2">
-                    <Button 
-                      onClick={() => downloadContract(contract)}
-                      className="flex-1 bg-white text-black border hover:bg-gray-50"
-                      size="sm"
-                    >
-                      <Download className="h-4 w-4 mr-2" />
-                      {t('templates.download') || 'Download'}
-                    </Button>
+                  <div className="flex items-start gap-3">
+                    {/* Delete button positioned on the left */}
                     <Button 
                       onClick={(e) => {
                         e.preventDefault();
@@ -462,11 +436,39 @@ export default function Templates() {
                       }}
                       variant="destructive"
                       size="sm"
-                      className="px-3"
+                      className="p-2 flex-shrink-0"
                       disabled={deleteContractMutation.isPending}
                       type="button"
                     >
                       <Trash2 className="h-4 w-4" />
+                    </Button>
+                    
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-start justify-between mb-2">
+                        <FileText className="h-6 w-6 text-primary" />
+                        <Badge variant="outline" className="text-xs">
+                          Template
+                        </Badge>
+                      </div>
+                      <CardTitle className="text-lg leading-tight">
+                        {contract.fileName}
+                      </CardTitle>
+                      <div className="flex items-center text-sm text-gray-500">
+                        <Calendar className="h-4 w-4 mr-1" />
+                        {new Date(contract.createdAt || '').toLocaleDateString()}
+                      </div>
+                    </div>
+                  </div>
+                </CardHeader>
+                <CardContent className="pt-0">
+                  <div className="flex gap-2">
+                    <Button 
+                      onClick={() => downloadContract(contract)}
+                      className="flex-1 bg-white text-black border hover:bg-gray-50"
+                      size="sm"
+                    >
+                      <Download className="h-4 w-4 mr-2" />
+                      {t('templates.download') || 'Download'}
                     </Button>
                   </div>
                 </CardContent>

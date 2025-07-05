@@ -63,12 +63,8 @@ export default function Home() {
   });
 
   const handleDeleteContract = (contractId: number) => {
-    console.log('Delete button clicked for contract:', contractId);
     if (window.confirm('Are you sure you want to delete this contract? This action cannot be undone.')) {
-      console.log('User confirmed deletion');
       deleteContractMutation.mutate(contractId);
-    } else {
-      console.log('User cancelled deletion');
     }
   };
 
@@ -221,7 +217,24 @@ export default function Home() {
                       onOpenChange={() => toggleContract(contract.id)}
                     >
                       <div className="p-4 sm:p-6">
-                        <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-3">
+                          {/* Delete button positioned on the left */}
+                          <button
+                            onClick={(e) => {
+                              e.preventDefault();
+                              e.stopPropagation();
+                              handleDeleteContract(contract.id);
+                            }}
+                            onMouseDown={(e) => {
+                              e.stopPropagation();
+                            }}
+                            className="p-2 rounded-full hover:bg-red-50 transition-colors flex-shrink-0"
+                            disabled={deleteContractMutation.isPending}
+                            type="button"
+                          >
+                            <Trash2 className="h-4 w-4 text-red-500 hover:text-red-700" />
+                          </button>
+
                           <CollapsibleTrigger className="flex-1 min-w-0 text-left hover:bg-gray-50 transition-colors rounded-lg p-2 -m-2">
                             <div className="flex items-start justify-between gap-3">
                               <div className="flex items-center space-x-3 min-w-0 flex-1">
@@ -274,23 +287,6 @@ export default function Home() {
                               </div>
                             </div>
                           </CollapsibleTrigger>
-                          
-                          {/* Delete button positioned separately */}
-                          <button
-                            onClick={(e) => {
-                              e.preventDefault();
-                              e.stopPropagation();
-                              handleDeleteContract(contract.id);
-                            }}
-                            onMouseDown={(e) => {
-                              e.stopPropagation();
-                            }}
-                            className="ml-2 p-1 rounded-full hover:bg-red-50 transition-colors"
-                            disabled={deleteContractMutation.isPending}
-                            type="button"
-                          >
-                            <Trash2 className="h-4 w-4 text-red-500 hover:text-red-700" />
-                          </button>
                         </div>
                       </div>
                       
