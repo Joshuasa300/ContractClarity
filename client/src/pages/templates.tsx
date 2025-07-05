@@ -423,8 +423,8 @@ export default function Templates() {
             {generatedContracts.map((contract) => (
               <Card key={contract.id} className="hover:shadow-md transition-shadow">
                 <CardHeader className="pb-3">
-                  <div className="flex items-start gap-3">
-                    {/* Delete button positioned on the left */}
+                  <div className="flex items-start">
+                    {/* Delete button positioned on the far left */}
                     <Button 
                       onClick={(e) => {
                         e.preventDefault();
@@ -436,7 +436,7 @@ export default function Templates() {
                       }}
                       variant="destructive"
                       size="sm"
-                      className="p-2 flex-shrink-0"
+                      className="p-1 mr-4 flex-shrink-0"
                       disabled={deleteContractMutation.isPending}
                       type="button"
                     >

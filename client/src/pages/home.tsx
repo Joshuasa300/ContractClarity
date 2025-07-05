@@ -217,8 +217,8 @@ export default function Home() {
                       onOpenChange={() => toggleContract(contract.id)}
                     >
                       <div className="p-4 sm:p-6">
-                        <div className="flex items-center gap-3">
-                          {/* Delete button positioned on the left */}
+                        <div className="flex items-center">
+                          {/* Delete button positioned on the far left */}
                           <button
                             onClick={(e) => {
                               e.preventDefault();
@@ -228,7 +228,7 @@ export default function Home() {
                             onMouseDown={(e) => {
                               e.stopPropagation();
                             }}
-                            className="p-2 rounded-full hover:bg-red-50 transition-colors flex-shrink-0"
+                            className="p-1 mr-4 rounded-full hover:bg-red-50 transition-colors flex-shrink-0"
                             disabled={deleteContractMutation.isPending}
                             type="button"
                           >
