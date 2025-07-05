@@ -122,7 +122,7 @@ export default function Home() {
     <div className="min-h-screen bg-bg-primary">
       <Header />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-8 py-4 sm:py-8">
         {/* Welcome Section */}
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-text-primary mb-2">
@@ -142,7 +142,7 @@ export default function Home() {
 
         {/* Recent Contracts */}
         <div>
-          <h2 className="text-2xl font-semibold text-text-primary mb-6">{t('home.yourContracts')}</h2>
+          <h2 className="text-xl sm:text-2xl font-semibold text-text-primary mb-4 sm:mb-6 px-2 sm:px-0">{t('home.yourContracts')}</h2>
           
           {contractsLoading ? (
             <div className="grid gap-4">
@@ -176,24 +176,38 @@ export default function Home() {
                       open={expandedContracts.has(contract.id)}
                       onOpenChange={() => toggleContract(contract.id)}
                     >
-                      <CollapsibleTrigger className="w-full p-6 hover:bg-gray-50 transition-colors">
-                        <div className="flex items-center justify-between">
-                          <div className="flex items-center space-x-4">
-                            <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center">
-                              <FileText className="h-6 w-6 text-primary" />
+                      <CollapsibleTrigger className="w-full p-4 sm:p-6 hover:bg-gray-50 transition-colors">
+                        <div className="flex items-start justify-between gap-3">
+                          <div className="flex items-center space-x-3 min-w-0 flex-1">
+                            <div className="w-10 h-10 sm:w-12 sm:h-12 bg-primary/10 rounded-lg flex items-center justify-center flex-shrink-0">
+                              <FileText className="h-5 w-5 sm:h-6 sm:w-6 text-primary" />
                             </div>
-                            <div className="text-left">
-                              <h3 className="font-semibold text-text-primary">
+                            <div className="text-left min-w-0 flex-1">
+                              <h3 className="font-semibold text-text-primary text-sm sm:text-base truncate">
                                 {contract.fileName}
                               </h3>
-                              <p className="text-sm text-gray-600">
+                              <p className="text-xs sm:text-sm text-gray-600">
                                 Uploaded {new Date(contract.createdAt!).toLocaleDateString()}
                               </p>
+                              {/* Mobile status - show below title */}
+                              <div className="flex items-center space-x-1 mt-1 sm:hidden">
+                                {isAnalysisComplete(contract.analysisComplete) ? (
+                                  <CheckCircle className="h-4 w-4 text-accent" />
+                                ) : (
+                                  <Clock className="h-4 w-4 text-yellow-500" />
+                                )}
+                                <span className="text-xs text-gray-600">
+                                  {isAnalysisComplete(contract.analysisComplete) ? 
+                                    (contract.templateId ? "Ready" : "Complete") : 
+                                    "Processing"}
+                                </span>
+                              </div>
                             </div>
                           </div>
                           
-                          <div className="flex items-center space-x-4">
-                            <div className="flex items-center space-x-2">
+                          <div className="flex items-center space-x-2 sm:space-x-4 flex-shrink-0">
+                            {/* Desktop status - hide on mobile */}
+                            <div className="hidden sm:flex items-center space-x-2">
                               {isAnalysisComplete(contract.analysisComplete) ? (
                                 <CheckCircle className="h-5 w-5 text-accent" />
                               ) : (
@@ -207,9 +221,9 @@ export default function Home() {
                             </div>
                             
                             {expandedContracts.has(contract.id) ? (
-                              <ChevronUp className="h-5 w-5 text-gray-400" />
+                              <ChevronUp className="h-4 w-4 sm:h-5 sm:w-5 text-gray-400" />
                             ) : (
-                              <ChevronDown className="h-5 w-5 text-gray-400" />
+                              <ChevronDown className="h-4 w-4 sm:h-5 sm:w-5 text-gray-400" />
                             )}
                           </div>
                         </div>
@@ -217,7 +231,7 @@ export default function Home() {
                       
                       <CollapsibleContent>
                         {isAnalysisComplete(contract.analysisComplete) && contract.summary ? (
-                          <div className="px-6 pb-6 border-t border-gray-100">
+                          <div className="px-4 sm:px-6 pb-4 sm:pb-6 border-t border-gray-100">
                             {/* Summary */}
                             <div className="mb-6">
                               <h4 className="text-lg font-semibold text-text-primary mb-3">Summary</h4>
@@ -324,7 +338,7 @@ export default function Home() {
                                   variant="outline" 
                                   size="sm" 
                                   onClick={() => downloadContract(contract)}
-                                  className="w-full"
+                                  className="w-full text-sm"
                                 >
                                   <Download className="h-4 w-4 mr-2" />
                                   Download
