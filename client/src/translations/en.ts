@@ -110,6 +110,8 @@ export const en = {
   'templates.fileName': 'Contract File Name',
   'templates.fillDetails': 'Fill in Contract Details',
   'templates.createContract': 'Create Contract',
+  'templates.validationError': 'Validation Error',
+  'templates.requiredFields': 'Please fill in all required fields',
 
   // Clause Library
   'clauses.title': 'Clause Library',

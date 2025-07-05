@@ -118,6 +118,21 @@ export default function Templates() {
   const handleCreateContract = () => {
     if (!selectedTemplate || !fileName.trim()) return;
 
+    // Validate required fields
+    const variables = selectedTemplate.variables as TemplateVariable[] || [];
+    const missingRequired = variables
+      .filter(variable => variable.required && !templateVariables[variable.name]?.trim())
+      .map(variable => variable.label);
+
+    if (missingRequired.length > 0) {
+      toast({
+        title: t('templates.validationError'),
+        description: `${t('templates.requiredFields')}: ${missingRequired.join(', ')}`,
+        variant: "destructive",
+      });
+      return;
+    }
+
     createContractMutation.mutate({
       templateId: selectedTemplate.id,
       variables: templateVariables,
@@ -293,7 +308,7 @@ export default function Templates() {
                         </DialogTrigger>
                         <Button 
                           onClick={handleCreateContract}
-                          disabled={createContractMutation.isPending || !fileName.trim()}
+                          disabled={createContractMutation.isPending || !fileName.trim() || !selectedTemplate}
                         >
                           {createContractMutation.isPending ? (
                             <>

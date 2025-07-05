@@ -191,8 +191,14 @@ export class DatabaseStorage implements IStorage {
     let content = template.content;
     Object.entries(variables).forEach(([key, value]) => {
       const regex = new RegExp(`{{${key}}}`, 'g');
-      content = content.replace(regex, value);
+      content = content.replace(regex, value || '');
     });
+
+    // Check for unreplaced variables and warn
+    const unreplacedMatches = content.match(/{{[\w_]+}}/g);
+    if (unreplacedMatches) {
+      console.warn(`Unreplaced variables in template ${templateId}:`, unreplacedMatches);
+    }
 
     const contractData = {
       userId,

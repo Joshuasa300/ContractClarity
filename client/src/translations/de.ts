@@ -54,6 +54,8 @@ export const de = {
   'templates.fileName': 'Vertragsdateinamen',
   'templates.fillDetails': 'Vertragsdetails ausfüllen',
   'templates.createContract': 'Vertrag erstellen',
+  'templates.validationError': 'Validierungsfehler',
+  'templates.requiredFields': 'Bitte füllen Sie alle erforderlichen Felder aus',
 
   // Clauses
   'clauses.title': 'Klausel-Bibliothek',

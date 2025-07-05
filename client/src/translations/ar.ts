@@ -54,6 +54,8 @@ export const ar = {
   'templates.fileName': 'اسم ملف العقد',
   'templates.fillDetails': 'قم بملء تفاصيل العقد',
   'templates.createContract': 'إنشاء عقد',
+  'templates.validationError': 'خطأ في التحقق',
+  'templates.requiredFields': 'يرجى ملء جميع الحقول المطلوبة',
 
   // Clauses
   'clauses.title': 'مكتبة البنود',

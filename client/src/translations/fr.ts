@@ -54,6 +54,8 @@ export const fr = {
   'templates.fileName': 'Nom du fichier de contrat',
   'templates.fillDetails': 'Remplir les détails du contrat',
   'templates.createContract': 'Créer le contrat',
+  'templates.validationError': 'Erreur de Validation',
+  'templates.requiredFields': 'Veuillez remplir tous les champs requis',
 
   // Clauses
   'clauses.title': 'Bibliothèque de Clauses',
