@@ -61,8 +61,11 @@ export default function Templates() {
 
   const createContractMutation = useMutation({
     mutationFn: async (data: { templateId: number; variables: Record<string, string>; fileName: string }) => {
+      console.log("Client: Sending contract creation request", data);
       const response = await apiRequest("POST", "/api/contracts/from-template", data);
-      return response.json();
+      const result = await response.json();
+      console.log("Client: Received response", result);
+      return result;
     },
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ["/api/contracts"] });
