@@ -13,7 +13,7 @@ export const fr = {
 
   // Landing Page
   landing: {
-    title: 'Simplifiez les contrats',
+    title: 'Change les contrats',
     titleHighlight: 'Juridiques complexes',
     subtitle: 'Téléchargez tout contrat et obtenez une analyse instantanée par IA en langage simple. Comprenez les termes clés, les risques et les obligations sans jargon juridique.',
     uploadContract: 'Télécharger contrat',

@@ -13,7 +13,7 @@ export const de = {
 
   // Landing Page
   landing: {
-    title: 'Vereinfachen Sie komplexe',
+    title: 'Ändert komplexe',
     titleHighlight: 'Rechtsverträge',
     subtitle: 'Laden Sie jeden Vertrag hoch und erhalten Sie sofortige KI-gestützte Analyse in verständlicher Sprache. Verstehen Sie wichtige Begriffe, Risiken und Verpflichtungen ohne Rechtsjargon.',
     uploadContract: 'Vertrag hochladen',
