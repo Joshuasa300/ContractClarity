@@ -11,7 +11,7 @@ import AuthPage from "@/pages/auth-page";
 import Home from "@/pages/home";
 import Analysis from "@/pages/analysis";
 import Templates from "@/pages/templates";
-import Clauses from "@/pages/clauses";
+
 import TranslationHelperPage from "@/pages/translation-helper";
 
 function Router() {
@@ -29,7 +29,7 @@ function Router() {
           <Route path="/" component={Home} />
           <Route path="/analysis/:contractId" component={Analysis} />
           <Route path="/templates" component={Templates} />
-          <Route path="/clauses" component={Clauses} />
+
           <Route path="/translation-helper" component={TranslationHelperPage} />
         </>
       )}

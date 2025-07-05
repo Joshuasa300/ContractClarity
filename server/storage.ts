@@ -50,11 +50,7 @@ export interface IStorage {
     fileName: string
   ): Promise<Contract>;
 
-  // Clause library operations
-  getClauses(): Promise<ClauseLibraryItem[]>;
-  getClause(id: number): Promise<ClauseLibraryItem | undefined>;
-  getClausesByCategory(category: string): Promise<ClauseLibraryItem[]>;
-  searchClauses(query: string): Promise<ClauseLibraryItem[]>;
+
 }
 
 export class DatabaseStorage implements IStorage {
@@ -217,33 +213,7 @@ export class DatabaseStorage implements IStorage {
     return contract as Contract;
   }
 
-  // Clause library operations
-  async getClauses(): Promise<ClauseLibraryItem[]> {
-    return await db.select().from(clauseLibrary).where(eq(clauseLibrary.isActive, true));
-  }
 
-  async getClause(id: number): Promise<ClauseLibraryItem | undefined> {
-    const [clause] = await db.select().from(clauseLibrary).where(eq(clauseLibrary.id, id));
-    return clause;
-  }
-
-  async getClausesByCategory(category: string): Promise<ClauseLibraryItem[]> {
-    return await db.select().from(clauseLibrary)
-      .where(eq(clauseLibrary.category, category))
-      .where(eq(clauseLibrary.isActive, true));
-  }
-
-  async searchClauses(query: string): Promise<ClauseLibraryItem[]> {
-    return await db.select().from(clauseLibrary)
-      .where(
-        or(
-          ilike(clauseLibrary.title, `%${query}%`),
-          ilike(clauseLibrary.description, `%${query}%`),
-          ilike(clauseLibrary.content, `%${query}%`)
-        )
-      )
-      .where(eq(clauseLibrary.isActive, true));
-  }
 }
 
 export const storage = new DatabaseStorage();
