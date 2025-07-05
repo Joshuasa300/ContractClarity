@@ -400,7 +400,7 @@ export default function Templates() {
                 <CardContent className="pt-0">
                   <Button 
                     onClick={() => downloadContract(contract)}
-                    className="w-full"
+                    className="w-full bg-white text-black border hover:bg-gray-50"
                     size="sm"
                   >
                     <Download className="h-4 w-4 mr-2" />
