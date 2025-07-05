@@ -1,65 +1,13 @@
 export const fr = {
-  // Navigation & Header
-  nav: {
-    home: 'Accueil',
-    contracts: 'Contrats',
-    templates: 'Modèles',
-    clauses: 'Bibliothèque de Clauses',
-    signIn: 'Se connecter',
-    signOut: 'Se déconnecter',
-    getStarted: 'Commencer',
-    signUp: "S'inscrire",
-  },
-
   // Landing Page
-  landing: {
-    title: 'Simplifiez les contrats',
-    titleHighlight: 'Juridiques complexes',
-    subtitle: 'Téléchargez tout contrat et obtenez une analyse instantanée par IA en langage simple. Comprenez les termes clés, les risques et les obligations sans jargon juridique.',
-    uploadContract: 'Télécharger contrat',
-    seeDemo: 'Voir la démo',
-    whyChoose: 'Pourquoi choisir ContractAI ?',
-    whyChooseDesc: 'Alimenté par une technologie IA avancée pour rendre les documents juridiques accessibles à tous',
-    features: {
-      aiTitle: 'Analyse par IA',
-      aiDesc: 'Notre IA avancée transforme le langage juridique complexe en termes simples et compréhensibles pour tous.',
-      riskTitle: 'Évaluation des risques',
-      riskDesc: 'Identifiez les risques potentiels et les signaux d\'alarme dans les contrats avant de signer, vous aidant à prendre des décisions éclairées.',
-      instantTitle: 'Résultats instantanés',
-      instantDesc: 'Obtenez une analyse complète des contrats en secondes, pas en heures. Économisez du temps et de l\'argent sur les consultations juridiques.',
-    },
-    cta: {
-      title: 'Prêt à commencer ?',
-      subtitle: 'Inscrivez-vous maintenant et analysez votre premier contrat gratuitement',
-      button: 'Commencer l\'analyse des contrats',
-    },
-  },
-
-  // Home/Dashboard
-  home: {
-    welcome: 'Bienvenue de retour',
-    yourContracts: 'Vos Contrats',
-    noContracts: 'Pas encore de contrats',
-    uploadFirst: 'Téléchargez votre premier contrat pour commencer',
-    analysisComplete: 'Analyse terminée',
-    analysisInProgress: 'Analyse en cours',
-    viewAnalysis: 'Voir l\'analyse',
-  },
-
-  // Footer
-  footer: {
-    description: 'Simplifier les contrats juridiques complexes avec une analyse alimentée par l\'IA. Comprenez vos accords en langage simple.',
-    product: 'Produit',
-    features: 'Fonctionnalités',
-    pricing: 'Tarifs',
-    security: 'Sécurité',
-    support: 'Support',
-    helpCenter: 'Centre d\'aide',
-    contact: 'Contact',
-    privacyPolicy: 'Politique de confidentialité',
-    termsOfService: 'Conditions d\'utilisation',
-    copyright: '© 2024 ContractAI. Tous droits réservés.',
-  },
+  'landing.title': 'ContractAI',
+  'landing.subtitle': 'Simplifiez vos contrats avec l\'IA',
+  'landing.hero.title': 'Analysez vos contrats avec l\'intelligence artificielle',
+  'landing.hero.subtitle': 'Obtenez des insights instantanés, des évaluations de risques et des recommandations pour vos documents juridiques',
+  'landing.getStarted': 'Commencer',
+  'landing.learnMore': 'En savoir plus',
+  
+  // Features
   'landing.features.analysis': 'Analyse Intelligente',
   'landing.features.analysisDesc': 'Obtenez une analyse complète des contrats avec des insights alimentés par l\'IA',
   'landing.features.risk': 'Évaluation des Risques',
@@ -67,50 +15,47 @@ export const fr = {
   'landing.features.templates': 'Bibliothèque de Modèles',
   'landing.features.templatesDesc': 'Accédez à des modèles de contrats pré-construits pour des scénarios courants',
 
-  // Authentication
+  // Auth
   'auth.signIn': 'Se connecter',
-  'auth.signUp': "S'inscrire",
   'auth.email': 'Email',
   'auth.password': 'Mot de passe',
+  'auth.signUp': 'S\'inscrire',
   'auth.firstName': 'Prénom',
-  'auth.lastName': 'Nom de famille',
-  'auth.signInWithGoogle': 'Se connecter avec Google',
-  'auth.createAccount': 'Créer un compte',
-  'auth.alreadyHaveAccount': 'Vous avez déjà un compte ?',
-  'auth.dontHaveAccount': 'Vous n\'avez pas de compte ?',
-  'auth.signInHere': 'Connectez-vous ici',
-  'auth.signUpHere': 'Inscrivez-vous ici',
+  'auth.lastName': 'Nom',
+  'auth.confirmPassword': 'Confirmer le mot de passe',
+  'auth.forgotPassword': 'Mot de passe oublié?',
+  'auth.noAccount': 'Pas de compte?',
+  'auth.hasAccount': 'Déjà un compte?',
+  'auth.signInWith': 'Se connecter avec',
+  'auth.or': 'ou',
+  'auth.continue': 'Continuer',
 
-  // Contract Upload
-  'upload.title': 'Télécharger un Contrat',
-  'upload.dragDrop': 'Glissez et déposez votre contrat ici, ou cliquez pour parcourir',
-  'upload.supportedFormats': 'Formats supportés : PDF, DOCX, TXT (max 10Mo)',
-  'upload.analyzing': 'Analyse du contrat...',
-  'upload.uploadAnother': 'Télécharger un autre contrat',
+  // Navigation
+  'nav.home': 'Accueil',
+  'nav.templates': 'Modèles',
+  'nav.clauses': 'Clauses',
+  'nav.logout': 'Déconnexion',
 
-  // Contract Analysis
-  'analysis.summary': 'Résumé',
-  'analysis.riskAssessment': 'Évaluation des Risques',
-  'analysis.keyTerms': 'Termes Clés',
-  'analysis.recommendations': 'Recommandations',
-  'analysis.highRisk': 'Risque Élevé',
-  'analysis.mediumRisk': 'Risque Moyen',
-  'analysis.lowRisk': 'Risque Faible',
+  // Home/Dashboard
+  'home.welcome': 'Bienvenue',
+  'home.yourContracts': 'Vos Contrats',
 
   // Templates
   'templates.title': 'Modèles de Contrats',
-  'templates.description': 'Choisissez parmi notre bibliothèque de modèles de contrats professionnels',
+  'templates.description': 'Créez des contrats rapidement avec nos modèles pré-construits',
   'templates.category': 'Catégorie',
   'templates.allCategories': 'Toutes les Catégories',
-  'templates.useTemplate': 'Utiliser le Modèle',
-  'templates.preview': 'Aperçu',
-  'templates.variables': 'Variables du Modèle',
-  'templates.generate': 'Générer le Contrat',
+  'templates.useTemplate': 'Utiliser ce Modèle',
+  'templates.employment': 'Emploi',
+  'templates.sales': 'Ventes',
+  'templates.service': 'Service',
+  'templates.rental': 'Location',
+  'templates.partnership': 'Partenariat',
   'templates.fileName': 'Nom du fichier de contrat',
   'templates.fillDetails': 'Remplir les détails du contrat',
-  'templates.createContract': 'Créer un contrat',
+  'templates.createContract': 'Créer le contrat',
 
-  // Clause Library
+  // Clauses
   'clauses.title': 'Bibliothèque de Clauses',
   'clauses.description': 'Parcourez et recherchez dans notre bibliothèque complète de clauses',
   'clauses.search': 'Rechercher des clauses...',
@@ -136,11 +81,6 @@ export const fr = {
   'common.save': 'Enregistrer',
   'common.delete': 'Supprimer',
   'common.edit': 'Modifier',
-  'common.view': 'Voir',
-  'common.download': 'Télécharger',
-  'common.upload': 'Télécharger',
-  'common.search': 'Rechercher',
-  'common.filter': 'Filtrer',
   'common.close': 'Fermer',
   'common.back': 'Retour',
   'common.next': 'Suivant',
@@ -149,9 +89,10 @@ export const fr = {
   // Language Selector
   'language.title': 'Langue',
   'language.select': 'Sélectionner la Langue',
+
+  // Upload
   'upload.title': 'Télécharger le contrat',
   'upload.dragDrop': 'Glissez-déposez votre contrat ici, ou cliquez pour parcourir',
   'upload.supportedFormats': 'Formats supportés : PDF, DOCX, TXT (max 10MB)',
   'upload.analyzing': 'Analyse en cours...',
-
 };

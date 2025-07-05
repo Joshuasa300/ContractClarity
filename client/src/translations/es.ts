@@ -1,116 +1,61 @@
 export const es = {
-  // Navigation & Header
-  nav: {
-    home: 'Inicio',
-    contracts: 'Contratos',
-    templates: 'Plantillas',
-    clauses: 'Biblioteca de Cláusulas',
-    signIn: 'Iniciar Sesión',
-    signOut: 'Cerrar Sesión',
-    getStarted: 'Comenzar',
-    signUp: 'Registrarse',
-  },
-
   // Landing Page
-  landing: {
-    title: 'Simplifica Contratos',
-    titleHighlight: 'Legales Complejos',
-    subtitle: 'Sube cualquier contrato y obtén análisis instantáneo con IA en lenguaje sencillo. Entiende términos clave, riesgos y obligaciones sin jerga legal.',
-    uploadContract: 'Subir Contrato',
-    seeDemo: 'Ver Demo',
-    whyChoose: '¿Por qué elegir ContractAI?',
-    whyChooseDesc: 'Impulsado por tecnología IA avanzada para hacer los documentos legales accesibles para todos',
-    features: {
-      aiTitle: 'Análisis con IA',
-      aiDesc: 'Nuestra IA avanzada convierte el lenguaje legal complejo en términos simples y comprensibles para cualquiera.',
-      riskTitle: 'Evaluación de Riesgos',
-      riskDesc: 'Identifica riesgos potenciales y señales de alerta en contratos antes de firmar, ayudándote a tomar decisiones informadas.',
-      instantTitle: 'Resultados Instantáneos',
-      instantDesc: 'Obtén análisis integral de contratos en segundos, no horas. Ahorra tiempo y dinero en consultas legales.',
-    },
-    cta: {
-      title: '¿Listo para comenzar?',
-      subtitle: 'Regístrate ahora y analiza tu primer contrato gratis',
-      button: 'Comenzar a analizar contratos',
-    },
-  },
-
-  // Home/Dashboard
-  home: {
-    welcome: 'Bienvenido de vuelta',
-    yourContracts: 'Sus Contratos',
-    noContracts: 'Aún no hay contratos',
-    uploadFirst: 'Sube tu primer contrato para comenzar',
-    analysisComplete: 'Análisis Completo',
-    analysisInProgress: 'Análisis en Progreso',
-    viewAnalysis: 'Ver Análisis',
-  },
-
-  // Footer
-  footer: {
-    description: 'Simplificando contratos legales complejos con análisis impulsado por IA. Entiende tus acuerdos en lenguaje sencillo.',
-    product: 'Producto',
-    features: 'Características',
-    pricing: 'Precios',
-    security: 'Seguridad',
-    support: 'Soporte',
-    helpCenter: 'Centro de Ayuda',
-    contact: 'Contacto',
-    privacyPolicy: 'Política de Privacidad',
-    termsOfService: 'Términos de Servicio',
-    copyright: '© 2024 ContractAI. Todos los derechos reservados.',
-  },
+  'landing.title': 'ContractAI',
+  'landing.subtitle': 'Simplifica tus contratos con IA',
+  'landing.hero.title': 'Analiza tus contratos con inteligencia artificial',
+  'landing.hero.subtitle': 'Obtén insights instantáneos, evaluaciones de riesgo y recomendaciones para tus documentos legales',
+  'landing.getStarted': 'Comenzar',
+  'landing.learnMore': 'Saber más',
+  
+  // Features
   'landing.features.analysis': 'Análisis Inteligente',
-  'landing.features.analysisDesc': 'Obtén análisis integral de contratos con perspectivas impulsadas por IA',
+  'landing.features.analysisDesc': 'Obtén análisis completos de contratos con insights impulsados por IA',
   'landing.features.risk': 'Evaluación de Riesgos',
   'landing.features.riskDesc': 'Identifica riesgos potenciales y obtén recomendaciones accionables',
   'landing.features.templates': 'Biblioteca de Plantillas',
-  'landing.features.templatesDesc': 'Accede a plantillas de contratos prediseñadas para escenarios comunes',
+  'landing.features.templatesDesc': 'Accede a plantillas de contratos preconstruidas para escenarios comunes',
 
-  // Authentication
+  // Auth
   'auth.signIn': 'Iniciar Sesión',
-  'auth.signUp': 'Registrarse',
-  'auth.email': 'Correo Electrónico',
+  'auth.email': 'Email',
   'auth.password': 'Contraseña',
+  'auth.signUp': 'Registrarse',
   'auth.firstName': 'Nombre',
   'auth.lastName': 'Apellido',
-  'auth.signInWithGoogle': 'Iniciar sesión con Google',
-  'auth.createAccount': 'Crear Cuenta',
-  'auth.alreadyHaveAccount': '¿Ya tienes una cuenta?',
-  'auth.dontHaveAccount': '¿No tienes una cuenta?',
-  'auth.signInHere': 'Inicia sesión aquí',
-  'auth.signUpHere': 'Regístrate aquí',
+  'auth.confirmPassword': 'Confirmar Contraseña',
+  'auth.forgotPassword': '¿Olvidaste tu contraseña?',
+  'auth.noAccount': '¿No tienes cuenta?',
+  'auth.hasAccount': '¿Ya tienes cuenta?',
+  'auth.signInWith': 'Iniciar sesión con',
+  'auth.or': 'o',
+  'auth.continue': 'Continuar',
 
-  // Contract Upload
-  'upload.title': 'Subir Contrato',
-  'upload.dragDrop': 'Arrastra y suelta tu contrato aquí, o haz clic para explorar',
-  'upload.supportedFormats': 'Formatos soportados: PDF, DOCX, TXT (máx 10MB)',
-  'upload.analyzing': 'Analizando contrato...',
-  'upload.uploadAnother': 'Subir Otro Contrato',
+  // Navigation
+  'nav.home': 'Inicio',
+  'nav.templates': 'Plantillas',
+  'nav.clauses': 'Cláusulas',
+  'nav.logout': 'Cerrar Sesión',
 
-  // Contract Analysis
-  'analysis.summary': 'Resumen',
-  'analysis.riskAssessment': 'Evaluación de Riesgos',
-  'analysis.keyTerms': 'Términos Clave',
-  'analysis.recommendations': 'Recomendaciones',
-  'analysis.highRisk': 'Alto Riesgo',
-  'analysis.mediumRisk': 'Riesgo Medio',
-  'analysis.lowRisk': 'Bajo Riesgo',
+  // Home/Dashboard
+  'home.welcome': 'Bienvenido',
+  'home.yourContracts': 'Tus Contratos',
 
   // Templates
   'templates.title': 'Plantillas de Contratos',
-  'templates.description': 'Elige de nuestra biblioteca de plantillas de contratos profesionales',
+  'templates.description': 'Crea contratos rápidamente con nuestras plantillas preconstruidas',
   'templates.category': 'Categoría',
   'templates.allCategories': 'Todas las Categorías',
-  'templates.useTemplate': 'Usar Plantilla',
-  'templates.preview': 'Vista Previa',
-  'templates.variables': 'Variables de Plantilla',
-  'templates.generate': 'Generar Contrato',
+  'templates.useTemplate': 'Usar esta Plantilla',
+  'templates.employment': 'Empleo',
+  'templates.sales': 'Ventas',
+  'templates.service': 'Servicio',
+  'templates.rental': 'Alquiler',
+  'templates.partnership': 'Asociación',
   'templates.fileName': 'Nombre del archivo de contrato',
-  'templates.fillDetails': 'Completar detalles del contrato',
+  'templates.fillDetails': 'Llenar detalles del contrato',
   'templates.createContract': 'Crear contrato',
 
-  // Clause Library
+  // Clauses
   'clauses.title': 'Biblioteca de Cláusulas',
   'clauses.description': 'Navega y busca en nuestra biblioteca integral de cláusulas',
   'clauses.search': 'Buscar cláusulas...',
@@ -136,11 +81,6 @@ export const es = {
   'common.save': 'Guardar',
   'common.delete': 'Eliminar',
   'common.edit': 'Editar',
-  'common.view': 'Ver',
-  'common.download': 'Descargar',
-  'common.upload': 'Subir',
-  'common.search': 'Buscar',
-  'common.filter': 'Filtrar',
   'common.close': 'Cerrar',
   'common.back': 'Atrás',
   'common.next': 'Siguiente',
@@ -149,9 +89,10 @@ export const es = {
   // Language Selector
   'language.title': 'Idioma',
   'language.select': 'Seleccionar Idioma',
+
+  // Upload
   'upload.title': 'Subir contrato',
   'upload.dragDrop': 'Arrastra y suelta tu contrato aquí, o haz clic para explorar',
   'upload.supportedFormats': 'Formatos compatibles: PDF, DOCX, TXT (máx. 10MB)',
   'upload.analyzing': 'Analizando...',
-
 };

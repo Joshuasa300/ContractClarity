@@ -1,113 +1,61 @@
 export const de = {
-  // Navigation & Header
-  nav: {
-    home: 'Startseite',
-    contracts: 'Verträge',
-    templates: 'Vorlagen',
-    clauses: 'Klausel-Bibliothek',
-    signIn: 'Anmelden',
-    signOut: 'Abmelden',
-    getStarted: 'Loslegen',
-    signUp: 'Registrieren',
-  },
-
   // Landing Page
-  landing: {
-    title: 'Vereinfachen Sie komplexe',
-    titleHighlight: 'Rechtsverträge',
-    subtitle: 'Laden Sie jeden Vertrag hoch und erhalten Sie sofortige KI-gestützte Analyse in verständlicher Sprache. Verstehen Sie wichtige Begriffe, Risiken und Verpflichtungen ohne Rechtsjargon.',
-    uploadContract: 'Vertrag hochladen',
-    seeDemo: 'Demo ansehen',
-    whyChoose: 'Warum ContractAI wählen?',
-    whyChooseDesc: 'Angetrieben von fortschrittlicher KI-Technologie, um Rechtsdokumente für alle zugänglich zu machen',
-    features: {
-      aiTitle: 'KI-gestützte Analyse',
-      aiDesc: 'Unsere fortschrittliche KI verwandelt komplexe Rechtssprache in einfache, verständliche Begriffe für jedermann.',
-      riskTitle: 'Risikobewertung',
-      riskDesc: 'Identifizieren Sie potenzielle Risiken und Warnsignale in Verträgen vor der Unterzeichnung, um fundierte Entscheidungen zu treffen.',
-      instantTitle: 'Sofortige Ergebnisse',
-      instantDesc: 'Erhalten Sie umfassende Vertragsanalysen in Sekunden, nicht Stunden. Sparen Sie Zeit und Geld bei Rechtsberatungen.',
-    },
-    cta: {
-      title: 'Bereit anzufangen?',
-      subtitle: 'Registrieren Sie sich jetzt und analysieren Sie Ihren ersten Vertrag kostenlos',
-      button: 'Vertragsanalyse starten',
-    },
-  },
-
-  // Home/Dashboard
-  home: {
-    welcome: 'Willkommen zurück',
-    yourContracts: 'Ihre Verträge',
-    noContracts: 'Noch keine Verträge',
-    uploadFirst: 'Laden Sie Ihren ersten Vertrag hoch, um zu beginnen',
-    analysisComplete: 'Analyse abgeschlossen',
-    analysisInProgress: 'Analyse läuft',
-    viewAnalysis: 'Analyse anzeigen',
-  },
-
-  // Footer
-  footer: {
-    description: 'Vereinfachung komplexer Rechtsverträge mit KI-gestützter Analyse. Verstehen Sie Ihre Vereinbarungen in verständlicher Sprache.',
-    product: 'Produkt',
-    features: 'Funktionen',
-    pricing: 'Preise',
-    security: 'Sicherheit',
-    support: 'Support',
-    helpCenter: 'Hilfezentrum',
-    contact: 'Kontakt',
-    privacyPolicy: 'Datenschutzrichtlinie',
-    termsOfService: 'Nutzungsbedingungen',
-    copyright: '© 2024 ContractAI. Alle Rechte vorbehalten.',
-  },
+  'landing.title': 'ContractAI',
+  'landing.subtitle': 'Vereinfachen Sie Ihre Verträge mit KI',
+  'landing.hero.title': 'Analysieren Sie Ihre Verträge mit künstlicher Intelligenz',
+  'landing.hero.subtitle': 'Erhalten Sie sofortige Einblicke, Risikobewertungen und Empfehlungen für Ihre Rechtsdokumente',
+  'landing.getStarted': 'Loslegen',
+  'landing.learnMore': 'Mehr erfahren',
+  
+  // Features
   'landing.features.analysis': 'Intelligente Analyse',
   'landing.features.analysisDesc': 'Erhalten Sie umfassende Vertragsanalysen mit KI-gestützten Erkenntnissen',
   'landing.features.risk': 'Risikobewertung',
   'landing.features.riskDesc': 'Identifizieren Sie potenzielle Risiken und erhalten Sie umsetzbare Empfehlungen',
   'landing.features.templates': 'Vorlagen-Bibliothek',
-  'landing.features.templatesDesc': 'Greifen Sie auf vorgefertigte Vertragsvorlagen für häufige Szenarien zu',
+  'landing.features.templatesDesc': 'Zugriff auf vorgefertigte Vertragsvorlagen für gängige Szenarien',
 
-  // Authentication
+  // Auth
   'auth.signIn': 'Anmelden',
-  'auth.signUp': 'Registrieren',
   'auth.email': 'E-Mail',
   'auth.password': 'Passwort',
+  'auth.signUp': 'Registrieren',
   'auth.firstName': 'Vorname',
   'auth.lastName': 'Nachname',
-  'auth.signInWithGoogle': 'Mit Google anmelden',
-  'auth.createAccount': 'Konto erstellen',
-  'auth.alreadyHaveAccount': 'Haben Sie bereits ein Konto?',
-  'auth.dontHaveAccount': 'Haben Sie noch kein Konto?',
-  'auth.signInHere': 'Hier anmelden',
-  'auth.signUpHere': 'Hier registrieren',
+  'auth.confirmPassword': 'Passwort bestätigen',
+  'auth.forgotPassword': 'Passwort vergessen?',
+  'auth.noAccount': 'Noch kein Konto?',
+  'auth.hasAccount': 'Bereits ein Konto?',
+  'auth.signInWith': 'Anmelden mit',
+  'auth.or': 'oder',
+  'auth.continue': 'Weiter',
 
-  // Contract Upload
-  'upload.title': 'Vertrag hochladen',
-  'upload.dragDrop': 'Ziehen Sie Ihren Vertrag hierher oder klicken Sie zum Durchsuchen',
-  'upload.supportedFormats': 'Unterstützte Formate: PDF, DOCX, TXT (max 10MB)',
-  'upload.analyzing': 'Vertrag wird analysiert...',
-  'upload.uploadAnother': 'Weiteren Vertrag hochladen',
+  // Navigation
+  'nav.home': 'Startseite',
+  'nav.templates': 'Vorlagen',
+  'nav.clauses': 'Klauseln',
+  'nav.logout': 'Abmelden',
 
-  // Contract Analysis
-  'analysis.summary': 'Zusammenfassung',
-  'analysis.riskAssessment': 'Risikobewertung',
-  'analysis.keyTerms': 'Schlüsselbegriffe',
-  'analysis.recommendations': 'Empfehlungen',
-  'analysis.highRisk': 'Hohes Risiko',
-  'analysis.mediumRisk': 'Mittleres Risiko',
-  'analysis.lowRisk': 'Geringes Risiko',
+  // Home/Dashboard
+  'home.welcome': 'Willkommen',
+  'home.yourContracts': 'Ihre Verträge',
 
   // Templates
   'templates.title': 'Vertragsvorlagen',
-  'templates.description': 'Wählen Sie aus unserer Bibliothek professioneller Vertragsvorlagen',
+  'templates.description': 'Erstellen Sie schnell Verträge mit unseren vorgefertigten Vorlagen',
   'templates.category': 'Kategorie',
   'templates.allCategories': 'Alle Kategorien',
-  'templates.useTemplate': 'Vorlage verwenden',
-  'templates.preview': 'Vorschau',
-  'templates.variables': 'Vorlagenvariablen',
-  'templates.generate': 'Vertrag erstellen',
+  'templates.useTemplate': 'Diese Vorlage verwenden',
+  'templates.employment': 'Beschäftigung',
+  'templates.sales': 'Verkauf',
+  'templates.service': 'Service',
+  'templates.rental': 'Miete',
+  'templates.partnership': 'Partnerschaft',
+  'templates.fileName': 'Vertragsdateinamen',
+  'templates.fillDetails': 'Vertragsdetails ausfüllen',
+  'templates.createContract': 'Vertrag erstellen',
 
-  // Clause Library
+  // Clauses
   'clauses.title': 'Klausel-Bibliothek',
   'clauses.description': 'Durchsuchen Sie unsere umfassende Klausel-Bibliothek',
   'clauses.search': 'Klauseln suchen...',
@@ -133,11 +81,6 @@ export const de = {
   'common.save': 'Speichern',
   'common.delete': 'Löschen',
   'common.edit': 'Bearbeiten',
-  'common.view': 'Anzeigen',
-  'common.download': 'Herunterladen',
-  'common.upload': 'Hochladen',
-  'common.search': 'Suchen',
-  'common.filter': 'Filtern',
   'common.close': 'Schließen',
   'common.back': 'Zurück',
   'common.next': 'Weiter',
@@ -146,13 +89,10 @@ export const de = {
   // Language Selector
   'language.title': 'Sprache',
   'language.select': 'Sprache auswählen',
-  'templates.fileName': 'Vertragsdateinamen',
-  'templates.fillDetails': 'Vertragsdetails ausfüllen',
-  'templates.createContract': 'Vertrag erstellen',
 
+  // Upload
   'upload.title': 'Vertrag hochladen',
   'upload.dragDrop': 'Ziehen Sie Ihren Vertrag hierher oder klicken Sie zum Durchsuchen',
   'upload.supportedFormats': 'Unterstützte Formate: PDF, DOCX, TXT (max. 10MB)',
   'upload.analyzing': 'Analysiere...',
-
 };
