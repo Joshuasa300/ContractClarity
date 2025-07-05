@@ -278,11 +278,16 @@ export default function Home() {
                           {/* Delete button positioned separately */}
                           <button
                             onClick={(e) => {
+                              e.preventDefault();
                               e.stopPropagation();
                               handleDeleteContract(contract.id);
                             }}
+                            onMouseDown={(e) => {
+                              e.stopPropagation();
+                            }}
                             className="ml-2 p-1 rounded-full hover:bg-red-50 transition-colors"
                             disabled={deleteContractMutation.isPending}
+                            type="button"
                           >
                             <Trash2 className="h-4 w-4 text-red-500 hover:text-red-700" />
                           </button>
@@ -405,11 +410,19 @@ export default function Home() {
                                     Download
                                   </Button>
                                   <Button 
-                                    onClick={() => handleDeleteContract(contract.id)}
+                                    onClick={(e) => {
+                                      e.preventDefault();
+                                      e.stopPropagation();
+                                      handleDeleteContract(contract.id);
+                                    }}
+                                    onMouseDown={(e) => {
+                                      e.stopPropagation();
+                                    }}
                                     variant="destructive"
                                     size="sm"
                                     className="px-3"
                                     disabled={deleteContractMutation.isPending}
+                                    type="button"
                                   >
                                     <Trash2 className="h-4 w-4" />
                                   </Button>

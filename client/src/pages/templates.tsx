@@ -452,11 +452,19 @@ export default function Templates() {
                       {t('templates.download') || 'Download'}
                     </Button>
                     <Button 
-                      onClick={() => handleDeleteContract(contract.id)}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        handleDeleteContract(contract.id);
+                      }}
+                      onMouseDown={(e) => {
+                        e.stopPropagation();
+                      }}
                       variant="destructive"
                       size="sm"
                       className="px-3"
                       disabled={deleteContractMutation.isPending}
+                      type="button"
                     >
                       <Trash2 className="h-4 w-4" />
                     </Button>
