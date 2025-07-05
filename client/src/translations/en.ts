@@ -13,7 +13,7 @@ export const en = {
 
   // Landing Page
   landing: {
-    title: 'Changes Complex',
+    title: 'Simplify Complex',
     titleHighlight: 'Legal Contracts',
     subtitle: 'Upload any contract and get instant AI-powered analysis in plain language. Understand key terms, risks, and obligations without legal jargon.',
     uploadContract: 'Upload Contract',

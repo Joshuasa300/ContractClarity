@@ -13,7 +13,7 @@ export const es = {
 
   // Landing Page
   landing: {
-    title: 'Cambia Contratos',
+    title: 'Simplifica Contratos',
     titleHighlight: 'Legales Complejos',
     subtitle: 'Sube cualquier contrato y obtén análisis instantáneo con IA en lenguaje sencillo. Entiende términos clave, riesgos y obligaciones sin jerga legal.',
     uploadContract: 'Subir Contrato',
