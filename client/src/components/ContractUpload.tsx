@@ -16,12 +16,14 @@ import {
 } from "lucide-react";
 import { useLocation } from "wouter";
 import AnalysisProgress from "./AnalysisProgress";
+import { useLanguage } from "@/lib/i18n";
 import type { Contract } from "@shared/schema";
 
 export default function ContractUpload() {
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const [, setLocation] = useLocation();
+  const { t } = useLanguage();
   const [uploadProgress, setUploadProgress] = useState(0);
   const [showAnalysisProgress, setShowAnalysisProgress] = useState(false);
   const [contractId, setContractId] = useState<number | null>(null);
@@ -137,13 +139,13 @@ export default function ContractUpload() {
           <div className="max-w-sm mx-auto">
             <CloudUpload className="h-16 w-16 text-gray-400 mx-auto mb-4" />
             <h3 className="text-lg font-semibold text-text-primary mb-2">
-              {isDragActive ? "Drop your contract here" : "Upload Contract"}
+              {isDragActive ? t('upload.dragDrop') : t('upload.title')}
             </h3>
             <p className="text-gray-600 mb-4">
-              Drag and drop your contract here, or click to browse
+              {t('upload.dragDrop')}
             </p>
             <p className="text-sm text-gray-500 mb-4">
-              Supports PDF, DOCX, and TXT files (Max 10MB)
+              {t('upload.supportedFormats')}
             </p>
             <Button 
               type="button" 
@@ -153,10 +155,10 @@ export default function ContractUpload() {
               {uploadMutation.isPending ? (
                 <>
                   <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                  Uploading...
+                  {t('upload.analyzing')}
                 </>
               ) : (
-                "Choose File"
+                t('common.upload')
               )}
             </Button>
           </div>
@@ -165,7 +167,7 @@ export default function ContractUpload() {
         {uploadMutation.isPending && (
           <div className="mt-6">
             <div className="flex items-center justify-between mb-2">
-              <span className="text-sm text-gray-600">Uploading...</span>
+              <span className="text-sm text-gray-600">{t('upload.analyzing')}</span>
               <span className="text-sm text-gray-600">{uploadProgress}%</span>
             </div>
             <Progress value={uploadProgress} className="w-full" />

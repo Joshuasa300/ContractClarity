@@ -149,4 +149,9 @@ export const fr = {
   // Language Selector
   'language.title': 'Langue',
   'language.select': 'Sélectionner la Langue',
+  'upload.title': 'Télécharger le contrat',
+  'upload.dragDrop': 'Glissez-déposez votre contrat ici, ou cliquez pour parcourir',
+  'upload.supportedFormats': 'Formats supportés : PDF, DOCX, TXT (max 10MB)',
+  'upload.analyzing': 'Analyse en cours...',
+
 };

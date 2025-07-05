@@ -4,14 +4,16 @@ import { Plus, Upload, FileText, Library, Languages, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { Link } from "wouter";
+import { useLanguage } from "@/lib/i18n";
 
 export default function QuickActions() {
   const [isOpen, setIsOpen] = useState(false);
+  const { t } = useLanguage();
 
   const actions = [
     {
       icon: Upload,
-      label: "Upload Contract",
+      label: t('dashboard.uploadContract'),
       action: () => {
         // Scroll to upload section or trigger upload modal
         const uploadSection = document.querySelector('[data-upload-section]');
@@ -23,19 +25,19 @@ export default function QuickActions() {
     },
     {
       icon: FileText,
-      label: "Templates",
+      label: t('nav.templates'),
       href: "/templates",
       color: "bg-secondary hover:bg-secondary/90"
     },
     {
       icon: Library,
-      label: "Clauses",
+      label: t('nav.clauses'),
       href: "/clauses",
       color: "bg-accent hover:bg-accent/90"
     },
     {
       icon: Languages,
-      label: "Translation Helper",
+      label: t('language.title'),
       href: "/translation-helper",
       color: "bg-green-600 hover:bg-green-700"
     }
@@ -95,7 +97,7 @@ export default function QuickActions() {
             </Button>
           </TooltipTrigger>
           <TooltipContent side="left">
-            <p>{isOpen ? 'Close' : 'Quick Actions'}</p>
+            <p>{isOpen ? t('common.close') : t('dashboard.quickActions')}</p>
           </TooltipContent>
         </Tooltip>
       </div>

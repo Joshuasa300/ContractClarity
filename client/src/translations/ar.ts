@@ -150,4 +150,9 @@ export const ar = {
   'templates.fillDetails': 'قم بملء تفاصيل العقد',
   'templates.createContract': 'إنشاء عقد',
 
+  'upload.title': 'رفع العقد',
+  'upload.dragDrop': 'اسحب وأسقط عقدك هنا، أو انقر للتصفح',
+  'upload.supportedFormats': 'الصيغ المدعومة: PDF، DOCX، TXT (حد أقصى 10 ميجابايت)',
+  'upload.analyzing': 'جاري التحليل...',
+
 };

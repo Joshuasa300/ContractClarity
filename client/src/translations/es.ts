@@ -149,4 +149,9 @@ export const es = {
   // Language Selector
   'language.title': 'Idioma',
   'language.select': 'Seleccionar Idioma',
+  'upload.title': 'Subir contrato',
+  'upload.dragDrop': 'Arrastra y suelta tu contrato aquí, o haz clic para explorar',
+  'upload.supportedFormats': 'Formatos compatibles: PDF, DOCX, TXT (máx. 10MB)',
+  'upload.analyzing': 'Analizando...',
+
 };

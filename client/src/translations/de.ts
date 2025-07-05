@@ -150,4 +150,9 @@ export const de = {
   'templates.fillDetails': 'Vertragsdetails ausfüllen',
   'templates.createContract': 'Vertrag erstellen',
 
+  'upload.title': 'Vertrag hochladen',
+  'upload.dragDrop': 'Ziehen Sie Ihren Vertrag hierher oder klicken Sie zum Durchsuchen',
+  'upload.supportedFormats': 'Unterstützte Formate: PDF, DOCX, TXT (max. 10MB)',
+  'upload.analyzing': 'Analysiere...',
+
 };

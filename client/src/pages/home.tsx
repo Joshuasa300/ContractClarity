@@ -112,10 +112,10 @@ export default function Home() {
         {/* Welcome Section */}
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-text-primary mb-2">
-            Welcome back, {user?.firstName || "there"}!
+            {t('home.welcome')}, {user?.firstName || "there"}!
           </h1>
           <p className="text-gray-600">
-            Upload and analyze your contracts with AI-powered insights
+            {t('dashboard.getStartedText')}
           </p>
         </div>
 
@@ -123,15 +123,15 @@ export default function Home() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
           <div className="bg-white p-6 rounded-lg border border-gray-200">
             <Upload className="h-12 w-12 text-secondary mx-auto mb-4" />
-            <h3 className="text-lg font-semibold text-text-primary mb-2">Upload & Analyze</h3>
-            <p className="text-gray-600 text-sm">Upload contracts for AI analysis below</p>
+            <h3 className="text-lg font-semibold text-text-primary mb-2">{t('dashboard.uploadContract')}</h3>
+            <p className="text-gray-600 text-sm">{t('dashboard.getStartedText')}</p>
           </div>
           
           <Link href="/clauses">
             <div className="bg-white p-6 rounded-lg border border-gray-200 hover:shadow-lg transition-shadow cursor-pointer">
               <Library className="h-12 w-12 text-accent mx-auto mb-4" />
-              <h3 className="text-lg font-semibold text-text-primary mb-2">Clause Library</h3>
-              <p className="text-gray-600 text-sm">Browse standardized contract clauses</p>
+              <h3 className="text-lg font-semibold text-text-primary mb-2">{t('dashboard.clauseLibrary')}</h3>
+              <p className="text-gray-600 text-sm">{t('clauses.description')}</p>
             </div>
           </Link>
         </div>
@@ -143,7 +143,7 @@ export default function Home() {
 
         {/* Recent Contracts */}
         <div>
-          <h2 className="text-2xl font-semibold text-text-primary mb-6">Your Contracts</h2>
+          <h2 className="text-2xl font-semibold text-text-primary mb-6">{t('home.yourContracts')}</h2>
           
           {contractsLoading ? (
             <div className="grid gap-4">
