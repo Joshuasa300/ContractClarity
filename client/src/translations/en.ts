@@ -112,6 +112,11 @@ export const en = {
   'templates.createContract': 'Create Contract',
   'templates.validationError': 'Validation Error',
   'templates.requiredFields': 'Please fill in all required fields',
+  'templates.download': 'Download',
+  'templates.generatedContracts': 'Generated Contracts',
+  'templates.generatedContractsDesc': 'Contracts created from templates are ready for download',
+  'templates.noGeneratedContracts': 'No Generated Contracts',
+  'templates.noGeneratedContractsDesc': 'Create contracts from templates above to see them here',
 
   // Clause Library
   'clauses.title': 'Clause Library',
