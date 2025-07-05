@@ -118,6 +118,7 @@ Changelog:
 - July 05, 2025. Implemented comprehensive contract download functionality for template-generated contracts with proper content display and download options
 - July 05, 2025. Improved NDA template grammar for better purpose clause readability and professional flow
 - July 05, 2025. Created separate output location for template-generated contracts with dedicated section on templates page
+- July 05, 2025. Added delete functionality with trash icons for both template contracts and analyzed contracts with database deletion
 
 ## User Preferences
 

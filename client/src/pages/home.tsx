@@ -2,14 +2,15 @@ import { useEffect } from "react";
 import { useAuth } from "@/hooks/useAuth";
 import { useToast } from "@/hooks/use-toast";
 import { useLanguage } from "@/lib/i18n";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { isUnauthorizedError } from "@/lib/authUtils";
+import { apiRequest } from "@/lib/queryClient";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
-import { FileText, Upload, Clock, CheckCircle, AlertCircle, LogOut, ChevronDown, ChevronUp, Library, Download, Eye } from "lucide-react";
+import { FileText, Upload, Clock, CheckCircle, AlertCircle, LogOut, ChevronDown, ChevronUp, Library, Download, Eye, Trash2 } from "lucide-react";
 import { useState } from "react";
 import { Link } from "wouter";
 import ContractUpload from "@/components/ContractUpload";
@@ -26,7 +27,46 @@ export default function Home() {
   const { toast } = useToast();
   const { user, isAuthenticated, isLoading } = useAuth();
   const { t } = useLanguage();
+  const queryClient = useQueryClient();
   const [expandedContracts, setExpandedContracts] = useState<Set<number>>(new Set());
+
+  const deleteContractMutation = useMutation({
+    mutationFn: async (contractId: number) => {
+      const response = await apiRequest("DELETE", `/api/contracts/${contractId}`);
+      return response;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/contracts"] });
+      toast({
+        title: "Contract Deleted",
+        description: "The contract has been permanently deleted.",
+      });
+    },
+    onError: (error) => {
+      if (isUnauthorizedError(error)) {
+        toast({
+          title: "Unauthorized",
+          description: "You are logged out. Logging in again...",
+          variant: "destructive",
+        });
+        setTimeout(() => {
+          window.location.href = "/api/login";
+        }, 500);
+        return;
+      }
+      toast({
+        title: "Delete Failed",
+        description: error instanceof Error ? error.message : "Failed to delete contract",
+        variant: "destructive",
+      });
+    },
+  });
+
+  const handleDeleteContract = (contractId: number) => {
+    if (window.confirm('Are you sure you want to delete this contract? This action cannot be undone.')) {
+      deleteContractMutation.mutate(contractId);
+    }
+  };
 
   const downloadContract = (contract: Contract) => {
     const blob = new Blob([contract.fileContent], { 
@@ -334,15 +374,26 @@ export default function Home() {
                             {/* Action Buttons */}
                             {contract.fileContent && (
                               <div className="pt-4 border-t border-gray-100">
-                                <Button 
-                                  variant="outline" 
-                                  size="sm" 
-                                  onClick={() => downloadContract(contract)}
-                                  className="w-full text-sm"
-                                >
-                                  <Download className="h-4 w-4 mr-2" />
-                                  Download
-                                </Button>
+                                <div className="flex gap-2">
+                                  <Button 
+                                    variant="outline" 
+                                    size="sm" 
+                                    onClick={() => downloadContract(contract)}
+                                    className="flex-1 text-sm bg-white text-black border hover:bg-gray-50"
+                                  >
+                                    <Download className="h-4 w-4 mr-2" />
+                                    Download
+                                  </Button>
+                                  <Button 
+                                    onClick={() => handleDeleteContract(contract.id)}
+                                    variant="destructive"
+                                    size="sm"
+                                    className="px-3"
+                                    disabled={deleteContractMutation.isPending}
+                                  >
+                                    <Trash2 className="h-4 w-4" />
+                                  </Button>
+                                </div>
                               </div>
                             )}
                           </div>
