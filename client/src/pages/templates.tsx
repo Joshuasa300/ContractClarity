@@ -119,13 +119,22 @@ export default function Templates() {
   };
 
   const handleCreateContract = () => {
-    if (!selectedTemplate || !fileName.trim()) return;
+    console.log("handleCreateContract called", { selectedTemplate: !!selectedTemplate, fileName, templateVariables });
+    
+    if (!selectedTemplate || !fileName.trim()) {
+      console.log("Validation failed: missing template or filename", { hasTemplate: !!selectedTemplate, fileName: fileName.trim() });
+      return;
+    }
 
     // Validate required fields
     const variables = selectedTemplate.variables as TemplateVariable[] || [];
+    console.log("Template variables:", variables);
+    
     const missingRequired = variables
       .filter(variable => variable.required && !templateVariables[variable.name]?.trim())
       .map(variable => variable.label);
+
+    console.log("Missing required fields:", missingRequired);
 
     if (missingRequired.length > 0) {
       toast({
@@ -135,6 +144,8 @@ export default function Templates() {
       });
       return;
     }
+
+    console.log("All validations passed, creating contract...");
 
     createContractMutation.mutate({
       templateId: selectedTemplate.id,
