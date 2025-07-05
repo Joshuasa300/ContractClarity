@@ -175,4 +175,8 @@ export const ar = {
   'error.networkError': 'خطأ في الشبكة',
   'error.unauthorized': 'غير مصرح',
   'error.serverError': 'خطأ في الخادم',
+
+  // Language selector
+  'language.title': 'اختيار اللغة',
+  'language.select': 'اختر اللغة',
 };
