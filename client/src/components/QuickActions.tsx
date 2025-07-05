@@ -29,7 +29,12 @@ export default function QuickActions() {
       href: "/templates",
       color: "bg-secondary hover:bg-secondary/90"
     },
-
+    {
+      icon: Library,
+      label: t('nav.clauses'),
+      href: "/clauses",
+      color: "bg-accent hover:bg-accent/90"
+    },
     {
       icon: Languages,
       label: t('language.title'),
