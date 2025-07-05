@@ -258,18 +258,19 @@ export default function Home() {
                                   (contract.templateId ? "Ready to View" : "Analysis Complete") : 
                                   "Processing"}
                               </span>
-                              {/* Delete button next to status */}
-                              <button
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  handleDeleteContract(contract.id);
-                                }}
-                                className="p-1 rounded-full hover:bg-red-50 transition-colors"
-                                disabled={deleteContractMutation.isPending}
-                              >
-                                <Trash2 className="h-4 w-4 text-red-500 hover:text-red-700" />
-                              </button>
                             </div>
+                            
+                            {/* Delete button next to status - outside the CollapsibleTrigger */}
+                            <button
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleDeleteContract(contract.id);
+                              }}
+                              className="hidden sm:flex p-1 rounded-full hover:bg-red-50 transition-colors"
+                              disabled={deleteContractMutation.isPending}
+                            >
+                              <Trash2 className="h-4 w-4 text-red-500 hover:text-red-700" />
+                            </button>
                             
                             {expandedContracts.has(contract.id) ? (
                               <ChevronUp className="h-4 w-4 sm:h-5 sm:w-5 text-gray-400" />

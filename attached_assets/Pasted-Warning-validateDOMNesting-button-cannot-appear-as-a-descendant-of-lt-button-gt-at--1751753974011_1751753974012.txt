@@ -1,0 +1,29 @@
+Warning: validateDOMNesting(...): <button> cannot appear as a descendant of &lt;button&gt;.
+    at button
+    at div
+    at div
+    at div
+    at button
+    at https://26811b83-55b5-4382-9cb9-c7f5ab803091-00-3nuieyomwrdly.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-PALV7G7K.js?v=507ddc47:42:13
+    at https://26811b83-55b5-4382-9cb9-c7f5ab803091-00-3nuieyomwrdly.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/@radix-ui_react-collapsible.js?v=507ddc47:81:13
+    at div
+    at https://26811b83-55b5-4382-9cb9-c7f5ab803091-00-3nuieyomwrdly.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-PALV7G7K.js?v=507ddc47:42:13
+    at Provider (https://26811b83-55b5-4382-9cb9-c7f5ab803091-00-3nuieyomwrdly.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-PLT6GTVM.js?v=507ddc47:38:15)
+    at https://26811b83-55b5-4382-9cb9-c7f5ab803091-00-3nuieyomwrdly.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/@radix-ui_react-collapsible.js?v=507ddc47:44:7
+    at div
+    at _c9 (https://26811b83-55b5-4382-9cb9-c7f5ab803091-00-3nuieyomwrdly.worf.replit.dev/src/components/ui/card.tsx:114:12)
+    at div
+    at _c (https://26811b83-55b5-4382-9cb9-c7f5ab803091-00-3nuieyomwrdly.worf.replit.dev/src/components/ui/card.tsx:20:11)
+    at div
+    at div
+    at div
+    at div
+    at Home (https://26811b83-55b5-4382-9cb9-c7f5ab803091-00-3nuieyomwrdly.worf.replit.dev/src/pages/home.tsx?t=1751753892012:39:21)
+    at Route (https://26811b83-55b5-4382-9cb9-c7f5ab803091-00-3nuieyomwrdly.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/wouter.js?v=507ddc47:323:16)
+    at Switch (https://26811b83-55b5-4382-9cb9-c7f5ab803091-00-3nuieyomwrdly.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/wouter.js?v=507ddc47:379:17)
+    at Router (https://26811b83-55b5-4382-9cb9-c7f5ab803091-00-3nuieyomwrdly.worf.replit.dev/src/App.tsx?t=1751753487498&v=oGtsJjjpIyKzVnPRblWz_:35:42)
+    at Provider (https://26811b83-55b5-4382-9cb9-c7f5ab803091-00-3nuieyomwrdly.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-PLT6GTVM.js?v=507ddc47:38:15)
+    at TooltipProvider (https://26811b83-55b5-4382-9cb9-c7f5ab803091-00-3nuieyomwrdly.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/@radix-ui_react-tooltip.js?v=507ddc47:61:5)
+    at LanguageProvider (https://26811b83-55b5-4382-9cb9-c7f5ab803091-00-3nuieyomwrdly.worf.replit.dev/src/contexts/LanguageContext.tsx:25:36)
+    at QueryClientProvider (https://26811b83-55b5-4382-9cb9-c7f5ab803091-00-3nuieyomwrdly.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/@tanstack_react-query.js?v=507ddc47:2805:3)
+    at App
