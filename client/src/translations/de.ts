@@ -146,4 +146,8 @@ export const de = {
   // Language Selector
   'language.title': 'Sprache',
   'language.select': 'Sprache auswählen',
+  'templates.fileName': 'Vertragsdateinamen',
+  'templates.fillDetails': 'Vertragsdetails ausfüllen',
+  'templates.createContract': 'Vertrag erstellen',
+
 };

@@ -146,4 +146,8 @@ export const ar = {
   // Language Selector
   'language.title': 'اللغة',
   'language.select': 'اختر اللغة',
+  'templates.fileName': 'اسم ملف العقد',
+  'templates.fillDetails': 'قم بملء تفاصيل العقد',
+  'templates.createContract': 'إنشاء عقد',
+
 };

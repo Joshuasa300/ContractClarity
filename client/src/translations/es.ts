@@ -106,6 +106,9 @@ export const es = {
   'templates.preview': 'Vista Previa',
   'templates.variables': 'Variables de Plantilla',
   'templates.generate': 'Generar Contrato',
+  'templates.fileName': 'Nombre del archivo de contrato',
+  'templates.fillDetails': 'Completar detalles del contrato',
+  'templates.createContract': 'Crear contrato',
 
   // Clause Library
   'clauses.title': 'Biblioteca de Cláusulas',
