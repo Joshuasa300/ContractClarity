@@ -116,6 +116,7 @@ Changelog:
 - July 05, 2025. Completed OpenAI-powered automatic translation system with GPT-4o integration for all pages, components, and user interface elements
 - July 05, 2025. Added Tenancy Agreement and Recording Contract templates with comprehensive variables and multi-language support
 - July 05, 2025. Implemented comprehensive contract download functionality for template-generated contracts with proper content display and download options
+- July 05, 2025. Improved NDA template grammar for better purpose clause readability and professional flow
 
 ## User Preferences
 
