@@ -440,6 +440,23 @@ export default function Templates() {
                 <CardContent className="pt-0">
                   <div className="flex gap-2">
                     <Button 
+                      onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        handleDeleteContract(contract.id);
+                      }}
+                      onMouseDown={(e) => {
+                        e.stopPropagation();
+                      }}
+                      variant="destructive"
+                      size="sm"
+                      className="px-3"
+                      disabled={deleteContractMutation.isPending}
+                      type="button"
+                    >
+                      <Trash2 className="h-4 w-4" />
+                    </Button>
+                    <Button 
                       onClick={() => downloadContract(contract)}
                       className="flex-1 bg-white text-black border hover:bg-gray-50"
                       size="sm"
