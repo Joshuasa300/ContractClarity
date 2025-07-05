@@ -426,6 +426,32 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Content translation endpoint for dynamic content (templates, clauses, etc.)
+  app.post('/api/translate-content', async (req, res) => {
+    try {
+      const { text, targetLanguage, context } = req.body;
+      
+      if (!text || !targetLanguage) {
+        return res.status(400).json({ error: 'Text and targetLanguage are required' });
+      }
+
+      if (targetLanguage === 'en') {
+        return res.json({ translatedText: text });
+      }
+
+      const result = await translateText({
+        text,
+        targetLanguage: targetLanguage as 'es' | 'ar' | 'de' | 'fr',
+        context: context || 'legal/business content'
+      });
+
+      res.json({ translatedText: result.translatedText });
+    } catch (error) {
+      console.error('Content translation error:', error);
+      res.status(500).json({ error: 'Translation failed' });
+    }
+  });
+
   const httpServer = createServer(app);
   return httpServer;
 }

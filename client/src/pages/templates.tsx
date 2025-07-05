@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/hooks/useAuth";
@@ -24,15 +24,18 @@ import { useLocation } from "wouter";
 import type { ContractTemplate, TemplateVariable } from "@shared/schema";
 import Header from "@/components/Header";
 import { useLanguage } from "@/lib/i18n";
+import { useContentTranslation } from "../hooks/useContentTranslation";
 
 export default function Templates() {
   const { toast } = useToast();
   const { user, isAuthenticated, isLoading: authLoading } = useAuth();
   const [, setLocation] = useLocation();
   const { t } = useLanguage();
+  const { translateArray, language } = useContentTranslation();
   const queryClient = useQueryClient();
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
   const [selectedTemplate, setSelectedTemplate] = useState<ContractTemplate | null>(null);
+  const [translatedTemplates, setTranslatedTemplates] = useState<ContractTemplate[]>([]);
   const [templateVariables, setTemplateVariables] = useState<Record<string, string>>({});
   const [fileName, setFileName] = useState("");
 
@@ -46,6 +49,15 @@ export default function Templates() {
     queryKey: ["/api/templates"],
     retry: false,
   });
+
+  // Translate templates when language changes
+  useEffect(() => {
+    if (templates.length > 0) {
+      translateArray(templates, ['name', 'description'], 'contract template metadata')
+        .then(setTranslatedTemplates)
+        .catch(() => setTranslatedTemplates(templates));
+    }
+  }, [templates, language, translateArray]);
 
   const createContractMutation = useMutation({
     mutationFn: async (data: { templateId: number; variables: Record<string, string>; fileName: string }) => {
@@ -85,9 +97,10 @@ export default function Templates() {
   });
 
   const categories = ["all", ...Array.from(new Set(templates.map(t => t.category)))];
+  const currentTemplates = translatedTemplates.length > 0 ? translatedTemplates : templates;
   const filteredTemplates = selectedCategory === "all" 
-    ? templates 
-    : templates.filter(t => t.category === selectedCategory);
+    ? currentTemplates 
+    : currentTemplates.filter(t => t.category === selectedCategory);
 
   const handleTemplateSelect = (template: ContractTemplate) => {
     setSelectedTemplate(template);
