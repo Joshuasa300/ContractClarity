@@ -41,6 +41,7 @@ export default function Templates() {
   const [selectedTemplate, setSelectedTemplate] = useState<ContractTemplate | null>(null);
   const [templateVariables, setTemplateVariables] = useState<Record<string, string>>({});
   const [fileName, setFileName] = useState("");
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   // Redirect if not authenticated
   if (!authLoading && !isAuthenticated) {
@@ -83,6 +84,7 @@ export default function Templates() {
       setSelectedTemplate(null);
       setTemplateVariables({});
       setFileName("");
+      setIsDialogOpen(false); // Close the dialog
       // Stay on templates page to show the new contract
     },
     onError: (error) => {
@@ -322,11 +324,14 @@ export default function Templates() {
               <p className="text-sm text-gray-600">{template.description}</p>
             </CardHeader>
             <CardContent>
-              <Dialog>
+              <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
                 <DialogTrigger asChild>
                   <Button 
                     className="w-full" 
-                    onClick={() => handleTemplateSelect(template)}
+                    onClick={() => {
+                      handleTemplateSelect(template);
+                      setIsDialogOpen(true);
+                    }}
                   >
 {t('templates.useTemplate')} <ChevronRight className="h-4 w-4 ml-2" />
                   </Button>
@@ -362,9 +367,12 @@ export default function Templates() {
                       </div>
 
                       <div className="flex justify-end space-x-3">
-                        <DialogTrigger asChild>
-                          <Button variant="outline">{t('common.cancel')}</Button>
-                        </DialogTrigger>
+                        <Button 
+                          variant="outline" 
+                          onClick={() => setIsDialogOpen(false)}
+                        >
+                          {t('common.cancel')}
+                        </Button>
                         <Button 
                           onClick={handleCreateContract}
                           disabled={createContractMutation.isPending || !fileName.trim() || !selectedTemplate}
