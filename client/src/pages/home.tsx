@@ -258,6 +258,17 @@ export default function Home() {
                                   (contract.templateId ? "Ready to View" : "Analysis Complete") : 
                                   "Processing"}
                               </span>
+                              {/* Delete button next to status */}
+                              <button
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  handleDeleteContract(contract.id);
+                                }}
+                                className="p-1 rounded-full hover:bg-red-50 transition-colors"
+                                disabled={deleteContractMutation.isPending}
+                              >
+                                <Trash2 className="h-4 w-4 text-red-500 hover:text-red-700" />
+                              </button>
                             </div>
                             
                             {expandedContracts.has(contract.id) ? (
