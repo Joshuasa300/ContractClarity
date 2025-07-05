@@ -1,6 +1,6 @@
 
 import { useState } from "react";
-import { Plus, Upload, FileText, Library, X } from "lucide-react";
+import { Plus, Upload, FileText, Library, Languages, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { Link } from "wouter";
@@ -32,6 +32,12 @@ export default function QuickActions() {
       label: "Clauses",
       href: "/clauses",
       color: "bg-accent hover:bg-accent/90"
+    },
+    {
+      icon: Languages,
+      label: "Translation Helper",
+      href: "/translation-helper",
+      color: "bg-green-600 hover:bg-green-700"
     }
   ];
 

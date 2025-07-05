@@ -4,6 +4,7 @@ import { storage } from "./storage";
 import { setupAuth } from "./auth";
 import { insertContractSchema } from "@shared/schema";
 import { processContractAnalysis } from "./services/contractAnalysis";
+import { translateText, translateToAllLanguages, translateObjectToAllLanguages } from "./services/translationService";
 import multer from "multer";
 import { z } from "zod";
 // PDF2JSON for reliable PDF text extraction
@@ -314,6 +315,62 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error("Error fetching clause:", error);
       res.status(500).json({ message: "Failed to fetch clause" });
+    }
+  });
+
+  // Translation API routes for automatic translation
+  app.post('/api/translate/text', isAuthenticated, async (req: any, res) => {
+    try {
+      const { text, targetLanguage, context } = req.body;
+      
+      if (!text || !targetLanguage) {
+        return res.status(400).json({ message: "Text and target language are required" });
+      }
+
+      if (!['es', 'ar', 'de', 'fr'].includes(targetLanguage)) {
+        return res.status(400).json({ message: "Invalid target language" });
+      }
+
+      const translation = await translateText({ text, targetLanguage, context });
+      res.json(translation);
+    } catch (error) {
+      console.error("Translation error:", error);
+      const errorMessage = error instanceof Error ? error.message : 'Translation failed';
+      res.status(500).json({ message: errorMessage });
+    }
+  });
+
+  app.post('/api/translate/batch', isAuthenticated, async (req: any, res) => {
+    try {
+      const { text, context } = req.body;
+      
+      if (!text) {
+        return res.status(400).json({ message: "Text is required" });
+      }
+
+      const translations = await translateToAllLanguages(text, context);
+      res.json(translations);
+    } catch (error) {
+      console.error("Batch translation error:", error);
+      const errorMessage = error instanceof Error ? error.message : 'Batch translation failed';
+      res.status(500).json({ message: errorMessage });
+    }
+  });
+
+  app.post('/api/translate/object', isAuthenticated, async (req: any, res) => {
+    try {
+      const { englishObject, context } = req.body;
+      
+      if (!englishObject || typeof englishObject !== 'object') {
+        return res.status(400).json({ message: "English object is required" });
+      }
+
+      const translations = await translateObjectToAllLanguages(englishObject, context);
+      res.json(translations);
+    } catch (error) {
+      console.error("Object translation error:", error);
+      const errorMessage = error instanceof Error ? error.message : 'Object translation failed';
+      res.status(500).json({ message: errorMessage });
     }
   });
 
