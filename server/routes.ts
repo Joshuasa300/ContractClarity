@@ -5,6 +5,7 @@ import { setupAuth } from "./auth";
 import { insertContractSchema } from "@shared/schema";
 import { processContractAnalysis } from "./services/contractAnalysis";
 import { translateText, translateToAllLanguages, translateObjectToAllLanguages } from "./services/translationService";
+import { translationSyncService } from "./services/translationSync";
 import multer from "multer";
 import { z } from "zod";
 // PDF2JSON for reliable PDF text extraction
@@ -370,6 +371,57 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error("Object translation error:", error);
       const errorMessage = error instanceof Error ? error.message : 'Object translation failed';
+      res.status(500).json({ message: errorMessage });
+    }
+  });
+
+  // Translation sync API routes
+  app.get('/api/translations/sync-status', isAuthenticated, async (req: any, res) => {
+    try {
+      const reports = await translationSyncService.detectOutOfSyncTranslations();
+      
+      const summary = {
+        totalLanguages: reports.length,
+        languagesNeedingSync: reports.filter(r => r.missingKeys.length > 0).length,
+        totalMissingKeys: reports.reduce((sum, r) => sum + r.missingKeys.length, 0),
+        reports: reports.map(r => ({
+          language: r.language,
+          missingKeysCount: r.missingKeys.length,
+          missingKeys: r.missingKeys
+        }))
+      };
+
+      res.json(summary);
+    } catch (error) {
+      console.error("Sync status error:", error);
+      const errorMessage = error instanceof Error ? error.message : 'Failed to check sync status';
+      res.status(500).json({ message: errorMessage });
+    }
+  });
+
+  app.post('/api/translations/auto-sync', isAuthenticated, async (req: any, res) => {
+    try {
+      const result = await translationSyncService.autoSyncAllLanguages();
+      
+      if (result.success) {
+        res.json({
+          success: true,
+          message: 'All languages synchronized successfully',
+          reports: result.reports.map(r => ({
+            language: r.language,
+            updatedKeysCount: Object.keys(r.newTranslations).length,
+            updatedKeys: Object.keys(r.newTranslations)
+          }))
+        });
+      } else {
+        res.status(500).json({
+          success: false,
+          message: 'Synchronization failed'
+        });
+      }
+    } catch (error) {
+      console.error("Auto-sync error:", error);
+      const errorMessage = error instanceof Error ? error.message : 'Auto-sync failed';
       res.status(500).json({ message: errorMessage });
     }
   });
