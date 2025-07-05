@@ -133,22 +133,7 @@ export default function Home() {
           </p>
         </div>
 
-        {/* Quick Actions */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-          <div className="bg-white p-6 rounded-lg border border-gray-200">
-            <Upload className="h-12 w-12 text-secondary mx-auto mb-4" />
-            <h3 className="text-lg font-semibold text-text-primary mb-2">{t('dashboard.uploadContract')}</h3>
-            <p className="text-gray-600 text-sm">{t('dashboard.getStartedText')}</p>
-          </div>
-          
-          <Link href="/clauses">
-            <div className="bg-white p-6 rounded-lg border border-gray-200 hover:shadow-lg transition-shadow cursor-pointer">
-              <Library className="h-12 w-12 text-accent mx-auto mb-4" />
-              <h3 className="text-lg font-semibold text-text-primary mb-2">{t('dashboard.clauseLibrary')}</h3>
-              <p className="text-gray-600 text-sm">{t('clauses.description')}</p>
-            </div>
-          </Link>
-        </div>
+
 
         {/* Upload Section */}
         <div className="mb-8" data-upload-section>
