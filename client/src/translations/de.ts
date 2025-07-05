@@ -6,6 +6,14 @@ export const de = {
   'landing.hero.subtitle': 'Erhalten Sie sofortige Einblicke, Risikobewertungen und Empfehlungen für Ihre Rechtsdokumente',
   'landing.getStarted': 'Loslegen',
   'landing.learnMore': 'Mehr erfahren',
+  'landing.titleHighlight': 'KI',
+  'landing.uploadContract': 'Vertrag hochladen',
+  'landing.seeDemo': 'Demo ansehen',
+  'landing.whyChoose': 'Warum ContractAI wählen?',
+  'landing.whyChooseDesc': 'Unsere KI-gestützte Plattform verwandelt komplexe Vertragsanalysen in klare, umsetzbare Erkenntnisse',
+  'landing.cta.title': 'Bereit, Ihre Verträge zu vereinfachen?',
+  'landing.cta.subtitle': 'Treten Sie Tausenden von Fachleuten bei, die ContractAI vertrauen',
+  'landing.cta.button': 'Kostenlos starten',
   
   // Features
   'landing.features.analysis': 'Intelligente Analyse',
@@ -14,6 +22,11 @@ export const de = {
   'landing.features.riskDesc': 'Identifizieren Sie potenzielle Risiken und erhalten Sie umsetzbare Empfehlungen',
   'landing.features.templates': 'Vorlagen-Bibliothek',
   'landing.features.templatesDesc': 'Zugriff auf vorgefertigte Vertragsvorlagen für gängige Szenarien',
+  'landing.features.aiTitle': 'KI-gestützte Analyse',
+  'landing.features.aiDesc': 'Unsere fortschrittliche KI versteht komplexe Rechtssprache und liefert klare Erkenntnisse',
+  'landing.features.riskTitle': 'Umfassende Risikobewertung',
+  'landing.features.instantTitle': 'Sofortige Ergebnisse',
+  'landing.features.instantDesc': 'Erhalten Sie vollständige Analysen in Sekunden, nicht in Stunden',
 
   // Auth
   'auth.signIn': 'Anmelden',
@@ -29,16 +42,64 @@ export const de = {
   'auth.signInWith': 'Anmelden mit',
   'auth.or': 'oder',
   'auth.continue': 'Weiter',
+  'auth.signInWithGoogle': 'Mit Google anmelden',
+  'auth.createAccount': 'Konto erstellen',
+  'auth.alreadyHaveAccount': 'Haben Sie bereits ein Konto?',
+  'auth.dontHaveAccount': 'Haben Sie noch kein Konto?',
+  'auth.signInHere': 'Hier anmelden',
+  'auth.signUpHere': 'Hier registrieren',
 
   // Navigation
   'nav.home': 'Startseite',
   'nav.templates': 'Vorlagen',
   'nav.clauses': 'Klauseln',
   'nav.logout': 'Abmelden',
+  'nav.contracts': 'Verträge',
+  'nav.signIn': 'Anmelden',
+  'nav.signOut': 'Abmelden',
+  'nav.getStarted': 'Loslegen',
+  'nav.signUp': 'Registrieren',
 
   // Home/Dashboard
   'home.welcome': 'Willkommen',
   'home.yourContracts': 'Ihre Verträge',
+  'home.noContracts': 'Keine Verträge gefunden',
+  'home.uploadFirst': 'Laden Sie Ihren ersten Vertrag hoch, um zu beginnen',
+  'home.analysisComplete': 'Analyse abgeschlossen',
+  'home.analysisInProgress': 'Analyse läuft',
+  'home.viewAnalysis': 'Analyse anzeigen',
+
+  // Footer
+  'footer.description': 'Vereinfachen Sie Vertragsanalysen mit KI',
+  'footer.product': 'Produkt',
+  'footer.features': 'Funktionen',
+  'footer.pricing': 'Preise',
+  'footer.security': 'Sicherheit',
+  'footer.support': 'Support',
+  'footer.helpCenter': 'Hilfezentrum',
+  'footer.contact': 'Kontakt',
+  'footer.privacyPolicy': 'Datenschutzerklärung',
+  'footer.termsOfService': 'Nutzungsbedingungen',
+  'footer.copyright': 'Alle Rechte vorbehalten',
+
+  // Upload
+  'upload.uploadAnother': 'Weitere hochladen',
+
+  // Analysis
+  'analysis.summary': 'Zusammenfassung',
+  'analysis.riskAssessment': 'Risikobewertung',
+  'analysis.keyTerms': 'Schlüsselbegriffe',
+  'analysis.recommendations': 'Empfehlungen',
+  'analysis.highRisk': 'Hohes Risiko',
+  'analysis.mediumRisk': 'Mittleres Risiko',
+  'analysis.lowRisk': 'Niedriges Risiko',
+
+  // Common
+  'common.view': 'Anzeigen',
+  'common.download': 'Herunterladen',
+  'common.upload': 'Hochladen',
+  'common.search': 'Suchen',
+  'common.filter': 'Filter',
 
   // Templates
   'templates.title': 'Vertragsvorlagen',
@@ -56,6 +117,14 @@ export const de = {
   'templates.createContract': 'Vertrag erstellen',
   'templates.validationError': 'Validierungsfehler',
   'templates.requiredFields': 'Bitte füllen Sie alle erforderlichen Felder aus',
+  'templates.preview': 'Vorschau',
+  'templates.variables': 'Variablen',
+  'templates.generate': 'Generieren',
+  'templates.download': 'Herunterladen',
+  'templates.generatedContracts': 'Generierte Verträge',
+  'templates.generatedContractsDesc': 'Aus Vorlagen erstellte Verträge',
+  'templates.noGeneratedContracts': 'Keine generierten Verträge',
+  'templates.noGeneratedContractsDesc': 'Verwenden Sie unsere Vorlagen, um Verträge zu erstellen',
 
   // Clauses
   'clauses.title': 'Klausel-Bibliothek',

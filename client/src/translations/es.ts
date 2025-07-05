@@ -6,6 +6,14 @@ export const es = {
   'landing.hero.subtitle': 'Obtén insights instantáneos, evaluaciones de riesgo y recomendaciones para tus documentos legales',
   'landing.getStarted': 'Comenzar',
   'landing.learnMore': 'Saber más',
+  'landing.titleHighlight': 'IA',
+  'landing.uploadContract': 'Subir contrato',
+  'landing.seeDemo': 'Ver demo',
+  'landing.whyChoose': '¿Por qué elegir ContractAI?',
+  'landing.whyChooseDesc': 'Nuestra plataforma impulsada por IA transforma el análisis complejo de contratos en insights claros y accionables',
+  'landing.cta.title': '¿Listo para simplificar tus contratos?',
+  'landing.cta.subtitle': 'Únete a miles de profesionales que confían en ContractAI',
+  'landing.cta.button': 'Comenzar gratis',
   
   // Features
   'landing.features.analysis': 'Análisis Inteligente',
@@ -14,6 +22,11 @@ export const es = {
   'landing.features.riskDesc': 'Identifica riesgos potenciales y obtén recomendaciones accionables',
   'landing.features.templates': 'Biblioteca de Plantillas',
   'landing.features.templatesDesc': 'Accede a plantillas de contratos preconstruidas para escenarios comunes',
+  'landing.features.aiTitle': 'Análisis impulsado por IA',
+  'landing.features.aiDesc': 'Nuestra IA avanzada comprende el lenguaje legal complejo y proporciona insights claros',
+  'landing.features.riskTitle': 'Evaluación integral de riesgos',
+  'landing.features.instantTitle': 'Resultados instantáneos',
+  'landing.features.instantDesc': 'Obtén análisis completos en segundos, no en horas',
 
   // Auth
   'auth.signIn': 'Iniciar Sesión',
@@ -29,16 +42,64 @@ export const es = {
   'auth.signInWith': 'Iniciar sesión con',
   'auth.or': 'o',
   'auth.continue': 'Continuar',
+  'auth.signInWithGoogle': 'Iniciar sesión con Google',
+  'auth.createAccount': 'Crear cuenta',
+  'auth.alreadyHaveAccount': '¿Ya tienes una cuenta?',
+  'auth.dontHaveAccount': '¿No tienes una cuenta?',
+  'auth.signInHere': 'Inicia sesión aquí',
+  'auth.signUpHere': 'Regístrate aquí',
 
   // Navigation
   'nav.home': 'Inicio',
   'nav.templates': 'Plantillas',
   'nav.clauses': 'Cláusulas',
   'nav.logout': 'Cerrar Sesión',
+  'nav.contracts': 'Contratos',
+  'nav.signIn': 'Iniciar Sesión',
+  'nav.signOut': 'Cerrar Sesión',
+  'nav.getStarted': 'Comenzar',
+  'nav.signUp': 'Registrarse',
 
   // Home/Dashboard
   'home.welcome': 'Bienvenido',
   'home.yourContracts': 'Tus Contratos',
+  'home.noContracts': 'No se encontraron contratos',
+  'home.uploadFirst': 'Sube tu primer contrato para comenzar',
+  'home.analysisComplete': 'Análisis completo',
+  'home.analysisInProgress': 'Análisis en progreso',
+  'home.viewAnalysis': 'Ver análisis',
+
+  // Footer
+  'footer.description': 'Simplifica el análisis de contratos con IA',
+  'footer.product': 'Producto',
+  'footer.features': 'Características',
+  'footer.pricing': 'Precios',
+  'footer.security': 'Seguridad',
+  'footer.support': 'Soporte',
+  'footer.helpCenter': 'Centro de ayuda',
+  'footer.contact': 'Contacto',
+  'footer.privacyPolicy': 'Política de privacidad',
+  'footer.termsOfService': 'Términos de servicio',
+  'footer.copyright': 'Todos los derechos reservados',
+
+  // Upload
+  'upload.uploadAnother': 'Subir otro',
+
+  // Analysis
+  'analysis.summary': 'Resumen',
+  'analysis.riskAssessment': 'Evaluación de riesgos',
+  'analysis.keyTerms': 'Términos clave',
+  'analysis.recommendations': 'Recomendaciones',
+  'analysis.highRisk': 'Riesgo alto',
+  'analysis.mediumRisk': 'Riesgo medio',
+  'analysis.lowRisk': 'Riesgo bajo',
+
+  // Common
+  'common.view': 'Ver',
+  'common.download': 'Descargar',
+  'common.upload': 'Subir',
+  'common.search': 'Buscar',
+  'common.filter': 'Filtrar',
 
   // Templates
   'templates.title': 'Plantillas de Contratos',
@@ -56,6 +117,14 @@ export const es = {
   'templates.createContract': 'Crear contrato',
   'templates.validationError': 'Error de Validación',
   'templates.requiredFields': 'Por favor complete todos los campos requeridos',
+  'templates.preview': 'Vista previa',
+  'templates.variables': 'Variables',
+  'templates.generate': 'Generar',
+  'templates.download': 'Descargar',
+  'templates.generatedContracts': 'Contratos generados',
+  'templates.generatedContractsDesc': 'Contratos creados a partir de plantillas',
+  'templates.noGeneratedContracts': 'No hay contratos generados',
+  'templates.noGeneratedContractsDesc': 'Usa nuestras plantillas para crear contratos',
 
   // Clauses
   'clauses.title': 'Biblioteca de Cláusulas',

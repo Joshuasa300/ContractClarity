@@ -6,7 +6,15 @@ export const ar = {
   'landing.hero.subtitle': 'احصل على رؤى فورية وتقييمات المخاطر والتوصيات لوثائقك القانونية',
   'landing.getStarted': 'ابدأ',
   'landing.learnMore': 'تعرف على المزيد',
-  
+  'landing.titleHighlight': 'الذكاء الاصطناعي',
+  'landing.uploadContract': 'رفع عقد',
+  'landing.seeDemo': 'مشاهدة العرض التوضيحي',
+  'landing.whyChoose': 'لماذا تختار ContractAI؟',
+  'landing.whyChooseDesc': 'منصتنا المدعومة بالذكاء الاصطناعي تحول تحليل العقود المعقد إلى رؤى واضحة وقابلة للتنفيذ',
+  'landing.cta.title': 'هل أنت مستعد لتبسيط عقودك؟',
+  'landing.cta.subtitle': 'انضم إلى آلاف المهنيين الذين يثقون في ContractAI',
+  'landing.cta.button': 'ابدأ مجاناً',
+
   // Features
   'landing.features.analysis': 'تحليل ذكي',
   'landing.features.analysisDesc': 'احصل على تحليل شامل للعقود مع رؤى مدعومة بالذكاء الاصطناعي',
@@ -14,6 +22,11 @@ export const ar = {
   'landing.features.riskDesc': 'حدد المخاطر المحتملة واحصل على توصيات قابلة للتنفيذ',
   'landing.features.templates': 'مكتبة القوالب',
   'landing.features.templatesDesc': 'الوصول إلى قوالب العقود المُعدة مسبقاً للسيناريوهات الشائعة',
+  'landing.features.aiTitle': 'تحليل مدعوم بالذكاء الاصطناعي',
+  'landing.features.aiDesc': 'ذكاؤنا الاصطناعي المتقدم يفهم اللغة القانونية المعقدة ويقدم رؤى واضحة',
+  'landing.features.riskTitle': 'تقييم شامل للمخاطر',
+  'landing.features.instantTitle': 'نتائج فورية',
+  'landing.features.instantDesc': 'احصل على تحليل كامل في ثوانٍ، وليس في ساعات',
 
   // Auth
   'auth.signIn': 'تسجيل الدخول',
@@ -29,16 +42,57 @@ export const ar = {
   'auth.signInWith': 'تسجيل الدخول باستخدام',
   'auth.or': 'أو',
   'auth.continue': 'متابعة',
+  'auth.signInWithGoogle': 'تسجيل الدخول بواسطة Google',
+  'auth.createAccount': 'إنشاء حساب',
+  'auth.alreadyHaveAccount': 'هل لديك حساب بالفعل؟',
+  'auth.dontHaveAccount': 'ليس لديك حساب؟',
+  'auth.signInHere': 'سجل الدخول هنا',
+  'auth.signUpHere': 'سجل هنا',
 
   // Navigation
   'nav.home': 'الرئيسية',
   'nav.templates': 'القوالب',
   'nav.clauses': 'البنود',
   'nav.logout': 'تسجيل الخروج',
+  'nav.contracts': 'العقود',
+  'nav.signIn': 'تسجيل الدخول',
+  'nav.signOut': 'تسجيل الخروج',
+  'nav.getStarted': 'ابدأ',
+  'nav.signUp': 'إنشاء حساب',
 
   // Home/Dashboard
   'home.welcome': 'مرحباً',
   'home.yourContracts': 'عقودك',
+  'home.noContracts': 'لم يتم العثور على عقود',
+  'home.uploadFirst': 'ارفع عقدك الأول للبدء',
+  'home.analysisComplete': 'التحليل مكتمل',
+  'home.analysisInProgress': 'التحليل جاري',
+  'home.viewAnalysis': 'عرض التحليل',
+
+  // Footer
+  'footer.description': 'تبسيط تحليل العقود بالذكاء الاصطناعي',
+  'footer.product': 'المنتج',
+  'footer.features': 'الميزات',
+  'footer.pricing': 'الأسعار',
+  'footer.security': 'الأمان',
+  'footer.support': 'الدعم',
+  'footer.helpCenter': 'مركز المساعدة',
+  'footer.contact': 'اتصل بنا',
+  'footer.privacyPolicy': 'سياسة الخصوصية',
+  'footer.termsOfService': 'شروط الخدمة',
+  'footer.copyright': 'جميع الحقوق محفوظة',
+
+  // Upload
+  'upload.uploadAnother': 'رفع آخر',
+
+  // Analysis
+  'analysis.summary': 'ملخص',
+  'analysis.riskAssessment': 'تقييم المخاطر',
+  'analysis.keyTerms': 'المصطلحات الرئيسية',
+  'analysis.recommendations': 'التوصيات',
+  'analysis.highRisk': 'خطر عالي',
+  'analysis.mediumRisk': 'خطر متوسط',
+  'analysis.lowRisk': 'خطر منخفض',
 
   // Templates
   'templates.title': 'قوالب العقود',
@@ -52,28 +106,36 @@ export const ar = {
   'templates.rental': 'الإيجار',
   'templates.partnership': 'الشراكة',
   'templates.fileName': 'اسم ملف العقد',
-  'templates.fillDetails': 'قم بملء تفاصيل العقد',
-  'templates.createContract': 'إنشاء عقد',
+  'templates.fillDetails': 'املأ تفاصيل العقد',
+  'templates.createContract': 'إنشاء العقد',
   'templates.validationError': 'خطأ في التحقق',
   'templates.requiredFields': 'يرجى ملء جميع الحقول المطلوبة',
+  'templates.preview': 'معاينة',
+  'templates.variables': 'المتغيرات',
+  'templates.generate': 'إنشاء',
+  'templates.download': 'تحميل',
+  'templates.generatedContracts': 'العقود المُنشأة',
+  'templates.generatedContractsDesc': 'العقود المُنشأة من القوالب',
+  'templates.noGeneratedContracts': 'لا توجد عقود مُنشأة',
+  'templates.noGeneratedContractsDesc': 'استخدم قوالبنا لإنشاء عقود',
 
   // Clauses
   'clauses.title': 'مكتبة البنود',
   'clauses.description': 'تصفح وابحث في مكتبتنا الشاملة للبنود',
-  'clauses.search': 'البحث في البنود...',
+  'clauses.search': 'البحث عن بنود...',
   'clauses.category': 'الفئة',
   'clauses.allCategories': 'جميع الفئات',
-  'clauses.riskLevel': 'مستوى المخاطر',
+  'clauses.riskLevel': 'مستوى الخطر',
   'clauses.copyClause': 'نسخ البند',
 
   // Dashboard
-  'dashboard.recentContracts': 'العقود الحديثة',
-  'dashboard.quickActions': 'إجراءات سريعة',
+  'dashboard.recentContracts': 'العقود الأخيرة',
+  'dashboard.quickActions': 'الإجراءات السريعة',
   'dashboard.uploadContract': 'رفع عقد',
   'dashboard.browseTemplates': 'تصفح القوالب',
   'dashboard.clauseLibrary': 'مكتبة البنود',
-  'dashboard.noContracts': 'لم يتم رفع أي عقود بعد',
-  'dashboard.getStartedText': 'ارفع عقدك الأول للبدء بالتحليل المدعوم بالذكاء الاصطناعي',
+  'dashboard.noContracts': 'لم ترفع أي عقود بعد',
+  'dashboard.getStartedText': 'ارفع عقدك الأول للبدء مع التحليل المدعوم بالذكاء الاصطناعي',
 
   // Common
   'common.loading': 'جاري التحميل...',
@@ -84,17 +146,33 @@ export const ar = {
   'common.delete': 'حذف',
   'common.edit': 'تعديل',
   'common.close': 'إغلاق',
-  'common.back': 'رجوع',
+  'common.back': 'العودة',
   'common.next': 'التالي',
   'common.previous': 'السابق',
+  'common.view': 'عرض',
+  'common.download': 'تحميل',
+  'common.upload': 'رفع',
+  'common.search': 'بحث',
+  'common.filter': 'تصفية',
 
-  // Language Selector
-  'language.title': 'اللغة',
-  'language.select': 'اختر اللغة',
-
-  // Upload
-  'upload.title': 'رفع العقد',
-  'upload.dragDrop': 'اسحب وأسقط عقدك هنا، أو انقر للتصفح',
-  'upload.supportedFormats': 'الصيغ المدعومة: PDF، DOCX، TXT (حد أقصى 10 ميجابايت)',
+  // Contract Upload
+  'upload.title': 'رفع عقد',
+  'upload.description': 'ارفع عقدك للحصول على تحليل مدعوم بالذكاء الاصطناعي',
+  'upload.dragDrop': 'اسحب وأسقط ملفك هنا أو',
+  'upload.browse': 'تصفح الملفات',
+  'upload.supportedFormats': 'التنسيقات المدعومة: PDF، DOC، DOCX، TXT',
+  'upload.uploading': 'جاري الرفع...',
   'upload.analyzing': 'جاري التحليل...',
+  'upload.complete': 'اكتمل الرفع',
+  'upload.error': 'خطأ في الرفع',
+  'upload.retry': 'إعادة المحاولة',
+
+  // Error Messages
+  'error.fileSize': 'حجم الملف كبير جداً (الحد الأقصى 10 ميجابايت)',
+  'error.fileType': 'نوع ملف غير مدعوم',
+  'error.uploadFailed': 'فشل رفع الملف',
+  'error.analysisFailed': 'فشل تحليل العقد',
+  'error.networkError': 'خطأ في الشبكة',
+  'error.unauthorized': 'غير مصرح',
+  'error.serverError': 'خطأ في الخادم',
 };
