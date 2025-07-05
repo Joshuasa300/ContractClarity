@@ -333,25 +333,19 @@ export default function Home() {
                             )}
 
                             {/* Action Buttons */}
-                            <div className="flex gap-3 pt-4 border-t border-gray-100">
-                              <Link href={`/analysis/${contract.id}`}>
-                                <Button variant="outline" size="sm" className="flex-1">
-                                  <Eye className="h-4 w-4 mr-2" />
-                                  View Details
-                                </Button>
-                              </Link>
-                              {contract.fileContent && (
+                            {contract.fileContent && (
+                              <div className="pt-4 border-t border-gray-100">
                                 <Button 
                                   variant="outline" 
                                   size="sm" 
                                   onClick={() => downloadContract(contract)}
-                                  className="flex-1"
+                                  className="w-full"
                                 >
                                   <Download className="h-4 w-4 mr-2" />
                                   Download
                                 </Button>
-                              )}
-                            </div>
+                              </div>
+                            )}
                           </div>
                         ) : (
                           <div className="px-6 pb-6 border-t border-gray-100">
