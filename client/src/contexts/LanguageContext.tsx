@@ -19,6 +19,12 @@ export function LanguageProvider({ children }: LanguageProviderProps) {
   const t = (key: string): string => {
     const translation = translations[language];
     
+    // First try to get the key directly (for flat dot-notation keys)
+    if (key in translation) {
+      const directResult = translation[key];
+      return typeof directResult === 'string' ? directResult : key;
+    }
+    
     // Handle nested keys like 'nav.signIn'
     const keys = key.split('.');
     let result: any = translation;
@@ -30,8 +36,15 @@ export function LanguageProvider({ children }: LanguageProviderProps) {
         // Fallback to English if not found in current language
         if (language !== 'en') {
           const englishTranslation = translations.en;
-          let englishResult: any = englishTranslation;
           
+          // Try direct key first in English
+          if (key in englishTranslation) {
+            const directEnglishResult = englishTranslation[key];
+            return typeof directEnglishResult === 'string' ? directEnglishResult : key;
+          }
+          
+          // Try nested approach in English
+          let englishResult: any = englishTranslation;
           for (const k of keys) {
             if (englishResult && typeof englishResult === 'object' && k in englishResult) {
               englishResult = englishResult[k];
