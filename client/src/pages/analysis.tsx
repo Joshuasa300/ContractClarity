@@ -90,6 +90,22 @@ export default function Analysis() {
     URL.revokeObjectURL(url);
   };
 
+  const handleDownloadContract = () => {
+    if (!contract) return;
+    
+    const blob = new Blob([contract.fileContent], { 
+      type: 'text/plain' 
+    });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${contract.fileName}.txt`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  };
+
   if (isLoading || contractLoading) {
     return (
       <div className="min-h-screen bg-bg-primary flex items-center justify-center">
@@ -177,10 +193,17 @@ export default function Analysis() {
             </div>
             
             <div className="flex items-center space-x-2">
-              <Button variant="outline" size="sm" onClick={handleDownloadReport}>
-                <Download className="h-4 w-4 mr-2" />
-                Download Report
-              </Button>
+              {contract.templateId ? (
+                <Button variant="outline" size="sm" onClick={handleDownloadContract}>
+                  <Download className="h-4 w-4 mr-2" />
+                  Download Contract
+                </Button>
+              ) : (
+                <Button variant="outline" size="sm" onClick={handleDownloadReport}>
+                  <Download className="h-4 w-4 mr-2" />
+                  Download Report
+                </Button>
+              )}
               <Link href="/">
                 <Button size="sm">
                   <Plus className="h-4 w-4 mr-2" />
@@ -230,13 +253,9 @@ export default function Analysis() {
                   Contract Content
                 </CardTitle>
                 <div className="flex space-x-2">
-                  <Button variant="outline" size="sm">
+                  <Button variant="outline" size="sm" onClick={handleDownloadContract}>
                     <Download className="h-4 w-4 mr-2" />
-                    Download PDF
-                  </Button>
-                  <Button variant="outline" size="sm">
-                    <Download className="h-4 w-4 mr-2" />
-                    Download TXT
+                    Download Contract
                   </Button>
                 </div>
               </CardHeader>

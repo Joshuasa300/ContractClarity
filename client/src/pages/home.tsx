@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
-import { FileText, Upload, Clock, CheckCircle, AlertCircle, LogOut, ChevronDown, ChevronUp, Library } from "lucide-react";
+import { FileText, Upload, Clock, CheckCircle, AlertCircle, LogOut, ChevronDown, ChevronUp, Library, Download, Eye } from "lucide-react";
 import { useState } from "react";
 import { Link } from "wouter";
 import ContractUpload from "@/components/ContractUpload";
@@ -27,6 +27,20 @@ export default function Home() {
   const { user, isAuthenticated, isLoading } = useAuth();
   const { t } = useLanguage();
   const [expandedContracts, setExpandedContracts] = useState<Set<number>>(new Set());
+
+  const downloadContract = (contract: Contract) => {
+    const blob = new Blob([contract.fileContent], { 
+      type: 'text/plain' 
+    });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${contract.fileName}.txt`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  };
 
   // Redirect to login if not authenticated
   useEffect(() => {
@@ -293,7 +307,7 @@ export default function Home() {
 
                             {/* Recommendations */}
                             {contract.recommendations && (
-                              <div>
+                              <div className="mb-6">
                                 <h4 className="text-lg font-semibold text-text-primary mb-3">Recommendations</h4>
                                 <div className="space-y-3">
                                   {(() => {
@@ -317,6 +331,27 @@ export default function Home() {
                                 </div>
                               </div>
                             )}
+
+                            {/* Action Buttons */}
+                            <div className="flex gap-3 pt-4 border-t border-gray-100">
+                              <Link href={`/analysis/${contract.id}`}>
+                                <Button variant="outline" size="sm" className="flex-1">
+                                  <Eye className="h-4 w-4 mr-2" />
+                                  View Details
+                                </Button>
+                              </Link>
+                              {contract.fileContent && (
+                                <Button 
+                                  variant="outline" 
+                                  size="sm" 
+                                  onClick={() => downloadContract(contract)}
+                                  className="flex-1"
+                                >
+                                  <Download className="h-4 w-4 mr-2" />
+                                  Download
+                                </Button>
+                              )}
+                            </div>
                           </div>
                         ) : (
                           <div className="px-6 pb-6 border-t border-gray-100">
