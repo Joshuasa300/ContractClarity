@@ -224,6 +224,32 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Delete contract
+  app.delete('/api/contracts/:id', isAuthenticated, async (req: any, res) => {
+    try {
+      const userId = req.user.id;
+      const contractId = parseInt(req.params.id);
+      
+      const contract = await storage.getContract(contractId);
+      if (!contract) {
+        return res.status(404).json({ message: "Contract not found" });
+      }
+
+      // Check if user owns the contract
+      if (contract.userId !== userId) {
+        return res.status(403).json({ message: "Access denied" });
+      }
+
+      // Delete the contract from database
+      await storage.deleteContract(contractId);
+      
+      res.json({ message: "Contract deleted successfully" });
+    } catch (error) {
+      console.error("Error deleting contract:", error);
+      res.status(500).json({ message: "Failed to delete contract" });
+    }
+  });
+
   // Template routes
   app.get('/api/templates', isAuthenticated, async (req: any, res) => {
     try {

@@ -29,6 +29,7 @@ export interface IStorage {
   createContract(contract: InsertContract): Promise<Contract>;
   getContract(id: number): Promise<Contract | undefined>;
   getUserContracts(userId: string): Promise<Contract[]>;
+  deleteContract(id: number): Promise<void>;
   updateContractAnalysis(
     id: number,
     analysis: {
@@ -134,6 +135,10 @@ export class DatabaseStorage implements IStorage {
       .from(contracts)
       .where(eq(contracts.userId, userId))
       .orderBy(desc(contracts.createdAt));
+  }
+
+  async deleteContract(id: number): Promise<void> {
+    await db.delete(contracts).where(eq(contracts.id, id));
   }
 
   async updateContractAnalysis(

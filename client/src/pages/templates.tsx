@@ -21,7 +21,8 @@ import {
   Loader2,
   ChevronRight,
   Download,
-  Calendar
+  Calendar,
+  Trash2
 } from "lucide-react";
 import { useLocation } from "wouter";
 import type { ContractTemplate, TemplateVariable, Contract } from "@shared/schema";
@@ -104,6 +105,39 @@ export default function Templates() {
     },
   });
 
+  const deleteContractMutation = useMutation({
+    mutationFn: async (contractId: number) => {
+      const response = await apiRequest("DELETE", `/api/contracts/${contractId}`);
+      return response;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/contracts"] });
+      queryClient.invalidateQueries({ queryKey: ["/api/contracts", "template-generated"] });
+      toast({
+        title: "Contract Deleted",
+        description: "The contract has been permanently deleted.",
+      });
+    },
+    onError: (error) => {
+      if (isUnauthorizedError(error)) {
+        toast({
+          title: "Unauthorized",
+          description: "You are logged out. Logging in again...",
+          variant: "destructive",
+        });
+        setTimeout(() => {
+          window.location.href = "/api/login";
+        }, 500);
+        return;
+      }
+      toast({
+        title: "Delete Failed",
+        description: error instanceof Error ? error.message : "Failed to delete contract",
+        variant: "destructive",
+      });
+    },
+  });
+
   const categories = ["all", ...Array.from(new Set(templates.map(t => t.category)))];
   const filteredTemplates = selectedCategory === "all" 
     ? templates 
@@ -157,6 +191,12 @@ export default function Templates() {
     a.click();
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
+  };
+
+  const handleDeleteContract = (contractId: number) => {
+    if (window.confirm('Are you sure you want to delete this contract? This action cannot be undone.')) {
+      deleteContractMutation.mutate(contractId);
+    }
   };
 
   const renderVariableInput = (variable: TemplateVariable) => {
@@ -398,14 +438,25 @@ export default function Templates() {
                   </div>
                 </CardHeader>
                 <CardContent className="pt-0">
-                  <Button 
-                    onClick={() => downloadContract(contract)}
-                    className="w-full bg-white text-black border hover:bg-gray-50"
-                    size="sm"
-                  >
-                    <Download className="h-4 w-4 mr-2" />
-                    {t('templates.download') || 'Download'}
-                  </Button>
+                  <div className="flex gap-2">
+                    <Button 
+                      onClick={() => downloadContract(contract)}
+                      className="flex-1 bg-white text-black border hover:bg-gray-50"
+                      size="sm"
+                    >
+                      <Download className="h-4 w-4 mr-2" />
+                      {t('templates.download') || 'Download'}
+                    </Button>
+                    <Button 
+                      onClick={() => handleDeleteContract(contract.id)}
+                      variant="destructive"
+                      size="sm"
+                      className="px-3"
+                      disabled={deleteContractMutation.isPending}
+                    >
+                      <Trash2 className="h-4 w-4" />
+                    </Button>
+                  </div>
                 </CardContent>
               </Card>
             ))}
