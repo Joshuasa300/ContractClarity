@@ -216,71 +216,73 @@ export default function Home() {
                       open={expandedContracts.has(contract.id)}
                       onOpenChange={() => toggleContract(contract.id)}
                     >
-                      <div className="flex items-center p-4 sm:p-6">
-                        <CollapsibleTrigger className="flex-1 min-w-0 text-left hover:bg-gray-50 transition-colors rounded-lg p-2 -m-2">
-                          <div className="flex items-start justify-between gap-3">
-                            <div className="flex items-center space-x-3 min-w-0 flex-1">
-                              <div className="w-10 h-10 sm:w-12 sm:h-12 bg-primary/10 rounded-lg flex items-center justify-center flex-shrink-0">
-                                <FileText className="h-5 w-5 sm:h-6 sm:w-6 text-primary" />
+                      <div className="p-4 sm:p-6">
+                        <div className="flex items-center justify-between">
+                          <CollapsibleTrigger className="flex-1 min-w-0 text-left hover:bg-gray-50 transition-colors rounded-lg p-2 -m-2">
+                            <div className="flex items-start justify-between gap-3">
+                              <div className="flex items-center space-x-3 min-w-0 flex-1">
+                                <div className="w-10 h-10 sm:w-12 sm:h-12 bg-primary/10 rounded-lg flex items-center justify-center flex-shrink-0">
+                                  <FileText className="h-5 w-5 sm:h-6 sm:w-6 text-primary" />
+                                </div>
+                                <div className="text-left min-w-0 flex-1">
+                                  <h3 className="font-semibold text-text-primary text-sm sm:text-base truncate">
+                                    {contract.fileName}
+                                  </h3>
+                                  <p className="text-xs sm:text-sm text-gray-600">
+                                    Uploaded {new Date(contract.createdAt!).toLocaleDateString()}
+                                  </p>
+                                  {/* Mobile status - show below title */}
+                                  <div className="flex items-center space-x-1 mt-1 sm:hidden">
+                                    {isAnalysisComplete(contract.analysisComplete) ? (
+                                      <CheckCircle className="h-4 w-4 text-accent" />
+                                    ) : (
+                                      <Clock className="h-4 w-4 text-yellow-500" />
+                                    )}
+                                    <span className="text-xs text-gray-600">
+                                      {isAnalysisComplete(contract.analysisComplete) ? 
+                                        (contract.templateId ? "Ready" : "Complete") : 
+                                        "Processing"}
+                                    </span>
+                                  </div>
+                                </div>
                               </div>
-                              <div className="text-left min-w-0 flex-1">
-                                <h3 className="font-semibold text-text-primary text-sm sm:text-base truncate">
-                                  {contract.fileName}
-                                </h3>
-                                <p className="text-xs sm:text-sm text-gray-600">
-                                  Uploaded {new Date(contract.createdAt!).toLocaleDateString()}
-                                </p>
-                                {/* Mobile status - show below title */}
-                                <div className="flex items-center space-x-1 mt-1 sm:hidden">
+                              
+                              <div className="flex items-center space-x-2 sm:space-x-4 flex-shrink-0">
+                                {/* Desktop status - hide on mobile */}
+                                <div className="hidden sm:flex items-center space-x-2">
                                   {isAnalysisComplete(contract.analysisComplete) ? (
-                                    <CheckCircle className="h-4 w-4 text-accent" />
+                                    <CheckCircle className="h-5 w-5 text-accent" />
                                   ) : (
-                                    <Clock className="h-4 w-4 text-yellow-500" />
+                                    <Clock className="h-5 w-5 text-yellow-500" />
                                   )}
-                                  <span className="text-xs text-gray-600">
+                                  <span className="text-sm text-gray-600">
                                     {isAnalysisComplete(contract.analysisComplete) ? 
-                                      (contract.templateId ? "Ready" : "Complete") : 
+                                      (contract.templateId ? "Ready to View" : "Analysis Complete") : 
                                       "Processing"}
                                   </span>
                                 </div>
-                              </div>
-                            </div>
-                            
-                            <div className="flex items-center space-x-2 sm:space-x-4 flex-shrink-0">
-                              {/* Desktop status - hide on mobile */}
-                              <div className="hidden sm:flex items-center space-x-2">
-                                {isAnalysisComplete(contract.analysisComplete) ? (
-                                  <CheckCircle className="h-5 w-5 text-accent" />
+                                
+                                {expandedContracts.has(contract.id) ? (
+                                  <ChevronUp className="h-4 w-4 sm:h-5 sm:w-5 text-gray-400" />
                                 ) : (
-                                  <Clock className="h-5 w-5 text-yellow-500" />
+                                  <ChevronDown className="h-4 w-4 sm:h-5 sm:w-5 text-gray-400" />
                                 )}
-                                <span className="text-sm text-gray-600">
-                                  {isAnalysisComplete(contract.analysisComplete) ? 
-                                    (contract.templateId ? "Ready to View" : "Analysis Complete") : 
-                                    "Processing"}
-                                </span>
                               </div>
-                              
-                              {expandedContracts.has(contract.id) ? (
-                                <ChevronUp className="h-4 w-4 sm:h-5 sm:w-5 text-gray-400" />
-                              ) : (
-                                <ChevronDown className="h-4 w-4 sm:h-5 sm:w-5 text-gray-400" />
-                              )}
                             </div>
-                          </div>
-                        </CollapsibleTrigger>
-                        
-                        {/* Delete button outside the CollapsibleTrigger */}
-                        <button
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            handleDeleteContract(contract.id);
-                          }}
-                          className="ml-2 p-1 rounded-full hover:bg-red-50 transition-colors"
-                          disabled={deleteContractMutation.isPending}
-                        >
-                          <Trash2 className="h-4 w-4 text-red-500 hover:text-red-700" />
-                        </button>
+                          </CollapsibleTrigger>
+                          
+                          {/* Delete button positioned separately */}
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleDeleteContract(contract.id);
+                            }}
+                            className="ml-2 p-1 rounded-full hover:bg-red-50 transition-colors"
+                            disabled={deleteContractMutation.isPending}
+                          >
+                            <Trash2 className="h-4 w-4 text-red-500 hover:text-red-700" />
+                          </button>
+                        </div>
                       </div>
                       
                       <CollapsibleContent>

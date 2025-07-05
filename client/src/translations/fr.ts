@@ -6,6 +6,14 @@ export const fr = {
   'landing.hero.subtitle': 'Obtenez des insights instantanés, des évaluations de risques et des recommandations pour vos documents juridiques',
   'landing.getStarted': 'Commencer',
   'landing.learnMore': 'En savoir plus',
+  'landing.titleHighlight': 'IA',
+  'landing.uploadContract': 'Télécharger un contrat',
+  'landing.seeDemo': 'Voir la démo',
+  'landing.whyChoose': 'Pourquoi choisir ContractAI?',
+  'landing.whyChooseDesc': 'Notre plateforme alimentée par l\'IA transforme l\'analyse complexe de contrats en insights clairs et actionables',
+  'landing.cta.title': 'Prêt à simplifier vos contrats?',
+  'landing.cta.subtitle': 'Rejoignez des milliers de professionnels qui font confiance à ContractAI',
+  'landing.cta.button': 'Commencer gratuitement',
   
   // Features
   'landing.features.analysis': 'Analyse Intelligente',
@@ -14,6 +22,11 @@ export const fr = {
   'landing.features.riskDesc': 'Identifiez les risques potentiels et obtenez des recommandations actionables',
   'landing.features.templates': 'Bibliothèque de Modèles',
   'landing.features.templatesDesc': 'Accédez à des modèles de contrats pré-construits pour des scénarios courants',
+  'landing.features.aiTitle': 'Analyse alimentée par l\'IA',
+  'landing.features.aiDesc': 'Notre IA avancée comprend le langage juridique complexe et fournit des insights clairs',
+  'landing.features.riskTitle': 'Évaluation complète des risques',
+  'landing.features.instantTitle': 'Résultats instantanés',
+  'landing.features.instantDesc': 'Obtenez des analyses complètes en quelques secondes, pas en heures',
 
   // Auth
   'auth.signIn': 'Se connecter',
@@ -29,16 +42,32 @@ export const fr = {
   'auth.signInWith': 'Se connecter avec',
   'auth.or': 'ou',
   'auth.continue': 'Continuer',
+  'auth.signInWithGoogle': 'Se connecter avec Google',
+  'auth.createAccount': 'Créer un compte',
+  'auth.alreadyHaveAccount': 'Vous avez déjà un compte?',
+  'auth.dontHaveAccount': 'Vous n\'avez pas de compte?',
+  'auth.signInHere': 'Connectez-vous ici',
+  'auth.signUpHere': 'Inscrivez-vous ici',
 
   // Navigation
   'nav.home': 'Accueil',
   'nav.templates': 'Modèles',
   'nav.clauses': 'Clauses',
   'nav.logout': 'Déconnexion',
+  'nav.contracts': 'Contrats',
+  'nav.signIn': 'Se connecter',
+  'nav.signOut': 'Se déconnecter',
+  'nav.getStarted': 'Commencer',
+  'nav.signUp': 'S\'inscrire',
 
   // Home/Dashboard
   'home.welcome': 'Bienvenue',
   'home.yourContracts': 'Vos Contrats',
+  'home.noContracts': 'Aucun contrat trouvé',
+  'home.uploadFirst': 'Téléchargez votre premier contrat pour commencer',
+  'home.analysisComplete': 'Analyse terminée',
+  'home.analysisInProgress': 'Analyse en cours',
+  'home.viewAnalysis': 'Voir l\'analyse',
 
   // Templates
   'templates.title': 'Modèles de Contrats',
@@ -56,6 +85,14 @@ export const fr = {
   'templates.createContract': 'Créer le contrat',
   'templates.validationError': 'Erreur de Validation',
   'templates.requiredFields': 'Veuillez remplir tous les champs requis',
+  'templates.preview': 'Aperçu',
+  'templates.variables': 'Variables',
+  'templates.generate': 'Générer',
+  'templates.download': 'Télécharger',
+  'templates.generatedContracts': 'Contrats générés',
+  'templates.generatedContractsDesc': 'Contrats créés à partir de modèles',
+  'templates.noGeneratedContracts': 'Aucun contrat généré',
+  'templates.noGeneratedContractsDesc': 'Utilisez nos modèles pour créer des contrats',
 
   // Clauses
   'clauses.title': 'Bibliothèque de Clauses',
@@ -87,6 +124,36 @@ export const fr = {
   'common.back': 'Retour',
   'common.next': 'Suivant',
   'common.previous': 'Précédent',
+  'common.view': 'Voir',
+  'common.download': 'Télécharger',
+  'common.upload': 'Télécharger',
+  'common.search': 'Rechercher',
+  'common.filter': 'Filtrer',
+
+  // Footer
+  'footer.description': 'Simplifiez l\'analyse de contrats avec l\'IA',
+  'footer.product': 'Produit',
+  'footer.features': 'Fonctionnalités',
+  'footer.pricing': 'Tarifs',
+  'footer.security': 'Sécurité',
+  'footer.support': 'Support',
+  'footer.helpCenter': 'Centre d\'aide',
+  'footer.contact': 'Contact',
+  'footer.privacyPolicy': 'Politique de confidentialité',
+  'footer.termsOfService': 'Conditions d\'utilisation',
+  'footer.copyright': 'Tous droits réservés',
+
+  // Upload
+  'upload.uploadAnother': 'Télécharger un autre',
+
+  // Analysis
+  'analysis.summary': 'Résumé',
+  'analysis.riskAssessment': 'Évaluation des risques',
+  'analysis.keyTerms': 'Termes clés',
+  'analysis.recommendations': 'Recommandations',
+  'analysis.highRisk': 'Risque élevé',
+  'analysis.mediumRisk': 'Risque moyen',
+  'analysis.lowRisk': 'Risque faible',
 
   // Language Selector
   'language.title': 'Langue',
