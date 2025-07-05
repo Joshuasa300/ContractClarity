@@ -12,16 +12,19 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
+import { Separator } from "@/components/ui/separator";
 import { 
   FileText, 
   Plus, 
   Settings, 
   Filter,
   Loader2,
-  ChevronRight
+  ChevronRight,
+  Download,
+  Calendar
 } from "lucide-react";
 import { useLocation } from "wouter";
-import type { ContractTemplate, TemplateVariable } from "@shared/schema";
+import type { ContractTemplate, TemplateVariable, Contract } from "@shared/schema";
 import Header from "@/components/Header";
 import { useLanguage } from "@/lib/i18n";
 import { useContentTranslation } from "../hooks/useContentTranslation";
@@ -35,7 +38,6 @@ export default function Templates() {
   const queryClient = useQueryClient();
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
   const [selectedTemplate, setSelectedTemplate] = useState<ContractTemplate | null>(null);
-  const [translatedTemplates, setTranslatedTemplates] = useState<ContractTemplate[]>([]);
   const [templateVariables, setTemplateVariables] = useState<Record<string, string>>({});
   const [fileName, setFileName] = useState("");
 
@@ -50,14 +52,17 @@ export default function Templates() {
     retry: false,
   });
 
-  // Translate templates when language changes
-  useEffect(() => {
-    if (templates.length > 0) {
-      translateArray(templates, ['name', 'description'], 'contract template metadata')
-        .then(setTranslatedTemplates)
-        .catch(() => setTranslatedTemplates(templates));
-    }
-  }, [templates, language, translateArray]);
+  // Query for template-generated contracts
+  const { data: generatedContracts = [], isLoading: contractsLoading } = useQuery<Contract[]>({
+    queryKey: ["/api/contracts", "template-generated"],
+    queryFn: async () => {
+      const response = await apiRequest("GET", "/api/contracts");
+      const contracts = await response.json();
+      // Filter for template-generated contracts only
+      return contracts.filter((contract: Contract) => contract.templateId);
+    },
+    retry: false,
+  });
 
   const createContractMutation = useMutation({
     mutationFn: async (data: { templateId: number; variables: Record<string, string>; fileName: string }) => {
@@ -69,15 +74,15 @@ export default function Templates() {
     },
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ["/api/contracts"] });
+      queryClient.invalidateQueries({ queryKey: ["/api/contracts", "template-generated"] });
       toast({
         title: "Contract Created",
-        description: "Your contract has been created successfully and is ready for review.",
+        description: "Your contract has been created successfully and is ready for download.",
       });
       setSelectedTemplate(null);
       setTemplateVariables({});
       setFileName("");
-      // Navigate to contracts page
-      setLocation("/");
+      // Stay on templates page to show the new contract
     },
     onError: (error) => {
       if (isUnauthorizedError(error)) {
@@ -100,10 +105,9 @@ export default function Templates() {
   });
 
   const categories = ["all", ...Array.from(new Set(templates.map(t => t.category)))];
-  const currentTemplates = translatedTemplates.length > 0 ? translatedTemplates : templates;
   const filteredTemplates = selectedCategory === "all" 
-    ? currentTemplates 
-    : currentTemplates.filter(t => t.category === selectedCategory);
+    ? templates 
+    : templates.filter(t => t.category === selectedCategory);
 
   const handleTemplateSelect = (template: ContractTemplate) => {
     setSelectedTemplate(template);
@@ -141,6 +145,18 @@ export default function Templates() {
       variables: templateVariables,
       fileName: fileName.trim(),
     });
+  };
+
+  const downloadContract = (contract: Contract) => {
+    const blob = new Blob([contract.fileContent || ''], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${contract.fileName || 'contract'}.txt`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
   };
 
   const renderVariableInput = (variable: TemplateVariable) => {
@@ -347,6 +363,65 @@ export default function Templates() {
           </p>
         </div>
       )}
+
+      {/* Generated Contracts Section */}
+      <Separator className="my-8" />
+      <div className="mb-8">
+        <h2 className="text-2xl font-bold text-text-primary mb-4">
+          {t('templates.generatedContracts') || 'Generated Contracts'}
+        </h2>
+        <p className="text-gray-600 mb-6">
+          {t('templates.generatedContractsDesc') || 'Contracts created from templates are ready for download'}
+        </p>
+
+        {contractsLoading ? (
+          <div className="flex items-center justify-center py-8">
+            <Loader2 className="h-6 w-6 animate-spin" />
+          </div>
+        ) : generatedContracts.length > 0 ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {generatedContracts.map((contract) => (
+              <Card key={contract.id} className="hover:shadow-md transition-shadow">
+                <CardHeader className="pb-3">
+                  <div className="flex items-start justify-between">
+                    <FileText className="h-6 w-6 text-primary" />
+                    <Badge variant="outline" className="text-xs">
+                      Template
+                    </Badge>
+                  </div>
+                  <CardTitle className="text-lg leading-tight">
+                    {contract.fileName}
+                  </CardTitle>
+                  <div className="flex items-center text-sm text-gray-500">
+                    <Calendar className="h-4 w-4 mr-1" />
+                    {new Date(contract.createdAt || '').toLocaleDateString()}
+                  </div>
+                </CardHeader>
+                <CardContent className="pt-0">
+                  <Button 
+                    onClick={() => downloadContract(contract)}
+                    className="w-full"
+                    size="sm"
+                  >
+                    <Download className="h-4 w-4 mr-2" />
+                    {t('templates.download') || 'Download'}
+                  </Button>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        ) : (
+          <div className="text-center py-8 bg-gray-50 rounded-lg">
+            <FileText className="h-12 w-12 text-gray-300 mx-auto mb-3" />
+            <h3 className="text-lg font-medium text-gray-600 mb-1">
+              {t('templates.noGeneratedContracts') || 'No Generated Contracts'}
+            </h3>
+            <p className="text-gray-500">
+              {t('templates.noGeneratedContractsDesc') || 'Create contracts from templates above to see them here'}
+            </p>
+          </div>
+        )}
+      </div>
     </div>
     </div>
   );
