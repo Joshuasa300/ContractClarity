@@ -41,10 +41,10 @@ Focus on:
 
   const languageInstructions = {
     'en': '',
-    'es': '\n\nIMPORTANT: Provide ALL analysis results in Spanish. Use professional legal terminology appropriate for Spanish-speaking jurisdictions. Consider cultural and legal context specific to Spanish-speaking countries.',
-    'fr': '\n\nIMPORTANT: Provide ALL analysis results in French. Use professional legal terminology appropriate for French-speaking jurisdictions. Consider cultural and legal context specific to French-speaking countries.',
-    'de': '\n\nIMPORTANT: Provide ALL analysis results in German. Use professional legal terminology appropriate for German-speaking jurisdictions. Consider cultural and legal context specific to German-speaking countries.',
-    'ar': '\n\nIMPORTANT: Provide ALL analysis results in Arabic. Use professional legal terminology appropriate for Arabic-speaking jurisdictions. Consider cultural and legal context specific to Arabic-speaking countries. Format text properly for right-to-left reading.'
+    'es': '\n\nIMPORTANT: Provide ALL analysis results in Spanish. Use professional legal terminology appropriate for Spanish-speaking jurisdictions (Spain, Mexico, Argentina, etc.). Consider civil law tradition and specific legal concepts like "responsabilidad civil", "fuerza mayor", "resolución contractual". Use formal register appropriate for legal documents.',
+    'fr': '\n\nIMPORTANT: Provide ALL analysis results in French. Use professional legal terminology appropriate for French-speaking jurisdictions (France, Belgium, etc.). Consider civil law tradition and French legal concepts like "responsabilité civile", "force majeure", "résiliation de contrat". Use formal register appropriate for legal documents.',
+    'de': '\n\nIMPORTANT: Provide ALL analysis results in German. Use professional legal terminology appropriate for German-speaking jurisdictions (Germany, Austria, Switzerland). Consider German legal concepts like "Haftung", "höhere Gewalt", "Kündigung", "Vertragsbruch". Use formal register appropriate for German legal documents.',
+    'ar': '\n\nIMPORTANT: Provide ALL analysis results in Arabic. Use professional legal terminology appropriate for Arabic-speaking jurisdictions. Consider Islamic law principles where applicable and Arabic legal concepts like "مسؤولية", "قوة قاهرة", "فسخ العقد", "إخلال تعاقدي". Format text properly for right-to-left reading. Use formal Arabic register appropriate for legal documents.'
   };
 
   return basePrompt + (languageInstructions[language as keyof typeof languageInstructions] || languageInstructions['en']);

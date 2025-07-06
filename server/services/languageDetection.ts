@@ -33,19 +33,31 @@ export interface LanguageDetectionResult {
 export function detectContractLanguage(text: string): LanguageDetectionResult {
   try {
     // Clean the text - handle PDF parsing artifacts where each character is separated by spaces
-    let cleanText = text
-      // First, remove spaces between individual characters (common PDF parsing issue)
-      .replace(/\b\w\s+(?=\w\b)/g, (match) => match.replace(/\s+/g, ''))
-      // Then normalize remaining whitespace
-      .replace(/\s+/g, ' ')
-      // Remove excessive special characters but keep basic punctuation
-      .replace(/[^\w\s\-.,;:!?()]/g, ' ')
-      .trim();
+    let cleanText = text;
     
-    // Additional cleaning for German compound words and umlauts
-    cleanText = cleanText
-      .replace(/\s+([äöüÄÖÜß])\s+/g, '$1')  // Fix umlauts with spaces
-      .replace(/\s+/g, ' ');  // Final whitespace normalization
+    // Special handling for Arabic script - preserve Arabic characters and remove spaces between them
+    if (/[\u0600-\u06FF]/.test(text)) {
+      // For Arabic text, remove spaces between Arabic characters
+      cleanText = text
+        .replace(/([\u0600-\u06FF])\s+([\u0600-\u06FF])/g, '$1$2')
+        .replace(/\s+/g, ' ')
+        .trim();
+    } else {
+      // For Latin-based scripts, handle character separation
+      cleanText = text
+        // First, remove spaces between individual characters (common PDF parsing issue)
+        .replace(/\b\w\s+(?=\w\b)/g, (match) => match.replace(/\s+/g, ''))
+        // Then normalize remaining whitespace
+        .replace(/\s+/g, ' ')
+        // Remove excessive special characters but keep basic punctuation
+        .replace(/[^\w\s\-.,;:!?()]/g, ' ')
+        .trim();
+      
+      // Additional cleaning for German compound words and umlauts
+      cleanText = cleanText
+        .replace(/\s+([äöüÄÖÜß])\s+/g, '$1')  // Fix umlauts with spaces
+        .replace(/\s+/g, ' ');  // Final whitespace normalization
+    }
 
     // Require minimum text length for reliable detection
     if (cleanText.length < 50) {
@@ -154,9 +166,13 @@ function calculateConfidence(text: string, francCode: string): number {
       }
       break;
     case 'arb':
-      // Look for Arabic script
+      // Look for Arabic script and legal terms
       if (/[\u0600-\u06FF]/.test(text)) {
         confidence += 0.3;
+        // Look for common Arabic legal terms
+        if (/\b(عقد|شركة|التزام|مسؤولية|اتفاقية|قانون)\b/.test(text)) {
+          confidence += 0.2;
+        }
       }
       break;
   }
