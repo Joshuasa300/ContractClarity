@@ -30,6 +30,7 @@ export default function AuthPage() {
   const { toast } = useToast();
   const [activeTab, setActiveTab] = useState("login");
   const [error, setError] = useState("");
+  const [isGoogleAuthLoading, setIsGoogleAuthLoading] = useState(false);
 
   // Form states
   const [loginForm, setLoginForm] = useState<LoginData>({
@@ -43,6 +44,56 @@ export default function AuthPage() {
     firstName: "",
     lastName: "",
   });
+
+  // Enhanced error handling for OAuth parameters (like Flask example)
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const error = urlParams.get('error');
+    const message = urlParams.get('message');
+    const provider = urlParams.get('provider');
+
+    if (error) {
+      let errorMessage = "Authentication failed";
+      
+      switch (error) {
+        case 'oauth_init_failed':
+          errorMessage = `Failed to initiate ${provider || 'OAuth'} authentication`;
+          break;
+        case 'google_error':
+          errorMessage = message ? decodeURIComponent(message) : 'Google authentication failed';
+          break;
+        case 'google_auth_failed':
+          errorMessage = 'Google authentication was unsuccessful';
+          break;
+        case 'state_mismatch':
+          errorMessage = 'Security validation failed. Please try again.';
+          break;
+        case 'auth_failed':
+          errorMessage = message ? decodeURIComponent(message) : 'Authentication failed';
+          break;
+        case 'callback_failed':
+          errorMessage = 'Authentication callback processing failed';
+          break;
+        case 'redirect_failed':
+          errorMessage = 'Failed to complete authentication redirect';
+          break;
+        default:
+          errorMessage = message ? decodeURIComponent(message) : 'An authentication error occurred';
+      }
+
+      console.error('OAuth Error:', { error, message, provider });
+      setError(errorMessage);
+      toast({
+        title: "Authentication Error",
+        description: errorMessage,
+        variant: "destructive",
+      });
+
+      // Clean up URL parameters after showing error
+      const cleanUrl = window.location.pathname;
+      window.history.replaceState({}, document.title, cleanUrl);
+    }
+  }, [toast]);
 
   // Redirect if already authenticated
   useEffect(() => {
@@ -101,8 +152,33 @@ export default function AuthPage() {
     registerMutation.mutate(registerForm);
   };
 
+  // Enhanced Google sign-in with comprehensive error handling (Flask-inspired)
   const handleGoogleSignIn = () => {
-    window.location.href = "/api/auth/google";
+    try {
+      setIsGoogleAuthLoading(true);
+      setError("");
+      
+      console.log("Initiating Google OAuth flow");
+      
+      // Store current page for return URL (like Flask state management)
+      const currentPath = window.location.pathname;
+      const returnTo = currentPath !== '/auth' ? currentPath : '/';
+      
+      // Build Google OAuth URL with return parameter
+      const googleAuthUrl = `/api/auth/google${returnTo !== '/' ? `?returnTo=${encodeURIComponent(returnTo)}` : ''}`;
+      
+      console.log("Redirecting to:", googleAuthUrl);
+      window.location.href = googleAuthUrl;
+    } catch (error) {
+      console.error("Error initiating Google sign-in:", error);
+      setIsGoogleAuthLoading(false);
+      setError("Failed to initiate Google sign-in");
+      toast({
+        title: "Sign-in Error",
+        description: "Failed to start Google authentication. Please try again.",
+        variant: "destructive",
+      });
+    }
   };
 
   // Show loading if checking auth status
@@ -140,31 +216,41 @@ export default function AuthPage() {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              {/* Google Sign In Button */}
+              {/* Enhanced Google Sign In Button with loading state */}
               <Button
                 onClick={handleGoogleSignIn}
                 variant="outline"
                 className="w-full mb-4 flex items-center justify-center gap-2"
+                disabled={isGoogleAuthLoading || loginMutation.isPending || registerMutation.isPending}
               >
-                <svg className="w-5 h-5" viewBox="0 0 24 24">
-                  <path
-                    fill="currentColor"
-                    d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
-                  />
-                  <path
-                    fill="currentColor"
-                    d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
-                  />
-                  <path
-                    fill="currentColor"
-                    d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"
-                  />
-                  <path
-                    fill="currentColor"
-                    d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
-                  />
-                </svg>
-                Sign in with Google
+                {isGoogleAuthLoading ? (
+                  <>
+                    <Loader2 className="w-5 h-5 animate-spin" />
+                    Redirecting to Google...
+                  </>
+                ) : (
+                  <>
+                    <svg className="w-5 h-5" viewBox="0 0 24 24">
+                      <path
+                        fill="currentColor"
+                        d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
+                      />
+                      <path
+                        fill="currentColor"
+                        d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
+                      />
+                      <path
+                        fill="currentColor"
+                        d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"
+                      />
+                      <path
+                        fill="currentColor"
+                        d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
+                      />
+                    </svg>
+                    Sign in with Google
+                  </>
+                )}
               </Button>
 
               <div className="relative">
