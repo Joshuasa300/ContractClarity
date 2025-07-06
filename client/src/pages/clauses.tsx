@@ -45,6 +45,20 @@ export default function Clauses() {
 
   const categories = ["all", ...Array.from(new Set((clauses || []).map(c => c.category).filter(Boolean)))];
 
+  // Helper functions for translations
+  const translateClauseTitle = (title: string): string => {
+    return t(`clause.${title}`) || title;
+  };
+
+  const translateClauseDescription = (description: string): string => {
+    return t(`clauseDesc.${description}`) || description;
+  };
+
+  const translateClauseCategory = (category: string): string => {
+    if (category === "all") return t('common.all') || 'All';
+    return t(`clauseCategory.${category}`) || category;
+  };
+
   const getRiskLevelIcon = (level: string | null) => {
     switch (level) {
       case 'high':
@@ -119,7 +133,7 @@ export default function Clauses() {
               <SelectContent>
                 {categories.map((category) => (
                   <SelectItem key={category} value={category}>
-                    {category === "all" ? t('clauses.allCategories') : category}
+                    {translateClauseCategory(category)}
                   </SelectItem>
                 ))}
               </SelectContent>
@@ -135,7 +149,7 @@ export default function Clauses() {
                 <div className="flex items-start justify-between">
                   <div className="flex items-center space-x-2">
                     {getRiskLevelIcon(clause.riskLevel)}
-                    <Badge variant="secondary">{clause.category}</Badge>
+                    <Badge variant="secondary">{translateClauseCategory(clause.category)}</Badge>
                   </div>
                   <Badge 
                     variant="outline" 
@@ -144,8 +158,8 @@ export default function Clauses() {
                     {clause.riskLevel || 'Unknown'} Risk
                   </Badge>
                 </div>
-                <CardTitle className="text-lg">{clause.title}</CardTitle>
-                <p className="text-sm text-gray-600">{clause.description}</p>
+                <CardTitle className="text-lg">{translateClauseTitle(clause.title)}</CardTitle>
+                <p className="text-sm text-gray-600">{translateClauseDescription(clause.description)}</p>
               </CardHeader>
               <CardContent>
                 <div className="space-y-3">
@@ -174,14 +188,14 @@ export default function Clauses() {
                         <DialogHeader>
                           <DialogTitle className="flex items-center space-x-2">
                             {getRiskLevelIcon(selectedClause?.riskLevel || null)}
-                            <span>{selectedClause?.title}</span>
+                            <span>{selectedClause && translateClauseTitle(selectedClause.title)}</span>
                           </DialogTitle>
                         </DialogHeader>
 
                         {selectedClause && (
                           <div className="space-y-4">
                             <div className="flex items-center space-x-2">
-                              <Badge variant="secondary">{selectedClause.category}</Badge>
+                              <Badge variant="secondary">{translateClauseCategory(selectedClause.category)}</Badge>
                               <Badge 
                                 variant="outline" 
                                 className={getRiskLevelColor(selectedClause.riskLevel)}
@@ -190,7 +204,7 @@ export default function Clauses() {
                               </Badge>
                             </div>
 
-                            <p className="text-gray-600">{selectedClause.description}</p>
+                            <p className="text-gray-600">{translateClauseDescription(selectedClause.description)}</p>
 
                             <div className="bg-gray-50 p-4 rounded-lg">
                               <div className="flex justify-between items-center mb-2">
@@ -249,7 +263,7 @@ export default function Clauses() {
                 ? `No clauses match your search "${searchQuery}".`
                 : selectedCategory === "all" 
                   ? "No clauses are available yet." 
-                  : `No clauses found in the ${selectedCategory} category.`
+                  : `No clauses found in the ${translateClauseCategory(selectedCategory)} category.`
               }
             </p>
           </div>

@@ -192,4 +192,24 @@ export const ar = {
   'template.Service Agreement': 'اتفاقية الخدمة',
   'template.Tenancy Agreement': 'عقد الإيجار',
   'template.Recording Contract': 'عقد التسجيل',
+
+  // Clause Titles
+  'clause.Limitation of Liability': 'تحديد المسؤولية',
+  'clause.Force Majeure': 'القوة القاهرة',
+  'clause.Intellectual Property Rights': 'حقوق الملكية الفكرية',
+  'clause.Termination for Convenience': 'الإنهاء للراحة',
+  'clause.Governing Law': 'القانون الحاكم',
+
+  // Clause Descriptions
+  'clauseDesc.Limitation of Liability': 'بند قياسي لتحديد التعرض للمسؤولية',
+  'clauseDesc.Force Majeure': 'الحماية ضد الظروف غير المتوقعة',
+  'clauseDesc.Intellectual Property Rights': 'بند يحدد ملكية واستخدام الملكية الفكرية',
+  'clauseDesc.Termination for Convenience': 'يسمح بالإنهاء دون سبب',
+  'clauseDesc.Governing Law': 'يحدد الاختصاص القضائي والقانون المطبق',
+
+  // Clause Categories
+  'clauseCategory.Risk Management': 'إدارة المخاطر',
+  'clauseCategory.Intellectual Property': 'الملكية الفكرية',
+  'clauseCategory.Termination': 'الإنهاء',
+  'clauseCategory.Legal': 'قانوني',
 };

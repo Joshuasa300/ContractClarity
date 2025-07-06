@@ -179,4 +179,24 @@ export const de = {
   'template.Service Agreement': 'Dienstleistungsvertrag',
   'template.Tenancy Agreement': 'Mietvertrag',
   'template.Recording Contract': 'Aufnahmevertrag',
+
+  // Clause Titles
+  'clause.Limitation of Liability': 'Haftungsbeschränkung',
+  'clause.Force Majeure': 'Höhere Gewalt',
+  'clause.Intellectual Property Rights': 'Rechte an geistigem Eigentum',
+  'clause.Termination for Convenience': 'Kündigung aus Zweckmäßigkeit',
+  'clause.Governing Law': 'Anwendbares Recht',
+
+  // Clause Descriptions
+  'clauseDesc.Limitation of Liability': 'Standardklausel zur Begrenzung der Haftungsexposition',
+  'clauseDesc.Force Majeure': 'Schutz vor unvorhersehbaren Umständen',
+  'clauseDesc.Intellectual Property Rights': 'Klausel zur Definition von IP-Eigentum und -Nutzung',
+  'clauseDesc.Termination for Convenience': 'Ermöglicht Kündigung ohne Grund',
+  'clauseDesc.Governing Law': 'Spezifiziert Gerichtsbarkeit und anwendbares Recht',
+
+  // Clause Categories
+  'clauseCategory.Risk Management': 'Risikomanagement',
+  'clauseCategory.Intellectual Property': 'Geistiges Eigentum',
+  'clauseCategory.Termination': 'Kündigung',
+  'clauseCategory.Legal': 'Rechtlich',
 };

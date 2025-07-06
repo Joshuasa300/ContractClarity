@@ -179,4 +179,24 @@ export const es = {
   'template.Service Agreement': 'Acuerdo de Servicio',
   'template.Tenancy Agreement': 'Contrato de Arrendamiento',
   'template.Recording Contract': 'Contrato de Grabación',
+
+  // Clause Titles
+  'clause.Limitation of Liability': 'Limitación de Responsabilidad',
+  'clause.Force Majeure': 'Fuerza Mayor',
+  'clause.Intellectual Property Rights': 'Derechos de Propiedad Intelectual',
+  'clause.Termination for Convenience': 'Terminación por Conveniencia',
+  'clause.Governing Law': 'Ley Aplicable',
+
+  // Clause Descriptions
+  'clauseDesc.Limitation of Liability': 'Cláusula estándar para limitar la exposición a responsabilidad',
+  'clauseDesc.Force Majeure': 'Protección contra circunstancias imprevistas',
+  'clauseDesc.Intellectual Property Rights': 'Cláusula que define la propiedad y uso de PI',
+  'clauseDesc.Termination for Convenience': 'Permite la terminación sin causa',
+  'clauseDesc.Governing Law': 'Especifica la jurisdicción y ley aplicable',
+
+  // Clause Categories
+  'clauseCategory.Risk Management': 'Gestión de Riesgos',
+  'clauseCategory.Intellectual Property': 'Propiedad Intelectual',
+  'clauseCategory.Termination': 'Terminación',
+  'clauseCategory.Legal': 'Legal',
 };

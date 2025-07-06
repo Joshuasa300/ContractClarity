@@ -177,4 +177,24 @@ export const fr = {
   'template.Service Agreement': 'Accord de Service',
   'template.Tenancy Agreement': 'Contrat de Location',
   'template.Recording Contract': 'Contrat d\'Enregistrement',
+
+  // Clause Titles
+  'clause.Limitation of Liability': 'Limitation de Responsabilité',
+  'clause.Force Majeure': 'Force Majeure',
+  'clause.Intellectual Property Rights': 'Droits de Propriété Intellectuelle',
+  'clause.Termination for Convenience': 'Résiliation de Convenance',
+  'clause.Governing Law': 'Loi Applicable',
+
+  // Clause Descriptions
+  'clauseDesc.Limitation of Liability': 'Clause standard pour limiter l\'exposition à la responsabilité',
+  'clauseDesc.Force Majeure': 'Protection contre les circonstances imprévisibles',
+  'clauseDesc.Intellectual Property Rights': 'Clause définissant la propriété et l\'utilisation de la PI',
+  'clauseDesc.Termination for Convenience': 'Permet la résiliation sans cause',
+  'clauseDesc.Governing Law': 'Spécifie la juridiction et le droit applicable',
+
+  // Clause Categories
+  'clauseCategory.Risk Management': 'Gestion des Risques',
+  'clauseCategory.Intellectual Property': 'Propriété Intellectuelle',
+  'clauseCategory.Termination': 'Résiliation',
+  'clauseCategory.Legal': 'Juridique',
 };
