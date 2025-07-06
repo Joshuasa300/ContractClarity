@@ -145,6 +145,12 @@ export default function Templates() {
     ? templates 
     : templates.filter(t => t.category === selectedCategory);
 
+  // Helper function to translate category names
+  const translateCategory = (category: string): string => {
+    if (category === "all") return t('common.all') || 'All';
+    return t(`category.${category}`) || category;
+  };
+
   const handleTemplateSelect = (template: ContractTemplate) => {
     setSelectedTemplate(template);
     setFileName(`${template.name} - ${new Date().toLocaleDateString()}`);
@@ -304,7 +310,7 @@ export default function Templates() {
           <SelectContent>
             {categories.map((category) => (
               <SelectItem key={category} value={category}>
-                {category === "all" ? t('templates.allCategories') : category}
+                {translateCategory(category)}
               </SelectItem>
             ))}
           </SelectContent>
@@ -318,7 +324,7 @@ export default function Templates() {
             <CardHeader>
               <div className="flex items-start justify-between">
                 <FileText className="h-8 w-8 text-primary mb-2" />
-                <Badge variant="secondary">{template.category}</Badge>
+                <Badge variant="secondary">{translateCategory(template.category)}</Badge>
               </div>
               <CardTitle className="text-lg">{template.name}</CardTitle>
               <p className="text-sm text-gray-600">{template.description}</p>
@@ -406,7 +412,7 @@ export default function Templates() {
           <p className="text-gray-500">
             {selectedCategory === "all" 
               ? "No templates are available yet." 
-              : `No templates found in the ${selectedCategory} category.`
+              : `No templates found in the ${translateCategory(selectedCategory)} category.`
             }
           </p>
         </div>

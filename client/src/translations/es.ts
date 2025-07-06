@@ -100,6 +100,7 @@ export const es = {
   'common.upload': 'Subir',
   'common.search': 'Buscar',
   'common.filter': 'Filtrar',
+  'common.all': 'Todo',
 
   // Templates
   'templates.title': 'Plantillas de Contratos',
@@ -166,4 +167,10 @@ export const es = {
   'upload.dragDrop': 'Arrastra y suelta tu contrato aquí, o haz clic para explorar',
   'upload.supportedFormats': 'Formatos compatibles: PDF, DOCX, TXT (máx. 10MB)',
   'upload.analyzing': 'Analizando...',
+
+  // Template Categories
+  'category.Business': 'Negocios',
+  'category.Legal': 'Legal',
+  'category.Real Estate': 'Bienes Raíces',
+  'category.Entertainment': 'Entretenimiento',
 };

@@ -129,6 +129,7 @@ export const fr = {
   'common.upload': 'Télécharger',
   'common.search': 'Rechercher',
   'common.filter': 'Filtrer',
+  'common.all': 'Tout',
 
   // Footer
   'footer.description': 'Simplifiez l\'analyse de contrats avec l\'IA',
@@ -164,4 +165,10 @@ export const fr = {
   'upload.dragDrop': 'Glissez-déposez votre contrat ici, ou cliquez pour parcourir',
   'upload.supportedFormats': 'Formats supportés : PDF, DOCX, TXT (max 10MB)',
   'upload.analyzing': 'Analyse en cours...',
+
+  // Template Categories
+  'category.Business': 'Affaires',
+  'category.Legal': 'Juridique',
+  'category.Real Estate': 'Immobilier',
+  'category.Entertainment': 'Divertissement',
 };

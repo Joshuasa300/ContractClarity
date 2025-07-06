@@ -154,6 +154,7 @@ export const ar = {
   'common.upload': 'رفع',
   'common.search': 'بحث',
   'common.filter': 'تصفية',
+  'common.all': 'الكل',
 
   // Contract Upload
   'upload.title': 'رفع عقد',
@@ -179,4 +180,10 @@ export const ar = {
   // Language selector
   'language.title': 'اختيار اللغة',
   'language.select': 'اختر اللغة',
+
+  // Template Categories
+  'category.Business': 'الأعمال',
+  'category.Legal': 'قانوني',
+  'category.Real Estate': 'العقارات',
+  'category.Entertainment': 'الترفيه',
 };

@@ -100,6 +100,7 @@ export const de = {
   'common.upload': 'Hochladen',
   'common.search': 'Suchen',
   'common.filter': 'Filter',
+  'common.all': 'Alle',
 
   // Templates
   'templates.title': 'Vertragsvorlagen',
@@ -166,4 +167,10 @@ export const de = {
   'upload.dragDrop': 'Ziehen Sie Ihren Vertrag hierher oder klicken Sie zum Durchsuchen',
   'upload.supportedFormats': 'Unterstützte Formate: PDF, DOCX, TXT (max. 10MB)',
   'upload.analyzing': 'Analysiere...',
+
+  // Template Categories
+  'category.Business': 'Geschäft',
+  'category.Legal': 'Rechtlich',
+  'category.Real Estate': 'Immobilien',
+  'category.Entertainment': 'Unterhaltung',
 };
