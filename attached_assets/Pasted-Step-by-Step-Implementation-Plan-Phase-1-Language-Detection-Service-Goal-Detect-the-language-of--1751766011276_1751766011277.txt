@@ -1,0 +1,100 @@
+Step-by-Step Implementation Plan
+Phase 1: Language Detection Service
+Goal: Detect the language of uploaded contracts automatically
+
+Create Language Detection Service
+
+Install language detection library (franc or similar)
+Create server/services/languageDetection.ts
+Implement function to detect language from contract text
+Map detected language codes to supported languages (en, es, ar, de, fr)
+Update Contract Upload Flow
+
+Modify contract upload API to detect language before analysis
+Store detected language in contract record
+Add detectedLanguage field to contract schema
+Phase 2: Dynamic OpenAI Analysis
+Goal: Return analysis in the same language as the contract
+
+Enhance OpenAI Analysis Service
+
+Modify server/services/openai.ts to accept target language parameter
+Update system prompt to include language-specific instructions
+Add language-specific formatting for different writing systems (RTL for Arabic)
+Update Analysis Prompt
+
+Add dynamic language instruction to system prompt
+Include cultural context considerations for legal terminology
+Ensure output maintains professional legal language in target language
+Phase 3: Contract Processing Pipeline
+Goal: Integrate language detection with analysis pipeline
+
+Update Contract Analysis Service
+
+Modify server/services/contractAnalysis.ts to use detected language
+Pass language parameter to OpenAI analysis
+Handle language detection errors gracefully
+Update API Routes
+
+Modify contract upload route to include language detection
+Update analysis endpoints to handle language-specific requests
+Add language information to contract responses
+Phase 4: Frontend Integration
+Goal: Display language information and handle multilingual results
+
+Update Contract Display Components
+
+Show detected language in contract cards
+Update AnalysisResults.tsx to handle RTL languages
+Add language indicator badges
+Enhance Upload Flow
+
+Display detected language during upload
+Allow manual language override if detection is incorrect
+Show language confidence score
+Phase 5: Database and Schema Updates
+Goal: Store language information persistently
+
+Update Database Schema
+
+Add detectedLanguage and analysisLanguage fields to contracts table
+Run database migration
+Update TypeScript types
+Update Storage Layer
+
+Modify storage methods to handle language fields
+Update contract creation and retrieval methods
+Phase 6: Advanced Features
+Goal: Enhance user experience with language features
+
+Language Override Feature
+
+Allow users to manually specify analysis language
+Add language selection in upload form
+Support re-analysis in different language
+Language Analytics
+
+Track most common contract languages
+Display language statistics in dashboard
+Add language filtering for contract lists
+Implementation Notes:
+Language Detection Approach:
+
+Use statistical analysis (like franc library) for initial detection
+Implement confidence thresholds to avoid misclassification
+Provide fallback to English for low-confidence detection
+OpenAI Prompt Engineering:
+
+Include specific instructions like: "Analyze this contract and provide all results in [detected language]. Maintain legal terminology appropriate for [language/region]."
+Handle technical legal terms that may not translate directly
+Ensure cultural legal context is considered
+Error Handling:
+
+Graceful degradation if language detection fails
+Fallback to English analysis if target language analysis fails
+User notification of language detection and any fallbacks used
+Performance Considerations:
+
+Cache language detection results
+Optimize for common languages
+Consider async processing for large documents

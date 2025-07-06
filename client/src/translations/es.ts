@@ -161,6 +161,11 @@ export const es = {
   // Language Selector
   'language.title': 'Idioma',
   'language.select': 'Seleccionar Idioma',
+  'language.detected': 'Idioma Detectado',
+  'language.confidence': 'Confianza',
+  'language.highConfidence': 'Alta confianza',
+  'language.mediumConfidence': 'Confianza media',
+  'language.lowConfidence': 'Baja confianza',
 
   // Upload
   'upload.title': 'Subir contrato',

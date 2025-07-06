@@ -1,5 +1,6 @@
 import { analyzeContract } from "./openai";
 import { storage } from "../storage";
+import { detectContractLanguage, type LanguageDetectionResult } from "./languageDetection";
 
 export async function processContractAnalysis(contractId: number): Promise<void> {
   try {
@@ -12,7 +13,21 @@ export async function processContractAnalysis(contractId: number): Promise<void>
       return; // Already analyzed
     }
 
-    const analysis = await analyzeContract(contract.fileContent);
+    // Detect the language of the contract
+    const languageDetection = detectContractLanguage(contract.fileContent);
+    
+    // Update contract with detected language information
+    await storage.updateContractLanguage(contractId, {
+      detectedLanguage: languageDetection.detectedLanguage,
+      analysisLanguage: languageDetection.detectedLanguage,
+      languageConfidence: languageDetection.confidence,
+    });
+
+    // Perform analysis in the detected language
+    const analysis = await analyzeContract(
+      contract.fileContent, 
+      languageDetection.detectedLanguage
+    );
     
     await storage.updateContractAnalysis(contractId, analysis);
   } catch (error) {

@@ -159,6 +159,11 @@ export const fr = {
   // Language Selector
   'language.title': 'Langue',
   'language.select': 'Sélectionner la Langue',
+  'language.detected': 'Langue Détectée',
+  'language.confidence': 'Confiance',
+  'language.highConfidence': 'Confiance élevée',
+  'language.mediumConfidence': 'Confiance moyenne',
+  'language.lowConfidence': 'Confiance faible',
 
   // Upload
   'upload.title': 'Télécharger le contrat',

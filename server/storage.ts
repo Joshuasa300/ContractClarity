@@ -40,6 +40,15 @@ export interface IStorage {
     }
   ): Promise<Contract>;
 
+  updateContractLanguage(
+    id: number,
+    languageData: {
+      detectedLanguage: string;
+      analysisLanguage: string;
+      languageConfidence: number;
+    }
+  ): Promise<Contract>;
+
   // Template operations
   getTemplates(): Promise<ContractTemplate[]>;
   getTemplate(id: number): Promise<ContractTemplate | undefined>;
@@ -158,6 +167,27 @@ export class DatabaseStorage implements IStorage {
         keyTerms: analysis.keyTerms,
         recommendations: analysis.recommendations,
         analysisComplete: true,
+        updatedAt: new Date(),
+      })
+      .where(eq(contracts.id, id))
+      .returning();
+    return updatedContract;
+  }
+
+  async updateContractLanguage(
+    id: number,
+    languageData: {
+      detectedLanguage: string;
+      analysisLanguage: string;
+      languageConfidence: number;
+    }
+  ): Promise<Contract> {
+    const [updatedContract] = await db
+      .update(contracts)
+      .set({
+        detectedLanguage: languageData.detectedLanguage,
+        analysisLanguage: languageData.analysisLanguage,
+        languageConfidence: languageData.languageConfidence,
         updatedAt: new Date(),
       })
       .where(eq(contracts.id, id))

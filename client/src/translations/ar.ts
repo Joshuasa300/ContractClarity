@@ -180,6 +180,11 @@ export const ar = {
   // Language selector
   'language.title': 'اختيار اللغة',
   'language.select': 'اختر اللغة',
+  'language.detected': 'اللغة المكتشفة',
+  'language.confidence': 'الثقة',
+  'language.highConfidence': 'ثقة عالية',
+  'language.mediumConfidence': 'ثقة متوسطة',
+  'language.lowConfidence': 'ثقة منخفضة',
 
   // Template Categories
   'category.Business': 'الأعمال',

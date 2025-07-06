@@ -8,6 +8,7 @@ import {
   serial,
   boolean,
   integer,
+  real,
 } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
@@ -52,6 +53,9 @@ export const contracts = pgTable("contracts", {
   recommendations: jsonb("recommendations"),
   analysisComplete: boolean("analysis_complete").default(false),
   templateId: integer("template_id").references(() => contractTemplates.id),
+  detectedLanguage: varchar("detected_language").default("en"),
+  analysisLanguage: varchar("analysis_language").default("en"),
+  languageConfidence: real("language_confidence").default(0),
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
 });

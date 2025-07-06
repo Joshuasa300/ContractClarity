@@ -11,6 +11,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { FileText, Upload, Clock, CheckCircle, AlertCircle, LogOut, ChevronDown, ChevronUp, Library, Download, Eye, Trash2 } from "lucide-react";
+import { LanguageIndicator } from "@/components/LanguageIndicator";
 import { useState } from "react";
 import { Link } from "wouter";
 import ContractUpload from "@/components/ContractUpload";
@@ -245,9 +246,18 @@ export default function Home() {
                                   <h3 className="font-semibold text-text-primary text-sm sm:text-base truncate">
                                     {contract.fileName}
                                   </h3>
-                                  <p className="text-xs sm:text-sm text-gray-600">
-                                    Uploaded {new Date(contract.createdAt!).toLocaleDateString()}
-                                  </p>
+                                  <div className="flex items-center justify-between">
+                                    <p className="text-xs sm:text-sm text-gray-600">
+                                      Uploaded {new Date(contract.createdAt!).toLocaleDateString()}
+                                    </p>
+                                    {(contract as any).detectedLanguage && (
+                                      <LanguageIndicator 
+                                        detectedLanguage={(contract as any).detectedLanguage}
+                                        confidence={(contract as any).languageConfidence || 0}
+                                        className="ml-2"
+                                      />
+                                    )}
+                                  </div>
                                   {/* Mobile status - show below title */}
                                   <div className="flex items-center space-x-1 mt-1 sm:hidden">
                                     {isAnalysisComplete(contract.analysisComplete) ? (

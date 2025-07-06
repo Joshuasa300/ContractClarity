@@ -158,6 +158,11 @@ export const en = {
   // Language Selector
   'language.title': 'Language',
   'language.select': 'Select Language',
+  'language.detected': 'Detected Language',
+  'language.confidence': 'Confidence',
+  'language.highConfidence': 'High confidence',
+  'language.mediumConfidence': 'Medium confidence',
+  'language.lowConfidence': 'Low confidence',
 
   // Template Categories
   'category.Business': 'Business',

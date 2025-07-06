@@ -161,6 +161,11 @@ export const de = {
   // Language Selector
   'language.title': 'Sprache',
   'language.select': 'Sprache auswählen',
+  'language.detected': 'Erkannte Sprache',
+  'language.confidence': 'Vertrauen',
+  'language.highConfidence': 'Hohe Konfidenz',
+  'language.mediumConfidence': 'Mittlere Konfidenz',
+  'language.lowConfidence': 'Niedrige Konfidenz',
 
   // Upload
   'upload.title': 'Vertrag hochladen',
