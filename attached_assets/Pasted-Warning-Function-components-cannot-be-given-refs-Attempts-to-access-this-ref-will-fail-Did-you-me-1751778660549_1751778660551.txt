@@ -1,0 +1,93 @@
+Warning: Function components cannot be given refs. Attempts to access this ref will fail. Did you mean to use React.forwardRef()?
+
+Check the render method of `Primitive.button.SlotClone`.
+    at Badge (https://26811b83-55b5-4382-9cb9-c7f5ab803091-00-3nuieyomwrdly.worf.replit.dev/src/components/ui/badge.tsx:35:18)
+    at https://26811b83-55b5-4382-9cb9-c7f5ab803091-00-3nuieyomwrdly.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-LXTJ4TFU.js?v=378eb74e:79:13
+    at https://26811b83-55b5-4382-9cb9-c7f5ab803091-00-3nuieyomwrdly.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-LXTJ4TFU.js?v=378eb74e:56:13
+    at https://26811b83-55b5-4382-9cb9-c7f5ab803091-00-3nuieyomwrdly.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-PALV7G7K.js?v=378eb74e:42:13
+    at https://26811b83-55b5-4382-9cb9-c7f5ab803091-00-3nuieyomwrdly.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-LXTJ4TFU.js?v=378eb74e:79:13
+    at https://26811b83-55b5-4382-9cb9-c7f5ab803091-00-3nuieyomwrdly.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-LXTJ4TFU.js?v=378eb74e:56:13
+    at https://26811b83-55b5-4382-9cb9-c7f5ab803091-00-3nuieyomwrdly.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-PALV7G7K.js?v=378eb74e:42:13
+    at https://26811b83-55b5-4382-9cb9-c7f5ab803091-00-3nuieyomwrdly.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-QW5NZQJR.js?v=378eb74e:1963:13
+    at https://26811b83-55b5-4382-9cb9-c7f5ab803091-00-3nuieyomwrdly.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/@radix-ui_react-tooltip.js?v=378eb74e:196:13
+    at Provider (https://26811b83-55b5-4382-9cb9-c7f5ab803091-00-3nuieyomwrdly.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-PLT6GTVM.js?v=378eb74e:38:15)
+    at Provider (https://26811b83-55b5-4382-9cb9-c7f5ab803091-00-3nuieyomwrdly.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-PLT6GTVM.js?v=378eb74e:38:15)
+    at Popper (https://26811b83-55b5-4382-9cb9-c7f5ab803091-00-3nuieyomwrdly.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-QW5NZQJR.js?v=378eb74e:1955:11)
+    at Tooltip (https://26811b83-55b5-4382-9cb9-c7f5ab803091-00-3nuieyomwrdly.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/@radix-ui_react-tooltip.js?v=378eb74e:105:5)
+    at Provider (https://26811b83-55b5-4382-9cb9-c7f5ab803091-00-3nuieyomwrdly.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-PLT6GTVM.js?v=378eb74e:38:15)
+    at TooltipProvider (https://26811b83-55b5-4382-9cb9-c7f5ab803091-00-3nuieyomwrdly.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/@radix-ui_react-tooltip.js?v=378eb74e:61:5)
+    at LanguageIndicator (https://26811b83-55b5-4382-9cb9-c7f5ab803091-00-3nuieyomwrdly.worf.replit.dev/src/components/LanguageIndicator.tsx:36:3)
+    at div
+    at div
+    at div
+    at div
+    at button
+    at https://26811b83-55b5-4382-9cb9-c7f5ab803091-00-3nuieyomwrdly.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-PALV7G7K.js?v=378eb74e:42:13
+    at https://26811b83-55b5-4382-9cb9-c7f5ab803091-00-3nuieyomwrdly.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/@radix-ui_react-collapsible.js?v=378eb74e:81:13
+    at div
+    at div
+    at div
+    at https://26811b83-55b5-4382-9cb9-c7f5ab803091-00-3nuieyomwrdly.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-PALV7G7K.js?v=378eb74e:42:13
+    at Provider (https://26811b83-55b5-4382-9cb9-c7f5ab803091-00-3nuieyomwrdly.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-PLT6GTVM.js?v=378eb74e:38:15)
+    at https://26811b83-55b5-4382-9cb9-c7f5ab803091-00-3nuieyomwrdly.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/@radix-ui_react-collapsible.js?v=378eb74e:44:7
+    at div
+    at _c9 (https://26811b83-55b5-4382-9cb9-c7f5ab803091-00-3nuieyomwrdly.worf.replit.dev/src/components/ui/card.tsx:114:12)
+    at div
+    at _c (https://26811b83-55b5-4382-9cb9-c7f5ab803091-00-3nuieyomwrdly.worf.replit.dev/src/components/ui/card.tsx:20:11)
+    at div
+    at div
+    at div
+    at div
+    at Home (https://26811b83-55b5-4382-9cb9-c7f5ab803091-00-3nuieyomwrdly.worf.replit.dev/src/pages/home.tsx:39:21)
+    at Route (https://26811b83-55b5-4382-9cb9-c7f5ab803091-00-3nuieyomwrdly.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/wouter.js?v=378eb74e:323:16)
+    at Switch (https://26811b83-55b5-4382-9cb9-c7f5ab803091-00-3nuieyomwrdly.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/wouter.js?v=378eb74e:379:17)
+    at Router (https://26811b83-55b5-4382-9cb9-c7f5ab803091-00-3nuieyomwrdly.worf.replit.dev/src/App.tsx?v=bryb5IxX8nWAlRanPIC4V:34:42)
+    at Provider…
+
+Check the render method of &#x60;Primitive.button.SlotClone&#x60;.
+at Badge (https://26811b83-55b5-4382-9cb9-c7f5ab803091-00-3nuieyomwrdly.worf.replit.dev/src/components/ui/badge.tsx:35:18)
+at https://26811b83-55b5-4382-9cb9-c7f5ab803091-00-3nuieyomwrdly.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-LXTJ4TFU.js?v=378eb74e:79:13
+at https://26811b83-55b5-4382-9cb9-c7f5ab803091-00-3nuieyomwrdly.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-LXTJ4TFU.js?v=378eb74e:56:13
+at https://26811b83-55b5-4382-9cb9-c7f5ab803091-00-3nuieyomwrdly.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-PALV7G7K.js?v=378eb74e:42:13
+at https://26811b83-55b5-4382-9cb9-c7f5ab803091-00-3nuieyomwrdly.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-LXTJ4TFU.js?v=378eb74e:79:13
+at https://26811b83-55b5-4382-9cb9-c7f5ab803091-00-3nuieyomwrdly.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-LXTJ4TFU.js?v=378eb74e:56:13
+at https://26811b83-55b5-4382-9cb9-c7f5ab803091-00-3nuieyomwrdly.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-PALV7G7K.js?v=378eb74e:42:13
+at https://26811b83-55b5-4382-9cb9-c7f5ab803091-00-3nuieyomwrdly.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-QW5NZQJR.js?v=378eb74e:1963:13
+at https://26811b83-55b5-4382-9cb9-c7f5ab803091-00-3nuieyomwrdly.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/@radix-ui_react-tooltip.js?v=378eb74e:196:13
+at Provider (https://26811b83-55b5-4382-9cb9-c7f5ab803091-00-3nuieyomwrdly.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-PLT6GTVM.js?v=378eb74e:38:15)
+at Provider (https://26811b83-55b5-4382-9cb9-c7f5ab803091-00-3nuieyomwrdly.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-PLT6GTVM.js?v=378eb74e:38:15)
+at Popper (https://26811b83-55b5-4382-9cb9-c7f5ab803091-00-3nuieyomwrdly.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-QW5NZQJR.js?v=378eb74e:1955:11)
+at Tooltip (https://26811b83-55b5-4382-9cb9-c7f5ab803091-00-3nuieyomwrdly.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/@radix-ui_react-tooltip.js?v=378eb74e:105:5)
+at Provider (https://26811b83-55b5-4382-9cb9-c7f5ab803091-00-3nuieyomwrdly.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-PLT6GTVM.js?v=378eb74e:38:15)
+at TooltipProvider (https://26811b83-55b5-4382-9cb9-c7f5ab803091-00-3nuieyomwrdly.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/@radix-ui_react-tooltip.js?v=378eb74e:61:5)
+at LanguageIndicator (https://26811b83-55b5-4382-9cb9-c7f5ab803091-00-3nuieyomwrdly.worf.replit.dev/src/components/LanguageIndicator.tsx:36:3)
+at div
+at div
+at div
+at div
+at button
+at https://26811b83-55b5-4382-9cb9-c7f5ab803091-00-3nuieyomwrdly.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-PALV7G7K.js?v=378eb74e:42:13
+at https://26811b83-55b5-4382-9cb9-c7f5ab803091-00-3nuieyomwrdly.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/@radix-ui_react-collapsible.js?v=378eb74e:81:13
+at div
+at div
+at div
+at https://26811b83-55b5-4382-9cb9-c7f5ab803091-00-3nuieyomwrdly.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-PALV7G7K.js?v=378eb74e:42:13
+at Provider (https://26811b83-55b5-4382-9cb9-c7f5ab803091-00-3nuieyomwrdly.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-PLT6GTVM.js?v=378eb74e:38:15)
+at https://26811b83-55b5-4382-9cb9-c7f5ab803091-00-3nuieyomwrdly.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/@radix-ui_react-collapsible.js?v=378eb74e:44:7
+at div
+at _c9 (https://26811b83-55b5-4382-9cb9-c7f5ab803091-00-3nuieyomwrdly.worf.replit.dev/src/components/ui/card.tsx:114:12)
+at div
+at _c (https://26811b83-55b5-4382-9cb9-c7f5ab803091-00-3nuieyomwrdly.worf.replit.dev/src/components/ui/card.tsx:20:11)
+at div
+at div
+at div
+at div
+at Home (https://26811b83-55b5-4382-9cb9-c7f5ab803091-00-3nuieyomwrdly.worf.replit.dev/src/pages/home.tsx:39:21)
+at Route (https://26811b83-55b5-4382-9cb9-c7f5ab803091-00-3nuieyomwrdly.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/wouter.js?v=378eb74e:323:16)
+at Switch (https://26811b83-55b5-4382-9cb9-c7f5ab803091-00-3nuieyomwrdly.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/wouter.js?v=378eb74e:379:17)
+at Router (https://26811b83-55b5-4382-9cb9-c7f5ab803091-00-3nuieyomwrdly.worf.replit.dev/src/App.tsx?v=bryb5IxX8nWAlRanPIC4V:34:42)
+at Provider…
+at t.value (https://26811b83-55b5-4382-9cb9-c7f5ab803091-00-3nuieyomwrdly.worf.replit.dev/__replco/static/devtools/eruda/3.2.3/eruda.js:2:17465)
+at new t (https://26811b83-55b5-4382-9cb9-c7f5ab803091-00-3nuieyomwrdly.worf.replit.dev/__replco/static/devtools/eruda/3.2.3/eruda.js:2:12630)
+at t.value (https://26811b83-55b5-4382-9cb9-c7f5ab803091-00-3nuieyomwrdly.worf.replit.dev/__replco/static/devtools/eruda/3.2.3/eruda.js:2:32766)
+at https://26811b83-55b5-4382-9cb9-c7f5ab803091-00-3nuieyomwrdly.worf.replit.dev/__replco/static/devtools/eruda/3.2.3/eruda.js:2:34400
