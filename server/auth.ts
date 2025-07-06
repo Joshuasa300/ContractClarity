@@ -308,17 +308,34 @@ export function setupAuth(app: Express) {
   app.get("/api/auth/google/callback", (req, res, next) => {
     try {
       console.log("Google OAuth: Processing callback");
+      console.log("Google OAuth: Full callback URL:", req.originalUrl);
+      console.log("Google OAuth: Request host:", req.get('host'));
       console.log("Google OAuth: Callback query params:", {
         code: req.query.code ? "present" : "missing",
         state: req.query.state ? "present" : "missing", 
-        error: req.query.error || "none"
+        error: req.query.error || "none",
+        error_description: req.query.error_description || "none"
       });
 
       // Check for OAuth errors from Google
       if (req.query.error) {
         console.error("Google OAuth: Error from Google:", req.query.error);
-        const errorDescription = req.query.error_description || 'Authentication failed';
-        return res.redirect(`/auth?error=google_error&message=${encodeURIComponent(errorDescription)}`);
+        console.error("Google OAuth: Error description:", req.query.error_description);
+        
+        // Handle specific Google OAuth errors
+        let errorMessage = 'Authentication failed';
+        if (req.query.error === 'access_denied') {
+          errorMessage = 'Access denied by user or Google';
+        } else if (req.query.error === 'redirect_uri_mismatch') {
+          errorMessage = `Callback URL mismatch. Expected: https://${req.get('host')}/api/auth/google/callback`;
+          console.error("Google OAuth: CALLBACK URL ISSUE - Please add this URL to your Google OAuth app:", `https://${req.get('host')}/api/auth/google/callback`);
+        } else if (req.query.error === 'invalid_client') {
+          errorMessage = 'Invalid Google OAuth client configuration';
+        } else {
+          errorMessage = req.query.error_description || req.query.error;
+        }
+        
+        return res.redirect(`/auth?error=google_error&message=${encodeURIComponent(errorMessage)}`);
       }
 
       // Validate state parameter (CSRF protection like Flask example)
