@@ -13,7 +13,7 @@ import {
   type InsertClauseLibraryItem,
 } from "@shared/schema";
 import { db } from "./db";
-import { eq, desc, ilike, or } from "drizzle-orm";
+import { eq, desc, ilike, or, and } from "drizzle-orm";
 
 // Interface for storage operations
 export interface IStorage {
@@ -127,7 +127,12 @@ export class DatabaseStorage implements IStorage {
       .insert(contracts)
       .values(contract)
       .returning();
-    return newContract;
+    return {
+      ...newContract,
+      riskAssessment: newContract.riskAssessment as any,
+      keyTerms: newContract.keyTerms as any,
+      recommendations: newContract.recommendations as any,
+    };
   }
 
   async getContract(id: number): Promise<Contract | undefined> {
@@ -135,15 +140,27 @@ export class DatabaseStorage implements IStorage {
       .select()
       .from(contracts)
       .where(eq(contracts.id, id));
-    return contract;
+    if (!contract) return undefined;
+    return {
+      ...contract,
+      riskAssessment: contract.riskAssessment as any,
+      keyTerms: contract.keyTerms as any,
+      recommendations: contract.recommendations as any,
+    };
   }
 
   async getUserContracts(userId: string): Promise<Contract[]> {
-    return await db
+    const results = await db
       .select()
       .from(contracts)
       .where(eq(contracts.userId, userId))
       .orderBy(desc(contracts.createdAt));
+    return results.map(contract => ({
+      ...contract,
+      riskAssessment: contract.riskAssessment as any,
+      keyTerms: contract.keyTerms as any,
+      recommendations: contract.recommendations as any,
+    }));
   }
 
   async deleteContract(id: number): Promise<void> {
@@ -171,7 +188,12 @@ export class DatabaseStorage implements IStorage {
       })
       .where(eq(contracts.id, id))
       .returning();
-    return updatedContract;
+    return {
+      ...updatedContract,
+      riskAssessment: updatedContract.riskAssessment as any,
+      keyTerms: updatedContract.keyTerms as any,
+      recommendations: updatedContract.recommendations as any,
+    };
   }
 
   async updateContractLanguage(
@@ -192,7 +214,12 @@ export class DatabaseStorage implements IStorage {
       })
       .where(eq(contracts.id, id))
       .returning();
-    return updatedContract;
+    return {
+      ...updatedContract,
+      riskAssessment: updatedContract.riskAssessment as any,
+      keyTerms: updatedContract.keyTerms as any,
+      recommendations: updatedContract.recommendations as any,
+    };
   }
 
   // Template operations
@@ -207,8 +234,10 @@ export class DatabaseStorage implements IStorage {
 
   async getTemplatesByCategory(category: string): Promise<ContractTemplate[]> {
     return await db.select().from(contractTemplates)
-      .where(eq(contractTemplates.category, category))
-      .where(eq(contractTemplates.isActive, true));
+      .where(and(
+        eq(contractTemplates.category, category),
+        eq(contractTemplates.isActive, true)
+      ));
   }
 
   async createContractFromTemplate(
@@ -264,20 +293,22 @@ export class DatabaseStorage implements IStorage {
 
   async getClausesByCategory(category: string): Promise<ClauseLibraryItem[]> {
     return await db.select().from(clauseLibrary)
-      .where(eq(clauseLibrary.category, category))
-      .where(eq(clauseLibrary.isActive, true));
+      .where(and(
+        eq(clauseLibrary.category, category),
+        eq(clauseLibrary.isActive, true)
+      ));
   }
 
   async searchClauses(query: string): Promise<ClauseLibraryItem[]> {
     return await db.select().from(clauseLibrary)
-      .where(
+      .where(and(
         or(
           ilike(clauseLibrary.title, `%${query}%`),
           ilike(clauseLibrary.description, `%${query}%`),
           ilike(clauseLibrary.content, `%${query}%`)
-        )
-      )
-      .where(eq(clauseLibrary.isActive, true));
+        ),
+        eq(clauseLibrary.isActive, true)
+      ));
   }
 }
 
