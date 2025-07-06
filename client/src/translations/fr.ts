@@ -171,4 +171,10 @@ export const fr = {
   'category.Legal': 'Juridique',
   'category.Real Estate': 'Immobilier',
   'category.Entertainment': 'Divertissement',
+
+  // Template Names
+  'template.Non-Disclosure Agreement': 'Accord de Non-Divulgation',
+  'template.Service Agreement': 'Accord de Service',
+  'template.Tenancy Agreement': 'Contrat de Location',
+  'template.Recording Contract': 'Contrat d\'Enregistrement',
 };

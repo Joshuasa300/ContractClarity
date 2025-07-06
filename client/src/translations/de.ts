@@ -173,4 +173,10 @@ export const de = {
   'category.Legal': 'Rechtlich',
   'category.Real Estate': 'Immobilien',
   'category.Entertainment': 'Unterhaltung',
+
+  // Template Names
+  'template.Non-Disclosure Agreement': 'Geheimhaltungsvereinbarung',
+  'template.Service Agreement': 'Dienstleistungsvertrag',
+  'template.Tenancy Agreement': 'Mietvertrag',
+  'template.Recording Contract': 'Aufnahmevertrag',
 };

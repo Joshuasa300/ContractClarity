@@ -173,4 +173,10 @@ export const es = {
   'category.Legal': 'Legal',
   'category.Real Estate': 'Bienes Raíces',
   'category.Entertainment': 'Entretenimiento',
+
+  // Template Names
+  'template.Non-Disclosure Agreement': 'Acuerdo de No Divulgación',
+  'template.Service Agreement': 'Acuerdo de Servicio',
+  'template.Tenancy Agreement': 'Contrato de Arrendamiento',
+  'template.Recording Contract': 'Contrato de Grabación',
 };

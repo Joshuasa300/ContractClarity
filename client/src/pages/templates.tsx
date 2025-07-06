@@ -151,9 +151,14 @@ export default function Templates() {
     return t(`category.${category}`) || category;
   };
 
+  // Helper function to translate template names
+  const translateTemplateName = (templateName: string): string => {
+    return t(`template.${templateName}`) || templateName;
+  };
+
   const handleTemplateSelect = (template: ContractTemplate) => {
     setSelectedTemplate(template);
-    setFileName(`${template.name} - ${new Date().toLocaleDateString()}`);
+    setFileName(`${translateTemplateName(template.name)} - ${new Date().toLocaleDateString()}`);
 
     // Initialize variables
     const variables = template.variables as TemplateVariable[] || [];
@@ -326,7 +331,7 @@ export default function Templates() {
                 <FileText className="h-8 w-8 text-primary mb-2" />
                 <Badge variant="secondary">{translateCategory(template.category)}</Badge>
               </div>
-              <CardTitle className="text-lg">{template.name}</CardTitle>
+              <CardTitle className="text-lg">{translateTemplateName(template.name)}</CardTitle>
               <p className="text-sm text-gray-600">{template.description}</p>
             </CardHeader>
             <CardContent>
@@ -344,7 +349,7 @@ export default function Templates() {
                 </DialogTrigger>
                 <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
                   <DialogHeader>
-                    <DialogTitle>Create Contract: {selectedTemplate?.name}</DialogTitle>
+                    <DialogTitle>Create Contract: {selectedTemplate && translateTemplateName(selectedTemplate.name)}</DialogTitle>
                   </DialogHeader>
 
                   {selectedTemplate && (

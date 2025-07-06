@@ -186,4 +186,10 @@ export const ar = {
   'category.Legal': 'قانوني',
   'category.Real Estate': 'العقارات',
   'category.Entertainment': 'الترفيه',
+
+  // Template Names
+  'template.Non-Disclosure Agreement': 'اتفاقية عدم الإفصاح',
+  'template.Service Agreement': 'اتفاقية الخدمة',
+  'template.Tenancy Agreement': 'عقد الإيجار',
+  'template.Recording Contract': 'عقد التسجيل',
 };
