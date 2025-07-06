@@ -32,11 +32,20 @@ export interface LanguageDetectionResult {
  */
 export function detectContractLanguage(text: string): LanguageDetectionResult {
   try {
-    // Clean the text - remove excessive whitespace and special characters
-    const cleanText = text
+    // Clean the text - handle PDF parsing artifacts where each character is separated by spaces
+    let cleanText = text
+      // First, remove spaces between individual characters (common PDF parsing issue)
+      .replace(/\b\w\s+(?=\w\b)/g, (match) => match.replace(/\s+/g, ''))
+      // Then normalize remaining whitespace
       .replace(/\s+/g, ' ')
-      .replace(/[^\w\s]/g, ' ')
+      // Remove excessive special characters but keep basic punctuation
+      .replace(/[^\w\s\-.,;:!?()]/g, ' ')
       .trim();
+    
+    // Additional cleaning for German compound words and umlauts
+    cleanText = cleanText
+      .replace(/\s+([äöüÄÖÜß])\s+/g, '$1')  // Fix umlauts with spaces
+      .replace(/\s+/g, ' ');  // Final whitespace normalization
 
     // Require minimum text length for reliable detection
     if (cleanText.length < 50) {
