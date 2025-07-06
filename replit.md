@@ -120,6 +120,7 @@ Changelog:
 - July 05, 2025. Created separate output location for template-generated contracts with dedicated section on templates page
 - July 05, 2025. Added delete functionality with trash icons for both template contracts and analyzed contracts with database deletion
 - July 05, 2025. Achieved complete multi-language translation coverage: French (100%), Spanish (100%), German (100%), and Arabic (100%) with comprehensive translation keys across all UI components and systematic translation protocol for future updates
+- July 06, 2025. Removed QuickActions floating action button (purple + button) and deleted translation helper page to simplify user interface
 
 ## User Preferences
 

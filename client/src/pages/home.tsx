@@ -15,7 +15,7 @@ import { useState } from "react";
 import { Link } from "wouter";
 import ContractUpload from "@/components/ContractUpload";
 import Header from "@/components/Header";
-import QuickActions from "@/components/QuickActions";
+
 import type { Contract, User } from "@shared/schema";
 
 // Helper function to check if analysis is complete
@@ -444,7 +444,7 @@ export default function Home() {
         </div>
       </div>
       
-      <QuickActions />
+
     </div>
   );
 }
