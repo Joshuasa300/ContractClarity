@@ -50,8 +50,8 @@ export default function Clauses() {
     return t(`clause.${title}`) || title;
   };
 
-  const translateClauseDescription = (description: string): string => {
-    return t(`clauseDesc.${description}`) || description;
+  const translateClauseDescription = (title: string): string => {
+    return t(`clauseDesc.${title}`) || '';
   };
 
   const translateClauseCategory = (category: string): string => {
@@ -159,7 +159,7 @@ export default function Clauses() {
                   </Badge>
                 </div>
                 <CardTitle className="text-lg">{translateClauseTitle(clause.title)}</CardTitle>
-                <p className="text-sm text-gray-600">{translateClauseDescription(clause.description)}</p>
+                <p className="text-sm text-gray-600">{translateClauseDescription(clause.title) || clause.description}</p>
               </CardHeader>
               <CardContent>
                 <div className="space-y-3">
@@ -204,7 +204,7 @@ export default function Clauses() {
                               </Badge>
                             </div>
 
-                            <p className="text-gray-600">{translateClauseDescription(selectedClause.description)}</p>
+                            <p className="text-gray-600">{translateClauseDescription(selectedClause.title) || selectedClause.description}</p>
 
                             <div className="bg-gray-50 p-4 rounded-lg">
                               <div className="flex justify-between items-center mb-2">
