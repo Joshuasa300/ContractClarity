@@ -153,8 +153,41 @@ export const en = {
   'common.back': 'Back',
   'common.next': 'Next',
   'common.previous': 'Previous',
+  'common.all': 'All',
 
   // Language Selector
   'language.title': 'Language',
   'language.select': 'Select Language',
+
+  // Template Categories
+  'category.Business': 'Business',
+  'category.Legal': 'Legal',
+  'category.Real Estate': 'Real Estate',
+  'category.Entertainment': 'Entertainment',
+
+  // Template Names
+  'template.Non-Disclosure Agreement': 'Non-Disclosure Agreement',
+  'template.Service Agreement': 'Service Agreement',
+  'template.Tenancy Agreement': 'Tenancy Agreement',
+  'template.Recording Contract': 'Recording Contract',
+
+  // Clause Titles
+  'clause.Limitation of Liability': 'Limitation of Liability',
+  'clause.Force Majeure': 'Force Majeure',
+  'clause.Intellectual Property Rights': 'Intellectual Property Rights',
+  'clause.Termination for Convenience': 'Termination for Convenience',
+  'clause.Governing Law': 'Governing Law',
+
+  // Clause Descriptions
+  'clauseDesc.Limitation of Liability': 'Standard clause to limit liability exposure',
+  'clauseDesc.Force Majeure': 'Protection against unforeseeable circumstances',
+  'clauseDesc.Intellectual Property Rights': 'Clause defining IP ownership and usage',
+  'clauseDesc.Termination for Convenience': 'Allows termination without cause',
+  'clauseDesc.Governing Law': 'Specifies jurisdiction and applicable law',
+
+  // Clause Categories
+  'clauseCategory.Risk Management': 'Risk Management',
+  'clauseCategory.Intellectual Property': 'Intellectual Property',
+  'clauseCategory.Termination': 'Termination',
+  'clauseCategory.Legal': 'Legal',
 };
