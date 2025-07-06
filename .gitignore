@@ -1,6 +1,77 @@
+# Dependencies
 node_modules
-dist
-.DS_Store
+/.pnp
+.pnp.js
+
+# Production builds
+/dist
+/build
 server/public
+
+# Development files
+.DS_Store
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
 vite.config.ts.*
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage directory used by tools like istanbul
+coverage
+*.lcov
+
+# Dependency directories
+jspm_packages/
+
+# Optional npm cache directory
+.npm
+
+# Optional eslint cache
+.eslintcache
+
+# Optional REPL history
+.node_repl_history
+
+# Output of 'npm pack'
+*.tgz
 *.tar.gz
+
+# Yarn Integrity file
+.yarn-integrity
+
+# parcel-bundler cache (https://parceljs.org/)
+.cache
+.parcel-cache
+
+# Stores VSCode versions used for testing VSCode extensions
+.vscode-test
+
+# Replit specific files
+.replit
+.upm
+.config
+
+# Database
+*.db
+*.sqlite
+
+# Attached assets (may contain sensitive documents)
+attached_assets/
+
+# Translation helper files
+translation-helper.js
+trigger_analysis.js
+cookies.txt
