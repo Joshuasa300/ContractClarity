@@ -12,6 +12,7 @@ import Home from "@/pages/home";
 import Analysis from "@/pages/analysis";
 import Templates from "@/pages/templates";
 import Clauses from "@/pages/clauses";
+import Features from "@/pages/features";
 
 
 function Router() {
@@ -30,6 +31,7 @@ function Router() {
           <Route path="/analysis/:contractId" component={Analysis} />
           <Route path="/templates" component={Templates} />
           <Route path="/clauses" component={Clauses} />
+          <Route path="/features" component={Features} />
 
         </>
       )}
