@@ -195,4 +195,124 @@ export const en = {
   'clauseCategory.Intellectual Property': 'Intellectual Property',
   'clauseCategory.Termination': 'Termination',
   'clauseCategory.Legal': 'Legal',
+
+  // Features Page
+  features: {
+    hero: {
+      badge: 'AI-Powered Contract Intelligence',
+      title: 'Transform Contract Analysis Forever',
+      description: 'Experience the future of legal document review with our comprehensive AI-powered platform that delivers instant insights, multi-language support, and professional-grade analysis.',
+      primaryCTA: 'Start Free Analysis',
+      secondaryCTA: 'Explore Templates'
+    },
+    coreFeatures: {
+      title: 'Core Features',
+      description: 'Comprehensive tools designed to simplify contract analysis and management'
+    },
+    core: {
+      aiAnalysis: {
+        title: 'Advanced AI Analysis',
+        description: 'Powered by GPT-4o for intelligent contract interpretation',
+        highlight1: 'Plain language summaries of complex legal terms',
+        highlight2: 'Context-aware analysis with legal expertise',
+        highlight3: 'Instant processing of documents up to 50 pages'
+      },
+      riskAssessment: {
+        title: 'Smart Risk Assessment',
+        description: 'Comprehensive risk evaluation with categorized insights',
+        highlight1: 'High, medium, and low risk categorization',
+        highlight2: 'Detailed explanations for each risk factor',
+        highlight3: 'Industry-specific risk evaluation patterns'
+      },
+      multiLanguage: {
+        title: 'Global Language Support',
+        description: 'Native support for 5 major languages with cultural context',
+        highlight1: 'Automatic language detection with confidence scoring',
+        highlight2: 'Culturally appropriate legal terminology',
+        highlight3: 'RTL support for Arabic language contracts'
+      },
+      templates: {
+        title: 'Smart Contract Templates',
+        description: 'Professional templates for common contract types',
+        highlight1: 'Customizable variables for personalization',
+        highlight2: 'Legal compliance built into every template',
+        highlight3: 'Multi-language template generation'
+      },
+      clauseLibrary: {
+        title: 'Comprehensive Clause Library',
+        description: 'Searchable database of legal clauses and provisions',
+        highlight1: 'Advanced search and filtering capabilities',
+        highlight2: 'Categorized by legal domain and risk level',
+        highlight3: 'Ready-to-use clauses with explanations'
+      },
+      realtime: {
+        title: 'Real-time Processing',
+        description: 'Instant analysis with live progress tracking',
+        highlight1: 'Sub-minute processing for most documents',
+        highlight2: 'Live progress indicators during analysis',
+        highlight3: 'Immediate notifications when complete'
+      }
+    },
+    analysisCapabilities: {
+      title: 'AI Analysis Capabilities',
+      description: 'Four core analysis features that transform how you understand contracts'
+    },
+    analysis: {
+      summary: {
+        title: 'Plain Language Summary',
+        description: 'Complex legal language simplified into clear, understandable terms'
+      },
+      riskEvaluation: {
+        title: 'Risk Evaluation',
+        description: 'Comprehensive risk assessment with categorized insights and explanations'
+      },
+      keyTerms: {
+        title: 'Key Terms Extraction',
+        description: 'Automatic identification and explanation of critical contract provisions'
+      },
+      recommendations: {
+        title: 'Actionable Recommendations',
+        description: 'Expert suggestions for contract improvements and risk mitigation'
+      }
+    },
+    technicalExcellence: {
+      title: 'Technical Excellence',
+      description: 'Built with enterprise-grade security and reliability in mind'
+    },
+    technical: {
+      security: {
+        title: 'Enterprise Security',
+        description: 'Bank-grade encryption and secure data handling for sensitive documents'
+      },
+      formats: {
+        title: 'Multiple File Formats',
+        description: 'Support for PDF, DOC, DOCX, and TXT files with intelligent text extraction'
+      },
+      compliance: {
+        title: 'Legal Compliance',
+        description: 'GDPR compliant with secure data processing and privacy protection'
+      },
+      authentication: {
+        title: 'Secure Authentication',
+        description: 'Multiple sign-in options with Google OAuth and traditional authentication'
+      }
+    },
+    languageSupport: {
+      title: 'Global Language Support',
+      description: 'Comprehensive multi-language capabilities for international contracts',
+      autoDetection: {
+        title: 'Automatic Language Detection',
+        description: 'Smart detection of contract language with confidence scoring and culturally appropriate analysis'
+      }
+    },
+    cta: {
+      title: 'Ready to Transform Your Contract Analysis?',
+      description: 'Join thousands of professionals who trust ContractAI for their legal document needs',
+      primaryButton: 'Start Free Trial',
+      secondaryButton: 'View Templates',
+      feature1: 'No credit card required',
+      feature2: 'Instant setup',
+      feature3: 'Professional support'
+    }
+  }
 };
