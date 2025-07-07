@@ -310,7 +310,7 @@ export const en = {
       description: 'Join thousands of professionals who trust ContractAI for their legal document needs',
       primaryButton: 'Start Free Trial',
       secondaryButton: 'View Templates',
-      feature1: 'No credit card required',
+      feature1: 'Multiple languages',
       feature2: 'Instant setup',
       feature3: 'Professional support'
     }
