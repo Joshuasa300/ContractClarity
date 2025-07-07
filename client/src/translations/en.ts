@@ -308,7 +308,7 @@ export const en = {
     cta: {
       title: 'Ready to Transform Your Contract Analysis?',
       description: 'Join thousands of professionals who trust ContractAI for their legal document needs',
-      primaryButton: 'Simplify your contracts',
+      primaryButton: 'Simplify Your Contracts',
       secondaryButton: 'View Templates',
       feature1: 'Multiple languages',
       feature2: 'Instant setup',
