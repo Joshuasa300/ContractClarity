@@ -20,10 +20,13 @@ function Router() {
 
   return (
     <Switch>
+      {/* Public routes accessible to everyone */}
+      <Route path="/features" component={Features} />
+      <Route path="/auth" component={AuthPage} />
+      
       {isLoading || !isAuthenticated ? (
         <>
           <Route path="/" component={Landing} />
-          <Route path="/auth" component={AuthPage} />
         </>
       ) : (
         <>
@@ -31,8 +34,6 @@ function Router() {
           <Route path="/analysis/:contractId" component={Analysis} />
           <Route path="/templates" component={Templates} />
           <Route path="/clauses" component={Clauses} />
-          <Route path="/features" component={Features} />
-
         </>
       )}
       <Route component={NotFound} />
