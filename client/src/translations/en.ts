@@ -202,7 +202,7 @@ export const en = {
       badge: 'AI-Powered Contract Intelligence',
       title: 'Transform Contract Analysis Forever',
       description: 'Experience the future of legal document review with our comprehensive AI-powered platform that delivers instant insights, multi-language support, and professional-grade analysis.',
-      primaryCTA: 'Start Free Analysis',
+      primaryCTA: 'Start Analysis',
       secondaryCTA: 'Explore Templates'
     },
     coreFeatures: {
