@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Link } from "wouter";
+import { Link, useLocation } from "wouter";
 import { 
   Brain, 
   Shield, 
@@ -22,9 +22,23 @@ import {
   Download
 } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
+import Navigation from "@/components/Navigation";
 
 export default function Features() {
   const { t, language } = useLanguage();
+  const [, setLocation] = useLocation();
+  
+  const handleGetStarted = () => {
+    setLocation("/auth");
+  };
+
+  const handleSignIn = () => {
+    setLocation("/auth");
+  };
+
+  const handleSignUp = () => {
+    setLocation("/auth");
+  };
 
   const coreFeatures = [
     {
@@ -145,6 +159,8 @@ export default function Features() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
+      <Navigation onSignIn={handleSignIn} onGetStarted={handleGetStarted} onSignUp={handleSignUp} />
+      
       {/* Hero Section */}
       <section className="relative overflow-hidden py-20 px-4">
         <div className="absolute inset-0 bg-gradient-to-r from-blue-600/10 to-purple-600/10 dark:from-blue-400/5 dark:to-purple-400/5" />
