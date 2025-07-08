@@ -24,6 +24,8 @@ export interface IStorage {
   getUserByGoogleId(googleId: string): Promise<User | undefined>;
   createUser(user: UpsertUser): Promise<User>;
   linkGoogleAccount(userId: string, googleId: string): Promise<User>;
+  updateUserSubscription(userId: string, subscriptionStatus: string, stripeId?: string): Promise<User>;
+  getUserByStripeId(stripeId: string): Promise<User | undefined>;
   
   // Contract operations
   createContract(contract: InsertContract): Promise<Contract>;
@@ -119,6 +121,28 @@ export class DatabaseStorage implements IStorage {
       .where(eq(users.id, userId))
       .returning();
     return user;
+  }
+
+  async updateUserSubscription(userId: string, subscriptionStatus: string, stripeId?: string): Promise<User> {
+    const updateData: any = {
+      subscriptionStatus,
+      updatedAt: new Date(),
+    };
+    if (stripeId) {
+      updateData.stripeId = stripeId;
+    }
+    
+    const [user] = await db
+      .update(users)
+      .set(updateData)
+      .where(eq(users.id, userId))
+      .returning();
+    return user;
+  }
+
+  async getUserByStripeId(stripeId: string): Promise<User | undefined> {
+    const [user] = await db.select().from(users).where(eq(users.stripeId, stripeId));
+    return user || undefined;
   }
 
   // Contract operations
