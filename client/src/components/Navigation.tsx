@@ -27,7 +27,7 @@ export default function Navigation({ onSignIn, onGetStarted, onSignUp }: Navigat
 
           <div className="hidden md:block">
             <div className="ml-10 flex items-baseline space-x-4">
-              <a href="#" className="text-text-primary hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition-colors">
+              <a href="/" className="text-text-primary hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition-colors">
                 Home
               </a>
               <a href="/features" className="text-gray-500 hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition-colors">
@@ -72,7 +72,7 @@ export default function Navigation({ onSignIn, onGetStarted, onSignUp }: Navigat
       {mobileMenuOpen && (
         <div className="md:hidden border-t border-gray-200 bg-white">
           <div className="px-2 pt-2 pb-3 space-y-1">
-            <a href="#" className="block px-3 py-2 text-base font-medium text-text-primary hover:text-primary">
+            <a href="/" className="block px-3 py-2 text-base font-medium text-text-primary hover:text-primary">
               Home
             </a>
             <a href="/features" className="block px-3 py-2 text-base font-medium text-gray-500 hover:text-primary">
