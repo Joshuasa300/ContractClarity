@@ -9,6 +9,7 @@ import {
   boolean,
   integer,
   real,
+  decimal,
 } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
@@ -89,12 +90,39 @@ export const clauseLibrary = pgTable("clause_library", {
   updatedAt: timestamp("updated_at").defaultNow(),
 });
 
+// Usage tracking table for OpenAI token consumption
+export const usageLogs = pgTable("usage_logs", {
+  id: serial("id").primaryKey(),
+  userId: varchar("user_id").notNull().references(() => users.id),
+  operation: varchar("operation").notNull(), // 'contract_analysis', 'translation', 'template_generation'
+  tokensUsed: integer("tokens_used").notNull(),
+  model: varchar("model").notNull(), // 'gpt-4o', 'gpt-4', etc.
+  inputTokens: integer("input_tokens").notNull(),
+  outputTokens: integer("output_tokens").notNull(),
+  cost: decimal("cost", { precision: 10, scale: 6 }), // Cost in USD
+  contractId: integer("contract_id").references(() => contracts.id),
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
+// Plan limits configuration table
+export const planLimits = pgTable("plan_limits", {
+  id: serial("id").primaryKey(),
+  planType: varchar("plan_type").notNull().unique(), // 'free', 'plus', 'pro', 'premium'
+  monthlyTokenLimit: integer("monthly_token_limit").notNull(),
+  dailyTokenLimit: integer("daily_token_limit").notNull(),
+  operationLimits: jsonb("operation_limits"), // Specific limits per operation
+  isActive: boolean("is_active").default(true),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
 // Relations
 export const userRelations = relations(users, ({ many }) => ({
   contracts: many(contracts),
+  usageLogs: many(usageLogs),
 }));
 
-export const contractRelations = relations(contracts, ({ one }) => ({
+export const contractRelations = relations(contracts, ({ one, many }) => ({
   user: one(users, {
     fields: [contracts.userId],
     references: [users.id],
@@ -103,10 +131,22 @@ export const contractRelations = relations(contracts, ({ one }) => ({
     fields: [contracts.templateId],
     references: [contractTemplates.id],
   }),
+  usageLogs: many(usageLogs),
 }));
 
 export const templateRelations = relations(contractTemplates, ({ many }) => ({
   contracts: many(contracts),
+}));
+
+export const usageLogRelations = relations(usageLogs, ({ one }) => ({
+  user: one(users, {
+    fields: [usageLogs.userId],
+    references: [users.id],
+  }),
+  contract: one(contracts, {
+    fields: [usageLogs.contractId],
+    references: [contracts.id],
+  }),
 }));
 
 // Schemas
@@ -154,6 +194,12 @@ export type InsertContractTemplate = typeof contractTemplates.$inferInsert;
 
 export type ClauseLibraryItem = typeof clauseLibrary.$inferSelect;
 export type InsertClauseLibraryItem = typeof clauseLibrary.$inferInsert;
+
+export type UsageLog = typeof usageLogs.$inferSelect;
+export type InsertUsageLog = typeof usageLogs.$inferInsert;
+
+export type PlanLimit = typeof planLimits.$inferSelect;
+export type InsertPlanLimit = typeof planLimits.$inferInsert;
 
 export interface TemplateVariable {
   name: string;

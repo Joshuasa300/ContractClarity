@@ -127,6 +127,7 @@ Changelog:
 - July 06, 2025. Fixed React forwardRef warning in Badge component used within Tooltip by adding proper ref forwarding to prevent console errors.
 - July 06, 2025. Implemented comprehensive Google OAuth enhancement following Flask example patterns: enhanced error handling, state management, CSRF protection, comprehensive logging, improved user profile data extraction, robust session management, enhanced callback processing, and user-friendly error messages with detailed OAuth flow debugging.
 - July 09, 2025. Added subscription infrastructure to users table with database schema updates: accountStatus (free/plus/pro/premium), stripeCustomerId (unique constraint), subscriptionExpiresAt (timestamp), and updateUserSubscription storage method. Ready for Stripe integration with proper database foundation for subscription management.
+- July 09, 2025. Implemented comprehensive usage tracking system with database tables (usage_logs, plan_limits), storage methods for token consumption monitoring, and plan-based usage limits. Features include daily/monthly usage tracking, operation-specific limits, and complete usage statistics for OpenAI token management across all subscription tiers.
 
 ## User Preferences
 

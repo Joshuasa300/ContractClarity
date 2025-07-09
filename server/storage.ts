@@ -3,6 +3,8 @@ import {
   contracts,
   contractTemplates,
   clauseLibrary,
+  usageLogs,
+  planLimits,
   type User,
   type UpsertUser,
   type Contract,
@@ -11,9 +13,12 @@ import {
   type InsertContractTemplate,
   type ClauseLibraryItem,
   type InsertClauseLibraryItem,
+  type UsageLog,
+  type InsertUsageLog,
+  type PlanLimit,
 } from "@shared/schema";
 import { db } from "./db";
-import { eq, desc, ilike, or, and } from "drizzle-orm";
+import { eq, desc, ilike, or, and, gte, sum, sql } from "drizzle-orm";
 
 // Interface for storage operations
 export interface IStorage {
@@ -75,6 +80,18 @@ export interface IStorage {
   getClause(id: number): Promise<ClauseLibraryItem | undefined>;
   getClausesByCategory(category: string): Promise<ClauseLibraryItem[]>;
   searchClauses(query: string): Promise<ClauseLibraryItem[]>;
+  
+  // Usage tracking operations
+  recordTokenUsage(usage: InsertUsageLog): Promise<UsageLog>;
+  getUserMonthlyUsage(userId: string): Promise<number>;
+  getUserDailyUsage(userId: string): Promise<number>;
+  checkUsageLimit(userId: string, operation: string): Promise<{ allowed: boolean; limit: number; current: number }>;
+  getPlanLimits(planType: string): Promise<PlanLimit | undefined>;
+  getUserUsageStats(userId: string): Promise<{
+    monthly: number;
+    daily: number;
+    byOperation: Record<string, number>;
+  }>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -340,6 +357,140 @@ export class DatabaseStorage implements IStorage {
         ),
         eq(clauseLibrary.isActive, true)
       ));
+  }
+
+  // Usage tracking operations
+  async recordTokenUsage(usage: InsertUsageLog): Promise<UsageLog> {
+    const [newUsage] = await db
+      .insert(usageLogs)
+      .values(usage)
+      .returning();
+    return newUsage;
+  }
+
+  async getUserMonthlyUsage(userId: string): Promise<number> {
+    const startOfMonth = new Date();
+    startOfMonth.setDate(1);
+    startOfMonth.setHours(0, 0, 0, 0);
+
+    const result = await db
+      .select({ totalTokens: sum(usageLogs.tokensUsed) })
+      .from(usageLogs)
+      .where(and(
+        eq(usageLogs.userId, userId),
+        gte(usageLogs.createdAt, startOfMonth)
+      ));
+
+    return Number(result[0]?.totalTokens) || 0;
+  }
+
+  async getUserDailyUsage(userId: string): Promise<number> {
+    const startOfDay = new Date();
+    startOfDay.setHours(0, 0, 0, 0);
+
+    const result = await db
+      .select({ totalTokens: sum(usageLogs.tokensUsed) })
+      .from(usageLogs)
+      .where(and(
+        eq(usageLogs.userId, userId),
+        gte(usageLogs.createdAt, startOfDay)
+      ));
+
+    return Number(result[0]?.totalTokens) || 0;
+  }
+
+  async checkUsageLimit(userId: string, operation: string): Promise<{ allowed: boolean; limit: number; current: number }> {
+    // Get user's plan
+    const user = await this.getUser(userId);
+    if (!user) {
+      return { allowed: false, limit: 0, current: 0 };
+    }
+
+    const planLimits = await this.getPlanLimits(user.accountStatus);
+    if (!planLimits) {
+      return { allowed: false, limit: 0, current: 0 };
+    }
+
+    // Check daily limit
+    const dailyUsage = await this.getUserDailyUsage(userId);
+    if (dailyUsage >= planLimits.dailyTokenLimit) {
+      return { allowed: false, limit: planLimits.dailyTokenLimit, current: dailyUsage };
+    }
+
+    // Check monthly limit
+    const monthlyUsage = await this.getUserMonthlyUsage(userId);
+    if (monthlyUsage >= planLimits.monthlyTokenLimit) {
+      return { allowed: false, limit: planLimits.monthlyTokenLimit, current: monthlyUsage };
+    }
+
+    // Check operation-specific limits if available
+    if (planLimits.operationLimits && typeof planLimits.operationLimits === 'object') {
+      const opLimits = planLimits.operationLimits as Record<string, number>;
+      if (operation in opLimits) {
+        const startOfDay = new Date();
+        startOfDay.setHours(0, 0, 0, 0);
+
+        const result = await db
+          .select({ count: sql<number>`count(*)` })
+          .from(usageLogs)
+          .where(and(
+            eq(usageLogs.userId, userId),
+            eq(usageLogs.operation, operation),
+            gte(usageLogs.createdAt, startOfDay)
+          ));
+
+        const operationCount = Number(result[0]?.count) || 0;
+        if (operationCount >= opLimits[operation]) {
+          return { allowed: false, limit: opLimits[operation], current: operationCount };
+        }
+      }
+    }
+
+    return { allowed: true, limit: planLimits.dailyTokenLimit, current: dailyUsage };
+  }
+
+  async getPlanLimits(planType: string): Promise<PlanLimit | undefined> {
+    const [plan] = await db
+      .select()
+      .from(planLimits)
+      .where(and(
+        eq(planLimits.planType, planType),
+        eq(planLimits.isActive, true)
+      ));
+    return plan;
+  }
+
+  async getUserUsageStats(userId: string): Promise<{
+    monthly: number;
+    daily: number;
+    byOperation: Record<string, number>;
+  }> {
+    const monthly = await this.getUserMonthlyUsage(userId);
+    const daily = await this.getUserDailyUsage(userId);
+
+    // Get usage by operation for the current month
+    const startOfMonth = new Date();
+    startOfMonth.setDate(1);
+    startOfMonth.setHours(0, 0, 0, 0);
+
+    const operationUsage = await db
+      .select({
+        operation: usageLogs.operation,
+        totalTokens: sum(usageLogs.tokensUsed)
+      })
+      .from(usageLogs)
+      .where(and(
+        eq(usageLogs.userId, userId),
+        gte(usageLogs.createdAt, startOfMonth)
+      ))
+      .groupBy(usageLogs.operation);
+
+    const byOperation: Record<string, number> = {};
+    operationUsage.forEach(row => {
+      byOperation[row.operation] = Number(row.totalTokens) || 0;
+    });
+
+    return { monthly, daily, byOperation };
   }
 }
 
