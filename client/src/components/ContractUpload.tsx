@@ -1,6 +1,6 @@
 import { useState, useCallback } from "react";
 import { useDropzone } from "react-dropzone";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient, useQuery } from "@tanstack/react-query";
 import { useToast } from "@/hooks/use-toast";
 import { isUnauthorizedError } from "@/lib/authUtils";
 import { apiRequest } from "@/lib/queryClient";
@@ -16,6 +16,7 @@ import {
 } from "lucide-react";
 import { useLocation } from "wouter";
 import AnalysisProgress from "./AnalysisProgress";
+import UpgradeModal from "./UpgradeModal";
 import { useLanguage } from "@/lib/i18n";
 import type { Contract } from "@shared/schema";
 
@@ -27,6 +28,14 @@ export default function ContractUpload() {
   const [uploadProgress, setUploadProgress] = useState(0);
   const [showAnalysisProgress, setShowAnalysisProgress] = useState(false);
   const [contractId, setContractId] = useState<number | null>(null);
+  const [showUpgradeModal, setShowUpgradeModal] = useState(false);
+  const [usageLimitInfo, setUsageLimitInfo] = useState<{limit: number; operation: string} | null>(null);
+
+  // Check usage limits before upload
+  const { data: usageCheck } = useQuery({
+    queryKey: ["/api/usage/check/contract_analysis"],
+    retry: false,
+  });
 
   const uploadMutation = useMutation({
     mutationFn: async (file: File) => {
@@ -86,12 +95,22 @@ export default function ContractUpload() {
   const onDrop = useCallback((acceptedFiles: File[]) => {
     const file = acceptedFiles[0];
     if (file) {
+      // Check usage limits before upload
+      if (usageCheck && !usageCheck.allowed) {
+        setUsageLimitInfo({
+          limit: usageCheck.limit,
+          operation: "contract analysis"
+        });
+        setShowUpgradeModal(true);
+        return;
+      }
+      
       // Reset states
       setShowAnalysisProgress(false);
       setContractId(null);
       uploadMutation.mutate(file);
     }
-  }, [uploadMutation]);
+  }, [uploadMutation, usageCheck]);
 
   const handleAnalysisComplete = (contract: Contract) => {
     toast({
@@ -116,16 +135,17 @@ export default function ContractUpload() {
   });
 
   return (
-    <Card className="max-w-4xl mx-auto">
-      <CardContent className="p-8">
-        <div className="text-center mb-8">
-          <h2 className="text-2xl font-bold text-text-primary mb-2">
-            Upload Your Contract
-          </h2>
-          <p className="text-gray-600">
-            Upload your contract and get instant AI analysis
-          </p>
-        </div>
+    <>
+      <Card className="max-w-4xl mx-auto">
+        <CardContent className="p-8">
+          <div className="text-center mb-8">
+            <h2 className="text-2xl font-bold text-text-primary mb-2">
+              Upload Your Contract
+            </h2>
+            <p className="text-gray-600">
+              Upload your contract and get instant AI analysis
+            </p>
+          </div>
 
         <div
           {...getRootProps()}
@@ -206,7 +226,17 @@ export default function ContractUpload() {
             />
           </div>
         )}
-      </CardContent>
-    </Card>
+        </CardContent>
+      </Card>
+
+      {/* Upgrade Modal */}
+      {showUpgradeModal && usageLimitInfo && (
+        <UpgradeModal
+          isOpen={showUpgradeModal}
+          onClose={() => setShowUpgradeModal(false)}
+          currentUsage={usageLimitInfo}
+        />
+      )}
+    </>
   );
 }

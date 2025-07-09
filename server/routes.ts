@@ -162,6 +162,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Start analysis asynchronously
       processContractAnalysis(contract.id).catch(error => {
         console.error("Background analysis failed:", error);
+        
+        // If it's a usage limit error, don't fail silently
+        if (error.message.startsWith('USAGE_LIMIT_EXCEEDED:')) {
+          console.log("Usage limit exceeded for contract:", contract.id);
+        }
       });
 
       res.json({ 
@@ -231,6 +236,20 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error("Error analyzing contract:", error);
       res.status(500).json({ message: "Failed to analyze contract" });
+    }
+  });
+
+  // Check usage limits
+  app.get('/api/usage/check/:operation', isAuthenticated, async (req: any, res) => {
+    try {
+      const userId = req.user.id;
+      const operation = req.params.operation;
+      
+      const usageCheck = await storage.checkUsageLimit(userId, operation);
+      res.json(usageCheck);
+    } catch (error) {
+      console.error("Error checking usage limits:", error);
+      res.status(500).json({ message: "Failed to check usage limits" });
     }
   });
 
