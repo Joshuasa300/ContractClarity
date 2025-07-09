@@ -550,7 +550,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Plan configurations - Replace these with your actual Stripe Price IDs
       const planPrices = {
         plus: 'price_1Rj2flPqwDXcpBrtJ39fCStw',
-        pro: process.env.STRIPE_PRICE_ID_PRO || 'price_1OXXXXXXXXXXXXXXpro', 
+        pro: 'price_1Rj6HEPqwDXcpBrtKKqY5JBI', 
         premium: process.env.STRIPE_PRICE_ID_PREMIUM || 'price_1OXXXXXXXXXXXXXXpremium'
       };
 
