@@ -25,10 +25,10 @@ export default function UpgradeModal({ isOpen, onClose, currentUsage }: UpgradeM
       period: "/month",
       color: "bg-blue-500",
       features: [
-        "20 contract analyses per day",
-        "50 translations per day", 
-        "15 template generations per day",
+        "50 contract analyses per month",
         "50,000 monthly tokens",
+        "Advanced templates",
+        "Multi-language analysis",
         "Priority support"
       ],
       planId: "plus"
@@ -40,12 +40,12 @@ export default function UpgradeModal({ isOpen, onClose, currentUsage }: UpgradeM
       color: "bg-purple-500",
       popular: true,
       features: [
-        "100 contract analyses per day",
-        "200 translations per day",
-        "50 template generations per day", 
+        "200 contract analyses per month",
         "200,000 monthly tokens",
-        "Advanced AI features",
-        "Priority support"
+        "All templates",
+        "Custom clauses",
+        "Advanced analytics",
+        "Premium support"
       ],
       planId: "pro"
     },
@@ -55,13 +55,13 @@ export default function UpgradeModal({ isOpen, onClose, currentUsage }: UpgradeM
       period: "/month",
       color: "bg-gradient-to-r from-amber-500 to-orange-500",
       features: [
-        "500 contract analyses per day",
-        "1,000 translations per day",
-        "300 template generations per day",
+        "1,000 contract analyses per month",
         "1,000,000 monthly tokens",
+        "All templates",
+        "API access",
         "White-label options",
         "Custom integrations",
-        "Dedicated support"
+        "Dedicated account manager"
       ],
       planId: "premium"
     }

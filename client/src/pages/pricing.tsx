@@ -31,14 +31,12 @@ export default function Pricing() {
       price: 0,
       period: "forever",
       features: [
-        "3 contract analyses per day",
-        "10 translations per day",
-        "2 template generations per day",
-        "10,000 tokens per month",
-        "Basic support"
+        "3 contract analyses per month",
+        "Basic templates",
+        "Community support"
       ],
       limitations: [
-        "Limited daily usage",
+        "Limited to 3 contracts monthly",
         "Basic templates only",
         "No priority support"
       ]
@@ -50,12 +48,11 @@ export default function Pricing() {
       period: "month",
       popular: true,
       features: [
-        "20 contract analyses per day",
-        "50 translations per day",
-        "15 template generations per day",
+        "50 contract analyses per month",
         "50,000 tokens per month",
         "Advanced templates",
-        "Priority support"
+        "Priority support",
+        "Multi-language analysis"
       ],
       limitations: [
         "Limited to 50K tokens monthly"
@@ -67,13 +64,12 @@ export default function Pricing() {
       price: 14.99,
       period: "month",
       features: [
-        "100 contract analyses per day",
-        "200 translations per day",
-        "50 template generations per day",
+        "200 contract analyses per month",
         "200,000 tokens per month",
         "All templates",
         "Premium support",
-        "Custom clauses"
+        "Custom clauses",
+        "Advanced analytics"
       ],
       limitations: []
     },
@@ -83,15 +79,14 @@ export default function Pricing() {
       price: 39.99,
       period: "month",
       features: [
-        "500 contract analyses per day",
-        "1000 translations per day",
-        "300 template generations per day",
+        "1,000 contract analyses per month",
         "1,000,000 tokens per month",
         "All templates",
         "24/7 priority support",
         "Custom clauses",
         "API access",
-        "White-label options"
+        "White-label options",
+        "Dedicated account manager"
       ],
       limitations: []
     }

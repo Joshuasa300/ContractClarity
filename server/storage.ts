@@ -411,24 +411,14 @@ export class DatabaseStorage implements IStorage {
       return { allowed: false, limit: 0, current: 0 };
     }
 
-    // Check daily limit
-    const dailyUsage = await this.getUserDailyUsage(userId);
-    if (dailyUsage >= planLimits.dailyTokenLimit) {
-      return { allowed: false, limit: planLimits.dailyTokenLimit, current: dailyUsage };
-    }
-
-    // Check monthly limit
-    const monthlyUsage = await this.getUserMonthlyUsage(userId);
-    if (monthlyUsage >= planLimits.monthlyTokenLimit) {
-      return { allowed: false, limit: planLimits.monthlyTokenLimit, current: monthlyUsage };
-    }
-
-    // Check operation-specific limits if available
+    // Check operation-specific limits (monthly-based)
     if (planLimits.operationLimits && typeof planLimits.operationLimits === 'object') {
       const opLimits = planLimits.operationLimits as Record<string, number>;
       if (operation in opLimits) {
-        const startOfDay = new Date();
-        startOfDay.setHours(0, 0, 0, 0);
+        // Use monthly period for operation limits
+        const startOfMonth = new Date();
+        startOfMonth.setDate(1);
+        startOfMonth.setHours(0, 0, 0, 0);
 
         const result = await db
           .select({ count: sql<number>`count(*)` })
@@ -436,17 +426,29 @@ export class DatabaseStorage implements IStorage {
           .where(and(
             eq(usageLogs.userId, userId),
             eq(usageLogs.operation, operation),
-            gte(usageLogs.createdAt, startOfDay)
+            gte(usageLogs.createdAt, startOfMonth)
           ));
 
         const operationCount = Number(result[0]?.count) || 0;
         if (operationCount >= opLimits[operation]) {
           return { allowed: false, limit: opLimits[operation], current: operationCount };
         }
+        
+        return { allowed: true, limit: opLimits[operation], current: operationCount };
       }
     }
 
-    return { allowed: true, limit: planLimits.dailyTokenLimit, current: dailyUsage };
+    // Check monthly token limits for paid plans (if they have token limits)
+    if (planLimits.monthlyTokenLimit > 0) {
+      const monthlyUsage = await this.getUserMonthlyUsage(userId);
+      if (monthlyUsage >= planLimits.monthlyTokenLimit) {
+        return { allowed: false, limit: planLimits.monthlyTokenLimit, current: monthlyUsage };
+      }
+      return { allowed: true, limit: planLimits.monthlyTokenLimit, current: monthlyUsage };
+    }
+
+    // Default allow for operations without specific limits
+    return { allowed: true, limit: 0, current: 0 };
   }
 
   async getPlanLimits(planType: string): Promise<PlanLimit | undefined> {
