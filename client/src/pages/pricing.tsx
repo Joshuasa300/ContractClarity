@@ -172,7 +172,7 @@ export default function Pricing() {
               <CardHeader className="text-center">
                 <CardTitle className="text-2xl font-bold">{plan.name}</CardTitle>
                 <CardDescription className="text-3xl font-bold text-gray-900">
-                  ${plan.price}
+                  £{plan.price}
                   <span className="text-base font-normal text-gray-600">
                     /{plan.period}
                   </span>

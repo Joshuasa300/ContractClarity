@@ -65,7 +65,7 @@ const CheckoutForm = ({ planName, planPrice }: { planName: string; planPrice: st
         <h3 className="font-semibold text-blue-900 mb-2">Subscription Summary</h3>
         <div className="flex justify-between items-center">
           <span className="text-blue-800">{planName} Plan</span>
-          <span className="font-bold text-blue-900">${planPrice}/month</span>
+          <span className="font-bold text-blue-900">£{planPrice}/month</span>
         </div>
       </div>
 
@@ -82,7 +82,7 @@ const CheckoutForm = ({ planName, planPrice }: { planName: string; planPrice: st
         disabled={!stripe || isProcessing}
         className="w-full bg-blue-500 hover:bg-blue-600"
       >
-        {isProcessing ? "Processing..." : `Subscribe to ${planName} - $${planPrice}/month`}
+        {isProcessing ? "Processing..." : `Subscribe to ${planName} - £${planPrice}/month`}
       </Button>
     </form>
   );
