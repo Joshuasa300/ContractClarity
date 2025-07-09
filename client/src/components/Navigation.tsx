@@ -33,7 +33,7 @@ export default function Navigation({ onSignIn, onGetStarted, onSignUp }: Navigat
               <a href="/features" className="text-gray-500 hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition-colors">
                 Features
               </a>
-              <a href="#" className="text-gray-500 hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition-colors">
+              <a href="/pricing" className="text-gray-500 hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition-colors">
                 Pricing
               </a>
               <a href="#" className="text-gray-500 hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition-colors">
@@ -78,7 +78,7 @@ export default function Navigation({ onSignIn, onGetStarted, onSignUp }: Navigat
             <a href="/features" className="block px-3 py-2 text-base font-medium text-gray-500 hover:text-primary">
               Features
             </a>
-            <a href="#" className="block px-3 py-2 text-base font-medium text-gray-500 hover:text-primary">
+            <a href="/pricing" className="block px-3 py-2 text-base font-medium text-gray-500 hover:text-primary">
               Pricing
             </a>
             <a href="#" className="block px-3 py-2 text-base font-medium text-gray-500 hover:text-primary">

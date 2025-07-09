@@ -1,4 +1,5 @@
 import OpenAI from "openai";
+import { storage } from "../storage";
 
 // the newest OpenAI model is "gpt-4o" which was released May 13, 2024. do not change this unless explicitly requested by the user
 const openai = new OpenAI({ 
@@ -52,7 +53,8 @@ Focus on:
 
 export async function analyzeContract(
   contractText: string, 
-  analysisLanguage: string = 'en'
+  analysisLanguage: string = 'en',
+  userId?: string
 ): Promise<{
   summary: string;
   riskAssessment: {
@@ -69,6 +71,14 @@ export async function analyzeContract(
   recommendations: Array<{ action: string; priority: 'high' | 'medium' | 'low' }>;
 }> {
   try {
+    // Check usage limits before making API call
+    if (userId) {
+      const usageCheck = await storage.checkUsageLimit(userId, 'contract_analysis');
+      if (!usageCheck.allowed) {
+        throw new Error(`Usage limit exceeded. Daily limit: ${usageCheck.limit}, Current usage: ${usageCheck.current}`);
+      }
+    }
+
     const response = await openai.chat.completions.create({
       model: "gpt-4o",
       messages: [
@@ -84,6 +94,19 @@ export async function analyzeContract(
       response_format: { type: "json_object" },
     });
 
+    // Track token usage
+    if (userId && response.usage) {
+      await storage.recordTokenUsage({
+        userId,
+        operation: 'contract_analysis',
+        tokensUsed: response.usage.total_tokens,
+        inputTokens: response.usage.prompt_tokens,
+        outputTokens: response.usage.completion_tokens,
+        model: 'gpt-4o',
+        cost: calculateCost(response.usage.total_tokens, 'gpt-4o')
+      });
+    }
+
     const analysis = JSON.parse(response.choices[0].message.content || "{}");
     
     return {
@@ -96,4 +119,12 @@ export async function analyzeContract(
     console.error("OpenAI analysis error:", error);
     throw new Error("Failed to analyze contract: " + (error as Error).message);
   }
+}
+
+// Calculate cost based on model and tokens
+function calculateCost(tokens: number, model: string): number {
+  // GPT-4o pricing: $2.50 per 1M input tokens, $10.00 per 1M output tokens
+  // Simplified calculation - in production, you'd track input/output separately
+  const costPerToken = 0.0000025; // Average cost per token
+  return tokens * costPerToken;
 }

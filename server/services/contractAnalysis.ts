@@ -26,7 +26,8 @@ export async function processContractAnalysis(contractId: number): Promise<void>
     // Perform analysis in the detected language
     const analysis = await analyzeContract(
       contract.fileContent, 
-      languageDetection.detectedLanguage
+      languageDetection.detectedLanguage,
+      contract.userId
     );
     
     await storage.updateContractAnalysis(contractId, analysis);

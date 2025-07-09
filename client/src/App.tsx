@@ -13,6 +13,9 @@ import Analysis from "@/pages/analysis";
 import Templates from "@/pages/templates";
 import Clauses from "@/pages/clauses";
 import Features from "@/pages/features";
+import Pricing from "@/pages/pricing";
+import Checkout from "@/pages/checkout";
+import SubscriptionSuccess from "@/pages/subscription-success";
 
 
 function Router() {
@@ -22,7 +25,10 @@ function Router() {
     <Switch>
       {/* Public routes accessible to everyone */}
       <Route path="/features" component={Features} />
+      <Route path="/pricing" component={Pricing} />
       <Route path="/auth" component={AuthPage} />
+      <Route path="/checkout" component={Checkout} />
+      <Route path="/subscription-success" component={SubscriptionSuccess} />
       
       {isLoading || !isAuthenticated ? (
         <>

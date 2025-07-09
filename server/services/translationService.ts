@@ -1,4 +1,5 @@
 import OpenAI from 'openai';
+import { storage } from '../storage';
 
 // the newest OpenAI model is "gpt-4o" which was released May 13, 2024. do not change this unless explicitly requested by the user
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
@@ -7,6 +8,7 @@ export interface TranslationRequest {
   text: string;
   targetLanguage: 'es' | 'ar' | 'de' | 'fr';
   context?: string;
+  userId?: string;
 }
 
 export interface TranslationResponse {
@@ -21,8 +23,16 @@ const languageMap = {
   fr: 'French'
 };
 
-export async function translateText({ text, targetLanguage, context }: TranslationRequest): Promise<TranslationResponse> {
+export async function translateText({ text, targetLanguage, context, userId }: TranslationRequest): Promise<TranslationResponse> {
   try {
+    // Check usage limits before making API call
+    if (userId) {
+      const usageCheck = await storage.checkUsageLimit(userId, 'translation');
+      if (!usageCheck.allowed) {
+        throw new Error(`Translation usage limit exceeded. Daily limit: ${usageCheck.limit}, Current usage: ${usageCheck.current}`);
+      }
+    }
+
     const targetLanguageName = languageMap[targetLanguage];
     
     const prompt = `You are a professional translator specializing in legal and business terminology. 
@@ -54,6 +64,19 @@ Return only the translated text, no explanations or quotes.`;
       max_tokens: 500
     });
 
+    // Track token usage
+    if (userId && response.usage) {
+      await storage.recordTokenUsage({
+        userId,
+        operation: 'translation',
+        tokensUsed: response.usage.total_tokens,
+        inputTokens: response.usage.prompt_tokens,
+        outputTokens: response.usage.completion_tokens,
+        model: 'gpt-4o',
+        cost: calculateCost(response.usage.total_tokens)
+      });
+    }
+
     const translatedText = response.choices[0].message.content?.trim() || text;
 
     return {
@@ -65,6 +88,12 @@ Return only the translated text, no explanations or quotes.`;
     const errorMessage = error instanceof Error ? error.message : 'Unknown error';
     throw new Error(`Failed to translate to ${targetLanguage}: ${errorMessage}`);
   }
+}
+
+// Calculate cost for translation tokens
+function calculateCost(tokens: number): number {
+  const costPerToken = 0.0000025; // Average cost per token
+  return tokens * costPerToken;
 }
 
 export async function translateToAllLanguages(text: string, context?: string): Promise<Record<string, string>> {

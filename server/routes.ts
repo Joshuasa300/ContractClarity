@@ -1,5 +1,6 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
+import express from "express";
 import { storage } from "./storage";
 import { setupAuth } from "./auth";
 import { insertContractSchema } from "@shared/schema";
@@ -8,6 +9,7 @@ import { translateText, translateToAllLanguages, translateObjectToAllLanguages }
 import { translationSyncService } from "./services/translationSync";
 import multer from "multer";
 import { z } from "zod";
+import Stripe from "stripe";
 // PDF2JSON for reliable PDF text extraction
 import PDFParser from "pdf2json";
 // Mammoth for DOCX text extraction
@@ -34,6 +36,14 @@ const upload = multer({
       cb(new Error('Invalid file type. Only PDF, DOCX, and TXT files are allowed.'));
     }
   }
+});
+
+// Initialize Stripe
+if (!process.env.STRIPE_SECRET_KEY) {
+  throw new Error('Missing required Stripe secret: STRIPE_SECRET_KEY');
+}
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
+  apiVersion: "2024-06-20",
 });
 
 // Authentication middleware
@@ -475,6 +485,189 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error('Content translation error:', error);
       res.status(500).json({ error: 'Translation failed' });
+    }
+  });
+
+  // Usage statistics endpoints
+  app.get('/api/usage/stats', isAuthenticated, async (req: any, res) => {
+    try {
+      const userId = req.user.id;
+      const stats = await storage.getUserUsageStats(userId);
+      res.json(stats);
+    } catch (error) {
+      console.error('Usage stats error:', error);
+      res.status(500).json({ error: 'Failed to fetch usage statistics' });
+    }
+  });
+
+  app.get('/api/usage/limits', isAuthenticated, async (req: any, res) => {
+    try {
+      const userId = req.user.id;
+      const user = await storage.getUser(userId);
+      if (!user) {
+        return res.status(404).json({ error: 'User not found' });
+      }
+
+      const planType = user.accountStatus || 'free';
+      const planLimits = await storage.getPlanLimits(planType);
+      
+      if (!planLimits) {
+        return res.status(404).json({ error: 'Plan limits not found' });
+      }
+
+      // Get current usage
+      const monthlyUsage = await storage.getUserMonthlyUsage(userId);
+      const dailyUsage = await storage.getUserDailyUsage(userId);
+
+      res.json({
+        plan: planType,
+        limits: {
+          monthly: planLimits.monthlyTokenLimit,
+          daily: planLimits.dailyTokenLimit,
+          operations: planLimits.operationLimits
+        },
+        usage: {
+          monthly: monthlyUsage,
+          daily: dailyUsage
+        }
+      });
+    } catch (error) {
+      console.error('Usage limits error:', error);
+      res.status(500).json({ error: 'Failed to fetch usage limits' });
+    }
+  });
+
+  // Stripe subscription routes
+  app.post('/api/create-subscription', isAuthenticated, async (req: any, res) => {
+    try {
+      const { planId } = req.body;
+      const user = req.user;
+
+      if (!user || !user.email) {
+        return res.status(400).json({ error: 'User email is required' });
+      }
+
+      // Plan configurations
+      const planPrices = {
+        plus: 'price_1OXXXXXXXXXXXXXXplus',  // You need to create these in Stripe Dashboard
+        pro: 'price_1OXXXXXXXXXXXXXXpro',
+        premium: 'price_1OXXXXXXXXXXXXXXpremium'
+      };
+
+      const planPrice = planPrices[planId as keyof typeof planPrices];
+      if (!planPrice) {
+        return res.status(400).json({ error: 'Invalid plan ID' });
+      }
+
+      // Create or get existing customer
+      let customer;
+      if (user.stripeCustomerId) {
+        customer = await stripe.customers.retrieve(user.stripeCustomerId);
+      } else {
+        customer = await stripe.customers.create({
+          email: user.email,
+          metadata: { userId: user.id }
+        });
+        
+        // Update user with Stripe customer ID
+        await storage.updateUserSubscription(user.id, {
+          accountStatus: user.accountStatus,
+          stripeCustomerId: customer.id
+        });
+      }
+
+      // Create subscription
+      const subscription = await stripe.subscriptions.create({
+        customer: customer.id,
+        items: [{ price: planPrice }],
+        payment_behavior: 'default_incomplete',
+        payment_settings: { save_default_payment_method: 'on_subscription' },
+        expand: ['latest_invoice.payment_intent'],
+      });
+
+      const latestInvoice = subscription.latest_invoice as Stripe.Invoice;
+      const paymentIntent = latestInvoice.payment_intent as Stripe.PaymentIntent;
+
+      res.json({
+        subscriptionId: subscription.id,
+        clientSecret: paymentIntent.client_secret,
+      });
+    } catch (error: any) {
+      console.error('Subscription creation error:', error);
+      res.status(500).json({ error: error.message });
+    }
+  });
+
+  // Stripe webhook endpoint for handling payment events
+  app.post('/api/stripe-webhook', express.raw({ type: 'application/json' }), async (req, res) => {
+    const sig = req.headers['stripe-signature'];
+    let event: Stripe.Event;
+
+    try {
+      event = stripe.webhooks.constructEvent(req.body, sig!, process.env.STRIPE_WEBHOOK_SECRET!);
+    } catch (err: any) {
+      console.error('Webhook signature verification failed:', err.message);
+      return res.status(400).send(`Webhook Error: ${err.message}`);
+    }
+
+    try {
+      switch (event.type) {
+        case 'customer.subscription.created':
+        case 'customer.subscription.updated':
+          const subscription = event.data.object as Stripe.Subscription;
+          const customerId = subscription.customer as string;
+          
+          // Get customer to find user
+          const customer = await stripe.customers.retrieve(customerId);
+          if (customer.deleted) break;
+          
+          const userId = customer.metadata?.userId;
+          if (!userId) break;
+
+          // Update user subscription status
+          const status = subscription.status === 'active' ? 'plus' : 'free'; // Default to plus for demo
+          await storage.updateUserSubscription(userId, {
+            accountStatus: status,
+            stripeCustomerId: customerId,
+            subscriptionExpiresAt: new Date(subscription.current_period_end * 1000)
+          });
+          break;
+
+        case 'customer.subscription.deleted':
+          const deletedSub = event.data.object as Stripe.Subscription;
+          const deletedCustomerId = deletedSub.customer as string;
+          
+          const deletedCustomer = await stripe.customers.retrieve(deletedCustomerId);
+          if (deletedCustomer.deleted) break;
+          
+          const deletedUserId = deletedCustomer.metadata?.userId;
+          if (!deletedUserId) break;
+
+          await storage.updateUserSubscription(deletedUserId, {
+            accountStatus: 'free',
+            stripeCustomerId: deletedCustomerId,
+            subscriptionExpiresAt: null
+          });
+          break;
+
+        case 'invoice.payment_succeeded':
+          const invoice = event.data.object as Stripe.Invoice;
+          console.log('Payment succeeded for invoice:', invoice.id);
+          break;
+
+        case 'invoice.payment_failed':
+          const failedInvoice = event.data.object as Stripe.Invoice;
+          console.log('Payment failed for invoice:', failedInvoice.id);
+          break;
+
+        default:
+          console.log(`Unhandled event type: ${event.type}`);
+      }
+
+      res.json({ received: true });
+    } catch (error) {
+      console.error('Webhook processing error:', error);
+      res.status(500).json({ error: 'Webhook processing failed' });
     }
   });
 
