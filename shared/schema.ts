@@ -37,8 +37,6 @@ export const users = pgTable("users", {
   authProvider: varchar("auth_provider").notNull().default("local"), // 'local', 'google', 'replit'
   googleId: varchar("google_id").unique(), // For Google OAuth
   replitId: varchar("replit_id").unique(), // For Replit Auth (legacy)
-  subscriptionStatus: varchar("subscription_status").default("free"), // 'free', 'plus', 'pro'
-  stripeId: varchar("stripe_id").unique(), // Stripe customer ID
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
 });
