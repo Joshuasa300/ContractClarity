@@ -82,7 +82,7 @@ export default function UpgradeModal({ isOpen, onClose, currentUsage }: UpgradeM
             {t('upgrade.modal.title') || 'Usage Limit Reached'}
           </DialogTitle>
           <DialogDescription className="text-lg">
-            {t('upgrade.modal.description') || `You've reached your limit of ${currentUsage.limit} ${currentUsage.operation} operations. Upgrade to continue with unlimited access.`}
+            {t('upgrade.modal.description') || `You've used all ${currentUsage.limit} of your free contract analyses. Upgrade to continue analyzing contracts.`}
           </DialogDescription>
         </DialogHeader>
 

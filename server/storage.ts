@@ -411,9 +411,31 @@ export class DatabaseStorage implements IStorage {
       return { allowed: false, limit: 0, current: 0 };
     }
 
-    // Check operation-specific limits (monthly-based)
+    // Check operation-specific limits
     if (planLimits.operationLimits && typeof planLimits.operationLimits === 'object') {
       const opLimits = planLimits.operationLimits as Record<string, number>;
+      
+      // Check for lifetime limits (free plan)
+      const lifetimeOperation = `${operation}_lifetime`;
+      if (lifetimeOperation in opLimits) {
+        // Count all-time usage for lifetime limits
+        const result = await db
+          .select({ count: sql<number>`count(*)` })
+          .from(usageLogs)
+          .where(and(
+            eq(usageLogs.userId, userId),
+            eq(usageLogs.operation, operation)
+          ));
+
+        const operationCount = Number(result[0]?.count) || 0;
+        if (operationCount >= opLimits[lifetimeOperation]) {
+          return { allowed: false, limit: opLimits[lifetimeOperation], current: operationCount };
+        }
+        
+        return { allowed: true, limit: opLimits[lifetimeOperation], current: operationCount };
+      }
+      
+      // Check for monthly limits (paid plans)
       if (operation in opLimits) {
         // Use monthly period for operation limits
         const startOfMonth = new Date();

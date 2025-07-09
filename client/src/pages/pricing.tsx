@@ -31,12 +31,12 @@ export default function Pricing() {
       price: 0,
       period: "forever",
       features: [
-        "3 contract analyses per month",
+        "3 contract analyses (lifetime)",
         "Basic templates",
         "Community support"
       ],
       limitations: [
-        "Limited to 3 contracts monthly",
+        "Only 3 contracts total",
         "Basic templates only",
         "No priority support"
       ]
