@@ -547,11 +547,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ error: 'User email is required' });
       }
 
-      // Plan configurations
+      // Plan configurations - Replace these with your actual Stripe Price IDs
       const planPrices = {
-        plus: 'price_1OXXXXXXXXXXXXXXplus',  // You need to create these in Stripe Dashboard
-        pro: 'price_1OXXXXXXXXXXXXXXpro',
-        premium: 'price_1OXXXXXXXXXXXXXXpremium'
+        plus: process.env.STRIPE_PRICE_ID_PLUS || 'price_1OXXXXXXXXXXXXXXplus',
+        pro: process.env.STRIPE_PRICE_ID_PRO || 'price_1OXXXXXXXXXXXXXXpro', 
+        premium: process.env.STRIPE_PRICE_ID_PREMIUM || 'price_1OXXXXXXXXXXXXXXpremium'
       };
 
       const planPrice = planPrices[planId as keyof typeof planPrices];
