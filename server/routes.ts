@@ -547,11 +547,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ error: 'User email is required' });
       }
 
-      // Plan configurations - Replace these with your actual Stripe Price IDs
+      // Plan configurations - All GBP Price IDs from Stripe Dashboard
       const planPrices = {
-        plus: 'price_1Rj2flPqwDXcpBrtJ39fCStw',
-        pro: 'price_1Rj6HEPqwDXcpBrtKKqY5JBI', 
-        premium: process.env.STRIPE_PRICE_ID_PREMIUM || 'price_1OXXXXXXXXXXXXXXpremium'
+        plus: 'price_1Rj2flPqwDXcpBrtJ39fCStw',        // £7.99/month
+        pro: 'price_1Rj6HEPqwDXcpBrtKKqY5JBI',         // £14.99/month
+        premium: 'price_1Rj6HiPqwDXcpBrtGH8WqjO8'      // £39.99/month
       };
 
       const planPrice = planPrices[planId as keyof typeof planPrices];
