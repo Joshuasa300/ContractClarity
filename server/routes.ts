@@ -624,10 +624,20 @@ export async function registerRoutes(app: Express): Promise<Server> {
           const userId = customer.metadata?.userId;
           if (!userId) break;
 
-          // Update user subscription status
-          const status = subscription.status === 'active' ? 'plus' : 'free'; // Default to plus for demo
+          // Determine plan type based on price ID
+          let planType = 'free';
+          if (subscription.status === 'active' && subscription.items.data.length > 0) {
+            const priceId = subscription.items.data[0].price.id;
+            if (priceId === 'price_1Rj2flPqwDXcpBrtJ39fCStw') {
+              planType = 'plus';
+            } else if (priceId === 'price_1Rj6HEPqwDXcpBrtKKqY5JBI') {
+              planType = 'pro';
+            } else if (priceId === 'price_1Rj6HiPqwDXcpBrtGH8WqjO8') {
+              planType = 'premium';
+            }
+          }
           await storage.updateUserSubscription(userId, {
-            accountStatus: status,
+            accountStatus: planType,
             stripeCustomerId: customerId,
             subscriptionExpiresAt: new Date(subscription.current_period_end * 1000)
           });
