@@ -25,6 +25,16 @@ export interface IStorage {
   createUser(user: UpsertUser): Promise<User>;
   linkGoogleAccount(userId: string, googleId: string): Promise<User>;
   
+  // Subscription operations
+  updateUserSubscription(
+    userId: string,
+    subscriptionData: {
+      accountStatus: string;
+      stripeCustomerId?: string;
+      subscriptionExpiresAt?: Date;
+    }
+  ): Promise<User>;
+  
   // Contract operations
   createContract(contract: InsertContract): Promise<Contract>;
   getContract(id: number): Promise<Contract | undefined>;
@@ -114,6 +124,27 @@ export class DatabaseStorage implements IStorage {
       .update(users)
       .set({ 
         googleId,
+        updatedAt: new Date(),
+      })
+      .where(eq(users.id, userId))
+      .returning();
+    return user;
+  }
+
+  async updateUserSubscription(
+    userId: string,
+    subscriptionData: {
+      accountStatus: string;
+      stripeCustomerId?: string;
+      subscriptionExpiresAt?: Date;
+    }
+  ): Promise<User> {
+    const [user] = await db
+      .update(users)
+      .set({
+        accountStatus: subscriptionData.accountStatus,
+        stripeCustomerId: subscriptionData.stripeCustomerId,
+        subscriptionExpiresAt: subscriptionData.subscriptionExpiresAt,
         updatedAt: new Date(),
       })
       .where(eq(users.id, userId))
