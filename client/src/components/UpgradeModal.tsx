@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { CheckCircle, ArrowRight, Zap } from "lucide-react";
 import { useLanguage } from "@/lib/i18n";
+import { apiRequest } from "@/lib/queryClient";
 
 interface UpgradeModalProps {
   isOpen: boolean;
@@ -67,8 +68,19 @@ export default function UpgradeModal({ isOpen, onClose, currentUsage }: UpgradeM
     }
   ];
 
-  const handleUpgrade = (planId: string) => {
-    window.location.href = `/pricing?plan=${planId}`;
+  const handleUpgrade = async (planId: string) => {
+    try {
+      const response = await apiRequest("POST", "/api/create-checkout-session", { planId });
+      const data = await response.json();
+      
+      if (data.url) {
+        window.location.href = data.url;
+      }
+    } catch (error) {
+      console.error('Error creating checkout session:', error);
+      // Fallback to pricing page
+      window.location.href = `/pricing?plan=${planId}`;
+    }
   };
 
   return (

@@ -94,13 +94,13 @@ export default function Pricing() {
 
   const subscriptionMutation = useMutation({
     mutationFn: async (planId: string) => {
-      const response = await apiRequest("POST", "/api/create-subscription", { planId });
+      const response = await apiRequest("POST", "/api/create-checkout-session", { planId });
       return response.json();
     },
     onSuccess: (data) => {
-      if (data.clientSecret) {
+      if (data.url) {
         // Redirect to Stripe checkout
-        window.location.href = `/checkout?client_secret=${data.clientSecret}&plan=${selectedPlan}`;
+        window.location.href = data.url;
       }
     },
     onError: (error) => {

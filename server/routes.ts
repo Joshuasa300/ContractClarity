@@ -556,6 +556,77 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Stripe checkout session routes
+  app.post('/api/create-checkout-session', isAuthenticated, async (req: any, res) => {
+    try {
+      const { planId } = req.body;
+      const userId = req.user.id;
+      
+      if (!planId || planId === 'free') {
+        return res.status(400).json({ message: 'Invalid plan ID' });
+      }
+
+      // Get user
+      const user = await storage.getUser(userId);
+      if (!user) {
+        return res.status(404).json({ message: 'User not found' });
+      }
+
+      // Map plan to Stripe price ID
+      const priceIds = {
+        'plus': 'price_1Rj2flPqwDXcpBrtJ39fCStw',
+        'pro': 'price_1Rj6HEPqwDXcpBrtKKqY5JBI',
+        'premium': 'price_1Rj6HiPqwDXcpBrtGH8WqjO8'
+      };
+
+      const priceId = priceIds[planId];
+      if (!priceId) {
+        return res.status(400).json({ message: 'Invalid plan ID' });
+      }
+
+      // Create or get Stripe customer
+      let customerId = user.stripeCustomerId;
+      if (!customerId) {
+        const customer = await stripe.customers.create({
+          email: user.email,
+          metadata: {
+            userId: user.id
+          }
+        });
+        customerId = customer.id;
+        
+        // Update user with Stripe customer ID
+        await storage.updateUserSubscription(user.id, {
+          accountStatus: user.accountStatus,
+          stripeCustomerId: customerId,
+          subscriptionExpiresAt: user.subscriptionExpiresAt
+        });
+      }
+
+      // Create checkout session
+      const session = await stripe.checkout.sessions.create({
+        customer: customerId,
+        payment_method_types: ['card'],
+        line_items: [{
+          price: priceId,
+          quantity: 1,
+        }],
+        mode: 'subscription',
+        success_url: `${req.protocol}://${req.get('host')}/dashboard?success=true`,
+        cancel_url: `${req.protocol}://${req.get('host')}/pricing?canceled=true`,
+        metadata: {
+          userId: user.id,
+          planId: planId
+        }
+      });
+
+      res.json({ url: session.url });
+    } catch (error) {
+      console.error('Error creating checkout session:', error);
+      res.status(500).json({ message: 'Failed to create checkout session' });
+    }
+  });
+
   // Stripe subscription routes
   app.post('/api/create-subscription', isAuthenticated, async (req: any, res) => {
     try {
