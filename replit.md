@@ -145,6 +145,7 @@ Changelog:
 - July 10, 2025. Implemented strict token limit enforcement: When users exceed their monthly token allowance, uploads are completely blocked with red-colored disabled upload area and clear messaging. Document size validation automatically triggers upgrade prompts for token limit violations. Upload interface visually indicates blocked status with red styling and direct upgrade paths to pricing page.
 - July 10, 2025. Fixed UpgradeModal design issues: Replaced translation key placeholders with proper hardcoded text, updated plan features to match current limits (Plus: 7 contracts/100K tokens/200 pages, Pro: 20 contracts/300K tokens/600 pages, Premium: 30 contracts/500K tokens/1000 pages), and improved modal title to clearly indicate "Token Limit Reached" with appropriate messaging.
 - July 10, 2025. Updated UpgradeModal to match pricing page design consistency: Implemented identical card layout, pricing display, feature lists with check/X icons, limitations sections, and button styling. Modal now provides seamless visual consistency with main pricing page while maintaining upgrade functionality when token limits are exceeded.
+- July 10, 2025. Changed "Most Popular" plan designation from Plus to Pro plan: Updated both pricing page and upgrade modal to highlight Pro plan (£14.99/month) as the recommended option instead of Plus plan, providing better value proposition for users considering upgrades.
 
 ## User Preferences
 

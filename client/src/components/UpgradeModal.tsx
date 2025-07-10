@@ -25,7 +25,6 @@ export default function UpgradeModal({ isOpen, onClose, currentUsage }: UpgradeM
       name: "Plus",
       price: 7.99,
       period: "month",
-      popular: true,
       features: [
         "7 contract analyses per month",
         "Up to 200 pages per contract",
@@ -42,6 +41,7 @@ export default function UpgradeModal({ isOpen, onClose, currentUsage }: UpgradeM
       name: "Pro",
       price: 14.99,
       period: "month",
+      popular: true,
       features: [
         "20 contract analyses per month",
         "Up to 600 pages per contract",
