@@ -68,7 +68,9 @@ export default function ContractUpload() {
       return response.json();
     },
     onSuccess: (data) => {
+      // Invalidate both contracts and usage queries to update the UI
       queryClient.invalidateQueries({ queryKey: ["/api/contracts"] });
+      queryClient.invalidateQueries({ queryKey: ["/api/usage/check/contract_analysis"] });
       toast({
         title: "Upload Successful",
         description: "Your contract has been uploaded and analysis is starting.",
@@ -171,6 +173,8 @@ export default function ContractUpload() {
   }, [uploadMutation, usageCheck]);
 
   const handleAnalysisComplete = (contract: Contract) => {
+    // Invalidate usage queries to update the usage status display
+    queryClient.invalidateQueries({ queryKey: ["/api/usage/check/contract_analysis"] });
     toast({
       title: "Analysis Complete!",
       description: "Your contract analysis is ready to view.",
