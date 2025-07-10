@@ -31,6 +31,12 @@ export default function ContractUpload() {
   const [contractId, setContractId] = useState<number | null>(null);
   const [showUpgradeModal, setShowUpgradeModal] = useState(false);
   const [usageLimitInfo, setUsageLimitInfo] = useState<{limit: number; operation: string} | null>(null);
+  const [documentSizeCheck, setDocumentSizeCheck] = useState<{
+    allowed: boolean;
+    reason?: string;
+    estimatedPages?: number;
+    maxPages?: number;
+  } | null>(null);
 
   // Check usage limits before upload
   const { data: usageCheck } = useQuery({
@@ -93,7 +99,37 @@ export default function ContractUpload() {
     },
   });
 
-  const onDrop = useCallback((acceptedFiles: File[]) => {
+  // Validate document size after file is selected
+  const validateDocumentSize = async (file: File): Promise<boolean> => {
+    try {
+      const text = await file.text();
+      const response = await apiRequest("POST", "/api/contracts/validate-size", { contractText: text });
+      const result = await response.json();
+      
+      setDocumentSizeCheck(result);
+      
+      if (!result.allowed) {
+        toast({
+          title: "Document Too Large",
+          description: result.reason,
+          variant: "destructive",
+        });
+        return false;
+      }
+      
+      return true;
+    } catch (error) {
+      console.error("Error validating document size:", error);
+      toast({
+        title: "Validation Error",
+        description: "Could not validate document size. Please try again.",
+        variant: "destructive",
+      });
+      return false;
+    }
+  };
+
+  const onDrop = useCallback(async (acceptedFiles: File[]) => {
     const file = acceptedFiles[0];
     if (file) {
       // Check usage limits before upload
@@ -103,6 +139,12 @@ export default function ContractUpload() {
           operation: "contract analysis"
         });
         setShowUpgradeModal(true);
+        return;
+      }
+      
+      // Validate document size first
+      const isValidSize = await validateDocumentSize(file);
+      if (!isValidSize) {
         return;
       }
       
@@ -206,6 +248,17 @@ export default function ContractUpload() {
                       {usageCheck.current} of {usageCheck.limit}
                     </span>
                   </div>
+                  
+                  {documentSizeCheck && (
+                    <div className="flex items-center justify-between text-sm">
+                      <span className="text-gray-600">
+                        Document Size Limit
+                      </span>
+                      <span className="font-medium">
+                        {documentSizeCheck.maxPages ? `Up to ${documentSizeCheck.maxPages} pages` : 'Checking...'}
+                      </span>
+                    </div>
+                  )}
                   
                   <div className="w-full bg-gray-200 rounded-full h-2">
                     <div 

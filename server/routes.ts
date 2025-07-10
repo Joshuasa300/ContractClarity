@@ -253,6 +253,78 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Check contract size limits
+  app.post("/api/contracts/validate-size", isAuthenticated, async (req: any, res) => {
+    try {
+      const userId = req.user.id;
+      const { contractText } = req.body;
+      
+      if (!contractText) {
+        return res.status(400).json({ message: "Contract text is required" });
+      }
+
+      const user = await storage.getUser(userId);
+      if (!user) {
+        return res.status(404).json({ message: "User not found" });
+      }
+
+      // Estimate token usage
+      const textTokens = Math.ceil(contractText.length / 4);
+      const systemPromptTokens = 800;
+      const responseTokens = 2000;
+      const estimatedTokens = textTokens + systemPromptTokens + responseTokens;
+
+      // Define size limits per plan
+      const tokenLimits = {
+        free: 50000,      // ~125 pages
+        plus: 200000,     // ~500 pages  
+        pro: 500000,      // ~1250 pages
+        premium: 1000000  // ~2500 pages
+      };
+
+      const limit = tokenLimits[user.accountStatus as keyof typeof tokenLimits] || tokenLimits.free;
+      const estimatedPages = Math.ceil(estimatedTokens / 400);
+      const maxPages = Math.floor(limit / 400);
+
+      if (estimatedTokens > limit) {
+        return res.json({
+          allowed: false,
+          reason: `Contract too large for ${user.accountStatus} plan. Estimated ${estimatedPages} pages, but limit is ${maxPages} pages.`,
+          estimatedTokens,
+          estimatedPages,
+          maxPages,
+          planLimit: limit
+        });
+      }
+
+      // Check monthly token limits
+      const planLimits = await storage.getPlanLimits(user.accountStatus);
+      if (planLimits?.monthlyTokenLimit && planLimits.monthlyTokenLimit > 0) {
+        const monthlyUsage = await storage.getUserMonthlyUsage(userId);
+        if (monthlyUsage + estimatedTokens > planLimits.monthlyTokenLimit) {
+          return res.json({
+            allowed: false,
+            reason: `Monthly token limit would be exceeded. Estimated tokens needed: ${estimatedTokens}, Available: ${planLimits.monthlyTokenLimit - monthlyUsage}`,
+            estimatedTokens,
+            estimatedPages,
+            availableTokens: planLimits.monthlyTokenLimit - monthlyUsage
+          });
+        }
+      }
+
+      res.json({
+        allowed: true,
+        estimatedTokens,
+        estimatedPages,
+        maxPages,
+        planLimit: limit
+      });
+    } catch (error) {
+      console.error("Error validating contract size:", error);
+      res.status(500).json({ message: "Failed to validate contract size" });
+    }
+  });
+
   // Delete contract
   app.delete('/api/contracts/:id', isAuthenticated, async (req: any, res) => {
     try {

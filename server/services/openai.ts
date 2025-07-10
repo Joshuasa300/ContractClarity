@@ -51,6 +51,43 @@ Focus on:
   return basePrompt + (languageInstructions[language as keyof typeof languageInstructions] || languageInstructions['en']);
 }
 
+// Function to estimate token usage for a contract
+function estimateTokenUsage(contractText: string): number {
+  // Rough estimation: ~4 characters per token for English, varies by language
+  // Add overhead for system prompt and response
+  const textTokens = Math.ceil(contractText.length / 4);
+  const systemPromptTokens = 800; // Estimated tokens for our system prompt
+  const responseTokens = 2000; // Estimated tokens for analysis response
+  
+  return textTokens + systemPromptTokens + responseTokens;
+}
+
+// Function to check if contract size is within reasonable limits
+function validateContractSize(contractText: string, userPlan: string): { allowed: boolean; reason?: string; estimatedTokens: number } {
+  const estimatedTokens = estimateTokenUsage(contractText);
+  
+  // Define size limits per plan (in tokens)
+  const tokenLimits = {
+    free: 50000,      // ~125 pages (400 tokens per page)
+    plus: 200000,     // ~500 pages  
+    pro: 500000,      // ~1250 pages
+    premium: 1000000  // ~2500 pages
+  };
+  
+  const limit = tokenLimits[userPlan as keyof typeof tokenLimits] || tokenLimits.free;
+  
+  if (estimatedTokens > limit) {
+    const maxPages = Math.floor(limit / 400); // Roughly 400 tokens per page
+    return {
+      allowed: false,
+      reason: `Contract too large for ${userPlan} plan. Estimated ${Math.ceil(estimatedTokens / 400)} pages, but limit is ${maxPages} pages.`,
+      estimatedTokens
+    };
+  }
+  
+  return { allowed: true, estimatedTokens };
+}
+
 export async function analyzeContract(
   contractText: string, 
   analysisLanguage: string = 'en',
@@ -73,9 +110,30 @@ export async function analyzeContract(
   try {
     // Check usage limits before making API call
     if (userId) {
+      const user = await storage.getUser(userId);
+      if (!user) {
+        throw new Error('User not found');
+      }
+
+      // Validate contract size based on user's plan
+      const sizeValidation = validateContractSize(contractText, user.accountStatus);
+      if (!sizeValidation.allowed) {
+        throw new Error(sizeValidation.reason);
+      }
+
+      // Check operation-based usage limits
       const usageCheck = await storage.checkUsageLimit(userId, 'contract_analysis');
       if (!usageCheck.allowed) {
-        throw new Error(`Usage limit exceeded. Daily limit: ${usageCheck.limit}, Current usage: ${usageCheck.current}`);
+        throw new Error(`Usage limit exceeded. Monthly limit: ${usageCheck.limit}, Current usage: ${usageCheck.current}`);
+      }
+
+      // Check token-based limits for the estimated usage
+      const planLimits = await storage.getPlanLimits(user.accountStatus);
+      if (planLimits?.monthlyTokenLimit && planLimits.monthlyTokenLimit > 0) {
+        const monthlyUsage = await storage.getUserMonthlyUsage(userId);
+        if (monthlyUsage + sizeValidation.estimatedTokens > planLimits.monthlyTokenLimit) {
+          throw new Error(`Monthly token limit would be exceeded. Estimated tokens needed: ${sizeValidation.estimatedTokens}, Available: ${planLimits.monthlyTokenLimit - monthlyUsage}`);
+        }
       }
     }
 
