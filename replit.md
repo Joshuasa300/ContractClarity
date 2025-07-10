@@ -132,6 +132,7 @@ Changelog:
 - July 09, 2025. Implemented upgrade modal system that appears when users exceed usage limits instead of showing endless loading. Modal displays pricing options and directs users to subscription page for seamless upgrade experience. Completed webhook configuration with STRIPE_WEBHOOK_SECRET for automatic subscription status updates.
 - July 09, 2025. Updated usage limits system: Free plan now allows only 3 contracts total (lifetime limit), not monthly. Paid plans maintain monthly limits: Plus (50/month), Pro (200/month), Premium (1000/month). System now differentiates between lifetime limits for free users and monthly limits for paid subscribers.
 - July 09, 2025. Implemented pay-first subscription flow allowing users to subscribe without creating accounts first. System redirects users directly to Stripe checkout, then automatically creates user accounts from payment details via webhook. Enhanced checkout endpoint to handle both authenticated and unauthenticated users with automatic account creation for new customers.
+- July 10, 2025. Enhanced free plan selection to redirect unauthenticated users to sign-up page via Replit Auth when clicking "Get Started" on free plan. Paid plans continue to allow direct checkout without prior authentication.
 
 ## User Preferences
 

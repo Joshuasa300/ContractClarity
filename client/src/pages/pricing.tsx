@@ -115,11 +115,8 @@ export default function Pricing() {
   const handleSubscribe = (planId: string) => {
     if (planId === "free") {
       if (!isAuthenticated) {
-        toast({
-          title: "Sign Up Required",
-          description: "Please sign up for a free account to get started",
-          variant: "default",
-        });
+        // Redirect to login page which will show sign-up options
+        window.location.href = "/api/login";
         return;
       }
       toast({
@@ -208,7 +205,7 @@ export default function Pricing() {
                 >
                   {subscriptionMutation.isPending && selectedPlan === plan.id ? "Processing..." : 
                    isCurrentPlan(plan.id) ? "Current Plan" : 
-                   plan.id === "free" ? "Free Plan" : "Subscribe"}
+                   plan.id === "free" ? (isAuthenticated ? "Current Plan" : "Get Started") : "Subscribe"}
                 </Button>
               </CardContent>
             </Card>
