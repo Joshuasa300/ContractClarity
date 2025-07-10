@@ -253,6 +253,77 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Demo endpoint to show page calculation
+  app.get("/api/demo/page-limits", isAuthenticated, async (req: any, res) => {
+    try {
+      const userId = req.user.id;
+      const user = await storage.getUser(userId);
+      if (!user) {
+        return res.status(404).json({ message: "User not found" });
+      }
+
+      // Define size limits per plan
+      const tokenLimits = {
+        free: 50000,      // ~125 pages
+        plus: 200000,     // ~500 pages  
+        pro: 500000,      // ~1250 pages
+        premium: 1000000  // ~2500 pages
+      };
+
+      const examples = [
+        { name: "Small Contract (5 pages)", chars: 10000 },
+        { name: "Medium Contract (50 pages)", chars: 100000 },
+        { name: "Large Contract (200 pages)", chars: 400000 },
+        { name: "Enterprise Contract (1000 pages)", chars: 2000000 }
+      ];
+
+      const results = examples.map(example => {
+        const textTokens = Math.ceil(example.chars / 4);
+        const systemPromptTokens = 800;
+        const responseTokens = 2000;
+        const totalTokens = textTokens + systemPromptTokens + responseTokens;
+        const estimatedPages = Math.ceil(totalTokens / 400);
+
+        const planResults = Object.entries(tokenLimits).map(([plan, limit]) => ({
+          plan,
+          allowed: totalTokens <= limit,
+          maxPages: Math.floor(limit / 400)
+        }));
+
+        return {
+          ...example,
+          textTokens,
+          totalTokens,
+          estimatedPages,
+          planResults
+        };
+      });
+
+      const currentPlan = user.accountStatus;
+      const currentLimit = tokenLimits[currentPlan as keyof typeof tokenLimits] || tokenLimits.free;
+      const currentMaxPages = Math.floor(currentLimit / 400);
+
+      res.json({
+        currentPlan,
+        currentLimit,
+        currentMaxPages,
+        examples: results,
+        explanation: {
+          tokenCalculation: "Total Tokens = (Characters ÷ 4) + System Prompt (800) + Response (2000)",
+          pageCalculation: "Estimated Pages = Total Tokens ÷ 400",
+          planLimits: Object.entries(tokenLimits).map(([plan, limit]) => ({
+            plan,
+            tokenLimit: limit,
+            pageLimit: Math.floor(limit / 400)
+          }))
+        }
+      });
+    } catch (error) {
+      console.error("Error showing page limits demo:", error);
+      res.status(500).json({ message: "Failed to show page limits demo" });
+    }
+  });
+
   // Check contract size limits
   app.post("/api/contracts/validate-size", isAuthenticated, async (req: any, res) => {
     try {

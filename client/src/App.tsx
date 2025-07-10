@@ -16,6 +16,7 @@ import Features from "@/pages/features";
 import Pricing from "@/pages/pricing";
 import Checkout from "@/pages/checkout";
 import SubscriptionSuccess from "@/pages/subscription-success";
+import PageLimitsDemo from "@/pages/PageLimitsDemo";
 
 
 function Router() {
@@ -40,6 +41,7 @@ function Router() {
           <Route path="/analysis/:contractId" component={Analysis} />
           <Route path="/templates" component={Templates} />
           <Route path="/clauses" component={Clauses} />
+          <Route path="/demo/page-limits" component={PageLimitsDemo} />
         </>
       )}
       <Route component={NotFound} />
