@@ -12,7 +12,8 @@ import {
   FileText, 
   AlertCircle, 
   CheckCircle, 
-  Loader2 
+  Loader2,
+  TrendingUp
 } from "lucide-react";
 import { useLocation } from "wouter";
 import AnalysisProgress from "./AnalysisProgress";
