@@ -621,12 +621,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
         }
       };
 
-      // If we have a customer ID, use it
+      // If we have a customer ID, use it; otherwise Stripe will create one automatically
       if (customerId) {
         sessionConfig.customer = customerId;
-      } else {
-        // For new customers, let Stripe collect email during checkout
-        sessionConfig.customer_creation = 'always';
       }
 
       const session = await stripe.checkout.sessions.create(sessionConfig);
