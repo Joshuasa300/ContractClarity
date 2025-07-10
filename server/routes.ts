@@ -838,8 +838,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
           quantity: 1,
         }],
         mode: 'subscription',
-        success_url: `${req.protocol}://${req.get('host')}/?success=true`,
-        cancel_url: `${req.protocol}://${req.get('host')}/pricing?canceled=true`,
+        success_url: `https://contract-clarifier-joshuasa300.replit.app/?success=true`,
+        cancel_url: `https://contract-clarifier-joshuasa300.replit.app/pricing?canceled=true`,
         metadata: {
           planId: planId,
           ...(userId && { userId })

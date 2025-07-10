@@ -150,6 +150,7 @@ Changelog:
 - July 10, 2025. Fixed plan status display issues for all accounts: Added missing accountStatus field to /api/user endpoint and removed frontend caching to ensure real-time plan status updates. Dashboard now correctly reflects actual database subscription status.
 - July 10, 2025. Updated test account joshuasa300@gmail.com to Plus plan status in database for continued testing of subscription tier functionality.
 - July 10, 2025. Fixed Stripe payment redirect URLs for deployment: Changed success_url from "/dashboard" to "/" to match app routing structure, preventing 404 errors after successful payments. Added success message handling on home page for payment confirmations.
+- July 10, 2025. Updated Stripe redirect URLs to use production deployment URL: Set URLs to https://contract-clarifier-joshuasa300.replit.app/ for proper payment flow in live deployment environment.
 
 ## User Preferences
 
