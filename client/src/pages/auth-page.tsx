@@ -11,6 +11,7 @@ import { useMutation } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 import { Loader2 } from "lucide-react";
+import Navigation from "@/components/Navigation";
 
 interface LoginData {
   email: string;
@@ -190,11 +191,23 @@ export default function AuthPage() {
     );
   }
 
+  const handleSignIn = () => {
+    // This will be handled by the auth forms
+  };
+
+  const handleGetStarted = () => {
+    // This will scroll to the registration tab
+    setActiveTab("register");
+  };
+
   return (
-    <div className="min-h-screen bg-gray-50 flex">
-      {/* Left side - Authentication forms */}
-      <div className="flex-1 flex items-center justify-center px-4 sm:px-6 lg:px-8">
-        <div className="max-w-md w-full space-y-8">
+    <div className="min-h-screen bg-gray-50">
+      <Navigation 
+        onSignIn={handleSignIn}
+        onGetStarted={handleGetStarted}
+      />
+      <div className="flex justify-center items-center py-12">
+        <div className="max-w-md w-full space-y-8 px-4 sm:px-6 lg:px-8">
           <div className="text-center">
             <h2 className="text-3xl font-bold text-gray-900">Welcome to ContractAI</h2>
             <p className="mt-2 text-sm text-gray-600">
