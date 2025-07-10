@@ -26,8 +26,9 @@ export default function UpgradeModal({ isOpen, onClose, currentUsage }: UpgradeM
       period: "/month",
       color: "bg-blue-500",
       features: [
-        "50 contract analyses per month",
-        "50,000 monthly tokens",
+        "7 contract analyses per month",
+        "100,000 monthly tokens",
+        "Up to 200 pages per contract",
         "Advanced templates",
         "Multi-language analysis",
         "Priority support"
@@ -41,8 +42,9 @@ export default function UpgradeModal({ isOpen, onClose, currentUsage }: UpgradeM
       color: "bg-purple-500",
       popular: true,
       features: [
-        "200 contract analyses per month",
-        "200,000 monthly tokens",
+        "20 contract analyses per month",
+        "300,000 monthly tokens",
+        "Up to 600 pages per contract",
         "All templates",
         "Custom clauses",
         "Advanced analytics",
@@ -56,8 +58,9 @@ export default function UpgradeModal({ isOpen, onClose, currentUsage }: UpgradeM
       period: "/month",
       color: "bg-gradient-to-r from-amber-500 to-orange-500",
       features: [
-        "1,000 contract analyses per month",
-        "1,000,000 monthly tokens",
+        "30 contract analyses per month",
+        "500,000 monthly tokens",
+        "Up to 1,000 pages per contract",
         "All templates",
         "API access",
         "White-label options",
@@ -91,10 +94,10 @@ export default function UpgradeModal({ isOpen, onClose, currentUsage }: UpgradeM
             <Zap className="h-6 w-6 text-orange-600 dark:text-orange-400" />
           </div>
           <DialogTitle className="text-2xl font-bold">
-            {t('upgrade.modal.title') || 'Usage Limit Reached'}
+            Token Limit Reached
           </DialogTitle>
           <DialogDescription className="text-lg">
-            {t('upgrade.modal.description') || `You've used all ${currentUsage.limit} of your free contract analyses. Upgrade to continue analyzing contracts.`}
+            You've exceeded your monthly token allowance. Upgrade to continue analyzing contracts with higher limits.
           </DialogDescription>
         </DialogHeader>
 
@@ -148,7 +151,7 @@ export default function UpgradeModal({ isOpen, onClose, currentUsage }: UpgradeM
 
         <DialogFooter className="sm:justify-center">
           <Button variant="outline" onClick={onClose}>
-            {t('common.later') || 'Maybe Later'}
+            Maybe Later
           </Button>
         </DialogFooter>
       </DialogContent>
