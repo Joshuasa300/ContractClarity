@@ -33,7 +33,7 @@ export default function Pricing() {
       period: "forever",
       features: [
         "2 contracts total",
-        "Up to 20 pages per contract", 
+        "Up to 50 pages per contract", 
         "Basic templates",
         "Community support"
       ],
@@ -51,7 +51,7 @@ export default function Pricing() {
       popular: true,
       features: [
         "7 contract analyses per month",
-        "Up to 117 pages per contract",
+        "Up to 200 pages per contract",
         "Advanced templates",
         "Priority support",
         "Multi-language analysis"
@@ -67,7 +67,7 @@ export default function Pricing() {
       period: "month",
       features: [
         "20 contract analyses per month",
-        "Up to 350 pages per contract",
+        "Up to 600 pages per contract",
         "All templates",
         "Premium support",
         "Custom clauses",
@@ -82,7 +82,7 @@ export default function Pricing() {
       period: "month",
       features: [
         "30 contract analyses per month",
-        "Up to 477 pages per contract",
+        "Up to 1000 pages per contract",
         "All templates",
         "24/7 priority support",
         "Custom clauses",
