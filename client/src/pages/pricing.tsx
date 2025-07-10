@@ -115,8 +115,8 @@ export default function Pricing() {
   const handleSubscribe = (planId: string) => {
     if (planId === "free") {
       if (!isAuthenticated) {
-        // Redirect to login page which will show sign-up options
-        window.location.href = "/api/login";
+        // Redirect to auth page which shows both Google SSO and email signup
+        window.location.href = "/auth";
         return;
       }
       toast({
