@@ -5,12 +5,19 @@ import { useLanguage } from "@/lib/i18n";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { isUnauthorizedError } from "@/lib/authUtils";
 import { apiRequest } from "@/lib/queryClient";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
-import { FileText, Upload, Clock, CheckCircle, AlertCircle, LogOut, ChevronDown, ChevronUp, Library, Download, Eye, Trash2 } from "lucide-react";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { FileText, Upload, Clock, CheckCircle, AlertCircle, LogOut, ChevronDown, ChevronUp, Library, Download, Eye, Trash2, Check, X } from "lucide-react";
 import { LanguageIndicator } from "@/components/LanguageIndicator";
 import { useState } from "react";
 import { Link } from "wouter";
@@ -30,6 +37,115 @@ export default function Home() {
   const { t } = useLanguage();
   const queryClient = useQueryClient();
   const [expandedContracts, setExpandedContracts] = useState<Set<number>>(new Set());
+  const [showUpgradeModal, setShowUpgradeModal] = useState(false);
+  const [selectedPlan, setSelectedPlan] = useState<string>("");
+
+  // Pricing plans data
+  const pricingPlans = [
+    {
+      id: "free",
+      name: "Free",
+      price: 0,
+      period: "forever",
+      features: [
+        "Only 3 contracts",
+        "Basic templates",
+        "Community support"
+      ],
+      limitations: [
+        "Only 3 contracts total",
+        "Basic templates only",
+        "No priority support"
+      ]
+    },
+    {
+      id: "plus",
+      name: "Plus",
+      price: 7.99,
+      period: "month",
+      popular: true,
+      features: [
+        "50 contract analyses per month",
+        "50,000 tokens per month",
+        "Advanced templates",
+        "Priority support",
+        "Multi-language analysis"
+      ],
+      limitations: [
+        "Limited to 50K tokens monthly"
+      ]
+    },
+    {
+      id: "pro",
+      name: "Pro",
+      price: 14.99,
+      period: "month",
+      features: [
+        "200 contract analyses per month",
+        "200,000 tokens per month",
+        "All templates",
+        "Premium support",
+        "Custom clauses",
+        "Advanced analytics"
+      ],
+      limitations: []
+    },
+    {
+      id: "premium",
+      name: "Premium",
+      price: 39.99,
+      period: "month",
+      features: [
+        "1000+ contract analyses per month",
+        "1,000,000 tokens per month",
+        "All templates",
+        "24/7 priority support",
+        "Custom clauses",
+        "API access",
+        "White-label options",
+        "Dedicated account manager"
+      ],
+      limitations: []
+    }
+  ];
+
+  const subscriptionMutation = useMutation({
+    mutationFn: async (planId: string) => {
+      const response = await apiRequest("POST", "/api/create-checkout-session", { planId });
+      return response.json();
+    },
+    onSuccess: (data) => {
+      if (data.url) {
+        // Redirect to Stripe checkout
+        window.location.href = data.url;
+      }
+    },
+    onError: (error) => {
+      toast({
+        title: "Subscription Error",
+        description: error instanceof Error ? error.message : "Failed to start subscription",
+        variant: "destructive",
+      });
+    }
+  });
+
+  const handleSubscribe = (planId: string) => {
+    if (planId === "free") {
+      toast({
+        title: "Free Plan",
+        description: "You're already on the free plan!",
+      });
+      setShowUpgradeModal(false);
+      return;
+    }
+
+    setSelectedPlan(planId);
+    subscriptionMutation.mutate(planId);
+  };
+
+  const isCurrentPlan = (planId: string) => {
+    return user?.accountStatus === planId;
+  };
 
   const deleteContractMutation = useMutation({
     mutationFn: async (contractId: number) => {
@@ -166,7 +282,7 @@ export default function Home() {
       <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-8 py-4 sm:py-8">
         {/* Plan Status Box */}
         {user && (
-          <div className="mb-6">
+          <div className="mb-6 flex items-center gap-4">
             <div className={`
               inline-flex items-center px-4 py-2 rounded-lg border-2 font-medium text-sm
               ${user.accountStatus === 'free' 
@@ -195,6 +311,15 @@ export default function Home() {
               `}></div>
               Current Plan: {user.accountStatus?.charAt(0).toUpperCase() + user.accountStatus?.slice(1) || 'Free'}
             </div>
+            
+            <Button 
+              onClick={() => setShowUpgradeModal(true)}
+              variant="outline"
+              size="sm"
+              className="text-blue-600 border-blue-200 hover:bg-blue-50"
+            >
+              Upgrade Plan
+            </Button>
           </div>
         )}
         
@@ -487,8 +612,91 @@ export default function Home() {
           )}
         </div>
       </div>
-      
 
+      {/* Upgrade Modal */}
+      <Dialog open={showUpgradeModal} onOpenChange={setShowUpgradeModal}>
+        <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle className="text-2xl font-bold text-center">
+              Choose Your Plan
+            </DialogTitle>
+            <DialogDescription className="text-center text-gray-600">
+              Select the perfect plan for your contract analysis needs. Upgrade or downgrade at any time.
+            </DialogDescription>
+          </DialogHeader>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mt-6">
+            {pricingPlans.map((plan) => (
+              <Card 
+                key={plan.id} 
+                className={`relative ${plan.popular ? 'border-2 border-blue-500 shadow-lg' : ''} ${isCurrentPlan(plan.id) ? 'bg-blue-50' : ''}`}
+              >
+                {plan.popular && (
+                  <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
+                    <span className="bg-blue-500 text-white px-3 py-1 rounded-full text-sm font-medium">
+                      Most Popular
+                    </span>
+                  </div>
+                )}
+                
+                <CardHeader className="text-center pb-2">
+                  <CardTitle className="text-xl font-bold">{plan.name}</CardTitle>
+                  <CardDescription className="text-2xl font-bold text-gray-900">
+                    £{plan.price}
+                    <span className="text-sm font-normal text-gray-600">
+                      /{plan.period}
+                    </span>
+                  </CardDescription>
+                </CardHeader>
+
+                <CardContent className="space-y-4">
+                  <div className="space-y-2">
+                    <h4 className="font-semibold text-gray-900 text-sm">Features:</h4>
+                    <ul className="space-y-1">
+                      {plan.features.map((feature, index) => (
+                        <li key={index} className="flex items-start">
+                          <Check className="h-3 w-3 text-green-500 mt-0.5 mr-2 flex-shrink-0" />
+                          <span className="text-xs text-gray-600">{feature}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  {plan.limitations.length > 0 && (
+                    <div className="space-y-2">
+                      <h4 className="font-semibold text-gray-900 text-sm">Limitations:</h4>
+                      <ul className="space-y-1">
+                        {plan.limitations.map((limitation, index) => (
+                          <li key={index} className="flex items-start">
+                            <X className="h-3 w-3 text-red-500 mt-0.5 mr-2 flex-shrink-0" />
+                            <span className="text-xs text-gray-600">{limitation}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+
+                  <Button 
+                    onClick={() => handleSubscribe(plan.id)}
+                    disabled={subscriptionMutation.isPending || isCurrentPlan(plan.id)}
+                    className={`w-full text-sm ${plan.popular ? 'bg-blue-500 hover:bg-blue-600' : ''}`}
+                    variant={plan.popular ? "default" : "outline"}
+                  >
+                    {subscriptionMutation.isPending && selectedPlan === plan.id
+                      ? "Processing..."
+                      : isCurrentPlan(plan.id)
+                      ? "Current Plan"
+                      : plan.id === "free"
+                      ? "Free Plan"
+                      : `Upgrade to ${plan.name}`
+                    }
+                  </Button>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
