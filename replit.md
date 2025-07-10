@@ -147,6 +147,8 @@ Changelog:
 - July 10, 2025. Updated UpgradeModal to match pricing page design consistency: Implemented identical card layout, pricing display, feature lists with check/X icons, limitations sections, and button styling. Modal now provides seamless visual consistency with main pricing page while maintaining upgrade functionality when token limits are exceeded.
 - July 10, 2025. Changed "Most Popular" plan designation from Plus to Pro plan: Updated both pricing page and upgrade modal to highlight Pro plan (£14.99/month) as the recommended option instead of Plus plan, providing better value proposition for users considering upgrades.
 - July 10, 2025. Updated test account joshuasa300@gmail.com to Pro plan status in database for testing higher tier functionality and token limits without subscription payment flow.
+- July 10, 2025. Fixed plan status display issues for all accounts: Added missing accountStatus field to /api/user endpoint and removed frontend caching to ensure real-time plan status updates. Dashboard now correctly reflects actual database subscription status.
+- July 10, 2025. Updated test account joshuasa300@gmail.com to Plus plan status in database for continued testing of subscription tier functionality.
 
 ## User Preferences
 
