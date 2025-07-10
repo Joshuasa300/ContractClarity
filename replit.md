@@ -135,6 +135,7 @@ Changelog:
 - July 10, 2025. Enhanced free plan selection to redirect unauthenticated users to sign-up page via Replit Auth when clicking "Get Started" on free plan. Paid plans continue to allow direct checkout without prior authentication.
 - July 10, 2025. Added highlighted plan status indicator box on dashboard above "Welcome back" message. Shows current subscription plan (Free/Plus/Pro/Premium) with color-coded styling and status indicator dot for clear user plan awareness.
 - July 10, 2025. Implemented upgrade plan button and modal system on dashboard. Users can click "Upgrade Plan" next to their plan status to open a comprehensive pricing modal with all four plans (Free/Plus/Pro/Premium). Modal integrates with Stripe checkout using existing price IDs and automatically updates account status after successful payment. Features real-time plan selection, processing states, and current plan highlighting.
+- July 10, 2025. Enhanced ContractUpload component with proactive usage checking and visual status display. Added usage status card showing current usage vs limits with color-coded progress bar (green/yellow/red). Upload area becomes disabled and non-interactive when limits are reached, with clear messaging and direct upgrade path. Users see usage status upfront preventing upload attempts when limits exceeded.
 
 ## User Preferences
 

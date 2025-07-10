@@ -123,6 +123,39 @@ export default function ContractUpload() {
     }, 2000);
   };
 
+  // Calculate usage percentage and status
+  const getUsageStatus = () => {
+    if (!usageCheck) return { percentage: 0, color: "bg-gray-300", status: "Loading..." };
+    
+    const percentage = (usageCheck.current / usageCheck.limit) * 100;
+    
+    if (percentage >= 100) {
+      return { 
+        percentage: 100, 
+        color: "bg-red-500", 
+        status: "Limit Reached",
+        textColor: "text-red-600"
+      };
+    } else if (percentage >= 80) {
+      return { 
+        percentage, 
+        color: "bg-yellow-500", 
+        status: "Near Limit",
+        textColor: "text-yellow-600"
+      };
+    } else {
+      return { 
+        percentage, 
+        color: "bg-green-500", 
+        status: "Available",
+        textColor: "text-green-600"
+      };
+    }
+  };
+
+  const usageStatus = getUsageStatus();
+  const isUploadDisabled = usageCheck && !usageCheck.allowed;
+
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
     accept: {
@@ -132,6 +165,7 @@ export default function ContractUpload() {
     },
     maxFiles: 1,
     maxSize: 10 * 1024 * 1024, // 10MB
+    disabled: isUploadDisabled || uploadMutation.isPending,
   });
 
   return (
@@ -147,32 +181,118 @@ export default function ContractUpload() {
             </p>
           </div>
 
+          {/* Usage Status Card */}
+          {usageCheck && (
+            <Card className="mb-6 border-l-4" style={{ borderLeftColor: usageStatus.color.replace('bg-', '') === 'red-500' ? '#ef4444' : usageStatus.color.replace('bg-', '') === 'yellow-500' ? '#eab308' : '#22c55e' }}>
+              <CardHeader className="pb-3">
+                <div className="flex items-center justify-between">
+                  <CardTitle className="text-lg font-semibold flex items-center">
+                    <TrendingUp className={`h-5 w-5 mr-2 ${usageStatus.textColor}`} />
+                    Usage Status
+                  </CardTitle>
+                  <span className={`text-sm font-medium ${usageStatus.textColor}`}>
+                    {usageStatus.status}
+                  </span>
+                </div>
+              </CardHeader>
+              <CardContent className="pt-0">
+                <div className="space-y-3">
+                  <div className="flex items-center justify-between text-sm">
+                    <span className="text-gray-600">
+                      Contract Analyses Used
+                    </span>
+                    <span className="font-medium">
+                      {usageCheck.current} of {usageCheck.limit}
+                    </span>
+                  </div>
+                  
+                  <div className="w-full bg-gray-200 rounded-full h-2">
+                    <div 
+                      className={`h-2 rounded-full transition-all duration-300 ${usageStatus.color}`}
+                      style={{ width: `${Math.min(usageStatus.percentage, 100)}%` }}
+                    ></div>
+                  </div>
+                  
+                  {isUploadDisabled && (
+                    <div className="mt-4 p-3 bg-red-50 border border-red-200 rounded-lg">
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center">
+                          <AlertCircle className="h-4 w-4 text-red-500 mr-2" />
+                          <span className="text-sm text-red-700 font-medium">
+                            Upload limit reached for your current plan
+                          </span>
+                        </div>
+                        <Link href="/pricing">
+                          <Button size="sm" className="bg-red-600 hover:bg-red-700">
+                            Upgrade Now
+                          </Button>
+                        </Link>
+                      </div>
+                    </div>
+                  )}
+                  
+                  {!isUploadDisabled && usageStatus.percentage >= 80 && (
+                    <div className="mt-4 p-3 bg-yellow-50 border border-yellow-200 rounded-lg">
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center">
+                          <AlertCircle className="h-4 w-4 text-yellow-500 mr-2" />
+                          <span className="text-sm text-yellow-700">
+                            You're approaching your plan limit
+                          </span>
+                        </div>
+                        <Link href="/pricing">
+                          <Button size="sm" variant="outline" className="border-yellow-300 text-yellow-700 hover:bg-yellow-50">
+                            View Plans
+                          </Button>
+                        </Link>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </CardContent>
+            </Card>
+          )}
+
         <div
           {...getRootProps()}
-          className={`border-2 border-dashed rounded-lg p-12 text-center cursor-pointer transition-colors ${
-            isDragActive 
-              ? "border-primary bg-primary/5" 
-              : "border-gray-300 hover:border-primary"
+          className={`border-2 border-dashed rounded-lg p-12 text-center transition-colors ${
+            isUploadDisabled 
+              ? "border-gray-200 bg-gray-50 cursor-not-allowed opacity-50" 
+              : isDragActive 
+              ? "border-primary bg-primary/5 cursor-pointer" 
+              : "border-gray-300 hover:border-primary cursor-pointer"
           }`}
         >
           <input {...getInputProps()} />
           <div className="max-w-sm mx-auto">
-            <CloudUpload className="h-16 w-16 text-gray-400 mx-auto mb-4" />
-            <h3 className="text-lg font-semibold text-text-primary mb-2">
-              {isDragActive ? t('upload.dragDrop') : t('upload.title')}
+            <CloudUpload className={`h-16 w-16 mx-auto mb-4 ${isUploadDisabled ? 'text-gray-300' : 'text-gray-400'}`} />
+            <h3 className={`text-lg font-semibold mb-2 ${isUploadDisabled ? 'text-gray-400' : 'text-text-primary'}`}>
+              {isUploadDisabled 
+                ? "Upload Disabled - Limit Reached" 
+                : isDragActive 
+                ? t('upload.dragDrop') 
+                : t('upload.title')
+              }
             </h3>
-            <p className="text-gray-600 mb-4">
-              {t('upload.dragDrop')}
+            <p className={`mb-4 ${isUploadDisabled ? 'text-gray-400' : 'text-gray-600'}`}>
+              {isUploadDisabled 
+                ? "Upgrade your plan to upload more contracts"
+                : t('upload.dragDrop')
+              }
             </p>
-            <p className="text-sm text-gray-500 mb-4">
-              {t('upload.supportedFormats')}
-            </p>
+            {!isUploadDisabled && (
+              <p className="text-sm text-gray-500 mb-4">
+                {t('upload.supportedFormats')}
+              </p>
+            )}
             <Button 
               type="button" 
-              variant="outline"
-              disabled={uploadMutation.isPending}
+              variant={isUploadDisabled ? "secondary" : "outline"}
+              disabled={uploadMutation.isPending || isUploadDisabled}
             >
-              {uploadMutation.isPending ? (
+              {isUploadDisabled ? (
+                "Upgrade to Upload"
+              ) : uploadMutation.isPending ? (
                 <>
                   <Loader2 className="h-4 w-4 mr-2 animate-spin" />
                   {t('upload.analyzing')}
