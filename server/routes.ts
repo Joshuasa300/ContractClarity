@@ -331,6 +331,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const { contractText } = req.body;
       
       if (!contractText) {
+        console.log("Error validating document size: Contract text is required");
         return res.status(400).json({ message: "Contract text is required" });
       }
 
