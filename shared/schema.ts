@@ -39,7 +39,7 @@ export const users = pgTable("users", {
   googleId: varchar("google_id").unique(), // For Google OAuth
   replitId: varchar("replit_id").unique(), // For Replit Auth (legacy)
   // Subscription fields
-  accountStatus: varchar("account_status").notNull().default("free"), // 'free', 'plus', 'pro', 'premium'
+  accountStatus: varchar("account_status").default("free"), // 'free', 'plus', 'pro', 'premium', 'null' (payment failed)
   stripeCustomerId: varchar("stripe_customer_id").unique(), // Stripe customer ID
   subscriptionExpiresAt: timestamp("subscription_expires_at"), // Subscription expiration date
   createdAt: timestamp("created_at").defaultNow(),

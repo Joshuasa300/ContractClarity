@@ -171,6 +171,16 @@ export default function ContractUpload() {
   const getUsageStatus = () => {
     if (!usageCheck) return { percentage: 0, color: "bg-gray-300", status: "Loading..." };
     
+    // Handle null status (payment failed)
+    if (usageCheck.limit === 0 && usageCheck.current === 0) {
+      return {
+        percentage: 100,
+        color: "bg-red-500",
+        status: "Payment Required",
+        textColor: "text-red-600"
+      };
+    }
+    
     const percentage = (usageCheck.current / usageCheck.limit) * 100;
     
     if (percentage >= 100) {
@@ -274,12 +284,15 @@ export default function ContractUpload() {
                         <div className="flex items-center">
                           <AlertCircle className="h-4 w-4 text-red-500 mr-2" />
                           <span className="text-sm text-red-700 font-medium">
-                            Upload limit reached for your current plan
+                            {usageStatus.status === "Payment Required" 
+                              ? "Payment required to continue using the service"
+                              : "Upload limit reached for your current plan"
+                            }
                           </span>
                         </div>
                         <Link href="/pricing">
                           <Button size="sm" className="bg-red-600 hover:bg-red-700">
-                            Upgrade Now
+                            {usageStatus.status === "Payment Required" ? "Choose Plan" : "Upgrade Now"}
                           </Button>
                         </Link>
                       </div>
@@ -346,7 +359,7 @@ export default function ContractUpload() {
               disabled={uploadMutation.isPending || isUploadDisabled}
             >
               {isUploadDisabled ? (
-                "Upgrade to Upload"
+                usageStatus.status === "Payment Required" ? "Choose Plan" : "Upgrade to Upload"
               ) : uploadMutation.isPending ? (
                 <>
                   <Loader2 className="h-4 w-4 mr-2 animate-spin" />

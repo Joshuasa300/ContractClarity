@@ -32,14 +32,13 @@ export default function Pricing() {
       price: 0,
       period: "forever",
       features: [
-        "2 contracts per month*",
-        "Up to 20 pages per contract",
+        "2 contracts total",
+        "Up to 20 pages per contract", 
         "Basic templates",
         "Community support"
       ],
       limitations: [
-        "New users: 2 contracts total",
-        "Previous subscribers: 2 per month",
+        "Only 2 contracts total",
         "Basic templates only",
         "No priority support"
       ]
@@ -237,7 +236,7 @@ export default function Pricing() {
             <span>✓ Secure payment processing</span>
           </div>
           <p className="text-xs text-gray-400 max-w-2xl mx-auto">
-            * Free plan: New users get 2 contracts total. Previous subscribers who downgrade get 2 contracts per month to prevent permanent lockout.
+            Note: If your subscription payment fails, your account will be suspended until payment is resolved. Free plan users get 2 contracts total.
           </p>
         </div>
       </div>

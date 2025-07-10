@@ -293,6 +293,8 @@ export default function Home() {
                 ? 'bg-purple-50 border-purple-200 text-purple-700'
                 : user.accountStatus === 'premium'
                 ? 'bg-gold-50 border-yellow-200 text-yellow-700'
+                : user.accountStatus === 'null' || user.accountStatus === null
+                ? 'bg-red-50 border-red-200 text-red-700'
                 : 'bg-gray-50 border-gray-200 text-gray-700'
               }
             `}>
@@ -306,10 +308,14 @@ export default function Home() {
                   ? 'bg-purple-400'
                   : user.accountStatus === 'premium'
                   ? 'bg-yellow-400'
+                  : user.accountStatus === 'null' || user.accountStatus === null
+                  ? 'bg-red-500'
                   : 'bg-gray-400'
                 }
               `}></div>
-              Current Plan: {user.accountStatus?.charAt(0).toUpperCase() + user.accountStatus?.slice(1) || 'Free'}
+              Current Plan: {user.accountStatus === 'null' || user.accountStatus === null 
+                ? 'Payment Required' 
+                : user.accountStatus?.charAt(0).toUpperCase() + user.accountStatus?.slice(1) || 'Free'}
             </div>
             
             <Button 
