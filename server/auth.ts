@@ -429,6 +429,10 @@ export function setupAuth(app: Express) {
         lastLogin: new Date().toISOString(),
         accountType: user.authProvider === 'google' ? 'Google Account' : 'Email Account',
         hasProfileImage: !!user.profileImageUrl,
+        // Include subscription/plan information
+        accountStatus: user.accountStatus || 'free',
+        stripeCustomerId: user.stripeCustomerId,
+        subscriptionExpiresAt: user.subscriptionExpiresAt,
       };
 
       console.log("Returning user info for:", userInfo.displayName);
