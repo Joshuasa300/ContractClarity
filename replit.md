@@ -140,6 +140,7 @@ Changelog:
 - July 10, 2025. Updated monthly contract limits to more focused business tiers: Free plan reduced to 2 lifetime contracts, Plus plan reduced to 7 monthly contracts, Pro plan reduced to 20 monthly contracts, Premium plan reduced to 30 monthly contracts. Updated database plan_limits table and pricing page to reflect new usage structure optimized for targeted user segments.
 - July 10, 2025. Significantly reduced token limits and updated pricing cards to show page limits instead of token counts: Free (8,000 tokens/~20 pages), Plus (46,800 tokens/~117 pages), Pro (140,000 tokens/~350 pages), Premium (190,800 tokens/~477 pages). Updated database plan_limits table, validation endpoints, and pricing page to reflect more conservative document size limits for cost management.
 - July 10, 2025. Implemented strict payment enforcement: Users whose subscription payments fail now get "null" account status and are completely locked out until they pay for a plan again. No free tier access for payment failures - this prevents subscription abuse and ensures payment compliance. System shows "Payment Required" messaging and directs users to pricing page.
+- July 10, 2025. Added comprehensive Stripe webhook handlers for failed payments: invoice.payment_failed and customer.subscription.payment_failed events now automatically set users to "null" status, providing immediate enforcement of payment compliance without manual intervention. Webhooks ensure real-time response to payment failures.
 
 ## User Preferences
 

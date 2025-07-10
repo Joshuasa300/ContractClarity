@@ -941,6 +941,66 @@ export async function registerRoutes(app: Express): Promise<Server> {
         case 'invoice.payment_failed':
           const failedInvoice = event.data.object as Stripe.Invoice;
           console.log('Payment failed for invoice:', failedInvoice.id);
+          
+          if (failedInvoice.customer && failedInvoice.subscription) {
+            const failedCustomer = await stripe.customers.retrieve(failedInvoice.customer as string);
+            if (!failedCustomer.deleted) {
+              const failedUserId = failedCustomer.metadata?.userId;
+              if (failedUserId) {
+                // Set user to null status - complete lockout until payment is resolved
+                await storage.updateUserSubscription(failedUserId, {
+                  accountStatus: 'null',
+                  subscriptionExpiresAt: null,
+                });
+                
+                console.log(`Payment failed - locked out user with null status (Customer: ${failedInvoice.customer})`);
+              } else {
+                // Fallback: try to find user by Stripe customer ID
+                const failedPaymentUser = await storage.getUserByStripeCustomerId(failedInvoice.customer as string);
+                if (failedPaymentUser) {
+                  await storage.updateUserSubscription(failedPaymentUser.id, {
+                    accountStatus: 'null',
+                    subscriptionExpiresAt: null,
+                  });
+                  
+                  console.log(`Payment failed - locked out user ${failedPaymentUser.email} with null status`);
+                }
+              }
+            }
+          }
+          break;
+
+        // Handle subscription payment failures (different from invoice failures)
+        case 'customer.subscription.payment_failed':
+          const failedSubscription = event.data.object as Stripe.Subscription;
+          console.log('Subscription payment failed:', failedSubscription.id);
+          
+          if (failedSubscription.customer) {
+            const failedSubCustomer = await stripe.customers.retrieve(failedSubscription.customer as string);
+            if (!failedSubCustomer.deleted) {
+              const failedSubUserId = failedSubCustomer.metadata?.userId;
+              if (failedSubUserId) {
+                // Set user to null status - complete lockout until payment is resolved
+                await storage.updateUserSubscription(failedSubUserId, {
+                  accountStatus: 'null',
+                  subscriptionExpiresAt: null,
+                });
+                
+                console.log(`Subscription payment failed - locked out user with null status (Customer: ${failedSubscription.customer})`);
+              } else {
+                // Fallback: try to find user by Stripe customer ID
+                const failedSubscriptionUser = await storage.getUserByStripeCustomerId(failedSubscription.customer as string);
+                if (failedSubscriptionUser) {
+                  await storage.updateUserSubscription(failedSubscriptionUser.id, {
+                    accountStatus: 'null',
+                    subscriptionExpiresAt: null,
+                  });
+                  
+                  console.log(`Subscription payment failed - locked out user ${failedSubscriptionUser.email} with null status`);
+                }
+              }
+            }
+          }
           break;
 
         default:
