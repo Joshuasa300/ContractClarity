@@ -40,6 +40,11 @@ export default function Home() {
   const [showUpgradeModal, setShowUpgradeModal] = useState(false);
   const [selectedPlan, setSelectedPlan] = useState<string>("");
 
+  // Force refresh user data on component mount to ensure latest plan status is shown
+  useEffect(() => {
+    queryClient.invalidateQueries({ queryKey: ["/api/user"] });
+  }, [queryClient]);
+
   // Pricing plans data
   const pricingPlans = [
     {
@@ -63,7 +68,6 @@ export default function Home() {
       name: "Plus",
       price: 7.99,
       period: "month",
-      popular: true,
       features: [
         "50 contract analyses per month",
         "50,000 tokens per month",
@@ -80,6 +84,7 @@ export default function Home() {
       name: "Pro",
       price: 14.99,
       period: "month",
+      popular: true,
       features: [
         "200 contract analyses per month",
         "200,000 tokens per month",
