@@ -126,6 +126,17 @@ export default function ContractUpload() {
       setDocumentSizeCheck(result);
       
       if (!result.allowed) {
+        // Check if it's a token limit issue
+        if (result.reason?.includes("Monthly token limit would be exceeded") || result.availableTokens !== undefined) {
+          setUsageLimitInfo({
+            limit: result.estimatedTokens || 0,
+            operation: "token usage"
+          });
+          setShowUpgradeModal(true);
+          return false;
+        }
+        
+        // Regular document size error
         toast({
           title: "Document Too Large",
           description: result.reason,
@@ -226,7 +237,8 @@ export default function ContractUpload() {
   };
 
   const usageStatus = getUsageStatus();
-  const isUploadDisabled = usageCheck && !usageCheck.allowed;
+  // Disable upload if usage limits are exceeded OR if document size check failed
+  const isUploadDisabled = (usageCheck && !usageCheck.allowed) || (documentSizeCheck && !documentSizeCheck.allowed);
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
@@ -343,7 +355,7 @@ export default function ContractUpload() {
           {...getRootProps()}
           className={`border-2 border-dashed rounded-lg p-12 text-center transition-colors ${
             isUploadDisabled 
-              ? "border-gray-200 bg-gray-50 cursor-not-allowed opacity-50" 
+              ? "border-red-300 bg-red-50 cursor-not-allowed opacity-75" 
               : isDragActive 
               ? "border-primary bg-primary/5 cursor-pointer" 
               : "border-gray-300 hover:border-primary cursor-pointer"
@@ -351,18 +363,18 @@ export default function ContractUpload() {
         >
           <input {...getInputProps()} />
           <div className="max-w-sm mx-auto">
-            <CloudUpload className={`h-16 w-16 mx-auto mb-4 ${isUploadDisabled ? 'text-gray-300' : 'text-gray-400'}`} />
-            <h3 className={`text-lg font-semibold mb-2 ${isUploadDisabled ? 'text-gray-400' : 'text-text-primary'}`}>
+            <CloudUpload className={`h-16 w-16 mx-auto mb-4 ${isUploadDisabled ? 'text-red-400' : 'text-gray-400'}`} />
+            <h3 className={`text-lg font-semibold mb-2 ${isUploadDisabled ? 'text-red-600' : 'text-text-primary'}`}>
               {isUploadDisabled 
-                ? "Upload Disabled - Limit Reached" 
+                ? "Upload Disabled - Token Limit Reached" 
                 : isDragActive 
                 ? t('upload.dragDrop') 
                 : t('upload.title')
               }
             </h3>
-            <p className={`mb-4 ${isUploadDisabled ? 'text-gray-400' : 'text-gray-600'}`}>
+            <p className={`mb-4 ${isUploadDisabled ? 'text-red-500' : 'text-gray-600'}`}>
               {isUploadDisabled 
-                ? "Upgrade your plan to upload more contracts"
+                ? "You've exceeded your monthly token allowance. Upgrade to continue analyzing contracts."
                 : t('upload.dragDrop')
               }
             </p>
@@ -371,22 +383,28 @@ export default function ContractUpload() {
                 {t('upload.supportedFormats')}
               </p>
             )}
-            <Button 
-              type="button" 
-              variant={isUploadDisabled ? "secondary" : "outline"}
-              disabled={uploadMutation.isPending || isUploadDisabled}
-            >
-              {isUploadDisabled ? (
-                usageStatus.status === "Payment Required" ? "Choose Plan" : "Upgrade to Upload"
-              ) : uploadMutation.isPending ? (
-                <>
-                  <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                  {t('upload.analyzing')}
-                </>
-              ) : (
-                t('common.upload')
-              )}
-            </Button>
+            {isUploadDisabled ? (
+              <Link href="/pricing">
+                <Button className="bg-red-600 hover:bg-red-700">
+                  {usageStatus.status === "Payment Required" ? "Choose Plan" : "Upgrade Now"}
+                </Button>
+              </Link>
+            ) : (
+              <Button 
+                type="button" 
+                variant="outline"
+                disabled={uploadMutation.isPending || isUploadDisabled}
+              >
+                {uploadMutation.isPending ? (
+                  <>
+                    <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                    {t('upload.analyzing')}
+                  </>
+                ) : (
+                  t('common.upload')
+                )}
+              </Button>
+            )}
           </div>
         </div>
 
