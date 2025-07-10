@@ -164,6 +164,40 @@ export default function Home() {
       <Header />
 
       <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-8 py-4 sm:py-8">
+        {/* Plan Status Box */}
+        {user && (
+          <div className="mb-6">
+            <div className={`
+              inline-flex items-center px-4 py-2 rounded-lg border-2 font-medium text-sm
+              ${user.accountStatus === 'free' 
+                ? 'bg-gray-50 border-gray-200 text-gray-700' 
+                : user.accountStatus === 'plus'
+                ? 'bg-blue-50 border-blue-200 text-blue-700'
+                : user.accountStatus === 'pro'
+                ? 'bg-purple-50 border-purple-200 text-purple-700'
+                : user.accountStatus === 'premium'
+                ? 'bg-gold-50 border-yellow-200 text-yellow-700'
+                : 'bg-gray-50 border-gray-200 text-gray-700'
+              }
+            `}>
+              <div className={`
+                w-2 h-2 rounded-full mr-2
+                ${user.accountStatus === 'free' 
+                  ? 'bg-gray-400' 
+                  : user.accountStatus === 'plus'
+                  ? 'bg-blue-400'
+                  : user.accountStatus === 'pro'
+                  ? 'bg-purple-400'
+                  : user.accountStatus === 'premium'
+                  ? 'bg-yellow-400'
+                  : 'bg-gray-400'
+                }
+              `}></div>
+              Current Plan: {user.accountStatus?.charAt(0).toUpperCase() + user.accountStatus?.slice(1) || 'Free'}
+            </div>
+          </div>
+        )}
+        
         {/* Welcome Section */}
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-text-primary mb-2">

@@ -133,6 +133,7 @@ Changelog:
 - July 09, 2025. Updated usage limits system: Free plan now allows only 3 contracts total (lifetime limit), not monthly. Paid plans maintain monthly limits: Plus (50/month), Pro (200/month), Premium (1000/month). System now differentiates between lifetime limits for free users and monthly limits for paid subscribers.
 - July 09, 2025. Implemented pay-first subscription flow allowing users to subscribe without creating accounts first. System redirects users directly to Stripe checkout, then automatically creates user accounts from payment details via webhook. Enhanced checkout endpoint to handle both authenticated and unauthenticated users with automatic account creation for new customers.
 - July 10, 2025. Enhanced free plan selection to redirect unauthenticated users to sign-up page via Replit Auth when clicking "Get Started" on free plan. Paid plans continue to allow direct checkout without prior authentication.
+- July 10, 2025. Added highlighted plan status indicator box on dashboard above "Welcome back" message. Shows current subscription plan (Free/Plus/Pro/Premium) with color-coded styling and status indicator dot for clear user plan awareness.
 
 ## User Preferences
 
