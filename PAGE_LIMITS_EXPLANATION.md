@@ -12,10 +12,10 @@ Estimated Pages = Total Tokens ÷ 400
 
 | Plan     | Token Limit | Max Pages | Contract Count Limit | Example Use Case |
 |----------|-------------|-----------|---------------------|------------------|
-| **Free** | 50,000      | ~125      | 3 lifetime         | Personal contracts (lease, employment) |
-| **Plus** | 200,000     | ~500      | 50/month           | Small business (vendor agreements, NDAs) |
-| **Pro**  | 500,000     | ~1,250    | 200/month          | Medium business (complex contracts, M&A) |
-| **Premium** | 1,000,000 | ~2,500    | 1,000/month        | Enterprise (large legal documents) |
+| **Free** | 50,000      | ~125      | 2 lifetime         | Personal contracts (lease, employment) |
+| **Plus** | 200,000     | ~500      | 7/month            | Small business (vendor agreements, NDAs) |
+| **Pro**  | 500,000     | ~1,250    | 20/month           | Medium business (complex contracts, M&A) |
+| **Premium** | 1,000,000 | ~2,500    | 30/month           | Enterprise (large legal documents) |
 
 ### Real Examples
 
@@ -50,9 +50,9 @@ The system uses **both** limits:
 2. **Monthly Count Limit**: Total number of contracts per month
 
 **Example for Plus Plan:**
-- Can analyze up to 50 contracts per month
+- Can analyze up to 7 contracts per month
 - Each contract can be up to 500 pages
-- Could analyze: 50 × 10-page contracts OR 25 × 20-page contracts, etc.
+- Could analyze: 7 × 50-page contracts OR 7 × 10-page contracts, etc.
 
 ### Why This System is Fair
 

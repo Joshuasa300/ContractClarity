@@ -32,12 +32,12 @@ export default function Pricing() {
       price: 0,
       period: "forever",
       features: [
-        "Only 3 contracts",
+        "Only 2 contracts",
         "Basic templates",
         "Community support"
       ],
       limitations: [
-        "Only 3 contracts total",
+        "Only 2 contracts total",
         "Basic templates only",
         "No priority support"
       ]
@@ -49,7 +49,7 @@ export default function Pricing() {
       period: "month",
       popular: true,
       features: [
-        "50 contract analyses per month",
+        "7 contract analyses per month",
         "50,000 tokens per month",
         "Advanced templates",
         "Priority support",
@@ -65,7 +65,7 @@ export default function Pricing() {
       price: 14.99,
       period: "month",
       features: [
-        "200 contract analyses per month",
+        "20 contract analyses per month",
         "200,000 tokens per month",
         "All templates",
         "Premium support",
@@ -80,7 +80,7 @@ export default function Pricing() {
       price: 39.99,
       period: "month",
       features: [
-        "1,000 contract analyses per month",
+        "30 contract analyses per month",
         "1,000,000 tokens per month",
         "All templates",
         "24/7 priority support",
