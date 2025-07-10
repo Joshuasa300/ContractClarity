@@ -264,10 +264,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       // Define size limits per plan
       const tokenLimits = {
-        free: 50000,      // ~125 pages
-        plus: 200000,     // ~500 pages  
-        pro: 500000,      // ~1250 pages
-        premium: 1000000  // ~2500 pages
+        free: 8000,       // ~20 pages
+        plus: 46800,      // ~117 pages  
+        pro: 140000,      // ~350 pages
+        premium: 190800   // ~477 pages
       };
 
       const examples = [
@@ -347,10 +347,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       // Define size limits per plan
       const tokenLimits = {
-        free: 50000,      // ~125 pages
-        plus: 200000,     // ~500 pages  
-        pro: 500000,      // ~1250 pages
-        premium: 1000000  // ~2500 pages
+        free: 8000,       // ~20 pages
+        plus: 46800,      // ~117 pages  
+        pro: 140000,      // ~350 pages
+        premium: 190800   // ~477 pages
       };
 
       const limit = tokenLimits[user.accountStatus as keyof typeof tokenLimits] || tokenLimits.free;

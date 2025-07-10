@@ -12,35 +12,36 @@ Estimated Pages = Total Tokens ÷ 400
 
 | Plan     | Token Limit | Max Pages | Contract Count Limit | Example Use Case |
 |----------|-------------|-----------|---------------------|------------------|
-| **Free** | 50,000      | ~125      | 2 lifetime         | Personal contracts (lease, employment) |
-| **Plus** | 200,000     | ~500      | 7/month            | Small business (vendor agreements, NDAs) |
-| **Pro**  | 500,000     | ~1,250    | 20/month           | Medium business (complex contracts, M&A) |
-| **Premium** | 1,000,000 | ~2,500    | 30/month           | Enterprise (large legal documents) |
+| **Free** | 8,000       | ~20       | 2 lifetime         | Personal contracts (lease, employment) |
+| **Plus** | 46,800      | ~117      | 7/month            | Small business (vendor agreements, NDAs) |
+| **Pro**  | 140,000     | ~350      | 20/month           | Medium business (complex contracts, M&A) |
+| **Premium** | 190,800   | ~477      | 30/month           | Enterprise (large legal documents) |
 
 ### Real Examples
 
 **Small Contract (5 pages):**
 - Characters: ~10,000 (2,000 per page)
 - Tokens: 2,500 + 800 + 2,000 = 5,300 tokens
-- ✅ Fits all plans
-
-**Medium Contract (50 pages):**
-- Characters: ~100,000
-- Tokens: 25,000 + 800 + 2,000 = 27,800 tokens
-- ✅ Free: Yes (27,800 < 50,000)
+- ✅ Free: Yes (5,300 < 8,000)
 - ✅ All paid plans: Yes
 
-**Large Contract (200 pages):**
-- Characters: ~400,000
-- Tokens: 100,000 + 800 + 2,000 = 102,800 tokens
-- ❌ Free: No (102,800 > 50,000) - Need Plus or higher
-- ✅ Plus: Yes (102,800 < 200,000)
+**Medium Contract (15 pages):**
+- Characters: ~30,000
+- Tokens: 7,500 + 800 + 2,000 = 10,300 tokens
+- ❌ Free: No (10,300 > 8,000) - Need Plus or higher
+- ✅ Plus: Yes (10,300 < 46,800)
 
-**Enterprise Contract (1,000 pages):**
-- Characters: ~2,000,000
-- Tokens: 500,000 + 800 + 2,000 = 502,800 tokens
+**Large Contract (100 pages):**
+- Characters: ~200,000
+- Tokens: 50,000 + 800 + 2,000 = 52,800 tokens
+- ❌ Free/Plus: No - Need Pro or higher
+- ✅ Pro: Yes (52,800 < 140,000)
+
+**Enterprise Contract (400 pages):**
+- Characters: ~800,000
+- Tokens: 200,000 + 800 + 2,000 = 202,800 tokens
 - ❌ Free/Plus/Pro: No - Need Premium
-- ✅ Premium: Yes (502,800 < 1,000,000)
+- ✅ Premium: Yes (202,800 > 190,800) - **Note: This exceeds Premium limit**
 
 ### Dual Limit System
 
@@ -51,7 +52,7 @@ The system uses **both** limits:
 
 **Example for Plus Plan:**
 - Can analyze up to 7 contracts per month
-- Each contract can be up to 500 pages
+- Each contract can be up to 117 pages
 - Could analyze: 7 × 50-page contracts OR 7 × 10-page contracts, etc.
 
 ### Why This System is Fair
