@@ -922,14 +922,16 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Stripe webhook endpoint for handling payment events
-  app.post('/api/stripe-webhook', express.raw({ type: 'application/json' }), async (req, res) => {
+  app.post('/api/webhook', express.raw({ type: 'application/json' }), async (req, res) => {
+    console.log('📥 Webhook received at /api/webhook');
     const sig = req.headers['stripe-signature'];
     let event: Stripe.Event;
 
     try {
       event = stripe.webhooks.constructEvent(req.body, sig!, process.env.STRIPE_WEBHOOK_SECRET!);
+      console.log('✅ Webhook signature verified. Event type:', event.type);
     } catch (err: any) {
-      console.error('Webhook signature verification failed:', err.message);
+      console.error('❌ Webhook signature verification failed:', err.message);
       return res.status(400).send(`Webhook Error: ${err.message}`);
     }
 
@@ -939,6 +941,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         case 'customer.subscription.updated':
           const subscription = event.data.object as Stripe.Subscription;
           const customerId = subscription.customer as string;
+          console.log('🔄 Processing subscription event:', event.type, 'for customer:', customerId);
           
           // Get customer to find user
           const customer = await stripe.customers.retrieve(customerId);
@@ -948,6 +951,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
           let planType = 'free';
           if (subscription.status === 'active' && subscription.items.data.length > 0) {
             const priceId = subscription.items.data[0].price.id;
+            console.log('💰 Processing price ID:', priceId, 'with status:', subscription.status);
+            
             if (priceId === 'price_1Rj2flPqwDXcpBrtJ39fCStw') {
               planType = 'plus';
             } else if (priceId === 'price_1Rj6HEPqwDXcpBrtKKqY5JBI') {
@@ -955,6 +960,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
             } else if (priceId === 'price_1Rj6HiPqwDXcpBrtGH8WqjO8') {
               planType = 'premium';
             }
+            console.log('📋 Determined plan type:', planType);
           }
 
           // Try to find existing user by customer ID or email
@@ -973,12 +979,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
           }
 
           if (user) {
+            console.log('👤 Found existing user:', user.email, 'updating to plan:', planType);
             // Update existing user
             await storage.updateUserSubscription(user.id, {
               accountStatus: planType,
               stripeCustomerId: customerId,
               subscriptionExpiresAt: new Date(subscription.current_period_end * 1000)
             });
+            console.log('✅ User subscription updated successfully');
           } else if (customer.email) {
             // Create new user account from Stripe customer data
             const newUser = await storage.createUser({
