@@ -342,23 +342,25 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(404).json({ message: "User not found" });
       }
 
-      // Estimate token usage
+      // More accurate token estimation
       const textTokens = Math.ceil(contractText.length / 4);
       const systemPromptTokens = 800;
       const responseTokens = 2000;
       const estimatedTokens = textTokens + systemPromptTokens + responseTokens;
 
-      // Define size limits per plan
+      // Define size limits per plan (more realistic limits)
       const tokenLimits = {
-        free: 8000,       // ~20 pages
-        plus: 46800,      // ~117 pages  
-        pro: 140000,      // ~350 pages
-        premium: 190800   // ~477 pages
+        free: 25000,      // ~50 pages (enough for most contracts)
+        plus: 100000,     // ~200 pages  
+        pro: 300000,      // ~600 pages
+        premium: 500000   // ~1000 pages
       };
 
       const limit = tokenLimits[user.accountStatus as keyof typeof tokenLimits] || tokenLimits.free;
-      const estimatedPages = Math.ceil(estimatedTokens / 400);
-      const maxPages = Math.floor(limit / 400);
+      
+      // Better page estimation: ~500 characters per page for typical contracts
+      const estimatedPages = Math.ceil(contractText.length / 500);
+      const maxPages = Math.floor((limit - systemPromptTokens - responseTokens) / 200); // ~200 tokens per page of actual content
 
       if (estimatedTokens > limit) {
         return res.json({
