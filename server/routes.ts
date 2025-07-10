@@ -324,54 +324,130 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Check contract size limits
-  app.post("/api/contracts/validate-size", isAuthenticated, async (req: any, res) => {
+  // Check contract size limits by uploading the file
+  app.post("/api/contracts/validate-size", isAuthenticated, upload.single('contract'), async (req: any, res) => {
     try {
       const userId = req.user.id;
-      const { contractText } = req.body;
+      const file = req.file;
       
-      if (!contractText) {
-        console.log("Error validating document size: Contract text is required");
-        return res.status(400).json({ message: "Contract text is required" });
+      if (!file) {
+        return res.status(400).json({ message: "No file uploaded for validation" });
       }
 
-      console.log(`Validating document size: ${contractText.length} characters for user ${userId}`);
+      console.log(`Validating document size: ${file.originalname}, type: ${file.mimetype}, size: ${file.size} bytes for user ${userId}`);
 
       const user = await storage.getUser(userId);
       if (!user) {
         return res.status(404).json({ message: "User not found" });
       }
 
-      // More accurate token estimation
-      const textTokens = Math.ceil(contractText.length / 4);
+      // Extract text content and count pages based on file type
+      let actualPages = 1;
+      let fileContent = "";
+      
+      if (file.mimetype === 'text/plain') {
+        fileContent = file.buffer.toString('utf-8');
+        const lines = fileContent.split('\n').length;
+        const linesPerPage = 50; // typical lines per page
+        actualPages = Math.max(1, Math.ceil(lines / linesPerPage));
+      } else if (file.mimetype === 'application/pdf') {
+        try {
+          // Parse PDF using pdf2json and count actual pages
+          const pdfParser = new PDFParser();
+          
+          const pdfInfo = await new Promise<{text: string, pageCount: number}>((resolve, reject) => {
+            pdfParser.on("pdfParser_dataError", (errData: any) => {
+              reject(new Error(`PDF parsing error: ${errData.parserError}`));
+            });
+            
+            pdfParser.on("pdfParser_dataReady", (pdfData: any) => {
+              try {
+                let text = '';
+                let pageCount = 0;
+                
+                // Extract text from all pages and count them
+                if (pdfData.Pages) {
+                  pageCount = pdfData.Pages.length;
+                  for (const page of pdfData.Pages) {
+                    if (page.Texts) {
+                      for (const textItem of page.Texts) {
+                        if (textItem.R) {
+                          for (const run of textItem.R) {
+                            if (run.T) {
+                              text += decodeURIComponent(run.T) + ' ';
+                            }
+                          }
+                        }
+                      }
+                    }
+                    text += '\n';
+                  }
+                }
+                
+                resolve({ text: text.trim(), pageCount });
+              } catch (parseError) {
+                reject(new Error(`Text extraction error: ${parseError}`));
+              }
+            });
+            
+            pdfParser.parseBuffer(file.buffer);
+          });
+          
+          actualPages = pdfInfo.pageCount;
+          fileContent = pdfInfo.text;
+          
+        } catch (error) {
+          console.error("PDF parsing error:", error);
+          return res.status(400).json({ 
+            message: "Failed to parse PDF file. Please ensure it's a valid PDF with readable text." 
+          });
+        }
+      } else if (file.mimetype === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' || 
+                 file.originalname.toLowerCase().endsWith('.docx')) {
+        try {
+          const result = await mammoth.extractRawText({buffer: file.buffer});
+          fileContent = result.value;
+          
+          // Estimate pages based on content density
+          const wordsPerPage = 500;
+          const words = fileContent.split(/\s+/).length;
+          actualPages = Math.max(1, Math.ceil(words / wordsPerPage));
+          
+        } catch (error) {
+          console.error("DOCX parsing error:", error);
+          return res.status(400).json({ 
+            message: "Failed to parse DOCX file. Please ensure it's a valid Word document." 
+          });
+        }
+      }
+
+      // Define page limits per plan
+      const pageLimits = {
+        free: 50,      // 50 pages
+        plus: 200,     // 200 pages  
+        pro: 600,      // 600 pages
+        premium: 1000  // 1000 pages
+      };
+
+      const maxPages = pageLimits[user.accountStatus as keyof typeof pageLimits] || pageLimits.free;
+      
+      console.log(`Document has ${actualPages} pages, limit is ${maxPages} pages for ${user.accountStatus} plan`);
+
+      if (actualPages > maxPages) {
+        return res.json({
+          allowed: false,
+          reason: `Contract too large for ${user.accountStatus} plan. Document has ${actualPages} pages, but limit is ${maxPages} pages.`,
+          actualPages,
+          maxPages,
+          planLimit: maxPages
+        });
+      }
+
+      // Calculate token usage for monthly limits
+      const textTokens = Math.ceil(fileContent.length / 4);
       const systemPromptTokens = 800;
       const responseTokens = 2000;
       const estimatedTokens = textTokens + systemPromptTokens + responseTokens;
-
-      // Define size limits per plan (more realistic limits)
-      const tokenLimits = {
-        free: 25000,      // ~50 pages (enough for most contracts)
-        plus: 100000,     // ~200 pages  
-        pro: 300000,      // ~600 pages
-        premium: 500000   // ~1000 pages
-      };
-
-      const limit = tokenLimits[user.accountStatus as keyof typeof tokenLimits] || tokenLimits.free;
-      
-      // Better page estimation: ~500 characters per page for typical contracts
-      const estimatedPages = Math.ceil(contractText.length / 500);
-      const maxPages = Math.floor((limit - systemPromptTokens - responseTokens) / 200); // ~200 tokens per page of actual content
-
-      if (estimatedTokens > limit) {
-        return res.json({
-          allowed: false,
-          reason: `Contract too large for ${user.accountStatus} plan. Estimated ${estimatedPages} pages, but limit is ${maxPages} pages.`,
-          estimatedTokens,
-          estimatedPages,
-          maxPages,
-          planLimit: limit
-        });
-      }
 
       // Check monthly token limits
       const planLimits = await storage.getPlanLimits(user.accountStatus);
@@ -382,7 +458,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
             allowed: false,
             reason: `Monthly token limit would be exceeded. Estimated tokens needed: ${estimatedTokens}, Available: ${planLimits.monthlyTokenLimit - monthlyUsage}`,
             estimatedTokens,
-            estimatedPages,
+            actualPages,
             availableTokens: planLimits.monthlyTokenLimit - monthlyUsage
           });
         }
@@ -390,10 +466,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       res.json({
         allowed: true,
-        estimatedTokens,
-        estimatedPages,
+        actualPages,
         maxPages,
-        planLimit: limit
+        estimatedTokens,
+        planLimit: maxPages
       });
     } catch (error) {
       console.error("Error validating contract size:", error);
