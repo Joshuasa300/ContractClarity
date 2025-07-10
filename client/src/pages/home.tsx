@@ -43,7 +43,18 @@ export default function Home() {
   // Force refresh user data on component mount to ensure latest plan status is shown
   useEffect(() => {
     queryClient.invalidateQueries({ queryKey: ["/api/user"] });
-  }, [queryClient]);
+    
+    // Check for success parameter from Stripe redirect
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('success') === 'true') {
+      toast({
+        title: "Payment Successful!",
+        description: "Your subscription has been activated. Welcome to your new plan!",
+      });
+      // Clean up URL
+      window.history.replaceState({}, document.title, window.location.pathname);
+    }
+  }, [queryClient, toast]);
 
   // Pricing plans data
   const pricingPlans = [
