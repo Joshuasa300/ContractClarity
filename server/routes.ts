@@ -936,6 +936,47 @@ export async function registerRoutes(app: Express): Promise<Server> {
         case 'invoice.payment_succeeded':
           const invoice = event.data.object as Stripe.Invoice;
           console.log('Payment succeeded for invoice:', invoice.id);
+          
+          if (invoice.customer && invoice.subscription) {
+            const successCustomer = await stripe.customers.retrieve(invoice.customer as string);
+            if (!successCustomer.deleted) {
+              const successUserId = successCustomer.metadata?.userId;
+              let userToRestore = null;
+              
+              if (successUserId) {
+                userToRestore = await storage.getUser(successUserId);
+              } else {
+                // Fallback: try to find user by Stripe customer ID
+                userToRestore = await storage.getUserByStripeCustomerId(invoice.customer as string);
+              }
+              
+              if (userToRestore) {
+                // Get the subscription to determine plan type
+                const successSubscription = await stripe.subscriptions.retrieve(invoice.subscription as string);
+                
+                // Determine plan type based on price ID
+                let planType = 'free';
+                if (successSubscription.status === 'active' && successSubscription.items.data.length > 0) {
+                  const priceId = successSubscription.items.data[0].price.id;
+                  if (priceId === 'price_1Rj2flPqwDXcpBrtJ39fCStw') {
+                    planType = 'plus';
+                  } else if (priceId === 'price_1Rj6HEPqwDXcpBrtKKqY5JBI') {
+                    planType = 'pro';
+                  } else if (priceId === 'price_1Rj6HiPqwDXcpBrtGH8WqjO8') {
+                    planType = 'premium';
+                  }
+                }
+                
+                // Restore user access by updating their plan
+                await storage.updateUserSubscription(userToRestore.id, {
+                  accountStatus: planType,
+                  subscriptionExpiresAt: new Date(successSubscription.current_period_end * 1000),
+                });
+                
+                console.log(`Payment succeeded - restored user ${userToRestore.email} to ${planType} plan`);
+              }
+            }
+          }
           break;
 
         case 'invoice.payment_failed':
