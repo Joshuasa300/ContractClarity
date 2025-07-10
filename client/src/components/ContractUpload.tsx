@@ -15,7 +15,7 @@ import {
   Loader2,
   TrendingUp
 } from "lucide-react";
-import { useLocation } from "wouter";
+import { useLocation, Link } from "wouter";
 import AnalysisProgress from "./AnalysisProgress";
 import UpgradeModal from "./UpgradeModal";
 import { useLanguage } from "@/lib/i18n";
