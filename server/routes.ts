@@ -335,6 +335,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ message: "Contract text is required" });
       }
 
+      console.log(`Validating document size: ${contractText.length} characters for user ${userId}`);
+
       const user = await storage.getUser(userId);
       if (!user) {
         return res.status(404).json({ message: "User not found" });
