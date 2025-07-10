@@ -424,21 +424,53 @@ export class DatabaseStorage implements IStorage {
       // Check for lifetime limits (free plan)
       const lifetimeOperation = `${operation}_lifetime`;
       if (lifetimeOperation in opLimits) {
-        // Count all-time usage for lifetime limits
-        const result = await db
-          .select({ count: sql<number>`count(*)` })
-          .from(usageLogs)
-          .where(and(
-            eq(usageLogs.userId, userId),
-            eq(usageLogs.operation, operation)
-          ));
-
-        const operationCount = Number(result[0]?.count) || 0;
-        if (operationCount >= opLimits[lifetimeOperation]) {
-          return { allowed: false, limit: opLimits[lifetimeOperation], current: operationCount };
-        }
+        // For downgraded users who exceed lifetime limits, give them monthly allowance
+        // This prevents permanent lockout when users downgrade from paid plans
         
-        return { allowed: true, limit: opLimits[lifetimeOperation], current: operationCount };
+        // First check if user has ever had a paid subscription
+        const hasHadPaidSubscription = user.stripeCustomerId !== null;
+        
+        if (hasHadPaidSubscription) {
+          // For previously paid users, use monthly reset instead of lifetime limits
+          // This gives them 2 contracts per month rather than 2 total forever
+          const startOfMonth = new Date();
+          startOfMonth.setDate(1);
+          startOfMonth.setHours(0, 0, 0, 0);
+
+          const result = await db
+            .select({ count: sql<number>`count(*)` })
+            .from(usageLogs)
+            .where(and(
+              eq(usageLogs.userId, userId),
+              eq(usageLogs.operation, operation),
+              gte(usageLogs.createdAt, startOfMonth)
+            ));
+
+          const monthlyCount = Number(result[0]?.count) || 0;
+          const monthlyLimit = opLimits[lifetimeOperation]; // Use same limit but monthly
+          
+          if (monthlyCount >= monthlyLimit) {
+            return { allowed: false, limit: monthlyLimit, current: monthlyCount };
+          }
+          
+          return { allowed: true, limit: monthlyLimit, current: monthlyCount };
+        } else {
+          // For truly new free users, use lifetime limits
+          const result = await db
+            .select({ count: sql<number>`count(*)` })
+            .from(usageLogs)
+            .where(and(
+              eq(usageLogs.userId, userId),
+              eq(usageLogs.operation, operation)
+            ));
+
+          const operationCount = Number(result[0]?.count) || 0;
+          if (operationCount >= opLimits[lifetimeOperation]) {
+            return { allowed: false, limit: opLimits[lifetimeOperation], current: operationCount };
+          }
+          
+          return { allowed: true, limit: opLimits[lifetimeOperation], current: operationCount };
+        }
       }
       
       // Check for monthly limits (paid plans)

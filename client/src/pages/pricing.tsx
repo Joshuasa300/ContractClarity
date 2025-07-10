@@ -32,13 +32,14 @@ export default function Pricing() {
       price: 0,
       period: "forever",
       features: [
-        "Only 2 contracts",
+        "2 contracts per month*",
         "Up to 20 pages per contract",
         "Basic templates",
         "Community support"
       ],
       limitations: [
-        "Only 2 contracts total",
+        "New users: 2 contracts total",
+        "Previous subscribers: 2 per month",
         "Basic templates only",
         "No priority support"
       ]
@@ -230,11 +231,14 @@ export default function Pricing() {
           <p className="text-gray-600 mb-4">
             Need a custom solution? Contact us for enterprise pricing.
           </p>
-          <div className="flex justify-center space-x-8 text-sm text-gray-500">
+          <div className="flex justify-center space-x-8 text-sm text-gray-500 mb-4">
             <span>✓ 30-day money-back guarantee</span>
             <span>✓ Cancel anytime</span>
             <span>✓ Secure payment processing</span>
           </div>
+          <p className="text-xs text-gray-400 max-w-2xl mx-auto">
+            * Free plan: New users get 2 contracts total. Previous subscribers who downgrade get 2 contracts per month to prevent permanent lockout.
+          </p>
         </div>
       </div>
     </div>
