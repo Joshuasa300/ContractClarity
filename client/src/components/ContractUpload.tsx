@@ -103,12 +103,23 @@ export default function ContractUpload() {
   // Validate document size after file is selected
   const validateDocumentSize = async (file: File): Promise<boolean> => {
     try {
+      console.log("Validating document size for file:", file.name, "type:", file.type, "size:", file.size);
+      
       // Send the actual file to the server for proper parsing and page counting
       const formData = new FormData();
       formData.append("contract", file);
       
+      console.log("Sending validation request...");
       const response = await apiRequest("POST", "/api/contracts/validate-size", formData);
+      
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error("Validation response error:", response.status, errorText);
+        throw new Error(`Validation failed: ${response.status} ${errorText}`);
+      }
+      
       const result = await response.json();
+      console.log("Validation result:", result);
       
       setDocumentSizeCheck(result);
       

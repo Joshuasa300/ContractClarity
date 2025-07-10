@@ -331,6 +331,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const file = req.file;
       
       if (!file) {
+        console.log("Error validating document size: No file uploaded for validation");
         return res.status(400).json({ message: "No file uploaded for validation" });
       }
 
