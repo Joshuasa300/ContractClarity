@@ -3,7 +3,7 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, D
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { CheckCircle, ArrowRight, Zap } from "lucide-react";
+import { Check, X, Zap } from "lucide-react";
 import { useLanguage } from "@/lib/i18n";
 import { apiRequest } from "@/lib/queryClient";
 
@@ -21,58 +21,61 @@ export default function UpgradeModal({ isOpen, onClose, currentUsage }: UpgradeM
 
   const plans = [
     {
+      id: "plus",
       name: "Plus",
-      price: "£7.99",
-      period: "/month",
-      color: "bg-blue-500",
-      features: [
-        "7 contract analyses per month",
-        "100,000 monthly tokens",
-        "Up to 200 pages per contract",
-        "Advanced templates",
-        "Multi-language analysis",
-        "Priority support"
-      ],
-      planId: "plus"
-    },
-    {
-      name: "Pro", 
-      price: "£14.99",
-      period: "/month",
-      color: "bg-purple-500",
+      price: 7.99,
+      period: "month",
       popular: true,
       features: [
-        "20 contract analyses per month",
-        "300,000 monthly tokens",
-        "Up to 600 pages per contract",
-        "All templates",
-        "Custom clauses",
-        "Advanced analytics",
-        "Premium support"
+        "7 contract analyses per month",
+        "Up to 200 pages per contract",
+        "Advanced templates",
+        "Priority support",
+        "Multi-language analysis"
       ],
-      planId: "pro"
+      limitations: [
+        "Limited to 100K tokens monthly"
+      ]
     },
     {
+      id: "pro",
+      name: "Pro",
+      price: 14.99,
+      period: "month",
+      features: [
+        "20 contract analyses per month",
+        "Up to 600 pages per contract",
+        "All templates",
+        "Premium support",
+        "Custom clauses",
+        "Advanced analytics"
+      ],
+      limitations: []
+    },
+    {
+      id: "premium",
       name: "Premium",
-      price: "£39.99", 
-      period: "/month",
-      color: "bg-gradient-to-r from-amber-500 to-orange-500",
+      price: 39.99,
+      period: "month",
       features: [
         "30 contract analyses per month",
-        "500,000 monthly tokens",
-        "Up to 1,000 pages per contract",
+        "Up to 1000 pages per contract",
         "All templates",
+        "24/7 priority support",
+        "Custom clauses",
         "API access",
         "White-label options",
-        "Custom integrations",
         "Dedicated account manager"
       ],
-      planId: "premium"
+      limitations: []
     }
   ];
 
+  const [selectedPlan, setSelectedPlan] = useState<string>("");
+  
   const handleUpgrade = async (planId: string) => {
     try {
+      setSelectedPlan(planId);
       const response = await apiRequest("POST", "/api/create-checkout-session", { planId });
       const data = await response.json();
       
@@ -101,48 +104,64 @@ export default function UpgradeModal({ isOpen, onClose, currentUsage }: UpgradeM
           </DialogDescription>
         </DialogHeader>
 
-        <div className="grid gap-4 md:grid-cols-3 my-6">
-          {plans.map((plan, index) => (
+        <div className="grid gap-6 md:grid-cols-3 my-6">
+          {plans.map((plan) => (
             <Card 
-              key={plan.name} 
-              className={`relative transition-all duration-200 hover:scale-105 cursor-pointer ${
-                plan.popular ? 'ring-2 ring-purple-500 ring-offset-2' : ''
-              }`}
-              onClick={() => handleUpgrade(plan.planId)}
+              key={plan.id} 
+              className={`relative ${plan.popular ? 'border-2 border-blue-500 shadow-lg' : ''}`}
             >
               {plan.popular && (
-                <Badge className="absolute -top-2 left-1/2 -translate-x-1/2 bg-purple-500 text-white">
-                  Most Popular
-                </Badge>
+                <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
+                  <span className="bg-blue-500 text-white px-3 py-1 rounded-full text-sm font-medium">
+                    Most Popular
+                  </span>
+                </div>
               )}
               
-              <CardHeader className="text-center pb-2">
-                <div className={`inline-block px-3 py-1 rounded-full text-white text-sm font-medium ${plan.color}`}>
-                  {plan.name}
-                </div>
-                <CardTitle className="text-3xl font-bold mt-2">
-                  {plan.price}
-                  <span className="text-sm font-normal text-muted-foreground">{plan.period}</span>
-                </CardTitle>
+              <CardHeader className="text-center">
+                <CardTitle className="text-2xl font-bold">{plan.name}</CardTitle>
+                <CardDescription className="text-3xl font-bold text-gray-900">
+                  £{plan.price}
+                  <span className="text-base font-normal text-gray-600">
+                    /{plan.period}
+                  </span>
+                </CardDescription>
               </CardHeader>
-              
-              <CardContent className="space-y-3">
-                {plan.features.map((feature, featureIndex) => (
-                  <div key={featureIndex} className="flex items-center gap-2">
-                    <CheckCircle className="h-4 w-4 text-green-500 flex-shrink-0" />
-                    <span className="text-sm">{feature}</span>
+
+              <CardContent className="space-y-6">
+                <div className="space-y-3">
+                  <h4 className="font-semibold text-gray-900">Features included:</h4>
+                  <ul className="space-y-2">
+                    {plan.features.map((feature, index) => (
+                      <li key={index} className="flex items-start">
+                        <Check className="h-4 w-4 text-green-500 mt-0.5 mr-2 flex-shrink-0" />
+                        <span className="text-sm text-gray-600">{feature}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                {plan.limitations.length > 0 && (
+                  <div className="space-y-3">
+                    <h4 className="font-semibold text-gray-900">Limitations:</h4>
+                    <ul className="space-y-2">
+                      {plan.limitations.map((limitation, index) => (
+                        <li key={index} className="flex items-start">
+                          <X className="h-4 w-4 text-red-500 mt-0.5 mr-2 flex-shrink-0" />
+                          <span className="text-sm text-gray-600">{limitation}</span>
+                        </li>
+                      ))}
+                    </ul>
                   </div>
-                ))}
-                
+                )}
+
                 <Button 
-                  className="w-full mt-4 group"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleUpgrade(plan.planId);
-                  }}
+                  onClick={() => handleUpgrade(plan.id)}
+                  disabled={selectedPlan === plan.id}
+                  className={`w-full ${plan.popular ? 'bg-blue-500 hover:bg-blue-600' : ''}`}
+                  variant={plan.popular ? "default" : "outline"}
                 >
-                  Upgrade to {plan.name}
-                  <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                  {selectedPlan === plan.id ? "Processing..." : `Subscribe to ${plan.name}`}
                 </Button>
               </CardContent>
             </Card>
