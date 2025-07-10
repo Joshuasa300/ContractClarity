@@ -113,16 +113,15 @@ export default function Pricing() {
   });
 
   const handleSubscribe = (planId: string) => {
-    if (!isAuthenticated) {
-      toast({
-        title: "Sign In Required",
-        description: "Please sign in to subscribe to a plan",
-        variant: "destructive",
-      });
-      return;
-    }
-
     if (planId === "free") {
+      if (!isAuthenticated) {
+        toast({
+          title: "Sign Up Required",
+          description: "Please sign up for a free account to get started",
+          variant: "default",
+        });
+        return;
+      }
       toast({
         title: "Free Plan",
         description: "You're already on the free plan!",

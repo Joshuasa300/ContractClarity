@@ -556,20 +556,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Stripe checkout session routes
-  app.post('/api/create-checkout-session', isAuthenticated, async (req: any, res) => {
+  // Stripe checkout session routes (allows unauthenticated users)
+  app.post('/api/create-checkout-session', async (req: any, res) => {
     try {
       const { planId } = req.body;
-      const userId = req.user.id;
       
       if (!planId || planId === 'free') {
         return res.status(400).json({ message: 'Invalid plan ID' });
-      }
-
-      // Get user
-      const user = await storage.getUser(userId);
-      if (!user) {
-        return res.status(404).json({ message: 'User not found' });
       }
 
       // Map plan to Stripe price ID
@@ -584,28 +577,36 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ message: 'Invalid plan ID' });
       }
 
-      // Create or get Stripe customer
-      let customerId = user.stripeCustomerId;
-      if (!customerId) {
-        const customer = await stripe.customers.create({
-          email: user.email,
-          metadata: {
-            userId: user.id
-          }
-        });
-        customerId = customer.id;
+      // Check if user is authenticated
+      let customerId = null;
+      let userId = null;
+      
+      if (req.user) {
+        // Authenticated user - link to existing account
+        userId = req.user.id;
+        const user = await storage.getUser(userId);
         
-        // Update user with Stripe customer ID
-        await storage.updateUserSubscription(user.id, {
-          accountStatus: user.accountStatus,
-          stripeCustomerId: customerId,
-          subscriptionExpiresAt: user.subscriptionExpiresAt
-        });
+        if (user?.stripeCustomerId) {
+          customerId = user.stripeCustomerId;
+        } else if (user?.email) {
+          // Create Stripe customer for existing user
+          const customer = await stripe.customers.create({
+            email: user.email,
+            metadata: { userId: user.id }
+          });
+          customerId = customer.id;
+          
+          // Update user with Stripe customer ID
+          await storage.updateUserSubscription(user.id, {
+            accountStatus: user.accountStatus,
+            stripeCustomerId: customerId,
+            subscriptionExpiresAt: user.subscriptionExpiresAt
+          });
+        }
       }
 
       // Create checkout session
-      const session = await stripe.checkout.sessions.create({
-        customer: customerId,
+      const sessionConfig: any = {
         payment_method_types: ['card'],
         line_items: [{
           price: priceId,
@@ -615,10 +616,20 @@ export async function registerRoutes(app: Express): Promise<Server> {
         success_url: `${req.protocol}://${req.get('host')}/dashboard?success=true`,
         cancel_url: `${req.protocol}://${req.get('host')}/pricing?canceled=true`,
         metadata: {
-          userId: user.id,
-          planId: planId
+          planId: planId,
+          ...(userId && { userId })
         }
-      });
+      };
+
+      // If we have a customer ID, use it
+      if (customerId) {
+        sessionConfig.customer = customerId;
+      } else {
+        // For new customers, let Stripe collect email during checkout
+        sessionConfig.customer_creation = 'always';
+      }
+
+      const session = await stripe.checkout.sessions.create(sessionConfig);
 
       res.json({ url: session.url });
     } catch (error) {
@@ -711,9 +722,6 @@ export async function registerRoutes(app: Express): Promise<Server> {
           const customer = await stripe.customers.retrieve(customerId);
           if (customer.deleted) break;
           
-          const userId = customer.metadata?.userId;
-          if (!userId) break;
-
           // Determine plan type based on price ID
           let planType = 'free';
           if (subscription.status === 'active' && subscription.items.data.length > 0) {
@@ -726,11 +734,46 @@ export async function registerRoutes(app: Express): Promise<Server> {
               planType = 'premium';
             }
           }
-          await storage.updateUserSubscription(userId, {
-            accountStatus: planType,
-            stripeCustomerId: customerId,
-            subscriptionExpiresAt: new Date(subscription.current_period_end * 1000)
-          });
+
+          // Try to find existing user by customer ID or email
+          let userId = customer.metadata?.userId;
+          let user = null;
+          
+          if (userId) {
+            user = await storage.getUser(userId);
+          } else {
+            // Try to find by Stripe customer ID
+            user = await storage.getUserByStripeCustomerId(customerId);
+            if (!user && customer.email) {
+              // Try to find by email
+              user = await storage.getUserByEmail(customer.email);
+            }
+          }
+
+          if (user) {
+            // Update existing user
+            await storage.updateUserSubscription(user.id, {
+              accountStatus: planType,
+              stripeCustomerId: customerId,
+              subscriptionExpiresAt: new Date(subscription.current_period_end * 1000)
+            });
+          } else if (customer.email) {
+            // Create new user account from Stripe customer data
+            const newUser = await storage.createUser({
+              id: `stripe_${customerId}`,
+              email: customer.email,
+              firstName: customer.name?.split(' ')[0] || '',
+              lastName: customer.name?.split(' ').slice(1).join(' ') || '',
+              accountStatus: planType,
+              stripeCustomerId: customerId,
+              subscriptionExpiresAt: new Date(subscription.current_period_end * 1000)
+            });
+            
+            // Update Stripe customer metadata with new user ID
+            await stripe.customers.update(customerId, {
+              metadata: { userId: newUser.id }
+            });
+          }
           break;
 
         case 'customer.subscription.deleted':

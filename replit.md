@@ -131,6 +131,7 @@ Changelog:
 - July 09, 2025. Completed full Stripe subscription integration with pricing page, checkout system, and subscription management. Features include three pricing tiers (Plus £7.99, Pro £14.99, Premium £39.99), secure payment processing, webhook handling for subscription events, and usage limit enforcement based on subscription status. Integrated token counting into OpenAI services with usage tracking for contract analysis and translations.
 - July 09, 2025. Implemented upgrade modal system that appears when users exceed usage limits instead of showing endless loading. Modal displays pricing options and directs users to subscription page for seamless upgrade experience. Completed webhook configuration with STRIPE_WEBHOOK_SECRET for automatic subscription status updates.
 - July 09, 2025. Updated usage limits system: Free plan now allows only 3 contracts total (lifetime limit), not monthly. Paid plans maintain monthly limits: Plus (50/month), Pro (200/month), Premium (1000/month). System now differentiates between lifetime limits for free users and monthly limits for paid subscribers.
+- July 09, 2025. Implemented pay-first subscription flow allowing users to subscribe without creating accounts first. System redirects users directly to Stripe checkout, then automatically creates user accounts from payment details via webhook. Enhanced checkout endpoint to handle both authenticated and unauthenticated users with automatic account creation for new customers.
 
 ## User Preferences
 
