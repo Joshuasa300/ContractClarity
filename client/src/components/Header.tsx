@@ -53,7 +53,6 @@ export default function Header({ breadcrumbs }: HeaderProps) {
     { label: "Home", href: "/", icon: null },
     { label: "Templates", href: "/templates", icon: null },
     { label: "Clauses", href: "/clauses", icon: null },
-    { label: "Subscription", href: "/subscription", icon: null },
   ];
 
   const isActiveRoute = (href: string) => {
