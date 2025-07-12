@@ -1,6 +1,6 @@
 export const de = {
   // Landing Page
-  'landing.title': 'ContractAI',
+  'landing.title': 'Contract Clarity',
   'landing.subtitle': 'Vereinfachen Sie Ihre Verträge mit KI',
   'landing.hero.title': 'Analysieren Sie Ihre Verträge mit künstlicher Intelligenz',
   'landing.hero.subtitle': 'Erhalten Sie sofortige Einblicke, Risikobewertungen und Empfehlungen für Ihre Rechtsdokumente',
@@ -9,10 +9,10 @@ export const de = {
   'landing.titleHighlight': 'KI',
   'landing.uploadContract': 'Vertrag hochladen',
   'landing.seeDemo': 'Demo ansehen',
-  'landing.whyChoose': 'Warum ContractAI wählen?',
+  'landing.whyChoose': 'Warum Contract Clarity wählen?',
   'landing.whyChooseDesc': 'Unsere KI-gestützte Plattform verwandelt komplexe Vertragsanalysen in klare, umsetzbare Erkenntnisse',
   'landing.cta.title': 'Bereit, Ihre Verträge zu vereinfachen?',
-  'landing.cta.subtitle': 'Treten Sie Tausenden von Fachleuten bei, die ContractAI vertrauen',
+  'landing.cta.subtitle': 'Treten Sie Tausenden von Fachleuten bei, die Contract Clarity vertrauen',
   'landing.cta.button': 'Kostenlos starten',
   
   // Features

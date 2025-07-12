@@ -1,6 +1,6 @@
 export const ar = {
   // Landing Page
-  'landing.title': 'ContractAI',
+  'landing.title': 'Contract Clarity',
   'landing.subtitle': 'بساطة العقود مع الذكاء الاصطناعي',
   'landing.hero.title': 'حلل عقودك بالذكاء الاصطناعي',
   'landing.hero.subtitle': 'احصل على رؤى فورية وتقييمات المخاطر والتوصيات لوثائقك القانونية',
@@ -9,10 +9,10 @@ export const ar = {
   'landing.titleHighlight': 'الذكاء الاصطناعي',
   'landing.uploadContract': 'رفع عقد',
   'landing.seeDemo': 'مشاهدة العرض التوضيحي',
-  'landing.whyChoose': 'لماذا تختار ContractAI؟',
+  'landing.whyChoose': 'لماذا تختار Contract Clarity؟',
   'landing.whyChooseDesc': 'منصتنا المدعومة بالذكاء الاصطناعي تحول تحليل العقود المعقد إلى رؤى واضحة وقابلة للتنفيذ',
   'landing.cta.title': 'هل أنت مستعد لتبسيط عقودك؟',
-  'landing.cta.subtitle': 'انضم إلى آلاف المهنيين الذين يثقون في ContractAI',
+  'landing.cta.subtitle': 'انضم إلى آلاف المهنيين الذين يثقون في Contract Clarity',
   'landing.cta.button': 'ابدأ مجاناً',
 
   // Features

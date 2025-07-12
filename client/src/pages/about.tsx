@@ -75,7 +75,7 @@ export default function About() {
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-purple-600">Artificial Intelligence</span>
             </h1>
             <p className="text-xl text-gray-600 mb-8 leading-relaxed">
-              ContractAI transforms complex legal documents into clear, actionable insights. 
+              Contract Clarity transforms complex legal documents into clear, actionable insights. 
               Our mission is to democratize legal understanding and empower businesses of all sizes 
               to make informed decisions about their contracts.
             </p>
@@ -110,7 +110,7 @@ export default function About() {
         <section className="container mx-auto px-4 py-16">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              Why Choose ContractAI?
+              Why Choose Contract Clarity?
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
               We combine cutting-edge AI technology with deep legal expertise to deliver 
@@ -216,7 +216,7 @@ export default function About() {
                 Ready to Transform Your Contract Analysis?
               </h2>
               <p className="text-xl text-blue-100 mb-8">
-                Join thousands of businesses who trust ContractAI to simplify their legal document review process.
+                Join thousands of businesses who trust Contract Clarity to simplify their legal document review process.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Link href="/pricing">

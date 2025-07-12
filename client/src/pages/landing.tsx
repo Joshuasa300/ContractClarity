@@ -58,7 +58,7 @@ export default function Landing() {
           
           <p className="font-light text-lg md:text-xl dark:text-neutral-200 text-gray-600 py-4 max-w-2xl">
             Transform complex legal documents into clear, actionable insights. 
-            ContractAI makes contract analysis fast, accurate, and accessible to everyone.
+            Contract Clarity makes contract analysis fast, accurate, and accessible to everyone.
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center mt-6">

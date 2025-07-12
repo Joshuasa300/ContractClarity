@@ -2,7 +2,7 @@
 
 ## Overview
 
-This is a full-stack web application called "ContractAI" that provides AI-powered contract analysis services. The application allows users to upload legal contracts and receive comprehensive analysis including summaries, risk assessments, key terms identification, and recommendations in plain language.
+This is a full-stack web application called "Contract Clarity" that provides AI-powered contract analysis services. The application allows users to upload legal contracts and receive comprehensive analysis including summaries, risk assessments, key terms identification, and recommendations in plain language.
 
 ## System Architecture
 
@@ -165,6 +165,7 @@ Changelog:
 - July 12, 2025. Added comprehensive subscription cancellation webhook handling. When customers cancel their subscriptions directly in Stripe, the system automatically downgrades them to free plan access. Enhanced customer.subscription.deleted webhook with detailed logging, user lookup by customer ID and metadata, and proper account status downgrade to prevent continued paid access after cancellation.
 - July 12, 2025. Implemented comprehensive password reset functionality in settings page as critical missing feature. Added secure password change endpoint with current password validation, frontend interface with password visibility toggles, form validation, and error handling. Only available for local authentication users (not Google OAuth). Enhanced settings page with dedicated Security section and password change dialog with comprehensive validation and user feedback.
 - July 12, 2025. Created comprehensive About page with consistent navigation structure matching home page. Features company mission, statistics showcase, core benefits, team information, and clear call-to-action sections. Added proper routing (/about) accessible to all visitors with same Navigation component as landing page for design consistency.
+- July 12, 2025. Completed comprehensive rebranding from "ContractAI" to "Contract Clarity" across entire application. Created and integrated custom logo component with purple color scheme matching app theme. Updated all translation files (English, Spanish, Arabic, German, French) with new branding. Implemented SVG-based logo with document and checkmark design incorporating purple gradient theming consistent with app's visual identity.
 
 ## User Preferences
 

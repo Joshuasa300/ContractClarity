@@ -1,6 +1,6 @@
 export const es = {
   // Landing Page
-  'landing.title': 'ContractAI',
+  'landing.title': 'Contract Clarity',
   'landing.subtitle': 'Simplifica tus contratos con IA',
   'landing.hero.title': 'Analiza tus contratos con inteligencia artificial',
   'landing.hero.subtitle': 'Obtén insights instantáneos, evaluaciones de riesgo y recomendaciones para tus documentos legales',
@@ -9,10 +9,10 @@ export const es = {
   'landing.titleHighlight': 'IA',
   'landing.uploadContract': 'Subir contrato',
   'landing.seeDemo': 'Ver demo',
-  'landing.whyChoose': '¿Por qué elegir ContractAI?',
+  'landing.whyChoose': '¿Por qué elegir Contract Clarity?',
   'landing.whyChooseDesc': 'Nuestra plataforma impulsada por IA transforma el análisis complejo de contratos en insights claros y accionables',
   'landing.cta.title': '¿Listo para simplificar tus contratos?',
-  'landing.cta.subtitle': 'Únete a miles de profesionales que confían en ContractAI',
+  'landing.cta.subtitle': 'Únete a miles de profesionales que confían en Contract Clarity',
   'landing.cta.button': 'Comenzar gratis',
   
   // Features

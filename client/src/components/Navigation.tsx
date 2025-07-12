@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Link } from "wouter";
 import { useLanguage } from "@/lib/i18n";
 import { LanguageSelector } from "./LanguageSelector";
+import { Logo } from "./ui/logo";
 
 interface NavigationProps {
   onSignIn: () => void;
@@ -22,12 +23,7 @@ export default function Navigation({ onSignIn, onGetStarted, onSignUp }: Navigat
           {/* Logo */}
           <div className="flex items-center">
             <Link href="/" className="flex items-center group">
-              <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg flex items-center justify-center mr-3 group-hover:scale-105 transition-transform duration-200">
-                <FileText className="h-6 w-6 text-white" />
-              </div>
-              <span className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                ContractAI
-              </span>
+              <Logo size="lg" showText={true} className="group-hover:scale-105 transition-transform duration-200" />
             </Link>
           </div>
 

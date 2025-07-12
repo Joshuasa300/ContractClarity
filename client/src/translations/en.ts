@@ -20,7 +20,7 @@ export const en = {
     subtitle: 'Upload any contract and get instant AI-powered analysis in plain language. Understand key terms, risks, and obligations without legal jargon.',
     uploadContract: 'Upload Contract',
     seeDemo: 'See Demo',
-    whyChoose: 'Why Choose ContractAI?',
+    whyChoose: 'Why Choose Contract Clarity?',
     whyChooseDesc: 'Powered by advanced AI technology to make legal documents accessible to everyone',
     features: {
       aiTitle: 'AI-Powered Analysis',
@@ -88,7 +88,7 @@ export const en = {
     contact: 'Contact',
     privacyPolicy: 'Privacy Policy',
     termsOfService: 'Terms of Service',
-    copyright: '© 2024 ContractAI. All rights reserved.',
+    copyright: '© 2024 Contract Clarity. All rights reserved.',
   },
 
   'landing.features.analysis': 'Smart Analysis',
@@ -337,7 +337,7 @@ export const en = {
     },
     cta: {
       title: 'Ready to Transform Your Contract Analysis?',
-      description: 'Join thousands of professionals who trust ContractAI for their legal document needs',
+      description: 'Join thousands of professionals who trust Contract Clarity for their legal document needs',
       primaryButton: 'Simplify Your Contracts',
       secondaryButton: 'View Templates',
       feature1: 'Multiple languages',
