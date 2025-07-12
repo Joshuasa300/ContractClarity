@@ -1,5 +1,5 @@
 import React from 'react';
-import { LogoOption1, LogoOption2, LogoOption3, LogoOption4, LogoOption5, LogoOption6, LogoOption7, LogoOption8, LogoOption9, LogoOption10 } from '../components/ui/logo-variations';
+import { LogoOption1, LogoOption2, LogoOption3, LogoOption4, LogoOption5, LogoOption6, LogoOption7, LogoOption8, LogoOption9, LogoOption10, LogoOption10B, LogoOption10C } from '../components/ui/logo-variations';
 import { Logo } from '../components/ui/logo';
 
 export default function LogoDemo() {
@@ -224,6 +224,44 @@ export default function LogoDemo() {
               </div>
             </div>
           </div>
+
+          {/* Option 10B: Contract Design with White Checkmark */}
+          <div className="bg-white dark:bg-gray-800 rounded-xl p-8 shadow-lg border-2 border-indigo-300 dark:border-indigo-600">
+            <div className="text-center mb-6">
+              <h3 className="text-lg font-semibold text-indigo-700 dark:text-indigo-300 mb-2">Option 10B ⭐</h3>
+              <p className="text-sm text-indigo-600 dark:text-indigo-400 font-medium">White Checkmark</p>
+            </div>
+            <div className="flex justify-center mb-6">
+              <LogoOption10B size="lg" />
+            </div>
+            <div className="space-y-4">
+              <div className="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
+                <LogoOption10B size="md" />
+              </div>
+              <div className="bg-purple-50 dark:bg-purple-900/20 p-4 rounded-lg">
+                <LogoOption10B size="sm" />
+              </div>
+            </div>
+          </div>
+
+          {/* Option 10C: Contract Design with Purple Checkmark */}
+          <div className="bg-white dark:bg-gray-800 rounded-xl p-8 shadow-lg border-2 border-pink-300 dark:border-pink-600">
+            <div className="text-center mb-6">
+              <h3 className="text-lg font-semibold text-pink-700 dark:text-pink-300 mb-2">Option 10C ⭐</h3>
+              <p className="text-sm text-pink-600 dark:text-pink-400 font-medium">Purple Checkmark</p>
+            </div>
+            <div className="flex justify-center mb-6">
+              <LogoOption10C size="lg" />
+            </div>
+            <div className="space-y-4">
+              <div className="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
+                <LogoOption10C size="md" />
+              </div>
+              <div className="bg-purple-50 dark:bg-purple-900/20 p-4 rounded-lg">
+                <LogoOption10C size="sm" />
+              </div>
+            </div>
+          </div>
         </div>
 
         <div className="mt-12 bg-white dark:bg-gray-800 rounded-xl p-8 shadow-lg border border-gray-200 dark:border-gray-700">
@@ -305,7 +343,19 @@ export default function LogoDemo() {
                   <td className="py-3 px-4 font-bold text-purple-700 dark:text-purple-300">Option 10 ⭐</td>
                   <td className="py-3 px-4 text-purple-600 dark:text-purple-300 font-medium">Professional, Clean, Contract-focused</td>
                   <td className="py-3 px-4 text-purple-600 dark:text-purple-300 font-medium">Contract analysis services</td>
-                  <td className="py-3 px-4 text-purple-600 dark:text-purple-300 font-medium">Layered documents with checkmark</td>
+                  <td className="py-3 px-4 text-purple-600 dark:text-purple-300 font-medium">Green checkmark on documents</td>
+                </tr>
+                <tr className="bg-indigo-50 dark:bg-indigo-900/20">
+                  <td className="py-3 px-4 font-bold text-indigo-700 dark:text-indigo-300">Option 10B ⭐</td>
+                  <td className="py-3 px-4 text-indigo-600 dark:text-indigo-300 font-medium">Clean, Professional, Trust</td>
+                  <td className="py-3 px-4 text-indigo-600 dark:text-indigo-300 font-medium">Contract verification</td>
+                  <td className="py-3 px-4 text-indigo-600 dark:text-indigo-300 font-medium">White checkmark on purple</td>
+                </tr>
+                <tr className="bg-pink-50 dark:bg-pink-900/20">
+                  <td className="py-3 px-4 font-bold text-pink-700 dark:text-pink-300">Option 10C ⭐</td>
+                  <td className="py-3 px-4 text-pink-600 dark:text-pink-300 font-medium">Elegant, Branded, Cohesive</td>
+                  <td className="py-3 px-4 text-pink-600 dark:text-pink-300 font-medium">Brand consistency</td>
+                  <td className="py-3 px-4 text-pink-600 dark:text-pink-300 font-medium">Purple checkmark on white</td>
                 </tr>
               </tbody>
             </table>
