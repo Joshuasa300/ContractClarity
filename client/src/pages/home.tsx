@@ -17,7 +17,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { FileText, Upload, Clock, CheckCircle, AlertCircle, LogOut, ChevronDown, ChevronUp, Library, Download, Eye, Trash2, Check, X } from "lucide-react";
+import { FileText, Upload, Clock, CheckCircle, AlertCircle, LogOut, ChevronDown, ChevronUp, Library, Download, Eye, Trash2, Check, X, Settings } from "lucide-react";
 import { LanguageIndicator } from "@/components/LanguageIndicator";
 import { useState } from "react";
 import { Link } from "wouter";
@@ -377,6 +377,16 @@ export default function Home() {
               >
                 Refresh Status
               </Button>
+              <Link href="/subscription">
+                <Button 
+                  variant="outline"
+                  size="sm"
+                  className="text-gray-600 border-gray-200 hover:bg-gray-50"
+                >
+                  <Settings className="h-4 w-4 mr-2" />
+                  Manage Subscription
+                </Button>
+              </Link>
               <Button 
                 onClick={() => setShowUpgradeModal(true)}
                 variant="outline"

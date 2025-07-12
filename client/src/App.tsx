@@ -14,6 +14,7 @@ import Templates from "@/pages/templates";
 import Clauses from "@/pages/clauses";
 import Features from "@/pages/features";
 import Pricing from "@/pages/pricing";
+import Subscription from "@/pages/subscription";
 import Checkout from "@/pages/checkout";
 import SubscriptionSuccess from "@/pages/subscription-success";
 import PageLimitsDemo from "@/pages/PageLimitsDemo";
@@ -42,6 +43,7 @@ function Router() {
           <Route path="/analysis/:contractId" component={Analysis} />
           <Route path="/templates" component={Templates} />
           <Route path="/clauses" component={Clauses} />
+          <Route path="/subscription" component={Subscription} />
           <Route path="/demo/page-limits" component={PageLimitsDemo} />
         </>
       )}
