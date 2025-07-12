@@ -406,7 +406,7 @@ export function setupAuth(app: Express) {
   });
 
   // Enhanced user endpoint with comprehensive user information (like Flask example)
-  app.get("/api/user", (req, res) => {
+  app.get("/api/user", async (req, res) => {
     try {
       if (!req.isAuthenticated()) {
         return res.status(401).json({ message: "Unauthorized" });
@@ -416,23 +416,30 @@ export function setupAuth(app: Express) {
       console.log("User info request for:", user.id);
       
       // Comprehensive user information like Flask get_user_info
+      // Always fetch fresh user data from database to ensure latest plan status
+      const freshUser = await storage.getUser(user.id);
+      const currentUser = freshUser || user;
+      
+      console.log("Returning user info for:", currentUser.firstName, currentUser.lastName);
+      console.log("Account status:", currentUser.accountStatus);
+      
       const userInfo = {
-        id: user.id,
-        email: user.email,
-        firstName: user.firstName,
-        lastName: user.lastName,
-        displayName: `${user.firstName} ${user.lastName}`.trim() || user.email,
-        profileImageUrl: user.profileImageUrl,
-        authProvider: user.authProvider,
-        isEmailVerified: user.authProvider === 'google', // Google users have verified emails
-        createdAt: user.createdAt,
+        id: currentUser.id,
+        email: currentUser.email,
+        firstName: currentUser.firstName,
+        lastName: currentUser.lastName,
+        displayName: `${currentUser.firstName} ${currentUser.lastName}`.trim() || currentUser.email,
+        profileImageUrl: currentUser.profileImageUrl,
+        authProvider: currentUser.authProvider,
+        isEmailVerified: currentUser.authProvider === 'google', // Google users have verified emails
+        createdAt: currentUser.createdAt,
         lastLogin: new Date().toISOString(),
-        accountType: user.authProvider === 'google' ? 'Google Account' : 'Email Account',
-        hasProfileImage: !!user.profileImageUrl,
-        // Include subscription/plan information
-        accountStatus: user.accountStatus || 'free',
-        stripeCustomerId: user.stripeCustomerId,
-        subscriptionExpiresAt: user.subscriptionExpiresAt,
+        accountType: currentUser.authProvider === 'google' ? 'Google Account' : 'Email Account',
+        hasProfileImage: !!currentUser.profileImageUrl,
+        // Include subscription/plan information - always from fresh database data
+        accountStatus: currentUser.accountStatus || 'free',
+        stripeCustomerId: currentUser.stripeCustomerId,
+        subscriptionExpiresAt: currentUser.subscriptionExpiresAt,
       };
 
       console.log("Returning user info for:", userInfo.displayName);

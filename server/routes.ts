@@ -908,17 +908,44 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Test endpoint to verify webhook connectivity
+  app.get('/api/webhook-test', (req, res) => {
+    console.log('🔧 Webhook test endpoint called');
+    res.json({ 
+      status: 'Webhook endpoint is reachable',
+      timestamp: new Date().toISOString(),
+      environment: process.env.NODE_ENV 
+    });
+  });
+
   // Stripe webhook endpoint for handling payment events
   app.post('/api/webhook', express.raw({ type: 'application/json' }), async (req, res) => {
     console.log('📥 Webhook received at /api/webhook');
+    console.log('📊 Request headers:', Object.keys(req.headers));
+    console.log('📏 Body size:', req.body?.length || 0, 'bytes');
+    
     const sig = req.headers['stripe-signature'];
+    if (!sig) {
+      console.error('❌ No Stripe signature found in headers');
+      return res.status(400).send('Missing Stripe signature');
+    }
+    
     let event: Stripe.Event;
 
     try {
-      event = stripe.webhooks.constructEvent(req.body, sig!, process.env.STRIPE_WEBHOOK_SECRET!);
+      if (!process.env.STRIPE_WEBHOOK_SECRET) {
+        console.error('❌ STRIPE_WEBHOOK_SECRET not configured');
+        return res.status(500).send('Webhook secret not configured');
+      }
+      
+      event = stripe.webhooks.constructEvent(req.body, sig, process.env.STRIPE_WEBHOOK_SECRET);
       console.log('✅ Webhook signature verified. Event type:', event.type);
+      console.log('📋 Event ID:', event.id);
+      console.log('📅 Event created:', new Date(event.created * 1000).toISOString());
     } catch (err: any) {
       console.error('❌ Webhook signature verification failed:', err.message);
+      console.error('🔍 Webhook secret exists:', !!process.env.STRIPE_WEBHOOK_SECRET);
+      console.error('🔍 Signature received:', sig ? 'Yes' : 'No');
       return res.status(400).send(`Webhook Error: ${err.message}`);
     }
 
@@ -1088,46 +1115,16 @@ export async function registerRoutes(app: Express): Promise<Server> {
           }
           break;
 
-        // Handle subscription payment failures (different from invoice failures)
-        case 'customer.subscription.payment_failed':
-          const failedSubscription = event.data.object as Stripe.Subscription;
-          console.log('Subscription payment failed:', failedSubscription.id);
-          
-          if (failedSubscription.customer) {
-            const failedSubCustomer = await stripe.customers.retrieve(failedSubscription.customer as string);
-            if (!failedSubCustomer.deleted) {
-              const failedSubUserId = failedSubCustomer.metadata?.userId;
-              if (failedSubUserId) {
-                // Set user to null status - complete lockout until payment is resolved
-                await storage.updateUserSubscription(failedSubUserId, {
-                  accountStatus: 'null',
-                  subscriptionExpiresAt: null,
-                });
-                
-                console.log(`Subscription payment failed - locked out user with null status (Customer: ${failedSubscription.customer})`);
-              } else {
-                // Fallback: try to find user by Stripe customer ID
-                const failedSubscriptionUser = await storage.getUserByStripeCustomerId(failedSubscription.customer as string);
-                if (failedSubscriptionUser) {
-                  await storage.updateUserSubscription(failedSubscriptionUser.id, {
-                    accountStatus: 'null',
-                    subscriptionExpiresAt: null,
-                  });
-                  
-                  console.log(`Subscription payment failed - locked out user ${failedSubscriptionUser.email} with null status`);
-                }
-              }
-            }
-          }
-          break;
+
 
         default:
           console.log(`Unhandled event type: ${event.type}`);
       }
 
+      console.log('✅ Webhook processed successfully');
       res.json({ received: true });
     } catch (error) {
-      console.error('Webhook processing error:', error);
+      console.error('❌ Webhook processing error:', error);
       res.status(500).json({ error: 'Webhook processing failed' });
     }
   });
