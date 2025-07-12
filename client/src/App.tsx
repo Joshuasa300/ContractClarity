@@ -15,6 +15,7 @@ import Clauses from "@/pages/clauses";
 import Settings from "@/pages/settings";
 import Features from "@/pages/features";
 import Pricing from "@/pages/pricing";
+import About from "@/pages/about";
 import Checkout from "@/pages/checkout";
 import SubscriptionSuccess from "@/pages/subscription-success";
 import PageLimitsDemo from "@/pages/PageLimitsDemo";
@@ -28,6 +29,7 @@ function Router() {
       {/* Public routes accessible to everyone */}
       <Route path="/features" component={Features} />
       <Route path="/pricing" component={Pricing} />
+      <Route path="/about" component={About} />
       <Route path="/auth" component={AuthPage} />
       <Route path="/checkout" component={Checkout} />
       <Route path="/subscription-success" component={SubscriptionSuccess} />
