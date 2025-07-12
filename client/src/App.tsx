@@ -19,6 +19,7 @@ import About from "@/pages/about";
 import Checkout from "@/pages/checkout";
 import SubscriptionSuccess from "@/pages/subscription-success";
 import PageLimitsDemo from "@/pages/PageLimitsDemo";
+import LogoDemo from "@/pages/logo-demo";
 
 
 function Router() {
@@ -33,6 +34,7 @@ function Router() {
       <Route path="/auth" component={AuthPage} />
       <Route path="/checkout" component={Checkout} />
       <Route path="/subscription-success" component={SubscriptionSuccess} />
+      <Route path="/logo-demo" component={LogoDemo} />
       
       {isLoading || !isAuthenticated ? (
         <>
