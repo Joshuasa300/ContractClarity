@@ -1078,29 +1078,45 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
           if (user) {
             console.log('👤 Found existing user:', user.email, 'updating to plan:', planType);
-            // Update existing user
-            await storage.updateUserSubscription(user.id, {
-              accountStatus: planType,
-              stripeCustomerId: customerId,
-              subscriptionExpiresAt: new Date(subscription.current_period_end * 1000)
-            });
-            console.log('✅ User subscription updated successfully');
-          } else if (customer.email) {
-            // Create new user account from Stripe customer data
-            const newUser = await storage.createUser({
-              id: `stripe_${customerId}`,
-              email: customer.email,
-              firstName: customer.name?.split(' ')[0] || '',
-              lastName: customer.name?.split(' ').slice(1).join(' ') || '',
-              accountStatus: planType,
-              stripeCustomerId: customerId,
-              subscriptionExpiresAt: new Date(subscription.current_period_end * 1000)
-            });
+            console.log('📅 Subscription period end:', subscription.current_period_end, 'Date:', new Date(subscription.current_period_end * 1000));
             
-            // Update Stripe customer metadata with new user ID
-            await stripe.customers.update(customerId, {
-              metadata: { userId: newUser.id }
-            });
+            try {
+              // Update existing user
+              await storage.updateUserSubscription(user.id, {
+                accountStatus: planType,
+                stripeCustomerId: customerId,
+                subscriptionExpiresAt: new Date(subscription.current_period_end * 1000)
+              });
+              console.log('✅ User subscription updated successfully');
+            } catch (updateError) {
+              console.error('❌ Failed to update user subscription:', updateError);
+              throw updateError;
+            }
+          } else if (customer.email) {
+            console.log('🆕 Creating new user from Stripe customer:', customer.email);
+            try {
+              // Create new user account from Stripe customer data
+              const newUser = await storage.createUser({
+                id: `stripe_${customerId}`,
+                email: customer.email,
+                firstName: customer.name?.split(' ')[0] || '',
+                lastName: customer.name?.split(' ').slice(1).join(' ') || '',
+                accountStatus: planType,
+                stripeCustomerId: customerId,
+                subscriptionExpiresAt: new Date(subscription.current_period_end * 1000)
+              });
+              
+              // Update Stripe customer metadata with new user ID
+              await stripe.customers.update(customerId, {
+                metadata: { userId: newUser.id }
+              });
+              console.log('✅ New user created successfully');
+            } catch (createError) {
+              console.error('❌ Failed to create new user:', createError);
+              throw createError;
+            }
+          } else {
+            console.log('❌ No user found and no email provided');
           }
           break;
 
@@ -1209,7 +1225,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.json({ received: true });
     } catch (error) {
       console.error('❌ Webhook processing error:', error);
-      res.status(500).json({ error: 'Webhook processing failed' });
+      console.error('❌ Error stack:', error instanceof Error ? error.stack : 'No stack trace');
+      res.status(500).json({ error: 'Webhook processing failed', details: error instanceof Error ? error.message : 'Unknown error' });
     }
   });
 

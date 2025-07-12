@@ -154,6 +154,7 @@ Changelog:
 - July 12, 2025. Fixed Stripe webhook endpoint path from /api/stripe-webhook to /api/webhook to match configuration. Added comprehensive webhook logging for payment debugging. Manually updated test account to Pro plan status for proper token limit access.
 - July 12, 2025. Configured dynamic domain support for custom domain migration to contractclarity.co.uk. Updated Stripe redirect URLs to use dynamic host detection, enabling seamless transition from Replit subdomain to custom domain without code changes.
 - July 12, 2025. Removed token limits completely from all plans - system now only limits by contract analysis counts (Free: 2 lifetime, Plus: 7/month, Pro: 20/month, Premium: 30/month). Simplified pricing displays and validation logic to focus purely on contract quantity rather than token consumption. Updated database plan_limits, OpenAI validation, and all frontend pricing components.
+- July 12, 2025. Fixed critical Stripe webhook payload parsing issue causing 400/500 errors. Root cause was Express JSON middleware parsing webhook body before signature verification. Implemented proper middleware ordering with express.raw() for webhook endpoint and enhanced error logging. Added automatic plan refresh system with retry logic and manual "Refresh Status" button for users to update plan display after payments.
 
 ## User Preferences
 
