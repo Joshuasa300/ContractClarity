@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="0 0 400 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Logo Icon -->
+  <g transform="translate(10, 10)">
+    <!-- Back document (slightly offset) -->
+    <rect
+      x="15"
+      y="10"
+      width="60"
+      height="75"
+      rx="4"
+      fill="url(#contractGradientC1)"
+      stroke="url(#contractBorderC)"
+      stroke-width="1"
+    />
+    
+    <!-- Front document (main) -->
+    <rect
+      x="25"
+      y="15"
+      width="60"
+      height="75"
+      rx="4"
+      fill="url(#contractGradientC2)"
+      stroke="url(#contractBorderC)"
+      stroke-width="2"
+    />
+    
+    <!-- Document text lines -->
+    <line x1="32" y1="28" x2="70" y2="28" stroke="white" stroke-width="2" stroke-linecap="round" />
+    <line x1="32" y1="35" x2="65" y2="35" stroke="white" stroke-width="2" stroke-linecap="round" />
+    <line x1="32" y1="42" x2="68" y2="42" stroke="white" stroke-width="2" stroke-linecap="round" />
+    <line x1="32" y1="49" x2="62" y2="49" stroke="white" stroke-width="2" stroke-linecap="round" />
+    <line x1="32" y1="56" x2="66" y2="56" stroke="white" stroke-width="2" stroke-linecap="round" />
+    <line x1="32" y1="63" x2="60" y2="63" stroke="white" stroke-width="2" stroke-linecap="round" />
+    
+    <!-- Signature line -->
+    <line x1="32" y1="75" x2="65" y2="75" stroke="rgba(255,255,255,0.7)" stroke-width="1.5" stroke-linecap="round" />
+    
+    <!-- Purple Checkmark with white background -->
+    <circle 
+      cx="75" 
+      cy="75" 
+      r="12" 
+      fill="white" 
+      stroke="url(#contractBorderC)" 
+      stroke-width="2"
+    />
+    <path
+      d="M70 75l3 3 6-6"
+      stroke="url(#purpleCheckGradient)"
+      stroke-width="3"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+  </g>
+  
+  <!-- Brand Text -->
+  <text x="120" y="45" font-family="Arial, sans-serif" font-size="24" font-weight="bold" fill="#1f2937">
+    Contract 
+  </text>
+  <text x="120" y="75" font-family="Arial, sans-serif" font-size="24" font-weight="bold" fill="url(#textGradient)">
+    Clarity
+  </text>
+  
+  <defs>
+    <linearGradient id="contractGradientC1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#7C3AED" />
+      <stop offset="100%" stop-color="#6366F1" />
+    </linearGradient>
+    <linearGradient id="contractGradientC2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#6366F1" />
+      <stop offset="50%" stop-color="#8B5CF6" />
+      <stop offset="100%" stop-color="#7C3AED" />
+    </linearGradient>
+    <linearGradient id="contractBorderC" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4F46E5" />
+      <stop offset="100%" stop-color="#6B21A8" />
+    </linearGradient>
+    <linearGradient id="purpleCheckGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#8B5CF6" />
+      <stop offset="100%" stop-color="#7C3AED" />
+    </linearGradient>
+    <linearGradient id="textGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#9333EA" />
+      <stop offset="100%" stop-color="#4F46E5" />
+    </linearGradient>
+  </defs>
+</svg>
