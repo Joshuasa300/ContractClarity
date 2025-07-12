@@ -1,5 +1,5 @@
 import React from 'react';
-import { LogoOption1, LogoOption2, LogoOption3, LogoOption4, LogoOption5 } from '../components/ui/logo-variations';
+import { LogoOption1, LogoOption2, LogoOption3, LogoOption4, LogoOption5, LogoOption6, LogoOption7, LogoOption8, LogoOption9 } from '../components/ui/logo-variations';
 import { Logo } from '../components/ui/logo';
 
 export default function LogoDemo() {
@@ -15,7 +15,7 @@ export default function LogoDemo() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {/* Current Logo */}
           <div className="bg-white dark:bg-gray-800 rounded-xl p-8 shadow-lg border border-gray-200 dark:border-gray-700">
             <div className="text-center mb-6">
@@ -129,6 +129,82 @@ export default function LogoDemo() {
               </div>
             </div>
           </div>
+
+          {/* Option 6: Monogram Style */}
+          <div className="bg-white dark:bg-gray-800 rounded-xl p-8 shadow-lg border border-gray-200 dark:border-gray-700">
+            <div className="text-center mb-6">
+              <h3 className="text-lg font-semibold text-gray-800 dark:text-white mb-2">Option 6</h3>
+              <p className="text-sm text-gray-500">Monogram Badge</p>
+            </div>
+            <div className="flex justify-center mb-6">
+              <LogoOption6 size="lg" />
+            </div>
+            <div className="space-y-4">
+              <div className="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
+                <LogoOption6 size="md" />
+              </div>
+              <div className="bg-purple-50 dark:bg-purple-900/20 p-4 rounded-lg">
+                <LogoOption6 size="sm" />
+              </div>
+            </div>
+          </div>
+
+          {/* Option 7: Shield Security */}
+          <div className="bg-white dark:bg-gray-800 rounded-xl p-8 shadow-lg border border-gray-200 dark:border-gray-700">
+            <div className="text-center mb-6">
+              <h3 className="text-lg font-semibold text-gray-800 dark:text-white mb-2">Option 7</h3>
+              <p className="text-sm text-gray-500">Shield Security</p>
+            </div>
+            <div className="flex justify-center mb-6">
+              <LogoOption7 size="lg" />
+            </div>
+            <div className="space-y-4">
+              <div className="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
+                <LogoOption7 size="md" />
+              </div>
+              <div className="bg-purple-50 dark:bg-purple-900/20 p-4 rounded-lg">
+                <LogoOption7 size="sm" />
+              </div>
+            </div>
+          </div>
+
+          {/* Option 8: Geometric Abstract */}
+          <div className="bg-white dark:bg-gray-800 rounded-xl p-8 shadow-lg border border-gray-200 dark:border-gray-700">
+            <div className="text-center mb-6">
+              <h3 className="text-lg font-semibold text-gray-800 dark:text-white mb-2">Option 8</h3>
+              <p className="text-sm text-gray-500">Geometric Abstract</p>
+            </div>
+            <div className="flex justify-center mb-6">
+              <LogoOption8 size="lg" />
+            </div>
+            <div className="space-y-4">
+              <div className="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
+                <LogoOption8 size="md" />
+              </div>
+              <div className="bg-purple-50 dark:bg-purple-900/20 p-4 rounded-lg">
+                <LogoOption8 size="sm" />
+              </div>
+            </div>
+          </div>
+
+          {/* Option 9: Vintage Badge */}
+          <div className="bg-white dark:bg-gray-800 rounded-xl p-8 shadow-lg border border-gray-200 dark:border-gray-700">
+            <div className="text-center mb-6">
+              <h3 className="text-lg font-semibold text-gray-800 dark:text-white mb-2">Option 9</h3>
+              <p className="text-sm text-gray-500">Vintage Badge</p>
+            </div>
+            <div className="flex justify-center mb-6">
+              <LogoOption9 size="lg" />
+            </div>
+            <div className="space-y-4">
+              <div className="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
+                <LogoOption9 size="md" />
+              </div>
+              <div className="bg-purple-50 dark:bg-purple-900/20 p-4 rounded-lg">
+                <LogoOption9 size="sm" />
+              </div>
+            </div>
+          </div>
         </div>
 
         <div className="mt-12 bg-white dark:bg-gray-800 rounded-xl p-8 shadow-lg border border-gray-200 dark:border-gray-700">
@@ -176,11 +252,35 @@ export default function LogoDemo() {
                   <td className="py-3 px-4 text-gray-600 dark:text-gray-300">High-value legal services</td>
                   <td className="py-3 px-4 text-gray-600 dark:text-gray-300">Diamond luxury styling</td>
                 </tr>
-                <tr>
+                <tr className="border-b border-gray-100 dark:border-gray-700">
                   <td className="py-3 px-4 font-medium text-gray-800 dark:text-white">Option 5</td>
                   <td className="py-3 px-4 text-gray-600 dark:text-gray-300">Innovative, Tech-savvy, Dynamic</td>
                   <td className="py-3 px-4 text-gray-600 dark:text-gray-300">AI/Tech focused branding</td>
                   <td className="py-3 px-4 text-gray-600 dark:text-gray-300">Modern tech gradients</td>
+                </tr>
+                <tr className="border-b border-gray-100 dark:border-gray-700">
+                  <td className="py-3 px-4 font-medium text-gray-800 dark:text-white">Option 6</td>
+                  <td className="py-3 px-4 text-gray-600 dark:text-gray-300">Classic, Timeless, Elegant</td>
+                  <td className="py-3 px-4 text-gray-600 dark:text-gray-300">Traditional legal firms</td>
+                  <td className="py-3 px-4 text-gray-600 dark:text-gray-300">CC monogram in circular badge</td>
+                </tr>
+                <tr className="border-b border-gray-100 dark:border-gray-700">
+                  <td className="py-3 px-4 font-medium text-gray-800 dark:text-white">Option 7</td>
+                  <td className="py-3 px-4 text-gray-600 dark:text-gray-300">Secure, Protective, Trustworthy</td>
+                  <td className="py-3 px-4 text-gray-600 dark:text-gray-300">Security-focused services</td>
+                  <td className="py-3 px-4 text-gray-600 dark:text-gray-300">Shield with document protection</td>
+                </tr>
+                <tr className="border-b border-gray-100 dark:border-gray-700">
+                  <td className="py-3 px-4 font-medium text-gray-800 dark:text-white">Option 8</td>
+                  <td className="py-3 px-4 text-gray-600 dark:text-gray-300">Modern, Artistic, Unique</td>
+                  <td className="py-3 px-4 text-gray-600 dark:text-gray-300">Creative agencies</td>
+                  <td className="py-3 px-4 text-gray-600 dark:text-gray-300">Abstract geometric pentagon</td>
+                </tr>
+                <tr>
+                  <td className="py-3 px-4 font-medium text-gray-800 dark:text-white">Option 9</td>
+                  <td className="py-3 px-4 text-gray-600 dark:text-gray-300">Established, Classic, Premium</td>
+                  <td className="py-3 px-4 text-gray-600 dark:text-gray-300">Heritage law firms</td>
+                  <td className="py-3 px-4 text-gray-600 dark:text-gray-300">Vintage badge with stars</td>
                 </tr>
               </tbody>
             </table>
