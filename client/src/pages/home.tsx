@@ -49,8 +49,39 @@ export default function Home() {
     if (urlParams.get('success') === 'true') {
       toast({
         title: "Payment Successful!",
-        description: "Your subscription has been activated. Welcome to your new plan!",
+        description: "Your subscription has been activated. Please wait while we update your plan...",
       });
+      
+      // Aggressive retry to ensure webhook has processed
+      const retryUserRefresh = async (attempts = 0) => {
+        if (attempts < 10) { // Try for up to 30 seconds
+          await new Promise(resolve => setTimeout(resolve, 3000)); // Wait 3 seconds
+          await queryClient.invalidateQueries({ queryKey: ["/api/user"] });
+          await queryClient.refetchQueries({ queryKey: ["/api/user"] });
+          await queryClient.invalidateQueries({ queryKey: ["/api/usage/check/contract_analysis"] });
+          
+          // Check if plan has updated
+          const userData = queryClient.getQueryData(["/api/user"]) as User | undefined;
+          if (userData && userData.accountStatus !== 'free') {
+            toast({
+              title: "Plan Updated Successfully!",
+              description: `Welcome to your new ${userData.accountStatus?.charAt(0).toUpperCase() + userData.accountStatus?.slice(1)} plan!`,
+            });
+          } else {
+            retryUserRefresh(attempts + 1);
+          }
+        } else {
+          // After 30 seconds, show manual refresh option
+          toast({
+            title: "Plan Update in Progress",
+            description: "If your plan doesn't update automatically, please refresh the page.",
+            variant: "default",
+          });
+        }
+      };
+      
+      retryUserRefresh();
+      
       // Clean up URL
       window.history.replaceState({}, document.title, window.location.pathname);
     }
@@ -329,14 +360,32 @@ export default function Home() {
                 : user.accountStatus?.charAt(0).toUpperCase() + user.accountStatus?.slice(1) || 'Free'}
             </div>
             
-            <Button 
-              onClick={() => setShowUpgradeModal(true)}
-              variant="outline"
-              size="sm"
-              className="text-blue-600 border-blue-200 hover:bg-blue-50"
-            >
-              Upgrade Plan
-            </Button>
+            <div className="flex gap-2">
+              <Button 
+                onClick={async () => {
+                  await queryClient.invalidateQueries({ queryKey: ["/api/user"] });
+                  await queryClient.refetchQueries({ queryKey: ["/api/user"] });
+                  await queryClient.invalidateQueries({ queryKey: ["/api/usage/check/contract_analysis"] });
+                  toast({
+                    title: "Refreshed",
+                    description: "Plan status updated",
+                  });
+                }}
+                variant="ghost"
+                size="sm"
+                className="text-gray-600 hover:bg-gray-50"
+              >
+                Refresh Status
+              </Button>
+              <Button 
+                onClick={() => setShowUpgradeModal(true)}
+                variant="outline"
+                size="sm"
+                className="text-blue-600 border-blue-200 hover:bg-blue-50"
+              >
+                Upgrade Plan
+              </Button>
+            </div>
           </div>
         )}
         

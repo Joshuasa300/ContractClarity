@@ -9,6 +9,8 @@ export function useAuth() {
     retry: false,
     staleTime: 0, // Always refetch to ensure latest user data
     gcTime: 0, // Don't cache user data
+    refetchOnWindowFocus: true, // Refetch when window regains focus
+    refetchOnMount: true, // Always refetch on component mount
   });
 
   return {
