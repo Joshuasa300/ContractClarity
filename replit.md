@@ -156,6 +156,7 @@ Changelog:
 - July 12, 2025. Removed token limits completely from all plans - system now only limits by contract analysis counts (Free: 2 lifetime, Plus: 7/month, Pro: 20/month, Premium: 30/month). Simplified pricing displays and validation logic to focus purely on contract quantity rather than token consumption. Updated database plan_limits, OpenAI validation, and all frontend pricing components.
 - July 12, 2025. Fixed critical Stripe webhook payload parsing issue causing 400/500 errors. Root cause was Express JSON middleware parsing webhook body before signature verification. Implemented proper middleware ordering with express.raw() for webhook endpoint and enhanced error logging. Added automatic plan refresh system with retry logic and manual "Refresh Status" button for users to update plan display after payments.
 - July 12, 2025. Added essential checkout.session.completed webhook handler for immediate subscription activation. This webhook fires when payment is completed, providing faster plan updates than customer.subscription.updated events. Enhanced webhook system now handles both immediate payment completion and ongoing subscription changes for comprehensive payment lifecycle management.
+- July 12, 2025. Removed manual "Refresh Status" button from dashboard since automatic webhook-based plan updates are now working reliably. Users no longer need to manually refresh their plan status after payments.
 
 ## User Preferences
 

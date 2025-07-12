@@ -362,22 +362,6 @@ export default function Home() {
             
             <div className="flex gap-2">
               <Button 
-                onClick={async () => {
-                  await queryClient.invalidateQueries({ queryKey: ["/api/user"] });
-                  await queryClient.refetchQueries({ queryKey: ["/api/user"] });
-                  await queryClient.invalidateQueries({ queryKey: ["/api/usage/check/contract_analysis"] });
-                  toast({
-                    title: "Refreshed",
-                    description: "Plan status updated",
-                  });
-                }}
-                variant="ghost"
-                size="sm"
-                className="text-gray-600 hover:bg-gray-50"
-              >
-                Refresh Status
-              </Button>
-              <Button 
                 onClick={() => setShowUpgradeModal(true)}
                 variant="outline"
                 size="sm"
