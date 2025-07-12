@@ -976,9 +976,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   // Stripe webhook endpoint for handling payment events
   app.post('/api/webhook', express.raw({ type: 'application/json' }), async (req, res) => {
-    console.log('📥 Webhook received at /api/webhook');
+    console.log('📥 Webhook received at /api/webhook at', new Date().toISOString());
     console.log('📊 Request headers:', Object.keys(req.headers));
     console.log('📏 Body size:', req.body?.length || 0, 'bytes');
+    console.log('🔍 Raw body preview:', req.body?.toString().substring(0, 200));
     
     const sig = req.headers['stripe-signature'];
     if (!sig) {
