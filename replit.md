@@ -151,6 +151,8 @@ Changelog:
 - July 10, 2025. Updated test account joshuasa300@gmail.com to Plus plan status in database for continued testing of subscription tier functionality.
 - July 10, 2025. Fixed Stripe payment redirect URLs for deployment: Changed success_url from "/dashboard" to "/" to match app routing structure, preventing 404 errors after successful payments. Added success message handling on home page for payment confirmations.
 - July 10, 2025. Updated Stripe redirect URLs to use production deployment URL: Set URLs to https://contract-clarifier-joshuasa300.replit.app/ for proper payment flow in live deployment environment.
+- July 12, 2025. Fixed Stripe webhook endpoint path from /api/stripe-webhook to /api/webhook to match configuration. Added comprehensive webhook logging for payment debugging. Manually updated test account to Pro plan status for proper token limit access.
+- July 12, 2025. Configured dynamic domain support for custom domain migration to contractclarity.co.uk. Updated Stripe redirect URLs to use dynamic host detection, enabling seamless transition from Replit subdomain to custom domain without code changes.
 
 ## User Preferences
 
