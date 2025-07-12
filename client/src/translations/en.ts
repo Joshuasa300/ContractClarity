@@ -5,6 +5,8 @@ export const en = {
     contracts: 'Contracts',
     templates: 'Templates',
     clauses: 'Clause Library',
+    settings: 'Settings',
+    dashboard: 'Dashboard',
     signIn: 'Sign In',
     signOut: 'Sign Out',
     getStarted: 'Get Started',
@@ -44,6 +46,32 @@ export const en = {
     analysisComplete: 'Analysis Complete',
     analysisInProgress: 'Analysis in Progress',
     viewAnalysis: 'View Analysis',
+  },
+
+  // Settings
+  settings: {
+    title: 'Settings',
+    description: 'Manage your account settings and preferences',
+    account: {
+      title: 'Account Information',
+      description: 'View and manage your account details',
+      email: 'Email Address',
+      plan: 'Current Plan',
+    },
+    danger: {
+      title: 'Danger Zone',
+      description: 'Irreversible and destructive actions',
+      warning: 'Warning',
+      disclaimer: 'This action will permanently delete your account and all associated data, including contracts and analysis history. This cannot be undone.',
+      deleteButton: 'Delete Account',
+    },
+    deleteDialog: {
+      title: 'Delete Account',
+      description: 'Are you sure you want to delete your account? This action cannot be undone and all your data will be permanently removed.',
+      cancel: 'Cancel',
+      confirm: 'Yes, Delete Account',
+      deleting: 'Deleting...',
+    },
   },
 
   // Footer

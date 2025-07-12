@@ -30,6 +30,7 @@ export interface IStorage {
   getUserByStripeCustomerId(stripeCustomerId: string): Promise<User | undefined>;
   createUser(user: UpsertUser): Promise<User>;
   linkGoogleAccount(userId: string, googleId: string): Promise<User>;
+  deleteUser(userId: string): Promise<void>;
   
   // Subscription operations
   updateUserSubscription(
@@ -155,6 +156,22 @@ export class DatabaseStorage implements IStorage {
       .where(eq(users.id, userId))
       .returning();
     return user;
+  }
+
+  async deleteUser(userId: string): Promise<void> {
+    console.log('🗑️ Starting user deletion process for:', userId);
+    
+    // Delete all user's contracts first (to maintain referential integrity)
+    await db.delete(contracts).where(eq(contracts.userId, userId));
+    console.log('✅ Deleted all contracts for user:', userId);
+    
+    // Delete all user's usage logs
+    await db.delete(usageLogs).where(eq(usageLogs.userId, userId));
+    console.log('✅ Deleted all usage logs for user:', userId);
+    
+    // Finally delete the user
+    await db.delete(users).where(eq(users.id, userId));
+    console.log('✅ User deletion completed for:', userId);
   }
 
   async updateUserSubscription(

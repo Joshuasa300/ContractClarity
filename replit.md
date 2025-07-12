@@ -158,6 +158,8 @@ Changelog:
 - July 12, 2025. Added essential checkout.session.completed webhook handler for immediate subscription activation. This webhook fires when payment is completed, providing faster plan updates than customer.subscription.updated events. Enhanced webhook system now handles both immediate payment completion and ongoing subscription changes for comprehensive payment lifecycle management.
 - July 12, 2025. Removed manual "Refresh Status" button from dashboard since automatic webhook-based plan updates are now working reliably. Users no longer need to manually refresh their plan status after payments.
 - July 12, 2025. Implemented automatic usage reset for plan upgrades. When customers upgrade from free/null status to any paid plan (Plus/Pro/Premium), their monthly contract analysis usage is automatically reset to zero, giving them a fresh start with their new plan limits. Enhanced webhook handlers detect upgrades and trigger usage resets automatically.
+- July 12, 2025. Updated language icons to use UK flag (🇬🇧) instead of US flag (🇺🇸) for English language selector, maintaining proper UK branding for contractclarity.co.uk domain.
+- July 12, 2025. Added comprehensive Settings page with account deletion functionality. Features include account information display, red-colored delete account button with warning disclaimer, confirmation dialog with Yes/No options, complete data removal (contracts, usage logs, user data), automatic session cleanup, and navigation integration. Enhanced storage layer with deleteUser method for cascading data deletion.
 
 ## User Preferences
 

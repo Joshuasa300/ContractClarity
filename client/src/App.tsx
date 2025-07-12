@@ -12,6 +12,7 @@ import Home from "@/pages/home";
 import Analysis from "@/pages/analysis";
 import Templates from "@/pages/templates";
 import Clauses from "@/pages/clauses";
+import Settings from "@/pages/settings";
 import Features from "@/pages/features";
 import Pricing from "@/pages/pricing";
 import Checkout from "@/pages/checkout";
@@ -42,6 +43,7 @@ function Router() {
           <Route path="/analysis/:contractId" component={Analysis} />
           <Route path="/templates" component={Templates} />
           <Route path="/clauses" component={Clauses} />
+          <Route path="/settings" component={Settings} />
           <Route path="/demo/page-limits" component={PageLimitsDemo} />
         </>
       )}

@@ -487,4 +487,41 @@ export function setupAuth(app: Express) {
       res.status(500).json({ message: "Failed to fetch user profile" });
     }
   });
+
+  // Delete user account endpoint
+  app.delete("/api/user/delete", async (req, res) => {
+    try {
+      if (!req.isAuthenticated()) {
+        return res.status(401).json({ message: "Unauthorized" });
+      }
+      
+      const user = req.user!;
+      console.log("Account deletion request for user:", user.id, user.email);
+      
+      // Delete all user data from database (cascading delete)
+      await storage.deleteUser(user.id);
+      
+      // Logout the user and destroy session
+      req.logout((err) => {
+        if (err) {
+          console.error("Error during logout after account deletion:", err);
+          return res.status(500).json({ message: "Account deleted but session cleanup failed" });
+        }
+
+        req.session.destroy((sessionErr) => {
+          if (sessionErr) {
+            console.error("Error destroying session after account deletion:", sessionErr);
+            return res.status(500).json({ message: "Account deleted but session cleanup failed" });
+          }
+
+          console.log("✅ Account successfully deleted for user:", user.email);
+          res.clearCookie('connect.sid');
+          res.json({ message: "Account deleted successfully" });
+        });
+      });
+    } catch (error) {
+      console.error("Error deleting user account:", error);
+      res.status(500).json({ message: "Failed to delete account" });
+    }
+  });
 }
