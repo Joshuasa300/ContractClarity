@@ -524,4 +524,53 @@ export function setupAuth(app: Express) {
       res.status(500).json({ message: "Failed to delete account" });
     }
   });
+
+  // Update user profile endpoint
+  app.patch("/api/user/profile", async (req, res) => {
+    try {
+      if (!req.isAuthenticated()) {
+        return res.status(401).json({ message: "Unauthorized" });
+      }
+      
+      const user = req.user!;
+      const { firstName, lastName, email } = req.body;
+      
+      console.log("Profile update request for user:", user.id, user.email);
+      console.log("New data:", { firstName, lastName, email });
+      
+      // Basic validation
+      if (!email || !email.includes('@')) {
+        return res.status(400).json({ message: "Valid email is required" });
+      }
+      
+      // Check if email is already taken by another user
+      if (email !== user.email) {
+        const existingUser = await storage.getUserByEmail(email);
+        if (existingUser && existingUser.id !== user.id) {
+          return res.status(400).json({ message: "Email already in use" });
+        }
+      }
+      
+      // Update user profile
+      const updatedUser = await storage.updateUserProfile(user.id, {
+        firstName: firstName?.trim() || null,
+        lastName: lastName?.trim() || null,
+        email: email.trim().toLowerCase(),
+      });
+      
+      console.log("✅ Profile updated successfully for user:", user.email);
+      res.json({ 
+        message: "Profile updated successfully",
+        user: {
+          id: updatedUser.id,
+          firstName: updatedUser.firstName,
+          lastName: updatedUser.lastName,
+          email: updatedUser.email,
+        }
+      });
+    } catch (error) {
+      console.error("Error updating user profile:", error);
+      res.status(500).json({ message: "Failed to update profile" });
+    }
+  });
 }

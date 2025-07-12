@@ -55,6 +55,8 @@ export const en = {
     account: {
       title: 'Account Information',
       description: 'View and manage your account details',
+      firstName: 'First Name',
+      lastName: 'Last Name',
       email: 'Email Address',
       plan: 'Current Plan',
     },

@@ -31,6 +31,11 @@ export interface IStorage {
   createUser(user: UpsertUser): Promise<User>;
   linkGoogleAccount(userId: string, googleId: string): Promise<User>;
   deleteUser(userId: string): Promise<void>;
+  updateUserProfile(userId: string, profileData: {
+    firstName?: string | null;
+    lastName?: string | null;
+    email?: string;
+  }): Promise<User>;
   
   // Subscription operations
   updateUserSubscription(
@@ -172,6 +177,28 @@ export class DatabaseStorage implements IStorage {
     // Finally delete the user
     await db.delete(users).where(eq(users.id, userId));
     console.log('✅ User deletion completed for:', userId);
+  }
+
+  async updateUserProfile(userId: string, profileData: {
+    firstName?: string | null;
+    lastName?: string | null;
+    email?: string;
+  }): Promise<User> {
+    console.log('📝 Updating user profile for:', userId, profileData);
+    
+    const [user] = await db
+      .update(users)
+      .set({
+        firstName: profileData.firstName,
+        lastName: profileData.lastName,
+        email: profileData.email,
+        updatedAt: new Date(),
+      })
+      .where(eq(users.id, userId))
+      .returning();
+    
+    console.log('✅ Profile update completed for user:', userId);
+    return user;
   }
 
   async updateUserSubscription(
