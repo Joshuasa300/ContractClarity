@@ -914,8 +914,64 @@ export async function registerRoutes(app: Express): Promise<Server> {
     res.json({ 
       status: 'Webhook endpoint is reachable',
       timestamp: new Date().toISOString(),
-      environment: process.env.NODE_ENV 
+      environment: process.env.NODE_ENV,
+      hasWebhookSecret: !!process.env.STRIPE_WEBHOOK_SECRET,
+      hasStripeSecret: !!process.env.STRIPE_SECRET_KEY
     });
+  });
+
+  // Debug endpoint to manually check user status
+  app.get('/api/debug/user/:email', async (req, res) => {
+    try {
+      const user = await storage.getUserByEmail(req.params.email);
+      if (!user) {
+        return res.status(404).json({ error: 'User not found' });
+      }
+      
+      console.log('🔍 Debug user lookup:', user.email, 'Status:', user.accountStatus);
+      res.json({
+        id: user.id,
+        email: user.email,
+        accountStatus: user.accountStatus,
+        stripeCustomerId: user.stripeCustomerId,
+        subscriptionExpiresAt: user.subscriptionExpiresAt,
+        createdAt: user.createdAt
+      });
+    } catch (error) {
+      console.error('Debug endpoint error:', error);
+      res.status(500).json({ error: 'Internal server error' });
+    }
+  });
+
+  // Manual webhook trigger for testing - allows forcing a user to a specific plan
+  app.post('/api/debug/force-plan/:email/:plan', async (req, res) => {
+    try {
+      const { email, plan } = req.params;
+      console.log(`🔧 Manual plan override: ${email} -> ${plan}`);
+      
+      const user = await storage.getUserByEmail(email);
+      if (!user) {
+        return res.status(404).json({ error: 'User not found' });
+      }
+
+      await storage.updateUserSubscription(user.id, {
+        accountStatus: plan,
+        subscriptionExpiresAt: plan === 'free' ? null : new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), // 30 days from now
+      });
+
+      console.log(`✅ Successfully updated ${email} to ${plan} plan`);
+      res.json({ 
+        success: true, 
+        message: `User ${email} updated to ${plan} plan`,
+        user: {
+          email: user.email,
+          newPlan: plan
+        }
+      });
+    } catch (error) {
+      console.error('Manual plan update error:', error);
+      res.status(500).json({ error: 'Internal server error' });
+    }
   });
 
   // Stripe webhook endpoint for handling payment events
@@ -967,12 +1023,23 @@ export async function registerRoutes(app: Express): Promise<Server> {
             const priceId = subscription.items.data[0].price.id;
             console.log('💰 Processing price ID:', priceId, 'with status:', subscription.status);
             
+            // Log all price IDs for debugging
+            console.log('🎯 Checking against known price IDs:');
+            console.log('   Plus: price_1Rj2flPqwDXcpBrtJ39fCStw');
+            console.log('   Pro: price_1Rj6HEPqwDXcpBrtKKqY5JBI'); 
+            console.log('   Premium: price_1Rj6HiPqwDXcpBrtGH8WqjO8');
+            
             if (priceId === 'price_1Rj2flPqwDXcpBrtJ39fCStw') {
               planType = 'plus';
+              console.log('✅ Matched Plus plan');
             } else if (priceId === 'price_1Rj6HEPqwDXcpBrtKKqY5JBI') {
               planType = 'pro';
+              console.log('✅ Matched Pro plan');
             } else if (priceId === 'price_1Rj6HiPqwDXcpBrtGH8WqjO8') {
               planType = 'premium';
+              console.log('✅ Matched Premium plan');
+            } else {
+              console.log('❌ Unknown price ID - keeping free plan');
             }
             console.log('📋 Determined plan type:', planType);
           }
