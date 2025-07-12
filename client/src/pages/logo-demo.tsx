@@ -1,5 +1,5 @@
 import React from 'react';
-import { LogoOption1, LogoOption2, LogoOption3, LogoOption4, LogoOption5, LogoOption6, LogoOption7, LogoOption8, LogoOption9 } from '../components/ui/logo-variations';
+import { LogoOption1, LogoOption2, LogoOption3, LogoOption4, LogoOption5, LogoOption6, LogoOption7, LogoOption8, LogoOption9, LogoOption10 } from '../components/ui/logo-variations';
 import { Logo } from '../components/ui/logo';
 
 export default function LogoDemo() {
@@ -205,6 +205,25 @@ export default function LogoDemo() {
               </div>
             </div>
           </div>
+
+          {/* Option 10: Contract Design (User Reference) */}
+          <div className="bg-white dark:bg-gray-800 rounded-xl p-8 shadow-lg border-2 border-purple-300 dark:border-purple-600">
+            <div className="text-center mb-6">
+              <h3 className="text-lg font-semibold text-purple-700 dark:text-purple-300 mb-2">Option 10 ⭐</h3>
+              <p className="text-sm text-purple-600 dark:text-purple-400 font-medium">Your Contract Design</p>
+            </div>
+            <div className="flex justify-center mb-6">
+              <LogoOption10 size="lg" />
+            </div>
+            <div className="space-y-4">
+              <div className="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
+                <LogoOption10 size="md" />
+              </div>
+              <div className="bg-purple-50 dark:bg-purple-900/20 p-4 rounded-lg">
+                <LogoOption10 size="sm" />
+              </div>
+            </div>
+          </div>
         </div>
 
         <div className="mt-12 bg-white dark:bg-gray-800 rounded-xl p-8 shadow-lg border border-gray-200 dark:border-gray-700">
@@ -276,11 +295,17 @@ export default function LogoDemo() {
                   <td className="py-3 px-4 text-gray-600 dark:text-gray-300">Creative agencies</td>
                   <td className="py-3 px-4 text-gray-600 dark:text-gray-300">Abstract geometric pentagon</td>
                 </tr>
-                <tr>
+                <tr className="border-b border-gray-100 dark:border-gray-700">
                   <td className="py-3 px-4 font-medium text-gray-800 dark:text-white">Option 9</td>
                   <td className="py-3 px-4 text-gray-600 dark:text-gray-300">Established, Classic, Premium</td>
                   <td className="py-3 px-4 text-gray-600 dark:text-gray-300">Heritage law firms</td>
                   <td className="py-3 px-4 text-gray-600 dark:text-gray-300">Vintage badge with stars</td>
+                </tr>
+                <tr className="bg-purple-50 dark:bg-purple-900/20">
+                  <td className="py-3 px-4 font-bold text-purple-700 dark:text-purple-300">Option 10 ⭐</td>
+                  <td className="py-3 px-4 text-purple-600 dark:text-purple-300 font-medium">Professional, Clean, Contract-focused</td>
+                  <td className="py-3 px-4 text-purple-600 dark:text-purple-300 font-medium">Contract analysis services</td>
+                  <td className="py-3 px-4 text-purple-600 dark:text-purple-300 font-medium">Layered documents with checkmark</td>
                 </tr>
               </tbody>
             </table>
