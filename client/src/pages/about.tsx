@@ -2,11 +2,24 @@ import { CheckCircle, Shield, Globe, Zap, Users, Award } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { useLanguage } from '@/lib/i18n';
-import Header from '@/components/Header';
-import { Link } from 'wouter';
+import Navigation from '@/components/Navigation';
+import { Link, useLocation } from 'wouter';
 
 export default function About() {
   const { t } = useLanguage();
+  const [, setLocation] = useLocation();
+
+  const handleSignIn = () => {
+    setLocation('/auth');
+  };
+
+  const handleGetStarted = () => {
+    setLocation('/auth');
+  };
+
+  const handleSignUp = () => {
+    setLocation('/auth');
+  };
 
   const features = [
     {
@@ -47,17 +60,15 @@ export default function About() {
   ];
 
   return (
-    <>
-      <Header 
-        breadcrumbs={[
-          { label: t('nav.home'), href: '/' },
-          { label: 'About' }
-        ]}
+    <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white">
+      <Navigation 
+        onSignIn={handleSignIn} 
+        onGetStarted={handleGetStarted} 
+        onSignUp={handleSignUp}
       />
       
-      <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white">
-        {/* Hero Section */}
-        <section className="container mx-auto px-4 py-16 text-center">
+      {/* Hero Section */}
+      <section className="container mx-auto px-4 py-16 text-center">
           <div className="max-w-4xl mx-auto">
             <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6">
               Revolutionizing Contract Analysis with{' '}
@@ -221,7 +232,6 @@ export default function About() {
             </div>
           </div>
         </section>
-      </div>
-    </>
+    </div>
   );
 }
