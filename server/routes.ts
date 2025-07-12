@@ -1024,6 +1024,75 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
     try {
       switch (event.type) {
+        case 'checkout.session.completed':
+          const session = event.data.object as Stripe.Checkout.Session;
+          console.log('💳 Checkout session completed:', session.id);
+          console.log('💰 Payment status:', session.payment_status);
+          console.log('👤 Customer:', session.customer);
+          
+          if (session.payment_status === 'paid' && session.customer) {
+            // Get customer details
+            const customer = await stripe.customers.retrieve(session.customer as string);
+            if (customer.deleted) break;
+            
+            // Get subscription if it exists
+            let subscription = null;
+            if (session.subscription) {
+              subscription = await stripe.subscriptions.retrieve(session.subscription as string);
+            }
+            
+            // Determine plan type from session metadata or subscription
+            let planType = 'free';
+            if (subscription && subscription.status === 'active' && subscription.items.data.length > 0) {
+              const priceId = subscription.items.data[0].price.id;
+              console.log('💰 Checkout processing price ID:', priceId);
+              
+              if (priceId === 'price_1Rj2flPqwDXcpBrtJ39fCStw') {
+                planType = 'plus';
+              } else if (priceId === 'price_1Rj6HEPqwDXcpBrtKKqY5JBI') {
+                planType = 'pro';
+              } else if (priceId === 'price_1Rj6HiPqwDXcpBrtGH8WqjO8') {
+                planType = 'premium';
+              }
+            }
+            
+            console.log('📋 Checkout determined plan type:', planType);
+            
+            // Find or create user
+            let user = await storage.getUserByStripeCustomerId(customer.id);
+            if (!user && customer.email) {
+              user = await storage.getUserByEmail(customer.email);
+            }
+            
+            if (user) {
+              console.log('👤 Checkout updating existing user:', user.email, 'to plan:', planType);
+              await storage.updateUserSubscription(user.id, {
+                accountStatus: planType,
+                stripeCustomerId: customer.id,
+                subscriptionExpiresAt: subscription ? new Date(subscription.current_period_end * 1000) : null
+              });
+              console.log('✅ Checkout subscription update successful');
+            } else if (customer.email) {
+              console.log('🆕 Checkout creating new user from customer:', customer.email);
+              const newUser = await storage.createUser({
+                id: `stripe_${customer.id}`,
+                email: customer.email,
+                firstName: customer.name?.split(' ')[0] || '',
+                lastName: customer.name?.split(' ').slice(1).join(' ') || '',
+                accountStatus: planType,
+                stripeCustomerId: customer.id,
+                subscriptionExpiresAt: subscription ? new Date(subscription.current_period_end * 1000) : null
+              });
+              
+              // Update Stripe customer metadata
+              await stripe.customers.update(customer.id, {
+                metadata: { userId: newUser.id }
+              });
+              console.log('✅ Checkout new user created successfully');
+            }
+          }
+          break;
+
         case 'customer.subscription.created':
         case 'customer.subscription.updated':
           const subscription = event.data.object as Stripe.Subscription;
