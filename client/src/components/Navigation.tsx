@@ -1,8 +1,9 @@
-import { FileText, Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { LanguageSelector } from "@/components/LanguageSelector";
-import { useLanguage } from "@/lib/i18n";
+import { FileText, Menu, X } from "lucide-react";
 import { useState } from "react";
+import { Link } from "wouter";
+import { useLanguage } from "@/lib/i18n";
+import { LanguageSelector } from "./LanguageSelector";
 
 interface NavigationProps {
   onSignIn: () => void;
@@ -11,89 +12,95 @@ interface NavigationProps {
 }
 
 export default function Navigation({ onSignIn, onGetStarted, onSignUp }: NavigationProps) {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { t } = useLanguage();
 
   return (
-    <nav className="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-50">
+    <nav className="bg-white/80 dark:bg-gray-900/80 backdrop-blur-md shadow-lg sticky top-0 z-50 border-b border-gray-200/20 dark:border-gray-700/20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
+          {/* Logo */}
           <div className="flex items-center">
-            <div className="flex-shrink-0 flex items-center">
-              <FileText className="h-8 w-8 text-primary mr-2" />
-              <span className="text-xl font-bold text-text-primary">ContractAI</span>
-            </div>
+            <Link href="/" className="flex items-center group">
+              <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg flex items-center justify-center mr-3 group-hover:scale-105 transition-transform duration-200">
+                <FileText className="h-6 w-6 text-white" />
+              </div>
+              <span className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                ContractAI
+              </span>
+            </Link>
           </div>
 
-          <div className="hidden md:block">
-            <div className="ml-10 flex items-baseline space-x-4">
-              <a href="/" className="text-text-primary hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition-colors">
-                Home
-              </a>
-              <a href="/features" className="text-gray-500 hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition-colors">
-                Features
-              </a>
-              <a href="/pricing" className="text-gray-500 hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition-colors">
-                Pricing
-              </a>
-              <a href="/about" className="text-gray-500 hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition-colors">
-                About
-              </a>
+          {/* Desktop Menu */}
+          <div className="hidden md:flex items-center space-x-8">
+            <Link href="/features" className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors font-medium">
+              Features
+            </Link>
+            <Link href="/pricing" className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors font-medium">
+              Pricing
+            </Link>
+            <Link href="/about" className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors font-medium">
+              About
+            </Link>
+            
+            <div className="flex items-center space-x-4">
+              <LanguageSelector />
+              <Button
+                variant="ghost"
+                onClick={onSignIn}
+                className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20"
+              >
+                Sign In
+              </Button>
+              <Button
+                onClick={onGetStarted}
+                className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white shadow-lg hover:shadow-xl transition-all duration-300"
+              >
+                Get Started
+              </Button>
             </div>
-          </div>
-
-          <div className="hidden md:flex items-center space-x-4">
-            <LanguageSelector />
-            <Button variant="ghost" onClick={onSignIn}>
-              {t('nav.signIn')}
-            </Button>
-            <Button variant="outline" onClick={onSignUp || onSignIn}>
-              {t('nav.signUp')}
-            </Button>
-            <Button onClick={onGetStarted}>
-              {t('nav.getStarted')}
-            </Button>
           </div>
 
           {/* Mobile menu button */}
-          <div className="md:hidden">
+          <div className="md:hidden flex items-center space-x-4">
+            <LanguageSelector />
             <Button
               variant="ghost"
               size="sm"
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              className="text-gray-700 dark:text-gray-300"
             >
-              {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+              {isMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
             </Button>
           </div>
         </div>
       </div>
 
       {/* Mobile menu */}
-      {mobileMenuOpen && (
-        <div className="md:hidden border-t border-gray-200 bg-white">
-          <div className="px-2 pt-2 pb-3 space-y-1">
-            <a href="/" className="block px-3 py-2 text-base font-medium text-text-primary hover:text-primary">
-              Home
-            </a>
-            <a href="/features" className="block px-3 py-2 text-base font-medium text-gray-500 hover:text-primary">
+      {isMenuOpen && (
+        <div className="md:hidden border-t border-gray-200/20 dark:border-gray-700/20 bg-white/95 dark:bg-gray-900/95 backdrop-blur-md">
+          <div className="px-4 pt-2 pb-3 space-y-1">
+            <Link href="/features" className="block px-3 py-2 text-base font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
               Features
-            </a>
-            <a href="/pricing" className="block px-3 py-2 text-base font-medium text-gray-500 hover:text-primary">
+            </Link>
+            <Link href="/pricing" className="block px-3 py-2 text-base font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
               Pricing
-            </a>
-            <a href="/about" className="block px-3 py-2 text-base font-medium text-gray-500 hover:text-primary">
+            </Link>
+            <Link href="/about" className="block px-3 py-2 text-base font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
               About
-            </a>
-          </div>
-          <div className="pt-4 pb-3 border-t border-gray-200">
-            <div className="px-2 space-y-1">
-              <Button variant="ghost" className="w-full justify-start" onClick={onSignIn}>
+            </Link>
+            <div className="pt-4 pb-2 space-y-2">
+              <Button
+                variant="ghost"
+                onClick={onSignIn}
+                className="w-full justify-start text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400"
+              >
                 Sign In
               </Button>
-              <Button variant="outline" className="w-full justify-start" onClick={onSignUp || onSignIn}>
-                Sign Up
-              </Button>
-              <Button className="w-full justify-start" onClick={onGetStarted}>
+              <Button
+                onClick={onGetStarted}
+                className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white"
+              >
                 Get Started
               </Button>
             </div>
