@@ -161,6 +161,7 @@ Changelog:
 - July 12, 2025. Updated language icons to use UK flag (🇬🇧) instead of US flag (🇺🇸) for English language selector, maintaining proper UK branding for contractclarity.co.uk domain.
 - July 12, 2025. Added comprehensive Settings page with account deletion functionality. Features include account information display, red-colored delete account button with warning disclaimer, confirmation dialog with Yes/No options, complete data removal (contracts, usage logs, user data), automatic session cleanup, and navigation integration. Enhanced storage layer with deleteUser method for cascading data deletion.
 - July 12, 2025. Enhanced Settings page with profile editing functionality. Users can now edit their first name, last name, and email address with inline edit mode, form validation, email uniqueness checking, save/cancel buttons, and automatic UI refresh after updates. Added updateUserProfile storage method and PATCH /api/user/profile endpoint with comprehensive validation.
+- July 12, 2025. Implemented automatic Stripe subscription cancellation on account deletion. When users delete their accounts, all active and trialing Stripe subscriptions are automatically cancelled to prevent continued billing. Enhanced account deletion endpoint with comprehensive subscription cleanup including error handling to ensure user data removal even if Stripe operations fail.
 
 ## User Preferences
 

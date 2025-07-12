@@ -9,6 +9,7 @@ import bcrypt from "bcryptjs";
 import { storage } from "./storage";
 import { type User as DbUser } from "@shared/schema";
 import connectPg from "connect-pg-simple";
+import Stripe from "stripe";
 
 declare global {
   namespace Express {
@@ -25,6 +26,11 @@ async function hashPassword(password: string): Promise<string> {
 async function comparePasswords(supplied: string, stored: string): Promise<boolean> {
   return await bcrypt.compare(supplied, stored);
 }
+
+// Initialize Stripe
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
+  apiVersion: "2024-06-20",
+});
 
 export function setupAuth(app: Express) {
   // Session configuration
@@ -497,6 +503,42 @@ export function setupAuth(app: Express) {
       
       const user = req.user!;
       console.log("Account deletion request for user:", user.id, user.email);
+      
+      // Cancel Stripe subscription if user has one
+      if (user.stripeCustomerId) {
+        try {
+          console.log("🔄 Cancelling Stripe subscription for customer:", user.stripeCustomerId);
+          
+          // Get all active subscriptions for the customer
+          const subscriptions = await stripe.subscriptions.list({
+            customer: user.stripeCustomerId,
+            status: 'active'
+          });
+          
+          // Cancel all active subscriptions
+          for (const subscription of subscriptions.data) {
+            await stripe.subscriptions.cancel(subscription.id);
+            console.log("✅ Cancelled subscription:", subscription.id);
+          }
+          
+          // Also cancel any trialing subscriptions
+          const trialSubscriptions = await stripe.subscriptions.list({
+            customer: user.stripeCustomerId,
+            status: 'trialing'
+          });
+          
+          for (const subscription of trialSubscriptions.data) {
+            await stripe.subscriptions.cancel(subscription.id);
+            console.log("✅ Cancelled trial subscription:", subscription.id);
+          }
+          
+          console.log("✅ All Stripe subscriptions cancelled for user:", user.email);
+        } catch (stripeError) {
+          console.error("⚠️ Error cancelling Stripe subscription:", stripeError);
+          // Don't fail the entire deletion if Stripe cancellation fails
+          // The user's account should still be deleted from our system
+        }
+      }
       
       // Delete all user data from database (cascading delete)
       await storage.deleteUser(user.id);
