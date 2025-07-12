@@ -975,11 +975,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Stripe webhook endpoint for handling payment events
-  app.post('/api/webhook', express.raw({ type: 'application/json' }), async (req, res) => {
+  // Note: Raw body parsing is handled in server/index.ts for this route
+  app.post('/api/webhook', async (req, res) => {
     console.log('📥 Webhook received at /api/webhook at', new Date().toISOString());
     console.log('📊 Request headers:', Object.keys(req.headers));
     console.log('📏 Body size:', req.body?.length || 0, 'bytes');
-    console.log('🔍 Raw body preview:', req.body?.toString().substring(0, 200));
+    console.log('🔍 Body type:', typeof req.body);
+    console.log('🔍 Body is Buffer:', Buffer.isBuffer(req.body));
     
     const sig = req.headers['stripe-signature'];
     if (!sig) {
@@ -995,14 +997,28 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(500).send('Webhook secret not configured');
       }
       
-      event = stripe.webhooks.constructEvent(req.body, sig, process.env.STRIPE_WEBHOOK_SECRET);
-      console.log('✅ Webhook signature verified. Event type:', event.type);
+      // Ensure we have the raw body as Buffer or string
+      let payload = req.body;
+      if (!Buffer.isBuffer(payload) && typeof payload !== 'string') {
+        console.error('❌ Invalid payload type:', typeof payload);
+        return res.status(400).send('Invalid payload format');
+      }
+      
+      console.log('🔐 Attempting webhook verification...');
+      console.log('🔑 Webhook secret length:', process.env.STRIPE_WEBHOOK_SECRET.length);
+      console.log('📝 Signature:', sig.substring(0, 50) + '...');
+      
+      event = stripe.webhooks.constructEvent(payload, sig, process.env.STRIPE_WEBHOOK_SECRET);
+      console.log('✅ Webhook signature verified successfully!');
+      console.log('📋 Event type:', event.type);
       console.log('📋 Event ID:', event.id);
       console.log('📅 Event created:', new Date(event.created * 1000).toISOString());
     } catch (err: any) {
       console.error('❌ Webhook signature verification failed:', err.message);
+      console.error('🔍 Error type:', err.constructor.name);
       console.error('🔍 Webhook secret exists:', !!process.env.STRIPE_WEBHOOK_SECRET);
       console.error('🔍 Signature received:', sig ? 'Yes' : 'No');
+      console.error('🔍 Payload type:', typeof req.body);
       return res.status(400).send(`Webhook Error: ${err.message}`);
     }
 

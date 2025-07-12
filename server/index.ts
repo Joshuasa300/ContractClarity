@@ -3,7 +3,11 @@ import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
 
 const app = express();
-// Increase body size limits to handle large document uploads
+
+// IMPORTANT: Stripe webhooks need raw body, so exclude /api/webhook from JSON parsing
+app.use('/api/webhook', express.raw({ type: 'application/json' }));
+
+// Increase body size limits to handle large document uploads for all other routes
 app.use(express.json({ limit: '100mb' }));
 app.use(express.urlencoded({ extended: false, limit: '100mb' }));
 
