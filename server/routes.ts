@@ -1066,11 +1066,20 @@ export async function registerRoutes(app: Express): Promise<Server> {
             
             if (user) {
               console.log('👤 Checkout updating existing user:', user.email, 'to plan:', planType);
+              
+              // Check if this is an upgrade (from free/null to paid plan)
+              const isUpgrade = (user.accountStatus === 'free' || user.accountStatus === 'null') && 
+                               (planType === 'plus' || planType === 'pro' || planType === 'premium');
+              
+              if (isUpgrade) {
+                console.log('🔄 Detected upgrade - resetting usage for user:', user.email);
+              }
+              
               await storage.updateUserSubscription(user.id, {
                 accountStatus: planType,
                 stripeCustomerId: customer.id,
                 subscriptionExpiresAt: subscription ? new Date(subscription.current_period_end * 1000) : null
-              });
+              }, isUpgrade);
               console.log('✅ Checkout subscription update successful');
             } else if (customer.email) {
               console.log('🆕 Checkout creating new user from customer:', customer.email);
@@ -1152,12 +1161,21 @@ export async function registerRoutes(app: Express): Promise<Server> {
             const expirationDate = subscription.current_period_end ? new Date(subscription.current_period_end * 1000) : null;
             console.log('📅 Calculated expiration date:', expirationDate);
             
+            // Check if this is an upgrade (from free/null to paid plan)
+            const isUpgrade = (user.accountStatus === 'free' || user.accountStatus === 'null') && 
+                             (planType === 'plus' || planType === 'pro' || planType === 'premium');
+            
+            if (isUpgrade) {
+              console.log('🔄 Detected upgrade - resetting usage for user:', user.email);
+            }
+            
             try {
               console.log('💾 Attempting database update with:', {
                 userId: user.id,
                 accountStatus: planType,
                 stripeCustomerId: customerId,
-                subscriptionExpiresAt: expirationDate
+                subscriptionExpiresAt: expirationDate,
+                resetUsage: isUpgrade
               });
               
               // Update existing user
@@ -1165,7 +1183,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
                 accountStatus: planType,
                 stripeCustomerId: customerId,
                 subscriptionExpiresAt: expirationDate
-              });
+              }, isUpgrade);
               console.log('✅ User subscription updated successfully');
             } catch (updateError) {
               console.error('❌ Failed to update user subscription:', updateError);

@@ -38,8 +38,11 @@ export interface IStorage {
       accountStatus: string;
       stripeCustomerId?: string;
       subscriptionExpiresAt?: Date;
-    }
+    },
+    resetUsage?: boolean
   ): Promise<User>;
+  
+  resetMonthlyUsage(userId: string): Promise<void>;
   
   // Contract operations
   createContract(contract: InsertContract): Promise<Contract>;
@@ -160,8 +163,14 @@ export class DatabaseStorage implements IStorage {
       accountStatus: string;
       stripeCustomerId?: string;
       subscriptionExpiresAt?: Date;
-    }
+    },
+    resetUsage?: boolean
   ): Promise<User> {
+    // If this is an upgrade (moving from free/null to paid plan), reset usage
+    if (resetUsage) {
+      await this.resetMonthlyUsage(userId);
+    }
+    
     const [user] = await db
       .update(users)
       .set({
@@ -173,6 +182,26 @@ export class DatabaseStorage implements IStorage {
       .where(eq(users.id, userId))
       .returning();
     return user;
+  }
+
+  async resetMonthlyUsage(userId: string): Promise<void> {
+    // Delete all usage logs for the current month
+    const startOfMonth = new Date();
+    startOfMonth.setDate(1);
+    startOfMonth.setHours(0, 0, 0, 0);
+    
+    console.log('🔄 Resetting monthly usage for user:', userId, 'from date:', startOfMonth.toISOString());
+    
+    const result = await db
+      .delete(usageLogs)
+      .where(
+        and(
+          eq(usageLogs.userId, userId),
+          gte(usageLogs.createdAt, startOfMonth)
+        )
+      );
+    
+    console.log('✅ Monthly usage reset completed for user:', userId);
   }
 
   // Contract operations
