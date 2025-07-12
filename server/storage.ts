@@ -36,6 +36,7 @@ export interface IStorage {
     lastName?: string | null;
     email?: string;
   }): Promise<User>;
+  updateUserPassword(userId: string, hashedPassword: string): Promise<User>;
   
   // Subscription operations
   updateUserSubscription(
@@ -198,6 +199,22 @@ export class DatabaseStorage implements IStorage {
       .returning();
     
     console.log('✅ Profile update completed for user:', userId);
+    return user;
+  }
+
+  async updateUserPassword(userId: string, hashedPassword: string): Promise<User> {
+    console.log('🔄 Updating password for user:', userId);
+    
+    const [user] = await db
+      .update(users)
+      .set({
+        password: hashedPassword,
+        updatedAt: new Date(),
+      })
+      .where(eq(users.id, userId))
+      .returning();
+    
+    console.log('✅ Password update completed for user:', userId);
     return user;
   }
 

@@ -615,4 +615,66 @@ export function setupAuth(app: Express) {
       res.status(500).json({ message: "Failed to update profile" });
     }
   });
+
+  // Change password endpoint
+  app.patch("/api/user/password", async (req, res) => {
+    try {
+      if (!req.isAuthenticated()) {
+        return res.status(401).json({ message: "Unauthorized" });
+      }
+
+      const user = req.user!;
+      const { currentPassword, newPassword } = req.body;
+
+      console.log("Password change request for user:", user.id, user.email);
+
+      // Check if user has local authentication (not Google OAuth)
+      if (user.authProvider !== 'local') {
+        return res.status(400).json({ 
+          message: "Password cannot be changed for social login accounts" 
+        });
+      }
+
+      // Validate input
+      if (!currentPassword || !newPassword) {
+        return res.status(400).json({ 
+          message: "Current password and new password are required" 
+        });
+      }
+
+      if (newPassword.length < 6) {
+        return res.status(400).json({ 
+          message: "New password must be at least 6 characters long" 
+        });
+      }
+
+      // Get fresh user data to ensure we have the current password hash
+      const freshUser = await storage.getUser(user.id);
+      if (!freshUser || !freshUser.password) {
+        return res.status(400).json({ 
+          message: "User password not found" 
+        });
+      }
+
+      // Verify current password
+      const isCurrentPasswordValid = await comparePasswords(currentPassword, freshUser.password);
+      if (!isCurrentPasswordValid) {
+        return res.status(400).json({ 
+          message: "Current password is incorrect" 
+        });
+      }
+
+      // Hash new password
+      const hashedNewPassword = await hashPassword(newPassword);
+
+      // Update password in database
+      await storage.updateUserPassword(user.id, hashedNewPassword);
+
+      console.log("✅ Password changed successfully for user:", user.email);
+      res.json({ message: "Password changed successfully" });
+    } catch (error) {
+      console.error("Password change error:", error);
+      res.status(500).json({ message: "Failed to change password" });
+    }
+  });
 }
