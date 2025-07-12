@@ -62,25 +62,17 @@ function estimateTokenUsage(contractText: string): number {
   return textTokens + systemPromptTokens + responseTokens;
 }
 
-// Function to check if contract size is within reasonable limits
+// Simplified validation - only check basic size limits to prevent abuse
 function validateContractSize(contractText: string, userPlan: string): { allowed: boolean; reason?: string; estimatedTokens: number } {
   const estimatedTokens = estimateTokenUsage(contractText);
   
-  // Define size limits per plan (in tokens)
-  const tokenLimits = {
-    free: 50000,      // ~125 pages (400 tokens per page)
-    plus: 200000,     // ~500 pages  
-    pro: 500000,      // ~1250 pages
-    premium: 1000000  // ~2500 pages
-  };
+  // Basic size limit to prevent extremely large documents (regardless of plan)
+  const maxTokens = 2000000; // ~5000 pages - reasonable maximum for any contract
   
-  const limit = tokenLimits[userPlan as keyof typeof tokenLimits] || tokenLimits.free;
-  
-  if (estimatedTokens > limit) {
-    const maxPages = Math.floor(limit / 400); // Roughly 400 tokens per page
+  if (estimatedTokens > maxTokens) {
     return {
       allowed: false,
-      reason: `Contract too large for ${userPlan} plan. Estimated ${Math.ceil(estimatedTokens / 400)} pages, but limit is ${maxPages} pages.`,
+      reason: `Contract too large. Please split into smaller sections or contact support for assistance.`,
       estimatedTokens
     };
   }
@@ -127,14 +119,7 @@ export async function analyzeContract(
         throw new Error(`Usage limit exceeded. Monthly limit: ${usageCheck.limit}, Current usage: ${usageCheck.current}`);
       }
 
-      // Check token-based limits for the estimated usage
-      const planLimits = await storage.getPlanLimits(user.accountStatus);
-      if (planLimits?.monthlyTokenLimit && planLimits.monthlyTokenLimit > 0) {
-        const monthlyUsage = await storage.getUserMonthlyUsage(userId);
-        if (monthlyUsage + sizeValidation.estimatedTokens > planLimits.monthlyTokenLimit) {
-          throw new Error(`Monthly token limit would be exceeded. Estimated tokens needed: ${sizeValidation.estimatedTokens}, Available: ${planLimits.monthlyTokenLimit - monthlyUsage}`);
-        }
-      }
+
     }
 
     const response = await openai.chat.completions.create({

@@ -153,6 +153,7 @@ Changelog:
 - July 10, 2025. Updated Stripe redirect URLs to use production deployment URL: Set URLs to https://contract-clarifier-joshuasa300.replit.app/ for proper payment flow in live deployment environment.
 - July 12, 2025. Fixed Stripe webhook endpoint path from /api/stripe-webhook to /api/webhook to match configuration. Added comprehensive webhook logging for payment debugging. Manually updated test account to Pro plan status for proper token limit access.
 - July 12, 2025. Configured dynamic domain support for custom domain migration to contractclarity.co.uk. Updated Stripe redirect URLs to use dynamic host detection, enabling seamless transition from Replit subdomain to custom domain without code changes.
+- July 12, 2025. Removed token limits completely from all plans - system now only limits by contract analysis counts (Free: 2 lifetime, Plus: 7/month, Pro: 20/month, Premium: 30/month). Simplified pricing displays and validation logic to focus purely on contract quantity rather than token consumption. Updated database plan_limits, OpenAI validation, and all frontend pricing components.
 
 ## User Preferences
 

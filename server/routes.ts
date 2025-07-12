@@ -450,20 +450,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const responseTokens = 2000;
       const estimatedTokens = textTokens + systemPromptTokens + responseTokens;
 
-      // Check monthly token limits
-      const planLimits = await storage.getPlanLimits(user.accountStatus);
-      if (planLimits?.monthlyTokenLimit && planLimits.monthlyTokenLimit > 0) {
-        const monthlyUsage = await storage.getUserMonthlyUsage(userId);
-        if (monthlyUsage + estimatedTokens > planLimits.monthlyTokenLimit) {
-          return res.json({
-            allowed: false,
-            reason: `Monthly token limit would be exceeded. Estimated tokens needed: ${estimatedTokens}, Available: ${planLimits.monthlyTokenLimit - monthlyUsage}`,
-            estimatedTokens,
-            actualPages,
-            availableTokens: planLimits.monthlyTokenLimit - monthlyUsage
-          });
-        }
-      }
+
 
       res.json({
         allowed: true,

@@ -474,14 +474,7 @@ export class DatabaseStorage implements IStorage {
       }
     }
 
-    // Check monthly token limits for paid plans (if they have token limits)
-    if (planLimits.monthlyTokenLimit > 0) {
-      const monthlyUsage = await this.getUserMonthlyUsage(userId);
-      if (monthlyUsage >= planLimits.monthlyTokenLimit) {
-        return { allowed: false, limit: planLimits.monthlyTokenLimit, current: monthlyUsage };
-      }
-      return { allowed: true, limit: planLimits.monthlyTokenLimit, current: monthlyUsage };
-    }
+
 
     // Default allow for operations without specific limits
     return { allowed: true, limit: 0, current: 0 };

@@ -80,15 +80,12 @@ export default function Home() {
       price: 7.99,
       period: "month",
       features: [
-        "50 contract analyses per month",
-        "50,000 tokens per month",
+        "7 contract analyses per month",
         "Advanced templates",
         "Priority support",
         "Multi-language analysis"
       ],
-      limitations: [
-        "Limited to 50K tokens monthly"
-      ]
+      limitations: []
     },
     {
       id: "pro",
@@ -97,8 +94,7 @@ export default function Home() {
       period: "month",
       popular: true,
       features: [
-        "200 contract analyses per month",
-        "200,000 tokens per month",
+        "20 contract analyses per month",
         "All templates",
         "Premium support",
         "Custom clauses",
@@ -112,8 +108,7 @@ export default function Home() {
       price: 39.99,
       period: "month",
       features: [
-        "1000+ contract analyses per month",
-        "1,000,000 tokens per month",
+        "30 contract analyses per month",
         "All templates",
         "24/7 priority support",
         "Custom clauses",
