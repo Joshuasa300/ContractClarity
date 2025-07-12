@@ -25,10 +25,10 @@ export default function Landing() {
 
   return (
     <div className="min-h-screen">
+      <Navigation onSignIn={handleSignIn} onGetStarted={handleGetStarted} onSignUp={handleSignUp} />
+      
       {/* Hero Section with Aurora Background */}
       <AuroraBackground className="relative">
-        <Navigation onSignIn={handleSignIn} onGetStarted={handleGetStarted} onSignUp={handleSignUp} />
-        
         <motion.div
           initial={{ opacity: 0.0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
