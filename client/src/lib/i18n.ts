@@ -39,7 +39,7 @@ export const setStoredLanguage = (language: Language) => {
 
 // Language metadata
 export const languages = {
-  en: { name: 'English', flag: '🇺🇸', dir: 'ltr' },
+  en: { name: 'English', flag: '🇬🇧', dir: 'ltr' },
   es: { name: 'Español', flag: '🇪🇸', dir: 'ltr' },
   ar: { name: 'العربية', flag: '🇸🇦', dir: 'rtl' },
   de: { name: 'Deutsch', flag: '🇩🇪', dir: 'ltr' },
