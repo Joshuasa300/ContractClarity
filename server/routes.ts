@@ -1223,20 +1223,48 @@ export async function registerRoutes(app: Express): Promise<Server> {
           break;
 
         case 'customer.subscription.deleted':
-          const deletedSub = event.data.object as Stripe.Subscription;
-          const deletedCustomerId = deletedSub.customer as string;
+          const deletedSubscription = event.data.object as Stripe.Subscription;
+          const cancelledCustomerId = deletedSubscription.customer as string;
           
-          const deletedCustomer = await stripe.customers.retrieve(deletedCustomerId);
-          if (deletedCustomer.deleted) break;
+          console.log('🚫 Subscription cancelled/deleted for customer:', cancelledCustomerId);
+          console.log('🚫 Subscription ID:', deletedSubscription.id);
+          console.log('🚫 Cancellation details:', deletedSubscription.cancellation_details);
+          console.log('🚫 Status:', deletedSubscription.status);
           
+          // Get customer details
+          const deletedCustomer = await stripe.customers.retrieve(cancelledCustomerId);
+          if (deletedCustomer.deleted) {
+            console.log('⚠️ Customer was also deleted:', cancelledCustomerId);
+            break;
+          }
+          
+          // Find user by customer ID or metadata
+          let cancelledUser = null;
           const deletedUserId = deletedCustomer.metadata?.userId;
-          if (!deletedUserId) break;
+          
+          if (deletedUserId) {
+            cancelledUser = await storage.getUser(deletedUserId);
+          } else {
+            // Fallback: try to find by Stripe customer ID
+            cancelledUser = await storage.getUserByStripeCustomerId(cancelledCustomerId);
+          }
 
-          await storage.updateUserSubscription(deletedUserId, {
-            accountStatus: 'free',
-            stripeCustomerId: deletedCustomerId,
-            subscriptionExpiresAt: null
-          });
+          if (cancelledUser) {
+            console.log('⬇️ Downgrading user to free plan due to subscription cancellation:', cancelledUser.email);
+            console.log('📅 Previous plan:', cancelledUser.accountStatus);
+            
+            await storage.updateUserSubscription(cancelledUser.id, {
+              accountStatus: 'free',
+              stripeCustomerId: cancelledUser.stripeCustomerId,
+              subscriptionExpiresAt: null
+            });
+            
+            console.log('✅ User successfully downgraded to free plan:', cancelledUser.email);
+          } else {
+            console.warn('⚠️ Could not find user for cancelled subscription. Customer ID:', cancelledCustomerId);
+            console.warn('⚠️ Customer email:', deletedCustomer.email);
+            console.warn('⚠️ Customer metadata:', deletedCustomer.metadata);
+          }
           break;
 
         case 'invoice.payment_succeeded':
