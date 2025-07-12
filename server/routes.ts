@@ -1078,18 +1078,33 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
           if (user) {
             console.log('👤 Found existing user:', user.email, 'updating to plan:', planType);
-            console.log('📅 Subscription period end:', subscription.current_period_end, 'Date:', new Date(subscription.current_period_end * 1000));
+            console.log('📅 Subscription period end:', subscription.current_period_end);
+            
+            const expirationDate = subscription.current_period_end ? new Date(subscription.current_period_end * 1000) : null;
+            console.log('📅 Calculated expiration date:', expirationDate);
             
             try {
+              console.log('💾 Attempting database update with:', {
+                userId: user.id,
+                accountStatus: planType,
+                stripeCustomerId: customerId,
+                subscriptionExpiresAt: expirationDate
+              });
+              
               // Update existing user
               await storage.updateUserSubscription(user.id, {
                 accountStatus: planType,
                 stripeCustomerId: customerId,
-                subscriptionExpiresAt: new Date(subscription.current_period_end * 1000)
+                subscriptionExpiresAt: expirationDate
               });
               console.log('✅ User subscription updated successfully');
             } catch (updateError) {
               console.error('❌ Failed to update user subscription:', updateError);
+              console.error('❌ Update error details:', {
+                name: updateError.name,
+                message: updateError.message,
+                stack: updateError.stack
+              });
               throw updateError;
             }
           } else if (customer.email) {
