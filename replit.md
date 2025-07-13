@@ -171,7 +171,7 @@ Changelog:
 - July 13, 2025. Enhanced mobile navigation experience with smoother, more integrated design patterns. Implemented backdrop blur overlay system, reduced navbar height for better mobile screen usage, added active scale animations for satisfying touch feedback, and created professional glass-morphism effects. Mobile menu now features full-screen backdrop with tap-to-close functionality, better spacing, and native app-like interactions.
 - July 13, 2025. Removed "white label" and "API access" features from Premium plan across all pricing displays. Updated pricing page, upgrade modal, and home page to streamline Premium plan offering to focus on core contract analysis features: 30 monthly analyses, all templates, 24/7 support, custom clauses, and dedicated account manager.
 - July 13, 2025. Updated Pro plan support tier from "Premium support" to "Priority support" across all pricing displays for better clarity and consistency in support level naming conventions.
-- July 13, 2025. Made contract-related text bold across all pricing plans by adding markdown formatting to "contracts" and "contract analyses" text for better visual emphasis and user focus on core offering.
+- July 13, 2025. Made contract-related text bold across all pricing plans by implementing HTML rendering with `<strong>` tags to properly display bold formatting for "contracts" and "contract analyses" text. Updated pricing page, upgrade modal, and home page to use dangerouslySetInnerHTML with regex replacement for markdown-to-HTML conversion.
 
 ## User Preferences
 

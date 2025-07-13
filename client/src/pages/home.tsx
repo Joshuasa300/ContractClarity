@@ -702,7 +702,10 @@ export default function Home() {
                       {plan.features.map((feature, index) => (
                         <li key={index} className="flex items-start">
                           <Check className="h-3 w-3 text-green-500 mt-0.5 mr-2 flex-shrink-0" />
-                          <span className="text-xs text-gray-600">{feature}</span>
+                          <span className="text-xs text-gray-600" dangerouslySetInnerHTML={{
+                            __html: feature
+                              .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                          }} />
                         </li>
                       ))}
                     </ul>

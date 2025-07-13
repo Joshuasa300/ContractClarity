@@ -181,7 +181,10 @@ export default function Pricing() {
                     {plan.features.map((feature, index) => (
                       <li key={index} className="flex items-start">
                         <Check className="h-4 w-4 text-green-500 mt-0.5 mr-2 flex-shrink-0" />
-                        <span className="text-sm text-gray-600">{feature}</span>
+                        <span className="text-sm text-gray-600" dangerouslySetInnerHTML={{
+                          __html: feature
+                            .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                        }} />
                       </li>
                     ))}
                   </ul>
@@ -194,7 +197,10 @@ export default function Pricing() {
                       {plan.limitations.map((limitation, index) => (
                         <li key={index} className="flex items-start">
                           <X className="h-4 w-4 text-red-500 mt-0.5 mr-2 flex-shrink-0" />
-                          <span className="text-sm text-gray-600">{limitation}</span>
+                          <span className="text-sm text-gray-600" dangerouslySetInnerHTML={{
+                            __html: limitation
+                              .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                          }} />
                         </li>
                       ))}
                     </ul>
