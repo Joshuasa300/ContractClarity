@@ -27,7 +27,7 @@ This is a full-stack web application called "Contract Clarity" that provides AI-
 ### Key Components
 
 1. **Authentication System**
-   - Replit Auth integration for secure user authentication
+   - Google OAuth and local email/password authentication
    - Session-based authentication with PostgreSQL session store
    - Protected routes with authentication middleware
 
@@ -101,7 +101,7 @@ This is a full-stack web application called "Contract Clarity" that provides AI-
 - `OPENAI_API_KEY`: OpenAI API authentication
 - `SESSION_SECRET`: Session encryption key
 - `REPLIT_DOMAINS`: Authentication domain configuration
-- `ISSUER_URL`: OpenID Connect issuer URL
+
 
 ## Changelog
 
