@@ -78,8 +78,6 @@ export default function Pricing() {
         "All templates",
         "24/7 priority support",
         "Custom clauses",
-        "API access",
-        "White-label options",
         "Dedicated account manager"
       ],
       limitations: []
