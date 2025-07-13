@@ -50,12 +50,27 @@ export default function Header({ breadcrumbs }: HeaderProps) {
     }
   };
 
-  const navigationItems = [
-    { label: "Home", href: "/", icon: null },
-    { label: "Templates", href: "/templates", icon: null },
-    { label: "Clauses", href: "/clauses", icon: null },
-    { label: "Settings", href: "/settings", icon: null },
-  ];
+  // Filter navigation items based on user plan
+  const getNavigationItems = () => {
+    const baseItems = [
+      { label: "Home", href: "/", icon: null },
+      { label: "Settings", href: "/settings", icon: null },
+    ];
+
+    // Only show Templates and Clauses for paid plans
+    if (user?.accountStatus && user.accountStatus !== 'free' && user.accountStatus !== 'null' && user.accountStatus !== null) {
+      return [
+        { label: "Home", href: "/", icon: null },
+        { label: "Templates", href: "/templates", icon: null },
+        { label: "Clauses", href: "/clauses", icon: null },
+        { label: "Settings", href: "/settings", icon: null },
+      ];
+    }
+
+    return baseItems;
+  };
+
+  const navigationItems = getNavigationItems();
 
   const isActiveRoute = (href: string) => {
     if (href === "/") return location === "/";

@@ -21,6 +21,25 @@ import SubscriptionSuccess from "@/pages/subscription-success";
 import PageLimitsDemo from "@/pages/PageLimitsDemo";
 import LogoDemo from "@/pages/logo-demo";
 
+// Protected route component for paid features
+function PaidFeatureRoute({ component: Component }: { component: React.ComponentType }) {
+  const { user } = useAuth();
+  
+  // Check if user has a paid plan
+  const hasPaidPlan = user?.accountStatus && 
+    user.accountStatus !== 'free' && 
+    user.accountStatus !== 'null' && 
+    user.accountStatus !== null;
+  
+  if (!hasPaidPlan) {
+    // Redirect to pricing page if user doesn't have paid plan
+    window.location.href = '/pricing';
+    return null;
+  }
+  
+  return <Component />;
+}
+
 
 function Router() {
   const { isAuthenticated, isLoading } = useAuth();
@@ -45,8 +64,8 @@ function Router() {
           <Route path="/" component={Home} />
           <Route path="/dashboard" component={Home} />
           <Route path="/analysis/:contractId" component={Analysis} />
-          <Route path="/templates" component={Templates} />
-          <Route path="/clauses" component={Clauses} />
+          <Route path="/templates" component={() => <PaidFeatureRoute component={Templates} />} />
+          <Route path="/clauses" component={() => <PaidFeatureRoute component={Clauses} />} />
           <Route path="/settings" component={Settings} />
           <Route path="/demo/page-limits" component={PageLimitsDemo} />
         </>
