@@ -14,9 +14,9 @@ export function Logo({ className = "", showText = true, size = 'md' }: LogoProps
   };
 
   const textSizeClasses = {
-    sm: 'text-lg',
-    md: 'text-xl',
-    lg: 'text-2xl'
+    sm: 'text-base sm:text-lg',
+    md: 'text-lg sm:text-xl',
+    lg: 'text-xl sm:text-2xl'
   };
 
   return (
