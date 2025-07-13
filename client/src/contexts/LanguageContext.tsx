@@ -15,8 +15,8 @@ interface LanguageProviderProps {
 export function LanguageProvider({ children }: LanguageProviderProps) {
   const [language, setLanguage] = useState<Language>(getStoredLanguage());
 
-  // Function to get translated text with English fallback
-  const t = (key: string): string => {
+  // Function to get translated text with English fallback and interpolation
+  const t = (key: string, params?: Record<string, string | number>): string => {
     const translation = translations[language];
     
     // First try to get the key directly (for flat dot-notation keys)
@@ -59,7 +59,16 @@ export function LanguageProvider({ children }: LanguageProviderProps) {
       }
     }
     
-    return typeof result === 'string' ? result : key;
+    let finalResult = typeof result === 'string' ? result : key;
+    
+    // Handle string interpolation if params are provided
+    if (params && typeof finalResult === 'string') {
+      for (const [paramKey, paramValue] of Object.entries(params)) {
+        finalResult = finalResult.replace(new RegExp(`\\{${paramKey}\\}`, 'g'), String(paramValue));
+      }
+    }
+    
+    return finalResult;
   };
 
   // Handle language change

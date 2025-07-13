@@ -69,6 +69,24 @@ export const de = {
   'home.analysisInProgress': 'Analyse läuft',
   'home.viewAnalysis': 'Analyse anzeigen',
 
+  // Usage Status
+  'usage.title': 'Nutzungsstatus',
+  'usage.contractAnalysesUsed': 'Verwendete Vertragsanalysen',
+  'usage.documentSizeLimit': 'Dokumentgrößenlimit',
+  'usage.limitReached': 'Limit Erreicht',
+  'usage.nearLimit': 'Nahe dem Limit',
+  'usage.available': 'Verfügbar',
+  'usage.paymentRequired': 'Zahlung Erforderlich',
+  'usage.uploadLimitReached': 'Upload-Limit für Ihren aktuellen Plan erreicht',
+  'usage.paymentRequiredMessage': 'Zahlung erforderlich, um den Service weiter zu nutzen',
+  'usage.approachingLimit': 'Sie nähern sich Ihrem Plan-Limit',
+  'usage.upgradeNow': 'Jetzt Upgraden',
+  'usage.choosePlan': 'Plan Wählen',
+  'usage.viewPlans': 'Pläne Anzeigen',
+  'usage.uploadDisabled': 'Upload Deaktiviert - Token-Limit Erreicht',
+  'usage.tokenLimitMessage': 'Sie haben Ihr monatliches Token-Kontingent überschritten. Upgraden Sie, um weiter Verträge zu analysieren.',
+  'usage.upToPages': 'Bis zu {pages} Seiten',
+
   // Footer
   'footer.description': 'Vereinfachen Sie Vertragsanalysen mit KI',
   'footer.product': 'Produkt',

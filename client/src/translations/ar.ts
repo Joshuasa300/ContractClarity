@@ -69,6 +69,24 @@ export const ar = {
   'home.analysisInProgress': 'التحليل جاري',
   'home.viewAnalysis': 'عرض التحليل',
 
+  // Usage Status
+  'usage.title': 'حالة الاستخدام',
+  'usage.contractAnalysesUsed': 'تحليلات العقود المستخدمة',
+  'usage.documentSizeLimit': 'حد حجم المستند',
+  'usage.limitReached': 'تم الوصول للحد الأقصى',
+  'usage.nearLimit': 'قريب من الحد الأقصى',
+  'usage.available': 'متاح',
+  'usage.paymentRequired': 'الدفع مطلوب',
+  'usage.uploadLimitReached': 'تم الوصول لحد الرفع لخطتك الحالية',
+  'usage.paymentRequiredMessage': 'الدفع مطلوب لمواصلة استخدام الخدمة',
+  'usage.approachingLimit': 'أنت تقترب من حد خطتك',
+  'usage.upgradeNow': 'ترقية الآن',
+  'usage.choosePlan': 'اختر خطة',
+  'usage.viewPlans': 'عرض الخطط',
+  'usage.uploadDisabled': 'الرفع معطل - تم الوصول لحد الرموز',
+  'usage.tokenLimitMessage': 'لقد تجاوزت حصتك الشهرية من الرموز. قم بالترقية لمواصلة تحليل العقود.',
+  'usage.upToPages': 'حتى {pages} صفحة',
+
   // Footer
   'footer.description': 'تبسيط تحليل العقود بالذكاء الاصطناعي',
   'footer.product': 'المنتج',

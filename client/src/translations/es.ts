@@ -69,6 +69,24 @@ export const es = {
   'home.analysisInProgress': 'Análisis en progreso',
   'home.viewAnalysis': 'Ver análisis',
 
+  // Usage Status
+  'usage.title': 'Estado de Uso',
+  'usage.contractAnalysesUsed': 'Análisis de Contratos Utilizados',
+  'usage.documentSizeLimit': 'Límite de Tamaño de Documento',
+  'usage.limitReached': 'Límite Alcanzado',
+  'usage.nearLimit': 'Cerca del Límite',
+  'usage.available': 'Disponible',
+  'usage.paymentRequired': 'Pago Requerido',
+  'usage.uploadLimitReached': 'Límite de carga alcanzado para tu plan actual',
+  'usage.paymentRequiredMessage': 'Se requiere pago para continuar usando el servicio',
+  'usage.approachingLimit': 'Te estás acercando al límite de tu plan',
+  'usage.upgradeNow': 'Actualizar Ahora',
+  'usage.choosePlan': 'Elegir Plan',
+  'usage.viewPlans': 'Ver Planes',
+  'usage.uploadDisabled': 'Carga Deshabilitada - Límite de Tokens Alcanzado',
+  'usage.tokenLimitMessage': 'Has excedido tu asignación mensual de tokens. Actualiza para continuar analizando contratos.',
+  'usage.upToPages': 'Hasta {pages} páginas',
+
   // Footer
   'footer.description': 'Simplifica el análisis de contratos con IA',
   'footer.product': 'Producto',

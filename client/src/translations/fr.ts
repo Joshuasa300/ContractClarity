@@ -69,6 +69,24 @@ export const fr = {
   'home.analysisInProgress': 'Analyse en cours',
   'home.viewAnalysis': 'Voir l\'analyse',
 
+  // Usage Status
+  'usage.title': 'État d\'Utilisation',
+  'usage.contractAnalysesUsed': 'Analyses de Contrats Utilisées',
+  'usage.documentSizeLimit': 'Limite de Taille de Document',
+  'usage.limitReached': 'Limite Atteinte',
+  'usage.nearLimit': 'Près de la Limite',
+  'usage.available': 'Disponible',
+  'usage.paymentRequired': 'Paiement Requis',
+  'usage.uploadLimitReached': 'Limite de téléchargement atteinte pour votre plan actuel',
+  'usage.paymentRequiredMessage': 'Paiement requis pour continuer à utiliser le service',
+  'usage.approachingLimit': 'Vous approchez de la limite de votre plan',
+  'usage.upgradeNow': 'Mettre à Niveau Maintenant',
+  'usage.choosePlan': 'Choisir un Plan',
+  'usage.viewPlans': 'Voir les Plans',
+  'usage.uploadDisabled': 'Téléchargement Désactivé - Limite de Tokens Atteinte',
+  'usage.tokenLimitMessage': 'Vous avez dépassé votre allocation mensuelle de tokens. Mettez à niveau pour continuer à analyser les contrats.',
+  'usage.upToPages': 'Jusqu\'à {pages} pages',
+
   // Templates
   'templates.title': 'Modèles de Contrats',
   'templates.description': 'Créez des contrats rapidement avec nos modèles pré-construits',

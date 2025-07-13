@@ -205,7 +205,7 @@ export default function ContractUpload() {
       return {
         percentage: 100,
         color: "bg-red-500",
-        status: "Payment Required",
+        status: t('usage.paymentRequired'),
         textColor: "text-red-600"
       };
     }
@@ -216,21 +216,21 @@ export default function ContractUpload() {
       return { 
         percentage: 100, 
         color: "bg-red-500", 
-        status: "Limit Reached",
+        status: t('usage.limitReached'),
         textColor: "text-red-600"
       };
     } else if (percentage >= 80) {
       return { 
         percentage, 
         color: "bg-yellow-500", 
-        status: "Near Limit",
+        status: t('usage.nearLimit'),
         textColor: "text-yellow-600"
       };
     } else {
       return { 
         percentage, 
         color: "bg-green-500", 
-        status: "Available",
+        status: t('usage.available'),
         textColor: "text-green-600"
       };
     }
@@ -272,7 +272,7 @@ export default function ContractUpload() {
                 <div className="flex items-center justify-between">
                   <CardTitle className="text-lg font-semibold flex items-center">
                     <TrendingUp className={`h-5 w-5 mr-2 ${usageStatus.textColor}`} />
-                    Usage Status
+                    {t('usage.title')}
                   </CardTitle>
                   <span className={`text-sm font-medium ${usageStatus.textColor}`}>
                     {usageStatus.status}
@@ -283,7 +283,7 @@ export default function ContractUpload() {
                 <div className="space-y-3">
                   <div className="flex items-center justify-between text-sm">
                     <span className="text-gray-600">
-                      Contract Analyses Used
+                      {t('usage.contractAnalysesUsed')}
                     </span>
                     <span className="font-medium">
                       {usageCheck.current} of {usageCheck.limit}
@@ -293,10 +293,10 @@ export default function ContractUpload() {
                   {documentSizeCheck && (
                     <div className="flex items-center justify-between text-sm">
                       <span className="text-gray-600">
-                        Document Size Limit
+                        {t('usage.documentSizeLimit')}
                       </span>
                       <span className="font-medium">
-                        {documentSizeCheck.maxPages ? `Up to ${documentSizeCheck.maxPages} pages` : 'Checking...'}
+                        {documentSizeCheck.maxPages ? t('usage.upToPages', { pages: documentSizeCheck.maxPages }) : 'Checking...'}
                       </span>
                     </div>
                   )}
@@ -314,15 +314,15 @@ export default function ContractUpload() {
                         <div className="flex items-center">
                           <AlertCircle className="h-4 w-4 text-red-500 mr-2" />
                           <span className="text-sm text-red-700 font-medium">
-                            {usageStatus.status === "Payment Required" 
-                              ? "Payment required to continue using the service"
-                              : "Upload limit reached for your current plan"
+                            {usageStatus.status === t('usage.paymentRequired')
+                              ? t('usage.paymentRequiredMessage')
+                              : t('usage.uploadLimitReached')
                             }
                           </span>
                         </div>
                         <Link href="/pricing">
                           <Button size="sm" className="bg-red-600 hover:bg-red-700">
-                            {usageStatus.status === "Payment Required" ? "Choose Plan" : "Upgrade Now"}
+                            {usageStatus.status === t('usage.paymentRequired') ? t('usage.choosePlan') : t('usage.upgradeNow')}
                           </Button>
                         </Link>
                       </div>
@@ -335,12 +335,12 @@ export default function ContractUpload() {
                         <div className="flex items-center">
                           <AlertCircle className="h-4 w-4 text-yellow-500 mr-2" />
                           <span className="text-sm text-yellow-700">
-                            You're approaching your plan limit
+                            {t('usage.approachingLimit')}
                           </span>
                         </div>
                         <Link href="/pricing">
                           <Button size="sm" variant="outline" className="border-yellow-300 text-yellow-700 hover:bg-yellow-50">
-                            View Plans
+                            {t('usage.viewPlans')}
                           </Button>
                         </Link>
                       </div>
@@ -366,7 +366,7 @@ export default function ContractUpload() {
             <CloudUpload className={`h-16 w-16 mx-auto mb-4 ${isUploadDisabled ? 'text-red-400' : 'text-gray-400'}`} />
             <h3 className={`text-lg font-semibold mb-2 ${isUploadDisabled ? 'text-red-600' : 'text-text-primary'}`}>
               {isUploadDisabled 
-                ? "Upload Disabled - Token Limit Reached" 
+                ? t('usage.uploadDisabled')
                 : isDragActive 
                 ? t('upload.dragDrop') 
                 : t('upload.title')
@@ -374,7 +374,7 @@ export default function ContractUpload() {
             </h3>
             <p className={`mb-4 ${isUploadDisabled ? 'text-red-500' : 'text-gray-600'}`}>
               {isUploadDisabled 
-                ? "You've exceeded your monthly token allowance. Upgrade to continue analyzing contracts."
+                ? t('usage.tokenLimitMessage')
                 : t('upload.dragDrop')
               }
             </p>
@@ -386,7 +386,7 @@ export default function ContractUpload() {
             {isUploadDisabled ? (
               <Link href="/pricing">
                 <Button className="bg-red-600 hover:bg-red-700">
-                  {usageStatus.status === "Payment Required" ? "Choose Plan" : "Upgrade Now"}
+                  {usageStatus.status === t('usage.paymentRequired') ? t('usage.choosePlan') : t('usage.upgradeNow')}
                 </Button>
               </Link>
             ) : (

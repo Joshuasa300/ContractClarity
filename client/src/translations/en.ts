@@ -48,6 +48,26 @@ export const en = {
     viewAnalysis: 'View Analysis',
   },
 
+  // Usage Status
+  usage: {
+    title: 'Usage Status',
+    contractAnalysesUsed: 'Contract Analyses Used',
+    documentSizeLimit: 'Document Size Limit',
+    limitReached: 'Limit Reached',
+    nearLimit: 'Near Limit',
+    available: 'Available',
+    paymentRequired: 'Payment Required',
+    uploadLimitReached: 'Upload limit reached for your current plan',
+    paymentRequiredMessage: 'Payment required to continue using the service',
+    approachingLimit: "You're approaching your plan limit",
+    upgradeNow: 'Upgrade Now',
+    choosePlan: 'Choose Plan',
+    viewPlans: 'View Plans',
+    uploadDisabled: 'Upload Disabled - Token Limit Reached',
+    tokenLimitMessage: "You've exceeded your monthly token allowance. Upgrade to continue analyzing contracts.",
+    upToPages: 'Up to {pages} pages',
+  },
+
   // Settings
   settings: {
     title: 'Settings',
