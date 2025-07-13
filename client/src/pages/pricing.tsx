@@ -32,9 +32,7 @@ export default function Pricing() {
       price: 0,
       period: "forever",
       features: [
-        "2 contracts total",
-        "Basic templates",
-        "Community support"
+        "Only 2 contracts"
       ],
       limitations: [
         "Only 2 contracts total",

@@ -95,12 +95,10 @@ export default function Home() {
       price: 0,
       period: "forever",
       features: [
-        "Only 3 contracts",
-        "Basic templates",
-        "Community support"
+        "Only 2 contracts"
       ],
       limitations: [
-        "Only 3 contracts total",
+        "Only 2 contracts total",
         "Basic templates only",
         "No priority support"
       ]
