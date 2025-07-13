@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList } from "@/components/ui/breadcrumb";
 import { LanguageSelector } from "@/components/LanguageSelector";
+import { Logo } from "@/components/ui/logo";
 import { useState } from "react";
 import { Link, useLocation } from "wouter";
 import { useAuth } from "@/hooks/useAuth";
@@ -68,8 +69,7 @@ export default function Header({ breadcrumbs }: HeaderProps) {
           {/* Logo and Brand */}
           <div className="flex items-center space-x-8">
             <Link href="/" className="flex items-center">
-              <FileText className="h-8 w-8 text-primary mr-2" />
-              <span className="text-xl font-bold text-text-primary">ContractAI</span>
+              <Logo size="md" showText={true} />
             </Link>
             
             {/* Desktop Navigation */}
