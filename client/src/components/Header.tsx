@@ -107,7 +107,6 @@ export default function Header({ breadcrumbs }: HeaderProps) {
                 <p className="text-sm font-medium text-text-primary">
                   {user?.firstName || user?.email || "User"}
                 </p>
-                <p className="text-xs text-gray-500">{user?.email}</p>
               </div>
             </div>
             
@@ -188,7 +187,6 @@ export default function Header({ breadcrumbs }: HeaderProps) {
                   <p className="text-base font-medium text-text-primary">
                     {user?.firstName || user?.email || "User"}
                   </p>
-                  <p className="text-sm text-gray-500">{user?.email}</p>
                 </div>
               </div>
               <Button
