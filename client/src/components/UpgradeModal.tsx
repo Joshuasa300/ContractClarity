@@ -26,7 +26,7 @@ export default function UpgradeModal({ isOpen, onClose, currentUsage }: UpgradeM
       price: 7.99,
       period: "month",
       features: [
-        "7 contract analyses per month",
+        "7 **contract analyses** per month",
         "Advanced templates",
         "Priority support",
         "Multi-language analysis"
@@ -40,7 +40,7 @@ export default function UpgradeModal({ isOpen, onClose, currentUsage }: UpgradeM
       period: "month",
       popular: true,
       features: [
-        "20 contract analyses per month",
+        "20 **contract analyses** per month",
         "All templates",
         "Priority support",
         "Custom clauses",
@@ -54,7 +54,7 @@ export default function UpgradeModal({ isOpen, onClose, currentUsage }: UpgradeM
       price: 39.99,
       period: "month",
       features: [
-        "30 contract analyses per month",
+        "30 **contract analyses** per month",
         "All templates",
         "24/7 priority support",
         "Custom clauses",
