@@ -42,7 +42,7 @@ export default function UpgradeModal({ isOpen, onClose, currentUsage }: UpgradeM
       features: [
         "20 contract analyses per month",
         "All templates",
-        "Premium support",
+        "Priority support",
         "Custom clauses",
         "Advanced analytics"
       ],

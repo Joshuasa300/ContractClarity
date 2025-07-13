@@ -125,7 +125,7 @@ export default function Home() {
       features: [
         "20 contract analyses per month",
         "All templates",
-        "Premium support",
+        "Priority support",
         "Custom clauses",
         "Advanced analytics"
       ],
