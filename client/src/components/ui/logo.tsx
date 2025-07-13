@@ -20,89 +20,90 @@ export function Logo({ className = "", showText = true, size = 'md' }: LogoProps
   };
 
   return (
-    <div className={`flex items-center gap-2 ${className}`}>
-      {/* Logo Icon */}
+    <div className={`flex items-center gap-3 ${className}`}>
       <div className={`${sizeClasses[size]} relative`}>
         <svg
           viewBox="0 0 100 100"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
-          className="w-full h-full"
+          className="w-full h-full drop-shadow-lg"
         >
-          {/* Document Shape */}
-          <path
-            d="M20 15C20 12.7909 21.7909 11 24 11H65L80 26V85C80 87.2091 78.2091 89 76 89H24C21.7909 89 20 87.2091 20 85V15Z"
-            fill="url(#documentGradient)"
-            stroke="url(#strokeGradient)"
-            strokeWidth="2"
-          />
-          
-          {/* Document Corner Fold */}
-          <path
-            d="M65 11V21C65 23.2091 66.7909 25 69 25H80L65 11Z"
-            fill="url(#foldGradient)"
-            stroke="url(#strokeGradient)"
+          {/* Back document (slightly offset) */}
+          <rect
+            x="15"
+            y="10"
+            width="60"
+            height="75"
+            rx="4"
+            fill="url(#contractGradientC1)"
+            stroke="url(#contractBorderC)"
             strokeWidth="1"
           />
           
-          {/* Document Lines */}
-          <rect x="30" y="35" width="25" height="3" rx="1.5" fill="url(#lineGradient)" />
-          <rect x="30" y="45" width="35" height="3" rx="1.5" fill="url(#lineGradient)" />
-          <rect x="30" y="55" width="30" height="3" rx="1.5" fill="url(#lineGradient)" />
-          
-          {/* Check Circle */}
-          <circle
-            cx="65"
-            cy="65"
-            r="18"
-            fill="url(#checkBgGradient)"
-            stroke="url(#strokeGradient)"
+          {/* Front document (main) */}
+          <rect
+            x="25"
+            y="15"
+            width="60"
+            height="75"
+            rx="4"
+            fill="url(#contractGradientC2)"
+            stroke="url(#contractBorderC)"
             strokeWidth="2"
           />
           
-          {/* Check Mark */}
+          {/* Document text lines */}
+          <line x1="32" y1="28" x2="70" y2="28" stroke="white" strokeWidth="2" strokeLinecap="round" />
+          <line x1="32" y1="35" x2="65" y2="35" stroke="white" strokeWidth="2" strokeLinecap="round" />
+          <line x1="32" y1="42" x2="68" y2="42" stroke="white" strokeWidth="2" strokeLinecap="round" />
+          <line x1="32" y1="49" x2="62" y2="49" stroke="white" strokeWidth="2" strokeLinecap="round" />
+          <line x1="32" y1="56" x2="66" y2="56" stroke="white" strokeWidth="2" strokeLinecap="round" />
+          <line x1="32" y1="63" x2="60" y2="63" stroke="white" strokeWidth="2" strokeLinecap="round" />
+          
+          {/* Signature line */}
+          <line x1="32" y1="75" x2="65" y2="75" stroke="rgba(255,255,255,0.7)" strokeWidth="1.5" strokeLinecap="round" />
+          
+          {/* Purple Checkmark with white background */}
+          <circle 
+            cx="75" 
+            cy="75" 
+            r="12" 
+            fill="white" 
+            stroke="url(#contractBorderC)" 
+            strokeWidth="2"
+          />
           <path
-            d="M57 65L62 70L73 59"
-            stroke="white"
+            d="M70 75l3 3 6-6"
+            stroke="url(#purpleCheckGradient)"
             strokeWidth="3"
             strokeLinecap="round"
             strokeLinejoin="round"
           />
           
-          {/* Gradients */}
           <defs>
-            <linearGradient id="documentGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor="#f8fafc" />
-              <stop offset="100%" stopColor="#e2e8f0" />
+            <linearGradient id="contractGradientC1" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stopColor="#7C3AED" />
+              <stop offset="100%" stopColor="#6366F1" />
             </linearGradient>
-            
-            <linearGradient id="foldGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor="#e2e8f0" />
-              <stop offset="100%" stopColor="#cbd5e1" />
+            <linearGradient id="contractGradientC2" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stopColor="#6366F1" />
+              <stop offset="50%" stopColor="#8B5CF6" />
+              <stop offset="100%" stopColor="#7C3AED" />
             </linearGradient>
-            
-            <linearGradient id="lineGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stopColor="#6366f1" />
-              <stop offset="100%" stopColor="#8b5cf6" />
+            <linearGradient id="contractBorderC" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stopColor="#4F46E5" />
+              <stop offset="100%" stopColor="#6B21A8" />
             </linearGradient>
-            
-            <linearGradient id="checkBgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor="#6366f1" />
-              <stop offset="100%" stopColor="#8b5cf6" />
-            </linearGradient>
-            
-            <linearGradient id="strokeGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor="#4f46e5" />
-              <stop offset="100%" stopColor="#7c3aed" />
+            <linearGradient id="purpleCheckGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stopColor="#8B5CF6" />
+              <stop offset="100%" stopColor="#7C3AED" />
             </linearGradient>
           </defs>
         </svg>
       </div>
-      
-      {/* Logo Text */}
       {showText && (
-        <span className={`font-bold ${textSizeClasses[size]} bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent`}>
-          Contract Clarity
+        <span className={`font-bold ${textSizeClasses[size]} text-gray-800 dark:text-white`}>
+          Contract <span className="bg-gradient-to-r from-purple-600 to-indigo-600 bg-clip-text text-transparent">Clarity</span>
         </span>
       )}
     </div>
