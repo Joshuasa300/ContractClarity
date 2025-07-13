@@ -361,9 +361,9 @@ export default function Home() {
                 onClick={() => setShowUpgradeModal(true)}
                 variant="outline"
                 size="sm"
-                className="text-blue-600 border-blue-200 hover:bg-blue-50"
+                className="text-blue-600 border-blue-200 hover:bg-blue-50 whitespace-nowrap text-xs"
               >
-                Upgrade Plan
+                {t('usage.upgradePlan')}
               </Button>
             </div>
           </div>

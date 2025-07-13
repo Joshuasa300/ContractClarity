@@ -61,6 +61,7 @@ export const en = {
     paymentRequiredMessage: 'Payment required to continue using the service',
     approachingLimit: "You're approaching your plan limit",
     upgradeNow: 'Upgrade Now',
+    upgradePlan: 'Upgrade Plan',
     choosePlan: 'Choose Plan',
     viewPlans: 'View Plans',
     uploadDisabled: 'Upload Disabled - Token Limit Reached',
