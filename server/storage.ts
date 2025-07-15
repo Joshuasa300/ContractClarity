@@ -38,6 +38,14 @@ export interface IStorage {
   }): Promise<User>;
   updateUserPassword(userId: string, hashedPassword: string): Promise<User>;
   
+  // Email verification operations
+  generateVerificationToken(userId: string): Promise<{ token: string; code: string }>;
+  verifyEmailToken(token: string): Promise<{ success: boolean; userId?: string }>;
+  resendVerificationCode(userId: string): Promise<{ success: boolean; rateLimited?: boolean }>;
+  markEmailAsVerified(userId: string): Promise<User>;
+  isEmailVerified(userId: string): Promise<boolean>;
+  getUserByVerificationToken(token: string): Promise<User | undefined>;
+  
   // Subscription operations
   updateUserSubscription(
     userId: string,
@@ -215,6 +223,133 @@ export class DatabaseStorage implements IStorage {
       .returning();
     
     console.log('✅ Password update completed for user:', userId);
+    return user;
+  }
+
+  // Email verification operations
+  async generateVerificationToken(userId: string): Promise<{ token: string; code: string }> {
+    const { emailService } = await import('./services/emailService');
+    
+    const token = emailService.generateVerificationToken();
+    const code = emailService.generateVerificationCode();
+    const expiresAt = new Date();
+    expiresAt.setHours(expiresAt.getHours() + 24); // 24 hour expiration
+
+    await db
+      .update(users)
+      .set({
+        verificationToken: token,
+        verificationTokenExpiresAt: expiresAt,
+        verificationCodeSentAt: new Date(),
+        updatedAt: new Date(),
+      })
+      .where(eq(users.id, userId));
+
+    console.log('✅ Generated verification token for user:', userId);
+    return { token, code };
+  }
+
+  async verifyEmailToken(token: string): Promise<{ success: boolean; userId?: string }> {
+    const [user] = await db
+      .select()
+      .from(users)
+      .where(
+        and(
+          eq(users.verificationToken, token),
+          gte(users.verificationTokenExpiresAt, new Date())
+        )
+      );
+
+    if (!user) {
+      console.log('❌ Invalid or expired verification token:', token);
+      return { success: false };
+    }
+
+    // Mark email as verified and clear the verification token
+    await db
+      .update(users)
+      .set({
+        emailVerified: true,
+        verificationToken: null,
+        verificationTokenExpiresAt: null,
+        verificationCodeSentAt: null,
+        updatedAt: new Date(),
+      })
+      .where(eq(users.id, user.id));
+
+    console.log('✅ Email verified successfully for user:', user.id);
+    return { success: true, userId: user.id };
+  }
+
+  async resendVerificationCode(userId: string): Promise<{ success: boolean; rateLimited?: boolean }> {
+    const user = await this.getUser(userId);
+    if (!user) {
+      return { success: false };
+    }
+
+    // Check rate limiting - 60 second cooldown
+    if (user.verificationCodeSentAt) {
+      const timeSinceLastSent = Date.now() - user.verificationCodeSentAt.getTime();
+      const cooldownMs = 60 * 1000; // 60 seconds
+      
+      if (timeSinceLastSent < cooldownMs) {
+        console.log('⏱️ Rate limited verification resend for user:', userId);
+        return { success: false, rateLimited: true };
+      }
+    }
+
+    // Generate new token and code
+    const { token, code } = await this.generateVerificationToken(userId);
+    
+    // Send email
+    const { emailService } = await import('./services/emailService');
+    const emailSent = await emailService.sendVerificationEmail({
+      to: user.email,
+      firstName: user.firstName || '',
+      verificationCode: code,
+    });
+
+    if (!emailSent) {
+      console.log('❌ Failed to send verification email for user:', userId);
+      return { success: false };
+    }
+
+    console.log('✅ Verification code resent for user:', userId);
+    return { success: true };
+  }
+
+  async markEmailAsVerified(userId: string): Promise<User> {
+    const [user] = await db
+      .update(users)
+      .set({
+        emailVerified: true,
+        verificationToken: null,
+        verificationTokenExpiresAt: null,
+        verificationCodeSentAt: null,
+        updatedAt: new Date(),
+      })
+      .where(eq(users.id, userId))
+      .returning();
+
+    console.log('✅ Email marked as verified for user:', userId);
+    return user;
+  }
+
+  async isEmailVerified(userId: string): Promise<boolean> {
+    const user = await this.getUser(userId);
+    return user?.emailVerified || false;
+  }
+
+  async getUserByVerificationToken(token: string): Promise<User | undefined> {
+    const [user] = await db
+      .select()
+      .from(users)
+      .where(
+        and(
+          eq(users.verificationToken, token),
+          gte(users.verificationTokenExpiresAt, new Date())
+        )
+      );
     return user;
   }
 

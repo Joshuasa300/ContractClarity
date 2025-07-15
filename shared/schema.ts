@@ -38,6 +38,11 @@ export const users = pgTable("users", {
   authProvider: varchar("auth_provider").notNull().default("local"), // 'local', 'google', 'replit'
   googleId: varchar("google_id").unique(), // For Google OAuth
   replitId: varchar("replit_id").unique(), // For Replit Auth (legacy)
+  // Email verification fields
+  emailVerified: boolean("email_verified").default(false), // False for local auth users, true for OAuth users
+  verificationToken: varchar("verification_token"), // Nullable token for email verification
+  verificationTokenExpiresAt: timestamp("verification_token_expires_at"), // Token expiration
+  verificationCodeSentAt: timestamp("verification_code_sent_at"), // Rate limiting for resends
   // Subscription fields
   accountStatus: varchar("account_status").default("free"), // 'free', 'plus', 'pro', 'premium', 'null' (payment failed)
   stripeCustomerId: varchar("stripe_customer_id").unique(), // Stripe customer ID

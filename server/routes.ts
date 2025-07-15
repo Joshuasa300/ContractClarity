@@ -974,6 +974,149 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Email verification routes
+  app.post('/api/auth/register', async (req, res) => {
+    try {
+      const { email, password, firstName, lastName } = req.body;
+
+      // Validate required fields
+      if (!email || !password) {
+        return res.status(400).json({ message: 'Email and password are required' });
+      }
+
+      // Check if user already exists
+      const existingUser = await storage.getUserByEmail(email);
+      if (existingUser) {
+        return res.status(400).json({ message: 'User already exists with this email' });
+      }
+
+      // Hash password
+      const bcrypt = require('bcryptjs');
+      const hashedPassword = await bcrypt.hash(password, 12);
+
+      // Create user with email verification required
+      const newUser = await storage.createUser({
+        id: `local_${Date.now()}_${Math.random().toString(36).substring(2)}`,
+        email,
+        firstName: firstName || null,
+        lastName: lastName || null,
+        password: hashedPassword,
+        authProvider: 'local',
+        emailVerified: false, // Requires verification
+      });
+
+      // Generate verification token and code
+      const { token, code } = await storage.generateVerificationToken(newUser.id);
+
+      // Send verification email
+      const { emailService } = await import('./services/emailService');
+      const emailSent = await emailService.sendVerificationEmail({
+        to: email,
+        firstName: firstName || '',
+        verificationCode: code,
+      });
+
+      if (!emailSent) {
+        console.error('Failed to send verification email during registration');
+        // Don't fail registration, user can resend later
+      }
+
+      console.log('✅ User registered successfully, verification email sent:', email);
+      res.status(201).json({
+        message: 'Registration successful. Please check your email for verification code.',
+        requiresVerification: true,
+        userId: newUser.id,
+      });
+    } catch (error) {
+      console.error('Registration error:', error);
+      res.status(500).json({ message: 'Internal server error' });
+    }
+  });
+
+  app.post('/api/auth/verify-email', async (req, res) => {
+    try {
+      const { token } = req.body;
+
+      if (!token) {
+        return res.status(400).json({ message: 'Verification token is required' });
+      }
+
+      const result = await storage.verifyEmailToken(token);
+      
+      if (!result.success) {
+        return res.status(400).json({ message: 'Invalid or expired verification token' });
+      }
+
+      console.log('✅ Email verified successfully for user:', result.userId);
+      res.json({
+        message: 'Email verified successfully',
+        success: true,
+      });
+    } catch (error) {
+      console.error('Email verification error:', error);
+      res.status(500).json({ message: 'Internal server error' });
+    }
+  });
+
+  app.post('/api/auth/resend-verification', async (req, res) => {
+    try {
+      const { email } = req.body;
+
+      if (!email) {
+        return res.status(400).json({ message: 'Email is required' });
+      }
+
+      const user = await storage.getUserByEmail(email);
+      if (!user) {
+        return res.status(404).json({ message: 'User not found' });
+      }
+
+      if (user.emailVerified) {
+        return res.status(400).json({ message: 'Email is already verified' });
+      }
+
+      const result = await storage.resendVerificationCode(user.id);
+      
+      if (!result.success) {
+        if (result.rateLimited) {
+          return res.status(429).json({ 
+            message: 'Please wait 60 seconds before requesting another verification code' 
+          });
+        }
+        return res.status(500).json({ message: 'Failed to send verification email' });
+      }
+
+      console.log('✅ Verification code resent for user:', email);
+      res.json({
+        message: 'Verification code sent successfully',
+        success: true,
+      });
+    } catch (error) {
+      console.error('Resend verification error:', error);
+      res.status(500).json({ message: 'Internal server error' });
+    }
+  });
+
+  app.get('/api/auth/verification-status/:userId', async (req, res) => {
+    try {
+      const { userId } = req.params;
+      const user = await storage.getUser(userId);
+      
+      if (!user) {
+        return res.status(404).json({ message: 'User not found' });
+      }
+
+      res.json({
+        emailVerified: user.emailVerified,
+        email: user.email,
+        authProvider: user.authProvider,
+      });
+    } catch (error) {
+      console.error('Verification status error:', error);
+      res.status(500).json({ message: 'Internal server error' });
+    }
+  });
+
   // Stripe webhook endpoint for handling payment events
   // Note: Raw body parsing is handled in server/index.ts for this route
   app.post('/api/webhook', async (req, res) => {

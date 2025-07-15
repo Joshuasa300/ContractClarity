@@ -77,6 +77,11 @@ export function setupAuth(app: Express) {
             return done(null, false, { message: "Invalid email or password" });
           }
 
+          // Check email verification for local auth users
+          if (user.authProvider === "local" && !user.emailVerified) {
+            return done(null, false, { message: "EMAIL_NOT_VERIFIED" });
+          }
+
           return done(null, user);
         } catch (error) {
           return done(error);
@@ -162,9 +167,10 @@ export function setupAuth(app: Express) {
           if (user) {
             console.log("Google OAuth: Linking Google account to existing email user");
             if (user.authProvider === 'local') {
-              // Link Google account to existing local user
+              // Link Google account to existing local user and mark email as verified
               user = await storage.linkGoogleAccount(user.id, profile.id);
-              console.log("Google OAuth: Successfully linked Google account to existing user");
+              user = await storage.markEmailAsVerified(user.id);
+              console.log("Google OAuth: Successfully linked Google account to existing user and verified email");
               return done(null, user);
             } else if (user.authProvider === 'google' && !user.googleId) {
               // Update existing Google user with missing Google ID
@@ -187,6 +193,7 @@ export function setupAuth(app: Express) {
             authProvider: "google" as const,
             googleId: profile.id,
             password: null,
+            emailVerified: true, // Google users are automatically verified
           };
 
           // Validate user data before creation
