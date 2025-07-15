@@ -173,6 +173,7 @@ Changelog:
 - July 13, 2025. Updated Pro plan support tier from "Premium support" to "Priority support" across all pricing displays for better clarity and consistency in support level naming conventions.
 - July 13, 2025. Made contract-related text bold across all pricing plans by implementing HTML rendering with `<strong>` tags to properly display bold formatting for "contracts" and "contract analyses" text. Updated pricing page, upgrade modal, and home page to use dangerouslySetInnerHTML with regex replacement for markdown-to-HTML conversion.
 - July 13, 2025. Fixed French button overflow issue by changing "Mettre à Niveau Maintenant" to "Passer Pro" (more contextually appropriate for subscription upgrades) and adding proper button styling with whitespace-nowrap and smaller text size. Updated all language files with shorter upgrade button translations and implemented proper translation key usage for upgrade buttons.
+- July 15, 2025. Implemented comprehensive email verification system for enhanced security. Added database schema with emailVerified, verificationToken, verificationTokenExpiry, and verificationCodeSentAt fields. Created EmailVerification, RegistrationForm, and LoginForm components with secure 6-digit verification codes. Enhanced authentication flow with email verification requirements for local users, automatic verification for Google OAuth users, and complete email service integration using nodemailer. Fixed bcrypt ES module import issue for proper password hashing.
 
 ## User Preferences
 

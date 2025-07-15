@@ -10,6 +10,7 @@ import { translationSyncService } from "./services/translationSync";
 import multer from "multer";
 import { z } from "zod";
 import Stripe from "stripe";
+import bcrypt from "bcryptjs";
 // PDF2JSON for reliable PDF text extraction
 import PDFParser from "pdf2json";
 // Mammoth for DOCX text extraction
@@ -991,7 +992,6 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }
 
       // Hash password
-      const bcrypt = require('bcryptjs');
       const hashedPassword = await bcrypt.hash(password, 12);
 
       // Create user with email verification required
@@ -1131,7 +1131,6 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(401).json({ message: 'Invalid email or password' });
       }
 
-      const bcrypt = require('bcryptjs');
       const isValidPassword = await bcrypt.compare(password, user.password);
       if (!isValidPassword) {
         return res.status(401).json({ message: 'Invalid email or password' });
