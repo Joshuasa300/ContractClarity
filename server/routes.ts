@@ -1117,6 +1117,57 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Local authentication login endpoint
+  app.post('/api/auth/login', async (req, res) => {
+    try {
+      const { email, password } = req.body;
+
+      if (!email || !password) {
+        return res.status(400).json({ message: 'Email and password are required' });
+      }
+
+      const user = await storage.getUserByEmail(email);
+      if (!user || !user.password || user.authProvider !== 'local') {
+        return res.status(401).json({ message: 'Invalid email or password' });
+      }
+
+      const bcrypt = require('bcryptjs');
+      const isValidPassword = await bcrypt.compare(password, user.password);
+      if (!isValidPassword) {
+        return res.status(401).json({ message: 'Invalid email or password' });
+      }
+
+      // Check email verification for local auth users
+      if (!user.emailVerified) {
+        return res.status(403).json({ message: 'EMAIL_NOT_VERIFIED' });
+      }
+
+      // Log in the user by creating a session
+      req.login(user, (err) => {
+        if (err) {
+          console.error('Login error:', err);
+          return res.status(500).json({ message: 'Login failed' });
+        }
+        
+        console.log('✅ User logged in successfully:', user.email);
+        res.json({ 
+          success: true, 
+          message: 'Login successful',
+          user: {
+            id: user.id,
+            email: user.email,
+            firstName: user.firstName,
+            lastName: user.lastName,
+            accountStatus: user.accountStatus,
+          }
+        });
+      });
+    } catch (error) {
+      console.error('Login error:', error);
+      res.status(500).json({ message: 'Internal server error' });
+    }
+  });
+
   // Stripe webhook endpoint for handling payment events
   // Note: Raw body parsing is handled in server/index.ts for this route
   app.post('/api/webhook', async (req, res) => {
