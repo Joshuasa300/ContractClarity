@@ -66,6 +66,27 @@ app.use((req, res, next) => {
   // It is the only port that is not firewalled.
   const PORT = parseInt(process.env.PORT || "5000");
 
+  // Setup periodic cleanup of expired pending registrations
+  setInterval(async () => {
+    try {
+      const { storage } = await import('./storage');
+      await storage.cleanupExpiredRegistrations();
+    } catch (error) {
+      console.error('Error cleaning up expired registrations:', error);
+    }
+  }, 60 * 60 * 1000); // Every hour
+
+  // Initial cleanup on startup
+  setTimeout(async () => {
+    try {
+      const { storage } = await import('./storage');
+      await storage.cleanupExpiredRegistrations();
+      log('✅ Initial cleanup of expired registrations completed');
+    } catch (error) {
+      console.error('Error during initial cleanup:', error);
+    }
+  }, 5000); // Wait 5 seconds after startup
+
   const startServer = (port: number) => {
     server.listen({
       port,

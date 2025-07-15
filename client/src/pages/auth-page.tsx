@@ -20,11 +20,10 @@ export default function AuthPage() {
     window.location.href = '/dashboard';
   };
 
-  const handleRegistrationSuccess = (email: string, userId: string) => {
+  const handleRegistrationSuccess = (email: string) => {
     setVerificationEmail(email);
-    setVerificationUserId(userId);
     setMode('verify');
-    setSuccessMessage('Account created successfully! Please check your email for verification.');
+    setSuccessMessage('Registration initiated! Please check your email for a 6-digit verification code.');
   };
 
   const handleEmailNotVerified = (email: string) => {

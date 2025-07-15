@@ -975,7 +975,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Email verification routes
+  // Email verification routes - New approach: only create account after verification
   app.post('/api/auth/register', async (req, res) => {
     try {
       const { email, password, firstName, lastName } = req.body;
@@ -988,32 +988,37 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Check if user already exists
       const existingUser = await storage.getUserByEmail(email);
       if (existingUser) {
-        return res.status(400).json({ message: 'User already exists with this email' });
+        return res.status(400).json({ message: 'Email already registered' });
+      }
+
+      // Check if there's already a pending registration
+      const existingPending = await storage.getPendingRegistration(email);
+      if (existingPending) {
+        // Delete old pending registration to allow new one
+        await storage.deletePendingRegistration(email);
       }
 
       // Hash password
       const hashedPassword = await bcrypt.hash(password, 12);
 
-      // Create user with email verification required
-      const newUser = await storage.createUser({
-        id: `local_${Date.now()}_${Math.random().toString(36).substring(2)}`,
+      // Generate 6-digit verification code
+      const { emailService } = await import('./services/emailService');
+      const verificationCode = emailService.generateVerificationCode();
+
+      // Create pending registration (not actual user yet)
+      const { id, expiresAt } = await storage.createPendingRegistration({
         email,
-        firstName: firstName || null,
-        lastName: lastName || null,
+        firstName: firstName || undefined,
+        lastName: lastName || undefined,
         password: hashedPassword,
-        authProvider: 'local',
-        emailVerified: false, // Requires verification
+        verificationCode,
       });
 
-      // Generate verification token and code
-      const { token, code } = await storage.generateVerificationToken(newUser.id);
-
-      // Send verification email
-      const { emailService } = await import('./services/emailService');
+      // Send verification email with 6-digit code
       const emailSent = await emailService.sendVerificationEmail({
         to: email,
         firstName: firstName || '',
-        verificationCode: code,
+        verificationCode,
       });
 
       if (!emailSent) {
@@ -1021,11 +1026,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
         // Don't fail registration, user can resend later
       }
 
-      console.log('✅ User registered successfully, verification email sent:', email);
+      console.log('✅ Pending registration created, verification email sent:', email);
       res.status(201).json({
-        message: 'Registration successful. Please check your email for verification code.',
+        message: 'Registration initiated. Please check your email for a 6-digit verification code.',
         requiresVerification: true,
-        userId: newUser.id,
+        email: email,
+        expiresAt: expiresAt.toISOString(),
       });
     } catch (error) {
       console.error('Registration error:', error);
@@ -1035,23 +1041,53 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.post('/api/auth/verify-email', async (req, res) => {
     try {
-      const { token } = req.body;
+      const { email, code } = req.body;
 
-      if (!token) {
-        return res.status(400).json({ message: 'Verification token is required' });
+      if (!email || !code) {
+        return res.status(400).json({ message: 'Email and verification code are required' });
       }
 
-      const result = await storage.verifyEmailToken(token);
-      
-      if (!result.success) {
-        return res.status(400).json({ message: 'Invalid or expired verification token' });
-      }
+      // Complete pending registration with 6-digit code
+      const result = await storage.completePendingRegistration(email, code);
 
-      console.log('✅ Email verified successfully for user:', result.userId);
-      res.json({
-        message: 'Email verified successfully',
-        success: true,
-      });
+      if (result.success && result.user) {
+        console.log('✅ Email verified and user created successfully:', email);
+        
+        // Automatically log in the user
+        req.login(result.user, (err) => {
+          if (err) {
+            console.error('Auto-login error after verification:', err);
+            return res.json({
+              message: 'Email verified successfully. Please sign in.',
+              success: true,
+              user: {
+                id: result.user!.id,
+                email: result.user!.email,
+                firstName: result.user!.firstName,
+                lastName: result.user!.lastName,
+              }
+            });
+          }
+          
+          res.json({
+            message: 'Email verified and account created successfully',
+            success: true,
+            autoLogin: true,
+            user: {
+              id: result.user!.id,
+              email: result.user!.email,
+              firstName: result.user!.firstName,
+              lastName: result.user!.lastName,
+              accountStatus: result.user!.accountStatus,
+            }
+          });
+        });
+      } else {
+        res.status(400).json({
+          message: 'Invalid or expired verification code',
+          success: false,
+        });
+      }
     } catch (error) {
       console.error('Email verification error:', error);
       res.status(500).json({ message: 'Internal server error' });
@@ -1066,29 +1102,54 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ message: 'Email is required' });
       }
 
-      const user = await storage.getUserByEmail(email);
-      if (!user) {
-        return res.status(404).json({ message: 'User not found' });
+      // Check if user already exists (email already verified)
+      const existingUser = await storage.getUserByEmail(email);
+      if (existingUser) {
+        return res.status(400).json({ message: 'Email is already registered and verified' });
       }
 
-      if (user.emailVerified) {
-        return res.status(400).json({ message: 'Email is already verified' });
+      // Check for pending registration
+      const pendingReg = await storage.getPendingRegistration(email);
+      if (!pendingReg) {
+        return res.status(404).json({ message: 'No pending registration found for this email' });
       }
 
-      const result = await storage.resendVerificationCode(user.id);
-      
-      if (!result.success) {
-        if (result.rateLimited) {
-          return res.status(429).json({ 
-            message: 'Please wait 60 seconds before requesting another verification code' 
-          });
-        }
+      // Check rate limiting - only allow resend if created more than 60 seconds ago
+      const timeSinceCreation = Date.now() - pendingReg.createdAt.getTime();
+      if (timeSinceCreation < 60 * 1000) {
+        return res.status(429).json({ 
+          message: 'Please wait 60 seconds before requesting another verification code' 
+        });
+      }
+
+      // Generate new verification code
+      const { emailService } = await import('./services/emailService');
+      const newVerificationCode = emailService.generateVerificationCode();
+
+      // Update pending registration with new code
+      await storage.deletePendingRegistration(email);
+      await storage.createPendingRegistration({
+        email: pendingReg.email,
+        firstName: pendingReg.firstName || undefined,
+        lastName: pendingReg.lastName || undefined,
+        password: pendingReg.password, // Already hashed
+        verificationCode: newVerificationCode,
+      });
+
+      // Send new verification email
+      const emailSent = await emailService.sendVerificationEmail({
+        to: email,
+        firstName: pendingReg.firstName || '',
+        verificationCode: newVerificationCode,
+      });
+
+      if (!emailSent) {
         return res.status(500).json({ message: 'Failed to send verification email' });
       }
 
-      console.log('✅ Verification code resent for user:', email);
+      console.log('✅ Verification code resent for pending registration:', email);
       res.json({
-        message: 'Verification code sent successfully',
+        message: 'New verification code sent successfully',
         success: true,
       });
     } catch (error) {

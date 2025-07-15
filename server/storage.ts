@@ -5,6 +5,7 @@ import {
   clauseLibrary,
   usageLogs,
   planLimits,
+  pendingRegistrations,
   type User,
   type UpsertUser,
   type Contract,
@@ -16,6 +17,8 @@ import {
   type UsageLog,
   type InsertUsageLog,
   type PlanLimit,
+  type PendingRegistration,
+  type InsertPendingRegistration,
 } from "@shared/schema";
 import { db } from "./db";
 import { eq, desc, ilike, or, and, gte, sum, sql } from "drizzle-orm";
@@ -45,6 +48,20 @@ export interface IStorage {
   markEmailAsVerified(userId: string): Promise<User>;
   isEmailVerified(userId: string): Promise<boolean>;
   getUserByVerificationToken(token: string): Promise<User | undefined>;
+  
+  // Pending registration operations
+  createPendingRegistration(registration: {
+    email: string;
+    firstName?: string;
+    lastName?: string;
+    password: string;
+    verificationCode: string;
+  }): Promise<{ id: string; expiresAt: Date }>;
+  getPendingRegistration(email: string): Promise<PendingRegistration | undefined>;
+  getPendingRegistrationByCode(email: string, code: string): Promise<PendingRegistration | undefined>;
+  completePendingRegistration(email: string, code: string): Promise<{ success: boolean; user?: User }>;
+  deletePendingRegistration(email: string): Promise<void>;
+  cleanupExpiredRegistrations(): Promise<void>;
   
   // Subscription operations
   updateUserSubscription(
@@ -747,6 +764,100 @@ export class DatabaseStorage implements IStorage {
     });
 
     return { monthly, daily, byOperation };
+  }
+
+  // Pending registration methods
+  async createPendingRegistration(registration: {
+    email: string;
+    firstName?: string;
+    lastName?: string;
+    password: string;
+    verificationCode: string;
+  }): Promise<{ id: string; expiresAt: Date }> {
+    const id = `pending_${Date.now()}_${Math.random().toString(36).substring(2)}`;
+    const expiresAt = new Date(Date.now() + 24 * 60 * 60 * 1000); // 24 hours
+
+    await db.insert(pendingRegistrations).values({
+      id,
+      email: registration.email,
+      firstName: registration.firstName || null,
+      lastName: registration.lastName || null,
+      password: registration.password,
+      verificationCode: registration.verificationCode,
+      expiresAt,
+    });
+
+    console.log('✅ Created pending registration:', registration.email);
+    return { id, expiresAt };
+  }
+
+  async getPendingRegistration(email: string): Promise<PendingRegistration | undefined> {
+    const results = await db
+      .select()
+      .from(pendingRegistrations)
+      .where(eq(pendingRegistrations.email, email))
+      .limit(1);
+
+    return results[0];
+  }
+
+  async getPendingRegistrationByCode(email: string, code: string): Promise<PendingRegistration | undefined> {
+    const results = await db
+      .select()
+      .from(pendingRegistrations)
+      .where(
+        and(
+          eq(pendingRegistrations.email, email),
+          eq(pendingRegistrations.verificationCode, code)
+        )
+      )
+      .limit(1);
+
+    return results[0];
+  }
+
+  async completePendingRegistration(email: string, code: string): Promise<{ success: boolean; user?: User }> {
+    const pendingReg = await this.getPendingRegistrationByCode(email, code);
+    
+    if (!pendingReg) {
+      return { success: false };
+    }
+
+    // Check if expired
+    if (new Date() > pendingReg.expiresAt) {
+      await this.deletePendingRegistration(email);
+      return { success: false };
+    }
+
+    // Create the actual user account
+    const user = await this.createUser({
+      id: `local_${Date.now()}_${Math.random().toString(36).substring(2)}`,
+      email: pendingReg.email,
+      firstName: pendingReg.firstName,
+      lastName: pendingReg.lastName,
+      password: pendingReg.password,
+      authProvider: 'local',
+      emailVerified: true, // Account is verified since they completed email verification
+    });
+
+    // Delete pending registration
+    await this.deletePendingRegistration(email);
+
+    console.log('✅ Completed pending registration and created user:', email);
+    return { success: true, user };
+  }
+
+  async deletePendingRegistration(email: string): Promise<void> {
+    await db
+      .delete(pendingRegistrations)
+      .where(eq(pendingRegistrations.email, email));
+  }
+
+  async cleanupExpiredRegistrations(): Promise<void> {
+    const now = new Date();
+    await db
+      .delete(pendingRegistrations)
+      .where(sql`${pendingRegistrations.expiresAt} < ${now}`);
   }
 }
 

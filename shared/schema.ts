@@ -121,6 +121,18 @@ export const planLimits = pgTable("plan_limits", {
   updatedAt: timestamp("updated_at").defaultNow(),
 });
 
+// Pending registrations table - stores registration data until email verification
+export const pendingRegistrations = pgTable("pending_registrations", {
+  id: varchar("id", { length: 100 }).primaryKey(),
+  email: varchar("email", { length: 255 }).notNull().unique(),
+  firstName: varchar("first_name", { length: 100 }),
+  lastName: varchar("last_name", { length: 100 }),
+  password: varchar("password", { length: 255 }).notNull(),
+  verificationCode: varchar("verification_code", { length: 6 }).notNull(),
+  expiresAt: timestamp("expires_at").notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
 // Relations
 export const userRelations = relations(users, ({ many }) => ({
   contracts: many(contracts),
@@ -205,6 +217,9 @@ export type InsertUsageLog = typeof usageLogs.$inferInsert;
 
 export type PlanLimit = typeof planLimits.$inferSelect;
 export type InsertPlanLimit = typeof planLimits.$inferInsert;
+
+export type PendingRegistration = typeof pendingRegistrations.$inferSelect;
+export type InsertPendingRegistration = typeof pendingRegistrations.$inferInsert;
 
 export interface TemplateVariable {
   name: string;

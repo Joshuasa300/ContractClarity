@@ -7,7 +7,7 @@ import { Label } from '@/components/ui/label';
 import { Eye, EyeOff, AlertCircle, Mail } from 'lucide-react';
 
 interface RegistrationFormProps {
-  onRegistrationSuccess: (email: string, userId: string) => void;
+  onRegistrationSuccess: (email: string) => void;
   onSwitchToLogin: () => void;
 }
 
@@ -77,7 +77,7 @@ export default function RegistrationForm({
       const data = await response.json();
 
       if (response.ok && data.requiresVerification) {
-        onRegistrationSuccess(formData.email, data.userId);
+        onRegistrationSuccess(formData.email);
       } else {
         setError(data.message || 'Registration failed');
       }

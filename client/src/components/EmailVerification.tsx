@@ -39,16 +39,21 @@ export default function EmailVerification({
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ token: verificationCode }),
+        body: JSON.stringify({ email, code: verificationCode }),
       });
 
       const data = await response.json();
 
       if (response.ok && data.success) {
         setSuccess(true);
-        setTimeout(() => {
-          onVerificationSuccess();
-        }, 1500);
+        // If auto-login successful, redirect immediately
+        if (data.autoLogin) {
+          window.location.href = '/dashboard';
+        } else {
+          setTimeout(() => {
+            onVerificationSuccess();
+          }, 1500);
+        }
       } else {
         setError(data.message || 'Verification failed');
       }
