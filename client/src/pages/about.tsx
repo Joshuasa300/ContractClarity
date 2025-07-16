@@ -66,7 +66,7 @@ export default function About() {
         onGetStarted={handleGetStarted} 
         onSignUp={handleSignUp}
       />
-      
+
       {/* Hero Section */}
       <section className="container mx-auto px-4 py-16 text-center">
           <div className="max-w-4xl mx-auto">
@@ -177,36 +177,7 @@ export default function About() {
         </section>
 
         {/* Team Section */}
-        <section className="container mx-auto px-4 py-16">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Meet Our Team</h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Led by industry experts with deep experience in legal technology and artificial intelligence.
-            </p>
-          </div>
-
-          <div className="max-w-4xl mx-auto">
-            <div className="grid md:grid-cols-1 gap-8 justify-center">
-              {team.map((member, index) => (
-                <Card key={index} className="text-center border-0 shadow-lg max-w-md mx-auto">
-                  <CardHeader>
-                    <div className="w-24 h-24 bg-gradient-to-r from-blue-100 to-purple-100 rounded-full mx-auto mb-4 flex items-center justify-center">
-                      <Users className="h-12 w-12 text-purple-600" />
-                    </div>
-                    <CardTitle className="text-2xl">{member.name}</CardTitle>
-                    <CardDescription className="text-purple-600 font-medium text-lg">
-                      {member.role}
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <p className="text-gray-600 leading-relaxed">{member.description}</p>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          </div>
-        </section>
-
+        
         {/* CTA Section */}
         <section className="bg-gradient-to-br from-blue-600 via-purple-600 to-indigo-700 text-white py-16 relative overflow-hidden">
           <div className="absolute inset-0 bg-black/20"></div>
