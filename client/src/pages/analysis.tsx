@@ -23,6 +23,7 @@ import {
 } from "lucide-react";
 import AnalysisResults from "@/components/AnalysisResults";
 import type { Contract } from "@shared/schema";
+import { ChangesFooter } from "@/components/ChangesFooter";
 
 export default function Analysis() {
   const { toast } = useToast();
@@ -67,7 +68,7 @@ export default function Analysis() {
 
   const handleDownloadReport = () => {
     if (!contract) return;
-    
+
     const reportData = {
       contractName: contract.fileName,
       analysisDate: new Date().toLocaleDateString(),
@@ -76,7 +77,7 @@ export default function Analysis() {
       keyTerms: contract.keyTerms,
       recommendations: contract.recommendations,
     };
-    
+
     const blob = new Blob([JSON.stringify(reportData, null, 2)], { 
       type: 'application/json' 
     });
@@ -92,7 +93,7 @@ export default function Analysis() {
 
   const handleDownloadContract = () => {
     if (!contract) return;
-    
+
     const blob = new Blob([contract.fileContent], { 
       type: 'text/plain' 
     });
@@ -191,7 +192,7 @@ export default function Analysis() {
                 </div>
               </div>
             </div>
-            
+
             <div className="flex items-center space-x-2">
               {contract.templateId ? (
                 <Button variant="outline" size="sm" onClick={handleDownloadContract}>
@@ -274,6 +275,7 @@ export default function Analysis() {
           <AnalysisResults contract={contract} />
         )}
       </div>
+      <ChangesFooter />
     </div>
   );
 }
