@@ -39,6 +39,19 @@ export function SocialFooter() {
             </a>
           </div>
           
+          {/* Legal Links */}
+          <div className="flex items-center space-x-6 text-sm text-gray-600 dark:text-gray-400">
+            <a href="/privacy-policy" className="hover:text-purple-600 dark:hover:text-purple-400 transition-colors">
+              Privacy Policy
+            </a>
+            <a href="/terms-of-service" className="hover:text-purple-600 dark:hover:text-purple-400 transition-colors">
+              Terms of Service
+            </a>
+            <a href="/support" className="hover:text-purple-600 dark:hover:text-purple-400 transition-colors">
+              Support
+            </a>
+          </div>
+          
           {/* Copyright */}
           <div className="text-center text-sm text-gray-600 dark:text-gray-400">
             <p>&copy; 2025 Contract Clarity. All rights reserved.</p>

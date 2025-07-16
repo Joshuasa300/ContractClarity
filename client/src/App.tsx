@@ -17,6 +17,8 @@ import Features from "@/pages/features";
 import Pricing from "@/pages/pricing";
 import About from "@/pages/about";
 import Support from "@/pages/support";
+import PrivacyPolicy from "@/pages/privacy-policy";
+import TermsOfService from "@/pages/terms-of-service";
 import Checkout from "@/pages/checkout";
 import SubscriptionSuccess from "@/pages/subscription-success";
 import PageLimitsDemo from "@/pages/PageLimitsDemo";
@@ -52,6 +54,8 @@ function Router() {
       <Route path="/pricing" component={Pricing} />
       <Route path="/about" component={About} />
       <Route path="/support" component={Support} />
+      <Route path="/privacy-policy" component={PrivacyPolicy} />
+      <Route path="/terms-of-service" component={TermsOfService} />
       <Route path="/auth" component={AuthPage} />
       <Route path="/checkout" component={Checkout} />
       <Route path="/subscription-success" component={SubscriptionSuccess} />

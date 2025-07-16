@@ -215,7 +215,7 @@ export default function Landing() {
                 <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg flex items-center justify-center mr-3">
                   <FileText className="h-6 w-6 text-white" />
                 </div>
-                <span className="text-2xl font-bold">ContractAI</span>
+                <span className="text-2xl font-bold">Contract Clarity</span>
               </div>
               <p className="text-gray-400 mb-6 max-w-md text-lg">
                 Revolutionizing contract analysis with AI-powered insights. Making legal documents accessible to everyone.
@@ -246,16 +246,16 @@ export default function Landing() {
             <div>
               <h4 className="font-semibold mb-6 text-lg">Support</h4>
               <ul className="space-y-3 text-gray-400">
-                <li><a href="#" className="hover:text-white transition-colors">Help Center</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">Contact Us</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">Privacy Policy</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">Terms of Service</a></li>
+                <li><a href="/support" className="hover:text-white transition-colors">Help Center</a></li>
+                <li><a href="/support" className="hover:text-white transition-colors">Contact Us</a></li>
+                <li><a href="/privacy-policy" className="hover:text-white transition-colors">Privacy Policy</a></li>
+                <li><a href="/terms-of-service" className="hover:text-white transition-colors">Terms of Service</a></li>
               </ul>
             </div>
           </div>
           
           <div className="border-t border-gray-800 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center text-gray-400">
-            <p>&copy; 2025 ContractAI. All rights reserved.</p>
+            <p>&copy; 2025 Contract Clarity. All rights reserved.</p>
             <p className="mt-4 md:mt-0">Made with ❤️ for better contracts</p>
           </div>
         </div>
