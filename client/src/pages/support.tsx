@@ -242,7 +242,7 @@ export default function Support() {
                     <div className="flex items-center gap-2">
                       <Mail className="h-4 w-4 text-gray-500" />
                       <span className="text-gray-600 dark:text-gray-300">
-                        support@contractclarity.co.uk
+                        info@contractclarity.co.uk
                       </span>
                     </div>
                     <div className="flex items-start gap-2">
