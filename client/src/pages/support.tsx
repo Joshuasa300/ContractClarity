@@ -290,18 +290,7 @@ export default function Support() {
             </Card>
           </div>
 
-          {/* FAQ Link */}
-          <div className="text-center mt-16">
-            <h3 className="text-xl font-semibold text-gray-900 mb-4">
-              Looking for quick answers?
-            </h3>
-            <p className="text-gray-600 mb-6">
-              Check our frequently asked questions for immediate help.
-            </p>
-            <Button variant="outline" className="border-purple-600 text-purple-600 hover:bg-purple-50">
-              Browse FAQ
-            </Button>
-          </div>
+
         </div>
       </div>
 
