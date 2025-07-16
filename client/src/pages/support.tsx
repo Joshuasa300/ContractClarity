@@ -63,7 +63,8 @@ export default function Support() {
 
       toast({
         title: "Message Sent Successfully!",
-        description: "We've received your message and will respond within 24 hours.",
+        description: "We've received your message and will respond within 24 hours at info@contractclarity.co.uk",
+        duration: 5000,
       });
 
       // Reset form
@@ -77,7 +78,8 @@ export default function Support() {
       toast({
         title: "Failed to Send Message",
         description: "Please try again or contact us directly at info@contractclarity.co.uk",
-        variant: "destructive"
+        variant: "destructive",
+        duration: 5000,
       });
     } finally {
       setIsSubmitting(false);
