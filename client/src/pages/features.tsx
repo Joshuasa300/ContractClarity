@@ -150,7 +150,7 @@ export default function Features() {
   ];
 
   const supportedLanguages = [
-    { code: 'en', name: 'English', flag: '🇺🇸' },
+    { code: 'en', name: 'English', flag: '🇬🇧' },
     { code: 'es', name: 'Español', flag: '🇪🇸' },
     { code: 'fr', name: 'Français', flag: '🇫🇷' },
     { code: 'de', name: 'Deutsch', flag: '🇩🇪' },
@@ -309,11 +309,9 @@ export default function Features() {
             {supportedLanguages.map((lang, index) => (
               <Card key={index} className="bg-white/10 backdrop-blur-sm border-white/20 hover:bg-white/20 transition-colors">
                 <CardContent className="p-6 text-center">
-                  <div className="text-4xl mb-3">{lang.flag}</div>
+                  <div className="text-6xl mb-3">{lang.flag}</div>
                   <h3 className="text-lg font-semibold text-white mb-1">{lang.name}</h3>
-                  <Badge variant="secondary" className="bg-white/20 text-white border-white/30">
-                    {lang.code.toUpperCase()}
-                  </Badge>
+                  <div className="text-4xl mt-2">{lang.flag}</div>
                 </CardContent>
               </Card>
             ))}
