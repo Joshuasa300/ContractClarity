@@ -17,6 +17,14 @@ export interface VerificationEmailData {
   verificationCode: string;
 }
 
+export interface SupportEmailData {
+  to: string;
+  from: string;
+  fromName: string;
+  subject: string;
+  message: string;
+}
+
 class EmailService {
   private transporter: nodemailer.Transporter | null = null;
 
@@ -227,6 +235,154 @@ Need help? Contact our support team or visit our help center.
 
 © 2025 Contract Clarity. All rights reserved.
     `.trim();
+  }
+
+  /**
+   * Send support contact email
+   */
+  async sendSupportEmail({ to, from, fromName, subject, message }: SupportEmailData): Promise<boolean> {
+    if (!this.transporter) {
+      console.error('Email service not initialized');
+      return false;
+    }
+
+    try {
+      const emailSubject = `[Contact Form] ${subject}`;
+      const htmlContent = this.getSupportEmailTemplate(fromName, from, subject, message);
+      const textContent = this.getSupportEmailText(fromName, from, subject, message);
+
+      await this.transporter.sendMail({
+        from: process.env.EMAIL_USER, // Send from our configured email
+        to: to,
+        replyTo: from, // Allow replying directly to the user
+        subject: emailSubject,
+        text: textContent,
+        html: htmlContent,
+      });
+
+      console.log(`Support email sent successfully to ${to} from ${fromName} (${from})`);
+      return true;
+    } catch (error) {
+      console.error('Failed to send support email:', error);
+      return false;
+    }
+  }
+
+  /**
+   * Get HTML template for support email
+   */
+  private getSupportEmailTemplate(fromName: string, fromEmail: string, subject: string, message: string): string {
+    return `
+      <!DOCTYPE html>
+      <html>
+      <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Contact Form Submission</title>
+        <style>
+          body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f8fafc;
+          }
+          .container {
+            background: white;
+            border-radius: 12px;
+            padding: 40px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07);
+          }
+          .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #e5e7eb;
+          }
+          .logo h1 {
+            margin: 0;
+            color: #6366f1;
+            font-size: 28px;
+            font-weight: bold;
+          }
+          .contact-info {
+            background: #f3f4f6;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+          }
+          .contact-info h3 {
+            margin-top: 0;
+            color: #374151;
+          }
+          .message-content {
+            background: #fafafa;
+            border-left: 4px solid #6366f1;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+          }
+          .footer {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #e5e7eb;
+            color: #6b7280;
+            font-size: 14px;
+          }
+        </style>
+      </head>
+      <body>
+        <div class="container">
+          <div class="header">
+            <div class="logo">
+              <h1>Contract Clarity</h1>
+            </div>
+            <h2>New Contact Form Submission</h2>
+          </div>
+          
+          <div class="contact-info">
+            <h3>Contact Information</h3>
+            <p><strong>Name:</strong> ${fromName}</p>
+            <p><strong>Email:</strong> ${fromEmail}</p>
+            <p><strong>Subject:</strong> ${subject}</p>
+          </div>
+          
+          <div class="message-content">
+            <h3>Message</h3>
+            <p>${message.replace(/\n/g, '<br>')}</p>
+          </div>
+          
+          <div class="footer">
+            <p>This email was sent from the Contract Clarity contact form.</p>
+            <p>© 2025 Contract Clarity. All rights reserved.</p>
+          </div>
+        </div>
+      </body>
+      </html>
+    `;
+  }
+
+  /**
+   * Get plain text version for support email
+   */
+  private getSupportEmailText(fromName: string, fromEmail: string, subject: string, message: string): string {
+    return `
+NEW CONTACT FORM SUBMISSION - Contract Clarity
+
+Contact Information:
+Name: ${fromName}
+Email: ${fromEmail}
+Subject: ${subject}
+
+Message:
+${message}
+
+---
+This email was sent from the Contract Clarity contact form.
+`;
   }
 
   /**

@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { FileText, Brain, Shield, Clock, Upload, Play, Sparkles, Zap, Globe } from "lucide-react";
 import { useLocation } from "wouter";
 import Navigation from "@/components/Navigation";
+import { SocialFooter } from "@/components/SocialFooter";
 import { useLanguage } from "@/lib/i18n";
 import { AuroraBackground } from "@/components/ui/aurora-background";
 import { motion } from "framer-motion";
@@ -259,6 +260,8 @@ export default function Landing() {
           </div>
         </div>
       </footer>
+      
+      <SocialFooter />
     </div>
   );
 }

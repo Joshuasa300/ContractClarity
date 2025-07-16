@@ -23,6 +23,7 @@ import { useState } from "react";
 import { Link } from "wouter";
 import ContractUpload from "@/components/ContractUpload";
 import Header from "@/components/Header";
+import { SocialFooter } from "@/components/SocialFooter";
 
 import type { Contract, User } from "@shared/schema";
 
@@ -746,6 +747,8 @@ export default function Home() {
           </div>
         </DialogContent>
       </Dialog>
+      
+      <SocialFooter />
     </div>
   );
 }

@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { useLanguage } from '@/lib/i18n';
 import Navigation from '@/components/Navigation';
+import { SocialFooter } from '@/components/SocialFooter';
 import { Link, useLocation } from 'wouter';
 
 export default function About() {
@@ -204,6 +205,8 @@ export default function About() {
             </div>
           </div>
         </section>
+        
+        <SocialFooter />
     </div>
   );
 }
