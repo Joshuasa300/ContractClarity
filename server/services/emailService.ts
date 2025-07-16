@@ -26,10 +26,10 @@ class EmailService {
 
   private initializeTransporter() {
     // Configure email service based on environment variables
-    const emailHost = process.env.EMAIL_HOST;
-    const emailPort = process.env.EMAIL_PORT;
-    const emailUser = process.env.EMAIL_USER;
-    const emailPass = process.env.EMAIL_PASS;
+    const emailHost = process.env.EMAIL_HOST?.trim();
+    const emailPort = process.env.EMAIL_PORT?.trim();
+    const emailUser = process.env.EMAIL_USER?.trim();
+    const emailPass = process.env.EMAIL_PASS?.trim();
 
     if (!emailHost || !emailPort || !emailUser || !emailPass) {
       console.warn('Email service not configured. Set EMAIL_HOST, EMAIL_PORT, EMAIL_USER, EMAIL_PASS environment variables.');
