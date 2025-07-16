@@ -220,17 +220,6 @@ export default function Landing() {
               <p className="text-gray-400 mb-6 max-w-md text-lg">
                 Revolutionizing contract analysis with AI-powered insights. Making legal documents accessible to everyone.
               </p>
-              <div className="flex space-x-4">
-                <div className="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-gray-700 transition-colors cursor-pointer">
-                  <span className="text-sm font-semibold">Li</span>
-                </div>
-                <div className="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-gray-700 transition-colors cursor-pointer">
-                  <span className="text-sm font-semibold">Tw</span>
-                </div>
-                <div className="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-gray-700 transition-colors cursor-pointer">
-                  <span className="text-sm font-semibold">Gh</span>
-                </div>
-              </div>
             </div>
             
             <div>
