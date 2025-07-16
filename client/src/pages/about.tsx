@@ -45,11 +45,12 @@ export default function About() {
     }
   ];
 
-  const stats = [
+  const mainStats = [
     { number: "5", label: "Languages Supported" },
-    { number: "99.9%", label: "Uptime Guarantee" },
-    { number: "24/7", label: "Customer Support" }
+    { number: "99.9%", label: "Uptime Guarantee" }
   ];
+
+  const supportStat = { number: "24/7", label: "Customer Support" };
 
   const team = [
     {
@@ -95,13 +96,17 @@ export default function About() {
         {/* Stats Section */}
         <section className="bg-gradient-to-r from-blue-600 to-purple-600 text-white py-16">
           <div className="container mx-auto px-4">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-              {stats.map((stat, index) => (
+            <div className="grid grid-cols-2 gap-8 text-center mb-8">
+              {mainStats.map((stat, index) => (
                 <div key={index}>
                   <div className="text-3xl md:text-4xl font-bold mb-2">{stat.number}</div>
                   <div className="text-blue-100">{stat.label}</div>
                 </div>
               ))}
+            </div>
+            <div className="text-center">
+              <div className="text-3xl md:text-4xl font-bold mb-2">{supportStat.number}</div>
+              <div className="text-blue-100">{supportStat.label}</div>
             </div>
           </div>
         </section>
