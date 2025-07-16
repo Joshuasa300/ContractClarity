@@ -53,14 +53,50 @@ app.use((req, res, next) => {
 
 (async () => {
   // Add support contact route before any middleware that might interfere
-  app.post("/api/support/contact", (req, res) => {
-    console.log("Support contact request received - basic route working");
-    
-    // For now, just return success to confirm the route is working
-    // Email functionality will be added once route is confirmed working
-    res.json({ 
-      message: "Support message received. We'll get back to you within 24 hours at info@contractclarity.co.uk" 
-    });
+  app.post("/api/support/contact", async (req, res) => {
+    try {
+      console.log("Support contact request received:", req.body);
+      const { name, email, subject, message } = req.body;
+
+      if (!name || !email || !subject || !message) {
+        console.log("Missing required fields:", { name: !!name, email: !!email, subject: !!subject, message: !!message });
+        return res.status(400).json({ 
+          message: "All fields are required" 
+        });
+      }
+
+      console.log("Attempting to send support email...");
+      
+      // Import email service here to avoid circular dependencies
+      const { emailService } = await import('./services/emailService');
+      
+      // Send email to support team
+      const emailSent = await emailService.sendSupportEmail({
+        from: email,
+        fromName: name,
+        subject: subject,
+        message: message,
+        to: "info@contractclarity.co.uk"
+      });
+
+      console.log("Email sent result:", emailSent);
+
+      if (!emailSent) {
+        return res.status(500).json({ 
+          message: "Failed to send support email" 
+        });
+      }
+
+      res.json({ 
+        message: "Support email sent successfully" 
+      });
+    } catch (error) {
+      console.error("Support contact error details:", error);
+      console.error("Error stack:", error instanceof Error ? error.stack : 'No stack trace');
+      res.status(500).json({ 
+        message: "Internal server error" 
+      });
+    }
   });
 
   const server = await registerRoutes(app);
