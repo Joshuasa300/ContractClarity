@@ -22,126 +22,90 @@ export default function PrivacyPolicy() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-white">
       <Navigation onSignIn={handleSignIn} onGetStarted={handleGetStarted} onSignUp={handleSignUp} />
       
       <div className="pt-24 pb-16">
-        <div className="container mx-auto px-4 max-w-4xl">
+        <div className="container mx-auto px-4 max-w-6xl">
           {/* Header */}
           <div className="text-center mb-12">
-            <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+            <h1 className="text-3xl font-bold text-black mb-4">
               Privacy Policy
             </h1>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Your privacy and data security are our top priorities. This policy explains how we collect, use, and protect your information.
+            <p className="text-sm text-gray-700 max-w-5xl mx-auto leading-relaxed">
+              Your privacy and data security are our top priorities. This policy explains how we collect, use, and protect your information when you use Contract Clarity services.
             </p>
-            <div className="mt-6 text-sm text-gray-500">
+            <div className="mt-4 text-xs text-gray-600">
               Last updated: January 16, 2025
             </div>
           </div>
 
           {/* Important Notice */}
-          <Card className="mb-8 border-amber-200 bg-amber-50">
-            <CardHeader>
-              <div className="flex items-center gap-3">
-                <AlertTriangle className="h-6 w-6 text-amber-600" />
-                <CardTitle className="text-amber-800">Important Legal Notice</CardTitle>
-              </div>
-            </CardHeader>
-            <CardContent>
-              <p className="text-amber-700 font-medium">
-                Contract Clarity is a technology tool designed to assist with contract analysis. It is NOT a replacement for professional legal advice. 
-                Always consult with a qualified attorney for legal matters and thoroughly read and understand all contracts before signing. 
-                Our analysis is for informational purposes only and should not be relied upon as legal counsel.
-              </p>
-            </CardContent>
-          </Card>
+          <div className="mb-8 border border-gray-400 bg-gray-100 p-6">
+            <div className="flex items-center gap-3 mb-3">
+              <AlertTriangle className="h-5 w-5 text-gray-700" />
+              <h3 className="font-bold text-gray-900 text-sm">Important Legal Notice</h3>
+            </div>
+            <p className="text-xs text-gray-800 leading-relaxed">
+              Contract Clarity is a technology tool designed to assist with contract analysis. It is NOT a replacement for professional legal advice. Always consult with a qualified attorney for legal matters and thoroughly read and understand all contracts before signing. Our analysis is for informational purposes only and should not be relied upon as legal counsel.
+            </p>
+          </div>
 
           {/* Content Sections */}
-          <div className="space-y-8">
+          <div className="space-y-6">
             {/* Information We Collect */}
-            <Card>
-              <CardHeader>
-                <div className="flex items-center gap-3">
-                  <Database className="h-6 w-6 text-purple-600" />
-                  <CardTitle>Information We Collect</CardTitle>
-                </div>
-              </CardHeader>
-              <CardContent className="space-y-4">
+            <div className="border border-gray-300 mb-6">
+              <div className="bg-gray-50 p-4 border-b border-gray-300">
+                <h3 className="font-bold text-black text-sm flex items-center gap-2">
+                  <Database className="h-4 w-4 text-gray-700" />
+                  Information We Collect
+                </h3>
+              </div>
+              <div className="p-4 space-y-4">
                 <div>
-                  <h4 className="font-semibold text-gray-900 mb-2">Personal Information</h4>
-                  <ul className="text-gray-600 space-y-1 ml-4">
-                    <li>• Name and email address (when you create an account)</li>
-                    <li>• Payment information (processed securely through Stripe)</li>
-                    <li>• Profile information you choose to provide</li>
-                  </ul>
+                  <h4 className="font-semibold text-black mb-2 text-xs">Personal Information</h4>
+                  <p className="text-xs text-gray-800 leading-relaxed">Name and email address when you create an account; payment information processed securely through Stripe; profile information you choose to provide including preferences and settings.</p>
                 </div>
                 <div>
-                  <h4 className="font-semibold text-gray-900 mb-2">Contract Data</h4>
-                  <ul className="text-gray-600 space-y-1 ml-4">
-                    <li>• Contract documents you upload for analysis</li>
-                    <li>• Analysis results and generated summaries</li>
-                    <li>• Usage patterns and feature interactions</li>
-                  </ul>
+                  <h4 className="font-semibold text-black mb-2 text-xs">Contract Data</h4>
+                  <p className="text-xs text-gray-800 leading-relaxed">Contract documents you upload for analysis; analysis results and generated summaries; usage patterns and feature interactions; document metadata and processing history.</p>
                 </div>
                 <div>
-                  <h4 className="font-semibold text-gray-900 mb-2">Technical Information</h4>
-                  <ul className="text-gray-600 space-y-1 ml-4">
-                    <li>• IP address and browser information</li>
-                    <li>• Device type and operating system</li>
-                    <li>• Usage analytics and performance metrics</li>
-                  </ul>
+                  <h4 className="font-semibold text-black mb-2 text-xs">Technical Information</h4>
+                  <p className="text-xs text-gray-800 leading-relaxed">IP address and browser information; device type and operating system; usage analytics and performance metrics; session data and authentication tokens; error logs and diagnostic information.</p>
                 </div>
-              </CardContent>
-            </Card>
+              </div>
+            </div>
 
             {/* How We Use Your Information */}
-            <Card>
-              <CardHeader>
-                <div className="flex items-center gap-3">
-                  <Eye className="h-6 w-6 text-purple-600" />
-                  <CardTitle>How We Use Your Information</CardTitle>
-                </div>
-              </CardHeader>
-              <CardContent>
-                <ul className="text-gray-600 space-y-2">
-                  <li>• <strong>Service Provision:</strong> To analyze your contracts and provide AI-powered insights</li>
-                  <li>• <strong>Account Management:</strong> To create and maintain your user account</li>
-                  <li>• <strong>Payment Processing:</strong> To handle subscription billing and payments</li>
-                  <li>• <strong>Communication:</strong> To send important service updates and respond to support requests</li>
-                  <li>• <strong>Improvement:</strong> To enhance our AI models and platform features (using anonymized data)</li>
-                  <li>• <strong>Security:</strong> To protect against fraud and ensure platform security</li>
-                </ul>
-              </CardContent>
-            </Card>
+            <div className="border border-gray-300 mb-6">
+              <div className="bg-gray-50 p-4 border-b border-gray-300">
+                <h3 className="font-bold text-black text-sm flex items-center gap-2">
+                  <Eye className="h-4 w-4 text-gray-700" />
+                  How We Use Your Information
+                </h3>
+              </div>
+              <div className="p-4">
+                <p className="text-xs text-gray-800 leading-relaxed">
+                  Service Provision: To analyze your contracts and provide AI-powered insights including summaries, risk assessments, and recommendations. Account Management: To create and maintain your user account, manage preferences, and provide personalized experiences. Payment Processing: To handle subscription billing and payments through our secure payment processor. Communication: To send important service updates, respond to support requests, and provide customer assistance. Improvement: To enhance our AI models and platform features using anonymized and aggregated data that cannot be traced back to individual users. Security: To protect against fraud, unauthorized access, and ensure platform security through monitoring and detection systems.
+                </p>
+              </div>
+            </div>
 
             {/* Data Security */}
-            <Card>
-              <CardHeader>
-                <div className="flex items-center gap-3">
-                  <Lock className="h-6 w-6 text-purple-600" />
-                  <CardTitle>Data Security & Protection</CardTitle>
-                </div>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div>
-                  <h4 className="font-semibold text-gray-900 mb-2">Encryption</h4>
-                  <p className="text-gray-600">All data is encrypted in transit using TLS 1.3 and at rest using AES-256 encryption.</p>
-                </div>
-                <div>
-                  <h4 className="font-semibold text-gray-900 mb-2">Data Processing</h4>
-                  <p className="text-gray-600">Contract content is processed securely through OpenAI's API with enterprise-grade security measures.</p>
-                </div>
-                <div>
-                  <h4 className="font-semibold text-gray-900 mb-2">Access Controls</h4>
-                  <p className="text-gray-600">Strict access controls ensure only authorized personnel can access user data when necessary for support.</p>
-                </div>
-                <div>
-                  <h4 className="font-semibold text-gray-900 mb-2">Data Retention</h4>
-                  <p className="text-gray-600">User data is retained only as long as necessary to provide services or as required by law.</p>
-                </div>
-              </CardContent>
-            </Card>
+            <div className="border border-gray-300 mb-6">
+              <div className="bg-gray-50 p-4 border-b border-gray-300">
+                <h3 className="font-bold text-black text-sm flex items-center gap-2">
+                  <Lock className="h-4 w-4 text-gray-700" />
+                  Data Security & Protection
+                </h3>
+              </div>
+              <div className="p-4">
+                <p className="text-xs text-gray-800 leading-relaxed">
+                  Encryption: All data is encrypted in transit using TLS 1.3 and at rest using AES-256 encryption to protect against unauthorized access. Data Processing: Contract content is processed securely through OpenAI's API with enterprise-grade security measures and data protection agreements. Access Controls: Strict access controls ensure only authorized personnel can access user data when necessary for support or system maintenance. Data Retention: User data is retained only as long as necessary to provide services or as required by applicable laws and regulations.
+                </p>
+              </div>
+            </div>
 
             {/* Data Sharing */}
             <Card>
@@ -256,24 +220,19 @@ export default function PrivacyPolicy() {
             </Card>
 
             {/* Contact */}
-            <Card className="border-purple-200 bg-purple-50">
-              <CardHeader>
-                <CardTitle className="text-purple-800">Contact Information</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-2 text-purple-700">
-                  <p><strong>Email:</strong> <a href="mailto:info@contractclarity.co.uk" className="underline">info@contractclarity.co.uk</a></p>
-                  <p><strong>Address:</strong> Contract Clarity, United Kingdom</p>
-                  <p><strong>Response Time:</strong> We aim to respond to privacy inquiries within 48 hours</p>
-                </div>
-                <div className="mt-4">
-                  <p className="text-sm text-purple-600">
-                    For urgent privacy concerns or data breach notifications, please mark your email as "URGENT - PRIVACY" 
-                    in the subject line.
-                  </p>
-                </div>
-              </CardContent>
-            </Card>
+            <div className="border border-gray-300 mb-6">
+              <div className="bg-gray-50 p-4 border-b border-gray-300">
+                <h3 className="font-bold text-black text-sm">Contact Information</h3>
+              </div>
+              <div className="p-4">
+                <p className="text-xs text-gray-800 leading-relaxed mb-3">
+                  Email: info@contractclarity.co.uk for all privacy-related inquiries, data requests, and concerns. Address: Contract Clarity, United Kingdom. Response Time: We aim to respond to privacy inquiries within 48 hours during business days.
+                </p>
+                <p className="text-xs text-gray-800 leading-relaxed">
+                  For urgent privacy concerns or data breach notifications, please mark your email as "URGENT - PRIVACY" in the subject line to ensure immediate attention from our privacy team.
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </div>

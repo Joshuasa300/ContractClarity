@@ -22,104 +22,83 @@ export default function TermsOfService() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-white">
       <Navigation onSignIn={handleSignIn} onGetStarted={handleGetStarted} onSignUp={handleSignUp} />
       
       <div className="pt-24 pb-16">
-        <div className="container mx-auto px-4 max-w-4xl">
+        <div className="container mx-auto px-4 max-w-6xl">
           {/* Header */}
           <div className="text-center mb-12">
-            <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+            <h1 className="text-3xl font-bold text-black mb-4">
               Terms of Service
             </h1>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Please read these terms carefully before using Contract Clarity. By using our service, you agree to these terms.
+            <p className="text-sm text-gray-700 max-w-5xl mx-auto leading-relaxed">
+              Please read these terms carefully before using Contract Clarity. By using our service, you agree to be bound by these terms and conditions.
             </p>
-            <div className="mt-6 text-sm text-gray-500">
+            <div className="mt-4 text-xs text-gray-600">
               Last updated: January 16, 2025
             </div>
           </div>
 
           {/* Critical Legal Disclaimer */}
-          <Card className="mb-8 border-red-200 bg-red-50">
-            <CardHeader>
+          <div className="mb-8 border-2 border-black bg-white">
+            <div className="bg-black text-white p-4">
               <div className="flex items-center gap-3">
-                <AlertTriangle className="h-8 w-8 text-red-600" />
-                <CardTitle className="text-red-800 text-xl">CRITICAL LEGAL DISCLAIMER</CardTitle>
+                <AlertTriangle className="h-5 w-5" />
+                <h3 className="font-bold text-sm">CRITICAL LEGAL DISCLAIMER</h3>
               </div>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="bg-red-100 border border-red-300 rounded-lg p-4">
-                <p className="text-red-800 font-bold text-lg mb-3">
+            </div>
+            <div className="p-4 space-y-4">
+              <div className="border border-gray-400 p-4">
+                <p className="text-black font-bold text-sm mb-3">
                   CONTRACT CLARITY IS NOT A SUBSTITUTE FOR LEGAL ADVICE
                 </p>
-                <ul className="text-red-700 space-y-2 font-medium">
-                  <li>• Our AI analysis is for INFORMATIONAL PURPOSES ONLY</li>
-                  <li>• ALWAYS consult with a qualified attorney for legal matters</li>
-                  <li>• READ AND UNDERSTAND every contract COMPLETELY before signing</li>
-                  <li>• Do NOT rely solely on our analysis for legal decisions</li>
-                  <li>• We are NOT responsible for legal consequences of contract decisions</li>
-                </ul>
+                <p className="text-xs text-gray-800 leading-relaxed mb-3">
+                  Our AI analysis is for INFORMATIONAL PURPOSES ONLY. ALWAYS consult with a qualified attorney for legal matters. READ AND UNDERSTAND every contract COMPLETELY before signing. Do NOT rely solely on our analysis for legal decisions. We are NOT responsible for legal consequences of contract decisions.
+                </p>
               </div>
-              <p className="text-red-700 font-medium">
-                By using Contract Clarity, you acknowledge that you understand this is a technology tool to assist with 
-                contract review, not professional legal counsel. You assume full responsibility for all legal decisions.
+              <p className="text-xs text-gray-800 leading-relaxed">
+                By using Contract Clarity, you acknowledge that you understand this is a technology tool to assist with contract review, not professional legal counsel. You assume full responsibility for all legal decisions and outcomes resulting from your use of this service.
               </p>
-            </CardContent>
-          </Card>
+            </div>
+          </div>
 
           {/* Content Sections */}
-          <div className="space-y-8">
+          <div className="space-y-6">
             {/* Acceptance of Terms */}
-            <Card>
-              <CardHeader>
-                <div className="flex items-center gap-3">
-                  <Scale className="h-6 w-6 text-purple-600" />
-                  <CardTitle>Acceptance of Terms</CardTitle>
-                </div>
-              </CardHeader>
-              <CardContent>
-                <p className="text-gray-600 mb-4">
-                  By accessing or using Contract Clarity ("the Service"), you agree to be bound by these Terms of Service 
-                  ("Terms"). If you disagree with any part of these terms, you may not access the Service.
+            <div className="border border-gray-300 mb-6">
+              <div className="bg-gray-50 p-4 border-b border-gray-300">
+                <h3 className="font-bold text-black text-sm flex items-center gap-2">
+                  <Scale className="h-4 w-4 text-gray-700" />
+                  Acceptance of Terms
+                </h3>
+              </div>
+              <div className="p-4">
+                <p className="text-xs text-gray-800 leading-relaxed">
+                  By accessing or using Contract Clarity ("the Service"), you agree to be bound by these Terms of Service ("Terms"). If you disagree with any part of these terms, you may not access the Service. These Terms apply to all visitors, users, and others who access or use the Service including both free and paid subscribers.
                 </p>
-                <p className="text-gray-600">
-                  These Terms apply to all visitors, users, and others who access or use the Service.
-                </p>
-              </CardContent>
-            </Card>
+              </div>
+            </div>
 
             {/* Service Description */}
-            <Card>
-              <CardHeader>
-                <div className="flex items-center gap-3">
-                  <FileText className="h-6 w-6 text-purple-600" />
-                  <CardTitle>Service Description</CardTitle>
-                </div>
-              </CardHeader>
-              <CardContent className="space-y-4">
+            <div className="border border-gray-300 mb-6">
+              <div className="bg-gray-50 p-4 border-b border-gray-300">
+                <h3 className="font-bold text-black text-sm flex items-center gap-2">
+                  <FileText className="h-4 w-4 text-gray-700" />
+                  Service Description
+                </h3>
+              </div>
+              <div className="p-4 space-y-3">
                 <div>
-                  <h4 className="font-semibold text-gray-900 mb-2">What We Provide</h4>
-                  <ul className="text-gray-600 space-y-1 ml-4">
-                    <li>• AI-powered contract analysis and summarization</li>
-                    <li>• Risk assessment identification in contracts</li>
-                    <li>• Key terms extraction and explanation</li>
-                    <li>• General recommendations for contract review</li>
-                    <li>• Multi-language support for contract processing</li>
-                  </ul>
+                  <h4 className="font-semibold text-black mb-2 text-xs">What We Provide</h4>
+                  <p className="text-xs text-gray-800 leading-relaxed">AI-powered contract analysis and summarization; risk assessment identification in contracts; key terms extraction and explanation; general recommendations for contract review; multi-language support for contract processing.</p>
                 </div>
                 <div>
-                  <h4 className="font-semibold text-gray-900 mb-2">What We Do NOT Provide</h4>
-                  <ul className="text-gray-600 space-y-1 ml-4">
-                    <li>• Legal advice or legal representation</li>
-                    <li>• Attorney-client privilege protection</li>
-                    <li>• Guarantee of analysis accuracy or completeness</li>
-                    <li>• Liability for contract decisions or outcomes</li>
-                    <li>• Professional legal opinions or recommendations</li>
-                  </ul>
+                  <h4 className="font-semibold text-black mb-2 text-xs">What We Do NOT Provide</h4>
+                  <p className="text-xs text-gray-800 leading-relaxed">Legal advice or legal representation; attorney-client privilege protection; guarantee of analysis accuracy or completeness; liability for contract decisions or outcomes; professional legal opinions or recommendations.</p>
                 </div>
-              </CardContent>
-            </Card>
+              </div>
+            </div>
 
             {/* User Obligations */}
             <Card>
@@ -370,34 +349,30 @@ export default function TermsOfService() {
             </Card>
 
             {/* Contact Information */}
-            <Card className="border-purple-200 bg-purple-50">
-              <CardHeader>
-                <CardTitle className="text-purple-800">Contact & Support</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-3">
-                  <div>
-                    <h4 className="font-semibold text-purple-800 mb-2">For Questions About These Terms</h4>
-                    <p className="text-purple-700">
-                      Email: <a href="mailto:info@contractclarity.co.uk" className="underline font-semibold">info@contractclarity.co.uk</a>
-                    </p>
-                  </div>
-                  <div>
-                    <h4 className="font-semibold text-purple-800 mb-2">Legal Notices</h4>
-                    <p className="text-purple-700">
-                      Contract Clarity<br />
-                      United Kingdom
-                    </p>
-                  </div>
-                  <div className="mt-4 p-3 bg-purple-100 rounded-lg">
-                    <p className="text-sm text-purple-600 font-medium">
-                      Remember: For actual legal advice about contracts, always consult with a qualified attorney 
-                      licensed in your jurisdiction.
-                    </p>
-                  </div>
+            <div className="border border-gray-300 mb-6">
+              <div className="bg-gray-50 p-4 border-b border-gray-300">
+                <h3 className="font-bold text-black text-sm">Contact & Support</h3>
+              </div>
+              <div className="p-4 space-y-3">
+                <div>
+                  <h4 className="font-semibold text-black mb-2 text-xs">For Questions About These Terms</h4>
+                  <p className="text-xs text-gray-800 leading-relaxed">
+                    Email: info@contractclarity.co.uk for all inquiries regarding these terms of service, legal questions, and general support.
+                  </p>
                 </div>
-              </CardContent>
-            </Card>
+                <div>
+                  <h4 className="font-semibold text-black mb-2 text-xs">Legal Notices</h4>
+                  <p className="text-xs text-gray-800 leading-relaxed">
+                    Contract Clarity, United Kingdom. All legal notices and formal communications should be directed to the email address above.
+                  </p>
+                </div>
+                <div className="border border-gray-400 p-3">
+                  <p className="text-xs text-gray-800 font-medium leading-relaxed">
+                    Remember: For actual legal advice about contracts, always consult with a qualified attorney licensed in your jurisdiction.
+                  </p>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
