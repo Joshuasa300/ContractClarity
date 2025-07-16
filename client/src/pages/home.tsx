@@ -43,7 +43,7 @@ export default function Home() {
   // Force refresh user data on component mount to ensure latest plan status is shown
   useEffect(() => {
     queryClient.invalidateQueries({ queryKey: ["/api/user"] });
-    
+
     // Check for success parameter from Stripe redirect
     const urlParams = new URLSearchParams(window.location.search);
     if (urlParams.get('success') === 'true') {
@@ -51,7 +51,7 @@ export default function Home() {
         title: "Payment Successful!",
         description: "Your subscription has been activated. Please wait while we update your plan...",
       });
-      
+
       // Aggressive retry to ensure webhook has processed
       const retryUserRefresh = async (attempts = 0) => {
         if (attempts < 10) { // Try for up to 30 seconds
@@ -59,7 +59,7 @@ export default function Home() {
           await queryClient.invalidateQueries({ queryKey: ["/api/user"] });
           await queryClient.refetchQueries({ queryKey: ["/api/user"] });
           await queryClient.invalidateQueries({ queryKey: ["/api/usage/check/contract_analysis"] });
-          
+
           // Check if plan has updated
           const userData = queryClient.getQueryData(["/api/user"]) as User | undefined;
           if (userData && userData.accountStatus !== 'free') {
@@ -79,9 +79,9 @@ export default function Home() {
           });
         }
       };
-      
+
       retryUserRefresh();
-      
+
       // Clean up URL
       window.history.replaceState({}, document.title, window.location.pathname);
     }
@@ -272,7 +272,7 @@ export default function Home() {
     },
   });
 
-  
+
 
   const toggleContract = (contractId: number) => {
     const newExpanded = new Set(expandedContracts);
@@ -355,7 +355,7 @@ export default function Home() {
                 ? 'Payment Required' 
                 : user.accountStatus?.charAt(0).toUpperCase() + user.accountStatus?.slice(1) || 'Free'}
             </div>
-            
+
             <div className="flex gap-2">
               <Button 
                 onClick={() => setShowUpgradeModal(true)}
@@ -368,7 +368,7 @@ export default function Home() {
             </div>
           </div>
         )}
-        
+
         {/* Welcome Section */}
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-text-primary mb-2">
@@ -389,7 +389,7 @@ export default function Home() {
         {/* Recent Contracts */}
         <div>
           <h2 className="text-xl sm:text-2xl font-semibold text-text-primary mb-4 sm:mb-6 px-2 sm:px-0">{t('home.yourContracts')}</h2>
-          
+
           {contractsLoading ? (
             <div className="grid gap-4">
               {[1, 2, 3].map((i) => (
@@ -478,7 +478,7 @@ export default function Home() {
                                   </div>
                                 </div>
                               </div>
-                              
+
                               <div className="flex items-center space-x-2 sm:space-x-4 flex-shrink-0">
                                 {/* Desktop status - hide on mobile */}
                                 <div className="hidden sm:flex items-center space-x-2">
@@ -493,7 +493,7 @@ export default function Home() {
                                       "Processing"}
                                   </span>
                                 </div>
-                                
+
                                 {expandedContracts.has(contract.id) ? (
                                   <ChevronUp className="h-4 w-4 sm:h-5 sm:w-5 text-gray-400" />
                                 ) : (
@@ -504,7 +504,7 @@ export default function Home() {
                           </CollapsibleTrigger>
                         </div>
                       </div>
-                      
+
                       <CollapsibleContent>
                         {isAnalysisComplete(contract.analysisComplete) && contract.summary ? (
                           <div className="px-4 sm:px-6 pb-4 sm:pb-6 border-t border-gray-100">
@@ -523,7 +523,7 @@ export default function Home() {
                                     try {
                                       const riskData = contract.riskAssessment as any;
                                       if (!riskData || typeof riskData !== 'object') return null;
-                                      
+
                                       return Object.entries(riskData).map(([level, risks]) => (
                                         <div key={level}>
                                           <h5 className="font-medium text-gray-900 mb-2 capitalize">
@@ -670,7 +670,7 @@ export default function Home() {
               Select the perfect plan for your contract analysis needs. Upgrade or downgrade at any time.
             </DialogDescription>
           </DialogHeader>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mt-6">
             {pricingPlans.map((plan) => (
               <Card 
@@ -684,7 +684,7 @@ export default function Home() {
                     </span>
                   </div>
                 )}
-                
+
                 <CardHeader className="text-center pb-2">
                   <CardTitle className="text-xl font-bold">{plan.name}</CardTitle>
                   <CardDescription className="text-2xl font-bold text-gray-900">
