@@ -59,10 +59,7 @@ export default function Support() {
     setIsSubmitting(true);
 
     try {
-      await apiRequest('/api/support/contact', {
-        method: 'POST',
-        body: formData
-      });
+      await apiRequest('POST', '/api/support/contact', formData);
 
       toast({
         title: "Message Sent Successfully!",
