@@ -52,6 +52,17 @@ app.use((req, res, next) => {
 });
 
 (async () => {
+  // Add support contact route before any middleware that might interfere
+  app.post("/api/support/contact", (req, res) => {
+    console.log("Support contact request received - basic route working");
+    
+    // For now, just return success to confirm the route is working
+    // Email functionality will be added once route is confirmed working
+    res.json({ 
+      message: "Support message received. We'll get back to you within 24 hours at info@contractclarity.co.uk" 
+    });
+  });
+
   const server = await registerRoutes(app);
 
   app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {

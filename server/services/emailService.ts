@@ -37,10 +37,17 @@ class EmailService {
     const emailHost = process.env.EMAIL_HOST?.trim();
     const emailPort = process.env.EMAIL_PORT?.trim();
     const emailUser = process.env.EMAIL_USER?.trim();
-    const emailPass = process.env.EMAIL_PASS?.trim();
+    const emailPass = (process.env.EMAIL_PASSWORD || process.env.EMAIL_PASS)?.trim();
+
+    console.log('Email service configuration:', {
+      host: emailHost ? 'SET' : 'NOT_SET',
+      port: emailPort ? 'SET' : 'NOT_SET',
+      user: emailUser ? 'SET' : 'NOT_SET',
+      pass: emailPass ? 'SET' : 'NOT_SET'
+    });
 
     if (!emailHost || !emailPort || !emailUser || !emailPass) {
-      console.warn('Email service not configured. Set EMAIL_HOST, EMAIL_PORT, EMAIL_USER, EMAIL_PASS environment variables.');
+      console.warn('Email service not configured. Set EMAIL_HOST, EMAIL_PORT, EMAIL_USER, EMAIL_PASSWORD environment variables.');
       return;
     }
 

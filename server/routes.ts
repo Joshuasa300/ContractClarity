@@ -56,6 +56,10 @@ function isAuthenticated(req: any, res: any, next: any) {
 }
 
 export async function registerRoutes(app: Express): Promise<Server> {
+  const server = createServer(app);
+
+
+
   // Auth middleware
   setupAuth(app);
 
@@ -587,42 +591,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Support contact form endpoint
-  app.post("/api/support/contact", async (req, res) => {
-    try {
-      const { name, email, subject, message } = req.body;
 
-      if (!name || !email || !subject || !message) {
-        return res.status(400).json({ 
-          message: "All fields are required" 
-        });
-      }
-
-      // Send email to support team
-      const emailSent = await emailService.sendSupportEmail({
-        from: email,
-        fromName: name,
-        subject: subject,
-        message: message,
-        to: "info@contractclarity.co.uk"
-      });
-
-      if (!emailSent) {
-        return res.status(500).json({ 
-          message: "Failed to send support email" 
-        });
-      }
-
-      res.json({ 
-        message: "Support email sent successfully" 
-      });
-    } catch (error) {
-      console.error("Support contact error:", error);
-      res.status(500).json({ 
-        message: "Internal server error" 
-      });
-    }
-  });
 
   // Translation API routes for automatic translation
   app.post('/api/translate/text', isAuthenticated, async (req: any, res) => {
