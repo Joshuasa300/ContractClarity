@@ -21,8 +21,8 @@ import { FileText, Upload, Clock, CheckCircle, AlertCircle, LogOut, ChevronDown,
 import { LanguageIndicator } from "@/components/LanguageIndicator";
 import { useState } from "react";
 import { Link } from "wouter";
-import { ContractUpload } from "@/components/ContractUpload";
-import { Header } from "@/components/Header";
+import ContractUpload from "@/components/ContractUpload";
+import Header from "@/components/Header";
 import { ChangesFooter } from "@/components/ChangesFooter";
 import type { Contract, User } from "@shared/schema";
 
