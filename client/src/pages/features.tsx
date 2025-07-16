@@ -309,9 +309,10 @@ export default function Features() {
             {supportedLanguages.map((lang, index) => (
               <Card key={index} className="bg-white/10 backdrop-blur-sm border-white/20 hover:bg-white/20 transition-colors">
                 <CardContent className="p-6 text-center">
-                  <div className="text-6xl mb-3">{lang.flag}</div>
-                  <h3 className="text-lg font-semibold text-white mb-1">{lang.name}</h3>
-                  <div className="text-4xl mt-2">{lang.flag}</div>
+                  <div className="text-6xl mb-4 font-emoji" style={{ lineHeight: '1', fontFamily: 'Apple Color Emoji, Segoe UI Emoji, Noto Color Emoji, sans-serif' }}>
+                    {lang.flag}
+                  </div>
+                  <h3 className="text-lg font-semibold text-white">{lang.name}</h3>
                 </CardContent>
               </Card>
             ))}
