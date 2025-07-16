@@ -46,7 +46,6 @@ export default function About() {
   ];
 
   const stats = [
-    { number: "10,000+", label: "Contracts Analyzed" },
     { number: "5", label: "Languages Supported" },
     { number: "99.9%", label: "Uptime Guarantee" },
     { number: "24/7", label: "Customer Support" }
