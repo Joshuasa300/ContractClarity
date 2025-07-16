@@ -17,10 +17,7 @@ export function LanguageSelector() {
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" size="sm" className="gap-2">
           <Globe className="h-4 w-4" />
-          <span className="hidden sm:inline-block">
-            {languages[language].flag} {languages[language].name}
-          </span>
-          <span className="sm:hidden">{languages[language].flag}</span>
+          <span className="text-lg">{languages[language].flag}</span>
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-56">
@@ -32,7 +29,7 @@ export function LanguageSelector() {
               language === code ? 'bg-accent' : ''
             }`}
           >
-            <span className="text-lg">{lang.flag}</span>
+            <span className="text-2xl">{lang.flag}</span>
             <span className="flex-1">{lang.name}</span>
             {language === code && (
               <div className="h-2 w-2 rounded-full bg-blue-600" />
