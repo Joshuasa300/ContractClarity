@@ -58,7 +58,7 @@ export default function TermsOfService() {
                 </p>
               </div>
               <p className="text-xs text-gray-800 leading-relaxed">
-                By using Contract Clarity, you acknowledge that you understand this is a technology tool to assist with contract review, not professional legal counsel. You assume full responsibility for all legal decisions and outcomes resulting from your use of this service.
+                By using Contract Clarity, you acknowledge that you understand this is not professional legal counsel. You assume full responsibility for all legal decisions and outcomes resulting from your use of this service.
               </p>
             </div>
           </div>

@@ -47,7 +47,7 @@ export default function PrivacyPolicy() {
               <h3 className="font-bold text-gray-900 text-sm">Important Legal Notice</h3>
             </div>
             <p className="text-xs text-gray-800 leading-relaxed">
-              Contract Clarity is a technology tool designed to assist with contract analysis. It is NOT a replacement for professional legal advice. Always consult with a qualified attorney for legal matters and thoroughly read and understand all contracts before signing. Our analysis is for informational purposes only and should not be relied upon as legal counsel.
+              Contract Clarity is NOT a replacement for professional legal advice. Always consult with a qualified attorney for legal matters and thoroughly read and understand all contracts before signing. Our analysis is for informational purposes only and should not be relied upon as legal counsel.
             </p>
           </div>
 
