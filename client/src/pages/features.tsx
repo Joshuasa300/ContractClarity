@@ -340,16 +340,11 @@ export default function Features() {
           <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
             {t('features.cta.description')}
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+          <div className="flex justify-center">
             <Link href="/auth">
               <Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 text-lg">
                 {t('features.cta.primaryButton')}
                 <ArrowRight className="w-5 h-5 ml-2" />
-              </Button>
-            </Link>
-            <Link href="/templates">
-              <Button variant="outline" size="lg" className="border-gray-600 text-gray-300 hover:bg-gray-800 px-8 py-4 text-lg">
-                {t('features.cta.secondaryButton')}
               </Button>
             </Link>
           </div>
