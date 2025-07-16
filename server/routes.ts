@@ -1614,6 +1614,50 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Support endpoint
+  app.post('/api/support', async (req, res) => {
+    try {
+      const { name, email, issue } = req.body;
+      
+      // Validate input
+      if (!name || !email || !issue) {
+        return res.status(400).json({ message: "Name, email, and issue description are required" });
+      }
+      
+      if (issue.length < 10) {
+        return res.status(400).json({ message: "Issue description must be at least 10 characters long" });
+      }
+      
+      // Email validation
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(email)) {
+        return res.status(400).json({ message: "Please provide a valid email address" });
+      }
+      
+      // Log the support request (in a real app, you'd store this in a database or send an email)
+      console.log('📧 Support Request Received:');
+      console.log(`Name: ${name}`);
+      console.log(`Email: ${email}`);
+      console.log(`Issue: ${issue}`);
+      console.log(`Timestamp: ${new Date().toISOString()}`);
+      console.log('---');
+      
+      // In a production app, you would:
+      // 1. Store the support request in a database
+      // 2. Send an email notification to your support team
+      // 3. Send a confirmation email to the user
+      // 4. Create a ticket in your support system
+      
+      res.status(200).json({ 
+        message: "Support request submitted successfully",
+        timestamp: new Date().toISOString()
+      });
+    } catch (error) {
+      console.error('Error submitting support request:', error);
+      res.status(500).json({ message: "Failed to submit support request" });
+    }
+  });
+
   const httpServer = createServer(app);
   return httpServer;
 }
