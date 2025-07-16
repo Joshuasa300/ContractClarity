@@ -39,9 +39,6 @@ export default function Navigation({ onSignIn, onGetStarted, onSignUp }: Navigat
               <Link href="/about" className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors font-medium">
                 About
               </Link>
-              <Link href="/support" className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors font-medium">
-                Support
-              </Link>
               
               <div className="flex items-center space-x-4">
                 <LanguageSelector />
@@ -92,8 +89,7 @@ export default function Navigation({ onSignIn, onGetStarted, onSignUp }: Navigat
               {[
                 { href: "/features", label: "Features" },
                 { href: "/pricing", label: "Pricing" },
-                { href: "/about", label: "About" },
-                { href: "/support", label: "Support" }
+                { href: "/about", label: "About" }
               ].map((item) => (
                 <Link 
                   key={item.href}

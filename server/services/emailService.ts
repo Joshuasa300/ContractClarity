@@ -25,55 +25,29 @@ class EmailService {
   }
 
   private initializeTransporter() {
-    // Try multiple email service configurations
-    
-    // Option 1: Gmail SMTP (most common and simple)
-    const gmailUser = process.env.GMAIL_USER?.trim();
-    const gmailPass = process.env.GMAIL_APP_PASSWORD?.trim();
-    
-    // Option 2: General SMTP configuration
+    // Configure email service based on environment variables
     const emailHost = process.env.EMAIL_HOST?.trim();
     const emailPort = process.env.EMAIL_PORT?.trim();
     const emailUser = process.env.EMAIL_USER?.trim();
     const emailPass = process.env.EMAIL_PASS?.trim();
 
+    if (!emailHost || !emailPort || !emailUser || !emailPass) {
+      console.warn('Email service not configured. Set EMAIL_HOST, EMAIL_PORT, EMAIL_USER, EMAIL_PASS environment variables.');
+      return;
+    }
+
     try {
-      if (gmailUser && gmailPass) {
-        // Use Gmail SMTP (easiest option)
-        this.transporter = nodemailer.createTransport({
-          service: 'gmail',
-          auth: {
-            user: gmailUser,
-            pass: gmailPass, // This should be an App Password, not regular password
-          },
-        });
-        console.log('✅ Email service initialized with Gmail SMTP');
-      } else if (emailHost && emailPort && emailUser && emailPass) {
-        // Use custom SMTP
-        this.transporter = nodemailer.createTransport({
-          host: emailHost,
-          port: parseInt(emailPort),
-          secure: parseInt(emailPort) === 465, // true for 465, false for other ports
-          auth: {
-            user: emailUser,
-            pass: emailPass,
-          },
-        });
-        console.log('✅ Email service initialized with custom SMTP');
-      } else {
-        // Fallback: Create a logging transporter for development
-        console.log('📧 No email configuration found. Support emails will be logged to console.');
-        console.log('To enable real email sending, provide either:');
-        console.log('  • Gmail: GMAIL_USER and GMAIL_APP_PASSWORD');
-        console.log('  • SMTP: EMAIL_HOST, EMAIL_PORT, EMAIL_USER, EMAIL_PASS');
-        
-        // Create a development transporter that logs emails
-        this.transporter = nodemailer.createTransport({
-          streamTransport: true,
-          newline: 'unix',
-          buffer: true
-        });
-      }
+      this.transporter = nodemailer.createTransport({
+        host: emailHost,
+        port: parseInt(emailPort),
+        secure: parseInt(emailPort) === 465, // true for 465, false for other ports
+        auth: {
+          user: emailUser,
+          pass: emailPass,
+        },
+      });
+
+      console.log('Email service initialized successfully');
     } catch (error) {
       console.error('Failed to initialize email service:', error);
     }
@@ -253,49 +227,6 @@ Need help? Contact our support team or visit our help center.
 
 © 2025 Contract Clarity. All rights reserved.
     `.trim();
-  }
-
-  /**
-   * Send general email
-   */
-  async sendEmail({ to, from, subject, text, html }: {
-    to: string;
-    from: string;
-    subject: string;
-    text?: string;
-    html?: string;
-  }): Promise<boolean> {
-    if (!this.transporter) {
-      console.error('❌ Email service not initialized');
-      return false;
-    }
-
-    try {
-      const info = await this.transporter.sendMail({
-        from,
-        to,
-        subject,
-        text,
-        html,
-      });
-
-      // Check if this is the development logger
-      if (info.message) {
-        console.log('📧 DEVELOPMENT EMAIL LOG:');
-        console.log(`To: ${to}`);
-        console.log(`From: ${from}`);
-        console.log(`Subject: ${subject}`);
-        console.log('Content:', text || 'HTML email (check browser for full content)');
-        console.log('─'.repeat(50));
-        return true;
-      }
-
-      console.log('✅ Email sent successfully:', info.messageId);
-      return true;
-    } catch (error) {
-      console.error('❌ Failed to send email:', error);
-      return false;
-    }
   }
 
   /**

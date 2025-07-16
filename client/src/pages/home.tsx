@@ -23,7 +23,7 @@ import { useState } from "react";
 import { Link } from "wouter";
 import ContractUpload from "@/components/ContractUpload";
 import Header from "@/components/Header";
-import { ChangesFooter } from "@/components/ChangesFooter";
+
 import type { Contract, User } from "@shared/schema";
 
 // Helper function to check if analysis is complete
@@ -658,7 +658,94 @@ export default function Home() {
           )}
         </div>
       </div>
-      <ChangesFooter />
+
+      {/* Upgrade Modal */}
+      <Dialog open={showUpgradeModal} onOpenChange={setShowUpgradeModal}>
+        <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle className="text-2xl font-bold text-center">
+              Choose Your Plan
+            </DialogTitle>
+            <DialogDescription className="text-center text-gray-600">
+              Select the perfect plan for your contract analysis needs. Upgrade or downgrade at any time.
+            </DialogDescription>
+          </DialogHeader>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mt-6">
+            {pricingPlans.map((plan) => (
+              <Card 
+                key={plan.id} 
+                className={`relative ${plan.popular ? 'border-2 border-blue-500 shadow-lg' : ''} ${isCurrentPlan(plan.id) ? 'bg-blue-50' : ''}`}
+              >
+                {plan.popular && (
+                  <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
+                    <span className="bg-blue-500 text-white px-3 py-1 rounded-full text-sm font-medium">
+                      Most Popular
+                    </span>
+                  </div>
+                )}
+
+                <CardHeader className="text-center pb-2">
+                  <CardTitle className="text-xl font-bold">{plan.name}</CardTitle>
+                  <CardDescription className="text-2xl font-bold text-gray-900">
+                    £{plan.price}
+                    <span className="text-sm font-normal text-gray-600">
+                      /{plan.period}
+                    </span>
+                  </CardDescription>
+                </CardHeader>
+
+                <CardContent className="space-y-4">
+                  <div className="space-y-2">
+                    <h4 className="font-semibold text-gray-900 text-sm">Features:</h4>
+                    <ul className="space-y-1">
+                      {plan.features.map((feature, index) => (
+                        <li key={index} className="flex items-start">
+                          <Check className="h-3 w-3 text-green-500 mt-0.5 mr-2 flex-shrink-0" />
+                          <span className="text-xs text-gray-600" dangerouslySetInnerHTML={{
+                            __html: feature
+                              .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                          }} />
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  {plan.limitations.length > 0 && (
+                    <div className="space-y-2">
+                      <h4 className="font-semibold text-gray-900 text-sm">Limitations:</h4>
+                      <ul className="space-y-1">
+                        {plan.limitations.map((limitation, index) => (
+                          <li key={index} className="flex items-start">
+                            <X className="h-3 w-3 text-red-500 mt-0.5 mr-2 flex-shrink-0" />
+                            <span className="text-xs text-gray-600">{limitation}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+
+                  <Button 
+                    onClick={() => handleSubscribe(plan.id)}
+                    disabled={subscriptionMutation.isPending || isCurrentPlan(plan.id)}
+                    className={`w-full text-sm ${plan.popular ? 'bg-blue-500 hover:bg-blue-600' : ''}`}
+                    variant={plan.popular ? "default" : "outline"}
+                  >
+                    {subscriptionMutation.isPending && selectedPlan === plan.id
+                      ? "Processing..."
+                      : isCurrentPlan(plan.id)
+                      ? "Current Plan"
+                      : plan.id === "free"
+                      ? "Free Plan"
+                      : `Upgrade to ${plan.name}`
+                    }
+                  </Button>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

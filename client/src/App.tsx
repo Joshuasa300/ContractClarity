@@ -16,7 +16,6 @@ import Settings from "@/pages/settings";
 import Features from "@/pages/features";
 import Pricing from "@/pages/pricing";
 import About from "@/pages/about";
-import Support from "@/pages/support";
 import Checkout from "@/pages/checkout";
 import SubscriptionSuccess from "@/pages/subscription-success";
 import PageLimitsDemo from "@/pages/PageLimitsDemo";
@@ -51,7 +50,6 @@ function Router() {
       <Route path="/features" component={Features} />
       <Route path="/pricing" component={Pricing} />
       <Route path="/about" component={About} />
-      <Route path="/support" component={Support} />
       <Route path="/auth" component={AuthPage} />
       <Route path="/checkout" component={Checkout} />
       <Route path="/subscription-success" component={SubscriptionSuccess} />

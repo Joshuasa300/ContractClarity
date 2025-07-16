@@ -23,12 +23,11 @@ import {
 } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import Navigation from "@/components/Navigation";
-import { ChangesFooter } from "@/components/ChangesFooter";
 
 export default function Features() {
   const { t, language } = useLanguage();
   const [, setLocation] = useLocation();
-
+  
   const handleGetStarted = () => {
     setLocation("/auth");
   };
@@ -161,7 +160,7 @@ export default function Features() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
       <Navigation onSignIn={handleSignIn} onGetStarted={handleGetStarted} onSignUp={handleSignUp} />
-
+      
       {/* Hero Section */}
       <section className="relative overflow-hidden py-20 px-4">
         <div className="absolute inset-0 bg-gradient-to-r from-blue-600/10 to-purple-600/10 dark:from-blue-400/5 dark:to-purple-400/5" />
@@ -371,7 +370,6 @@ export default function Features() {
           </div>
         </div>
       </section>
-      <ChangesFooter />
     </div>
   );
 }
