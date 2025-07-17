@@ -365,5 +365,230 @@ export const en = {
       feature2: 'Instant setup',
       feature3: 'Professional support'
     }
+  },
+
+  // About Page
+  about: {
+    title: 'About Contract Clarity',
+    mission: {
+      title: 'Our Mission',
+      description: 'To make legal contracts accessible and understandable for everyone, regardless of their legal background.'
+    },
+    story: {
+      title: 'Our Story',
+      description: 'Founded by a team of legal and technology experts, Contract Clarity was born from the frustration of spending countless hours deciphering complex legal documents. We believe that understanding your contracts shouldn\'t require a law degree.'
+    },
+    stats: {
+      languages: 'Languages Supported',
+      customerSupport: '24/7 Customer Support',
+      uptime: 'Uptime Guarantee'
+    },
+    benefits: {
+      title: 'Core Benefits',
+      speed: {
+        title: 'Speed',
+        description: 'Get comprehensive analysis in minutes, not hours'
+      },
+      accessibility: {
+        title: 'Accessibility',
+        description: 'Professional-grade tools for users at every level'
+      }
+    },
+    cta: {
+      title: 'Ready to Transform Your Contract Analysis?',
+      description: 'Join thousands of businesses who trust Contract Clarity to simplify their legal document review process.',
+      button: 'Start Free Trial'
+    }
+  },
+
+  // Support Page
+  support: {
+    title: 'Support & Contact',
+    subtitle: 'Get help when you need it',
+    description: 'Have a question or need assistance? We\'re here to help. Send us a message and our support team will get back to you as soon as possible.',
+    form: {
+      name: 'Full Name',
+      namePlaceholder: 'Enter your full name',
+      email: 'Email Address',
+      emailPlaceholder: 'Enter your email address',
+      subject: 'Subject',
+      subjectPlaceholder: 'What can we help you with?',
+      message: 'Message',
+      messagePlaceholder: 'Describe your question or issue in detail...',
+      submit: 'Send Message',
+      sending: 'Sending...'
+    },
+    success: 'Thank you for your message! We\'ll get back to you soon.',
+    error: 'Sorry, there was an error sending your message. Please try again.',
+    validation: {
+      nameRequired: 'Name is required',
+      emailRequired: 'Email is required',
+      emailInvalid: 'Please enter a valid email address',
+      subjectRequired: 'Subject is required',
+      messageRequired: 'Message is required',
+      messageMin: 'Message must be at least 10 characters long'
+    }
+  },
+
+  // Auth Page
+  auth: {
+    login: {
+      title: 'Welcome Back',
+      subtitle: 'Sign in to your account',
+      email: 'Email',
+      password: 'Password',
+      submit: 'Sign In',
+      forgotPassword: 'Forgot your password?',
+      noAccount: 'Don\'t have an account?',
+      signUp: 'Sign up here',
+      googleSignIn: 'Continue with Google'
+    },
+    register: {
+      title: 'Create Account',
+      subtitle: 'Get started with Contract Clarity',
+      firstName: 'First Name',
+      lastName: 'Last Name',
+      email: 'Email',
+      password: 'Password',
+      confirmPassword: 'Confirm Password',
+      submit: 'Create Account',
+      hasAccount: 'Already have an account?',
+      signIn: 'Sign in here',
+      googleSignUp: 'Continue with Google'
+    },
+    verification: {
+      title: 'Verify Your Email',
+      subtitle: 'Enter the verification code sent to your email',
+      code: 'Verification Code',
+      submit: 'Verify Email',
+      resend: 'Resend Code',
+      backToLogin: 'Back to Login'
+    },
+    messages: {
+      accountCreated: 'Account created successfully! Please check your email for verification.',
+      emailVerified: 'Email verified successfully! You can now sign in.',
+      verifyEmail: 'Please verify your email address to continue.',
+      codeSent: 'Verification code sent! Please check your email.'
+    }
+  },
+
+  // Not Found Page
+  notFound: {
+    title: '404 Page Not Found',
+    description: 'The page you\'re looking for doesn\'t exist.',
+    goHome: 'Go to Home',
+    routerNote: 'Did you forget to add the page to the router?'
+  },
+
+  // Subscription Success Page
+  subscriptionSuccess: {
+    title: 'Welcome to Contract Clarity!',
+    subtitle: 'Your subscription has been activated successfully',
+    active: {
+      title: 'Subscription Active',
+      description: 'You now have access to all premium features based on your selected plan.'
+    },
+    whatsNext: {
+      title: 'What\'s next?',
+      items: [
+        'Upload and analyze contracts with enhanced features',
+        'Access premium templates and clauses',
+        'Enjoy increased usage limits',
+        'Get priority support when needed'
+      ]
+    },
+    buttons: {
+      startUsing: 'Start Using Contract Clarity',
+      viewPlans: 'View Pricing Plans'
+    },
+    footer: {
+      questions: 'Questions? Contact our support team anytime.',
+      manage: 'You can manage your subscription from your account settings.'
+    }
+  },
+
+  // Page Limits Demo Page
+  pageLimits: {
+    title: 'Page Limits Explanation',
+    subtitle: 'Understanding how document size limits work across plans',
+    currentPlan: {
+      title: 'Your Current Plan',
+      tokenLimit: 'Token Limit',
+      maxPages: 'Max Pages'
+    },
+    howCalculated: {
+      title: 'How Page Limits Are Calculated',
+      explanation: 'Page limits are calculated based on the content density and complexity of your documents.'
+    },
+    examples: {
+      title: 'Real-World Examples',
+      contractType: 'Contract Type',
+      pages: 'Pages',
+      tokens: 'Estimated Tokens',
+      plan: 'Minimum Plan'
+    },
+    plans: {
+      free: 'Free',
+      plus: 'Plus',
+      pro: 'Pro',
+      premium: 'Premium'
+    },
+    noData: 'No data available'
+  },
+
+  // Privacy Policy Page
+  privacyPolicy: {
+    title: 'Privacy Policy',
+    lastUpdated: 'Last updated: July 16, 2025',
+    sections: {
+      introduction: {
+        title: 'Introduction',
+        content: 'This Privacy Policy describes how Contract Clarity collects, uses, and protects your information when you use our service.'
+      },
+      dataCollection: {
+        title: 'Information We Collect',
+        content: 'We collect information you provide directly to us, such as when you create an account, upload documents, or contact us for support.'
+      },
+      dataUse: {
+        title: 'How We Use Your Information',
+        content: 'We use your information to provide, maintain, and improve our services, process transactions, and communicate with you.'
+      },
+      dataSecurity: {
+        title: 'Data Security',
+        content: 'We implement appropriate security measures to protect your personal information against unauthorized access, alteration, disclosure, or destruction.'
+      },
+      contact: {
+        title: 'Contact Us',
+        content: 'If you have any questions about this Privacy Policy, please contact us at privacy@contractclarity.co.uk'
+      }
+    }
+  },
+
+  // Terms of Service Page
+  termsOfService: {
+    title: 'Terms of Service',
+    lastUpdated: 'Last updated: July 16, 2025',
+    sections: {
+      acceptance: {
+        title: 'Acceptance of Terms',
+        content: 'By accessing and using Contract Clarity, you accept and agree to be bound by the terms and provision of this agreement.'
+      },
+      serviceDescription: {
+        title: 'Service Description',
+        content: 'Contract Clarity provides AI-powered contract analysis tools. Our service is designed to assist with document review but is not a substitute for professional legal advice.'
+      },
+      userResponsibilities: {
+        title: 'User Responsibilities',
+        content: 'You are responsible for maintaining the confidentiality of your account and for all activities under your account.'
+      },
+      limitations: {
+        title: 'Limitations and Disclaimers',
+        content: 'Contract Clarity is not a law firm and does not provide legal advice. Always consult with qualified legal professionals for legal matters.'
+      },
+      contact: {
+        title: 'Contact Information',
+        content: 'For questions about these Terms of Service, contact us at legal@contractclarity.co.uk'
+      }
+    }
   }
 };
