@@ -25,6 +25,12 @@ export interface SupportEmailData {
   message: string;
 }
 
+export interface PasswordResetEmailData {
+  to: string;
+  firstName: string;
+  resetUrl: string;
+}
+
 class EmailService {
   private transporter: nodemailer.Transporter | null = null;
 
@@ -390,6 +396,178 @@ ${message}
 ---
 This email was sent from the Contract Clarity contact form.
 `;
+  }
+
+  /**
+   * Send password reset email
+   */
+  async sendPasswordResetEmail({ to, firstName, resetUrl }: PasswordResetEmailData): Promise<boolean> {
+    if (!this.transporter) {
+      console.error('Email service not initialized');
+      return false;
+    }
+
+    try {
+      const subject = 'Reset Your Password - Contract Clarity';
+      const htmlContent = this.getPasswordResetEmailTemplate(firstName, resetUrl);
+      const textContent = this.getPasswordResetEmailText(firstName, resetUrl);
+
+      await this.transporter.sendMail({
+        from: process.env.EMAIL_USER,
+        to: to,
+        subject: subject,
+        text: textContent,
+        html: htmlContent,
+      });
+
+      console.log(`Password reset email sent successfully to ${to}`);
+      return true;
+    } catch (error) {
+      console.error('Failed to send password reset email:', error);
+      return false;
+    }
+  }
+
+  /**
+   * Get HTML template for password reset email
+   */
+  private getPasswordResetEmailTemplate(firstName: string, resetUrl: string): string {
+    return `
+      <!DOCTYPE html>
+      <html lang="en">
+      <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Reset Your Password - Contract Clarity</title>
+        <style>
+          body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f8fafc;
+          }
+          .container {
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07);
+          }
+          .logo {
+            text-align: center;
+            margin-bottom: 30px;
+          }
+          .logo h1 {
+            color: #6366f1;
+            font-size: 28px;
+            margin: 0;
+            font-weight: 700;
+          }
+          .reset-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+            text-decoration: none;
+            padding: 16px 32px;
+            border-radius: 8px;
+            font-weight: 600;
+            text-align: center;
+            margin: 30px 0;
+            transition: transform 0.2s;
+          }
+          .reset-button:hover {
+            transform: translateY(-1px);
+          }
+          .cta {
+            text-align: center;
+            margin: 30px 0;
+          }
+          .footer {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 1px solid #e5e7eb;
+            color: #6b7280;
+            font-size: 14px;
+          }
+          .security-note {
+            background: #fef3cd;
+            border: 1px solid #fbbf24;
+            border-radius: 6px;
+            padding: 15px;
+            margin: 20px 0;
+            font-size: 14px;
+          }
+          .warning {
+            background: #fee2e2;
+            border: 1px solid #f87171;
+            border-radius: 6px;
+            padding: 15px;
+            margin: 20px 0;
+            font-size: 14px;
+          }
+        </style>
+      </head>
+      <body>
+        <div class="container">
+          <div class="logo">
+            <h1>Contract Clarity</h1>
+          </div>
+          
+          <h2>Reset Your Password</h2>
+          
+          <p>Hello${firstName ? `, ${firstName}` : ''},</p>
+          
+          <p>We received a request to reset your password for your Contract Clarity account. If you made this request, click the button below to reset your password:</p>
+          
+          <div class="cta">
+            <a href="${resetUrl}" class="reset-button">Reset Password</a>
+          </div>
+          
+          <div class="security-note">
+            <strong>🔒 Security Note:</strong> This link will expire in 24 hours for your security. You can only use this link once.
+          </div>
+          
+          <div class="warning">
+            <strong>⚠️ Important:</strong> If you didn't request a password reset, please ignore this email. Your account remains secure.
+          </div>
+          
+          <p>If the button doesn't work, you can copy and paste this link into your browser:</p>
+          <p style="word-break: break-all; color: #6366f1;">${resetUrl}</p>
+          
+          <div class="footer">
+            <p>Need help? Contact our support team anytime.</p>
+            <p>© 2025 Contract Clarity. All rights reserved.</p>
+          </div>
+        </div>
+      </body>
+      </html>
+    `;
+  }
+
+  /**
+   * Get plain text version for password reset email
+   */
+  private getPasswordResetEmailText(firstName: string, resetUrl: string): string {
+    return `
+Reset Your Password - Contract Clarity
+
+Hello${firstName ? `, ${firstName}` : ''},
+
+We received a request to reset your password for your Contract Clarity account. If you made this request, use the link below to reset your password:
+
+${resetUrl}
+
+SECURITY NOTE: This link will expire in 24 hours for your security. You can only use this link once.
+
+IMPORTANT: If you didn't request a password reset, please ignore this email. Your account remains secure.
+
+Need help? Contact our support team anytime.
+
+© 2025 Contract Clarity. All rights reserved.
+    `.trim();
   }
 
   /**

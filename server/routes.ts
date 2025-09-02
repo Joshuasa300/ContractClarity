@@ -1234,6 +1234,96 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Password reset routes
+  app.post('/api/auth/forgot-password', async (req, res) => {
+    try {
+      const { email } = req.body;
+
+      if (!email || typeof email !== 'string') {
+        return res.status(400).json({ message: 'Email is required' });
+      }
+
+      const result = await storage.generatePasswordResetToken(email.toLowerCase().trim());
+      
+      if (result.rateLimited) {
+        return res.status(429).json({ 
+          message: 'Too many requests. Please wait 60 seconds before trying again.' 
+        });
+      }
+
+      // Always return success to prevent email enumeration
+      res.json({ 
+        success: true, 
+        message: 'If an account with that email exists, a password reset link has been sent.' 
+      });
+
+      console.log('✅ Password reset request processed for email:', email);
+    } catch (error) {
+      console.error('Forgot password error:', error);
+      res.status(500).json({ message: 'Internal server error' });
+    }
+  });
+
+  app.get('/api/auth/reset-password/:token', async (req, res) => {
+    try {
+      const { token } = req.params;
+
+      if (!token) {
+        return res.status(400).json({ message: 'Reset token is required' });
+      }
+
+      const result = await storage.validatePasswordResetToken(token);
+      
+      if (!result.valid) {
+        return res.status(400).json({ 
+          message: 'Invalid or expired reset token',
+          valid: false 
+        });
+      }
+
+      res.json({ 
+        valid: true, 
+        message: 'Token is valid' 
+      });
+    } catch (error) {
+      console.error('Validate reset token error:', error);
+      res.status(500).json({ message: 'Internal server error' });
+    }
+  });
+
+  app.post('/api/auth/reset-password', async (req, res) => {
+    try {
+      const { token, password } = req.body;
+
+      if (!token || !password) {
+        return res.status(400).json({ message: 'Token and new password are required' });
+      }
+
+      if (password.length < 8) {
+        return res.status(400).json({ message: 'Password must be at least 8 characters long' });
+      }
+
+      const result = await storage.resetPassword(token, password);
+      
+      if (!result.success) {
+        return res.status(400).json({ 
+          message: result.error || 'Failed to reset password',
+          success: false 
+        });
+      }
+
+      res.json({ 
+        success: true, 
+        message: 'Password has been reset successfully. You can now log in with your new password.' 
+      });
+
+      console.log('✅ Password reset completed successfully');
+    } catch (error) {
+      console.error('Reset password error:', error);
+      res.status(500).json({ message: 'Internal server error' });
+    }
+  });
+
   // Stripe webhook endpoint for handling payment events
   // Note: Raw body parsing is handled in server/index.ts for this route
   app.post('/api/webhook', async (req, res) => {

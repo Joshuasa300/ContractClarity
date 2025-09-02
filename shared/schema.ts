@@ -43,6 +43,10 @@ export const users = pgTable("users", {
   verificationToken: varchar("verification_token"), // Nullable token for email verification
   verificationTokenExpiresAt: timestamp("verification_token_expires_at"), // Token expiration
   verificationCodeSentAt: timestamp("verification_code_sent_at"), // Rate limiting for resends
+  // Password reset fields
+  passwordResetToken: varchar("password_reset_token"), // Nullable token for password reset
+  passwordResetTokenExpiresAt: timestamp("password_reset_token_expires_at"), // Token expiration (24 hours)
+  passwordResetRequestedAt: timestamp("password_reset_requested_at"), // Rate limiting for requests
   // Subscription fields
   accountStatus: varchar("account_status").default("free"), // 'free', 'plus', 'pro', 'premium', 'null' (payment failed)
   stripeCustomerId: varchar("stripe_customer_id").unique(), // Stripe customer ID

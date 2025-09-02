@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useLocation } from 'wouter';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -17,6 +18,7 @@ export default function LoginForm({
   onSwitchToRegister, 
   onEmailNotVerified 
 }: LoginFormProps) {
+  const [, setLocation] = useLocation();
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -132,6 +134,18 @@ export default function LoginForm({
                 )}
               </Button>
             </div>
+          </div>
+
+          <div className="flex justify-end">
+            <Button
+              type="button"
+              variant="link"
+              onClick={() => setLocation('/forgot-password')}
+              className="p-0 h-auto text-sm text-purple-600 hover:text-purple-700"
+              disabled={isLoggingIn}
+            >
+              Forgot password?
+            </Button>
           </div>
 
           <Button

@@ -590,5 +590,56 @@ export const en = {
         content: 'For questions about these Terms of Service, contact us at legal@contractclarity.co.uk'
       }
     }
+  },
+
+  // Password Reset
+  passwordReset: {
+    forgotPassword: {
+      title: 'Reset Password',
+      description: 'Enter your email address and we\'ll send you a link to reset your password',
+      email: 'Email Address',
+      emailPlaceholder: 'Enter your email address',
+      sendLink: 'Send Reset Link',
+      sending: 'Sending Reset Link...',
+      backToLogin: 'Back to Login',
+      successTitle: 'Reset Link Sent',
+      successMessage: 'If an account with that email exists, a password reset link has been sent. Please check your email and follow the instructions.',
+      didntReceive: 'Didn\'t receive the email? Check your spam folder.',
+      sendAnother: 'Send Another Email',
+      waitMessage: 'You can request another email in {seconds} seconds',
+      rateLimitTitle: 'Rate Limited',
+      rateLimitMessage: 'Too many requests. Please wait 60 seconds before trying again.'
+    },
+    resetPassword: {
+      title: 'Reset Your Password',
+      description: 'Enter your new password below. Make sure it\'s at least 8 characters long.',
+      newPassword: 'New Password',
+      newPasswordPlaceholder: 'Enter your new password',
+      confirmPassword: 'Confirm New Password',
+      confirmPasswordPlaceholder: 'Confirm your new password',
+      resetButton: 'Reset Password',
+      resetting: 'Resetting Password...',
+      validating: 'Validating reset link...',
+      securityNote: 'Your password should be at least 8 characters long and contain a mix of letters, numbers, and symbols for better security.',
+      invalidToken: {
+        title: 'Invalid Reset Link',
+        description: 'This password reset link is invalid or has expired. Please request a new password reset link.',
+        expiredTitle: 'Reset Link Expired',
+        expiredDescription: 'This password reset link has expired or is no longer valid. Password reset links are only valid for 24 hours.',
+        requestNew: 'Request New Reset Link'
+      },
+      success: {
+        title: 'Password Reset Complete',
+        description: 'Your password has been successfully reset. You can now log in with your new password.',
+        continueToLogin: 'Continue to Login'
+      },
+      errors: {
+        passwordMismatch: 'Passwords don\'t match',
+        passwordTooShort: 'Password must be at least 8 characters long',
+        resetFailed: 'Failed to reset password. Please try again.',
+        invalidToken: 'Invalid or expired reset token'
+      }
+    },
+    forgotPasswordLink: 'Forgot password?'
   }
 };

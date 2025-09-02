@@ -49,6 +49,12 @@ export interface IStorage {
   isEmailVerified(userId: string): Promise<boolean>;
   getUserByVerificationToken(token: string): Promise<User | undefined>;
   
+  // Password reset operations
+  generatePasswordResetToken(email: string): Promise<{ success: boolean; rateLimited?: boolean }>;
+  validatePasswordResetToken(token: string): Promise<{ valid: boolean; userId?: string }>;
+  resetPassword(token: string, newPassword: string): Promise<{ success: boolean; error?: string }>;
+  getUserByPasswordResetToken(token: string): Promise<User | undefined>;
+  
   // Pending registration operations
   createPendingRegistration(registration: {
     email: string;
@@ -365,6 +371,124 @@ export class DatabaseStorage implements IStorage {
         and(
           eq(users.verificationToken, token),
           gte(users.verificationTokenExpiresAt, new Date())
+        )
+      );
+    return user;
+  }
+
+  // Password reset operations
+  async generatePasswordResetToken(email: string): Promise<{ success: boolean; rateLimited?: boolean }> {
+    const user = await this.getUserByEmail(email);
+    if (!user) {
+      console.log('❌ Password reset requested for non-existent email:', email);
+      return { success: false };
+    }
+
+    // Only allow password resets for local auth users (not OAuth users)
+    if (user.authProvider !== 'local' || !user.password) {
+      console.log('❌ Password reset not allowed for OAuth user:', email);
+      return { success: false };
+    }
+
+    // Check rate limiting - 60 second cooldown
+    if (user.passwordResetRequestedAt) {
+      const timeSinceLastRequest = Date.now() - user.passwordResetRequestedAt.getTime();
+      const cooldownMs = 60 * 1000; // 60 seconds
+      
+      if (timeSinceLastRequest < cooldownMs) {
+        console.log('⏱️ Rate limited password reset request for user:', email);
+        return { success: false, rateLimited: true };
+      }
+    }
+
+    // Generate secure 32-byte random token
+    const crypto = await import('crypto');
+    const token = crypto.randomBytes(32).toString('hex');
+    const expiresAt = new Date(Date.now() + 24 * 60 * 60 * 1000); // 24 hours from now
+    const requestedAt = new Date();
+
+    // Store the reset token
+    await db
+      .update(users)
+      .set({
+        passwordResetToken: token,
+        passwordResetTokenExpiresAt: expiresAt,
+        passwordResetRequestedAt: requestedAt,
+        updatedAt: new Date(),
+      })
+      .where(eq(users.id, user.id));
+
+    // Send password reset email
+    const { emailService } = await import('./services/emailService');
+    const resetUrl = `${process.env.FRONTEND_URL || 'http://localhost:5000'}/auth/reset-password?token=${token}`;
+    
+    const emailSent = await emailService.sendPasswordResetEmail({
+      to: user.email,
+      firstName: user.firstName || '',
+      resetUrl,
+    });
+
+    if (!emailSent) {
+      console.log('❌ Failed to send password reset email for user:', email);
+      return { success: false };
+    }
+
+    console.log('✅ Password reset token generated and email sent for user:', email);
+    return { success: true };
+  }
+
+  async validatePasswordResetToken(token: string): Promise<{ valid: boolean; userId?: string }> {
+    const user = await this.getUserByPasswordResetToken(token);
+    if (!user) {
+      console.log('❌ Invalid or expired password reset token');
+      return { valid: false };
+    }
+
+    console.log('✅ Valid password reset token for user:', user.id);
+    return { valid: true, userId: user.id };
+  }
+
+  async resetPassword(token: string, newPassword: string): Promise<{ success: boolean; error?: string }> {
+    const user = await this.getUserByPasswordResetToken(token);
+    if (!user) {
+      console.log('❌ Invalid or expired password reset token during reset');
+      return { success: false, error: 'Invalid or expired reset token' };
+    }
+
+    // Only allow password resets for local auth users
+    if (user.authProvider !== 'local') {
+      console.log('❌ Password reset attempted for OAuth user:', user.id);
+      return { success: false, error: 'Password reset not allowed for OAuth accounts' };
+    }
+
+    // Hash the new password
+    const bcrypt = await import('bcryptjs');
+    const hashedPassword = await bcrypt.hash(newPassword, 12);
+
+    // Update password and clear reset token
+    await db
+      .update(users)
+      .set({
+        password: hashedPassword,
+        passwordResetToken: null,
+        passwordResetTokenExpiresAt: null,
+        passwordResetRequestedAt: null,
+        updatedAt: new Date(),
+      })
+      .where(eq(users.id, user.id));
+
+    console.log('✅ Password reset successfully for user:', user.id);
+    return { success: true };
+  }
+
+  async getUserByPasswordResetToken(token: string): Promise<User | undefined> {
+    const [user] = await db
+      .select()
+      .from(users)
+      .where(
+        and(
+          eq(users.passwordResetToken, token),
+          gte(users.passwordResetTokenExpiresAt, new Date())
         )
       );
     return user;

@@ -24,6 +24,8 @@ import Checkout from "@/pages/checkout";
 import SubscriptionSuccess from "@/pages/subscription-success";
 import PageLimitsDemo from "@/pages/PageLimitsDemo";
 import LogoDemo from "@/pages/logo-demo";
+import ForgotPasswordPage from "@/pages/ForgotPasswordPage";
+import ResetPasswordPage, { InvalidTokenPage, ResetSuccessPage } from "@/pages/ResetPasswordPage";
 
 // Protected route component for paid features
 function PaidFeatureRoute({ component: Component }: { component: React.ComponentType }) {
@@ -58,6 +60,11 @@ function Router() {
       <Route path="/privacy-policy" component={PrivacyPolicy} />
       <Route path="/terms-of-service" component={TermsOfService} />
       <Route path="/auth" component={AuthPage} />
+      <Route path="/login" component={AuthPage} />
+      <Route path="/forgot-password" component={ForgotPasswordPage} />
+      <Route path="/reset-password/:token" component={ResetPasswordPage} />
+      <Route path="/reset-password/invalid" component={InvalidTokenPage} />
+      <Route path="/reset-password/success" component={ResetSuccessPage} />
       <Route path="/checkout" component={Checkout} />
       <Route path="/subscription-success" component={SubscriptionSuccess} />
       <Route path="/logo-demo" component={LogoDemo} />
