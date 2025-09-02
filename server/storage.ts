@@ -420,7 +420,11 @@ export class DatabaseStorage implements IStorage {
 
     // Send password reset email
     const { emailService } = await import('./services/emailService');
-    const resetUrl = `${process.env.FRONTEND_URL || 'http://localhost:5000'}/reset-password/${token}`;
+    // Use Replit URL if available, otherwise fallback to localhost
+    const baseUrl = process.env.REPLIT_DOMAINS 
+      ? `https://${process.env.REPLIT_DOMAINS}` 
+      : process.env.FRONTEND_URL || 'http://localhost:5000';
+    const resetUrl = `${baseUrl}/reset-password/${token}`;
     
     const emailSent = await emailService.sendPasswordResetEmail({
       to: user.email,
