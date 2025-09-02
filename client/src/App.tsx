@@ -65,6 +65,17 @@ function Router() {
       <Route path="/reset-password/:token" component={ResetPasswordPage} />
       <Route path="/reset-password/invalid" component={InvalidTokenPage} />
       <Route path="/reset-password/success" component={ResetSuccessPage} />
+      {/* Legacy redirect for old reset URLs */}
+      <Route path="/auth/reset-password" component={() => {
+        const searchParams = new URLSearchParams(window.location.search);
+        const token = searchParams.get('token');
+        if (token) {
+          window.location.href = `/reset-password/${token}`;
+        } else {
+          window.location.href = '/forgot-password';
+        }
+        return null;
+      }} />
       <Route path="/checkout" component={Checkout} />
       <Route path="/subscription-success" component={SubscriptionSuccess} />
       <Route path="/logo-demo" component={LogoDemo} />
