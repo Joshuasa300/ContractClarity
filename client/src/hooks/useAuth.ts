@@ -7,10 +7,11 @@ export function useAuth() {
     queryKey: ["/api/user"],
     queryFn: getQueryFn({ on401: "returnNull" }),
     retry: false,
-    staleTime: 0, // Always refetch to ensure latest user data
-    gcTime: 0, // Don't cache user data
-    refetchOnWindowFocus: true, // Refetch when window regains focus
-    refetchOnMount: true, // Always refetch on component mount
+    staleTime: 5 * 60 * 1000, // Consider data fresh for 5 minutes
+    gcTime: 10 * 60 * 1000, // Keep in cache for 10 minutes
+    refetchOnWindowFocus: false, // Disable constant refetching on focus
+    refetchOnMount: false, // Only refetch if data is stale
+    refetchInterval: false, // Disable automatic polling
   });
 
   return {
