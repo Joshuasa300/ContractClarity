@@ -1,22 +1,73 @@
 <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <!-- Simple purple gradient background circle -->
-  <circle cx="50" cy="50" r="48" fill="url(#faviconGradient)" stroke="#7C3AED" stroke-width="2"/>
+  <!-- Back document (slightly offset) -->
+  <rect
+    x="10"
+    y="5"
+    width="50"
+    height="60"
+    rx="3"
+    fill="url(#contractGradientC1)"
+    stroke="url(#contractBorderC)"
+    stroke-width="1"
+  />
   
-  <!-- Simplified document icon -->
-  <rect x="35" y="25" width="30" height="40" rx="3" fill="white" fill-opacity="0.95"/>
+  <!-- Front document (main) -->
+  <rect
+    x="20"
+    y="10"
+    width="50"
+    height="60"
+    rx="3"
+    fill="url(#contractGradientC2)"
+    stroke="url(#contractBorderC)"
+    stroke-width="2"
+  />
   
-  <!-- Document lines -->
-  <line x1="40" y1="35" x2="60" y2="35" stroke="#8B5CF6" stroke-width="2" stroke-linecap="round"/>
-  <line x1="40" y1="43" x2="55" y2="43" stroke="#A855F7" stroke-width="2" stroke-linecap="round"/>
-  <line x1="40" y1="51" x2="58" y2="51" stroke="#C084FC" stroke-width="2" stroke-linecap="round"/>
+  <!-- Document text lines -->
+  <line x1="25" y1="20" x2="58" y2="20" stroke="white" stroke-width="2" stroke-linecap="round" />
+  <line x1="25" y1="26" x2="53" y2="26" stroke="white" stroke-width="2" stroke-linecap="round" />
+  <line x1="25" y1="32" x2="56" y2="32" stroke="white" stroke-width="2" stroke-linecap="round" />
+  <line x1="25" y1="38" x2="50" y2="38" stroke="white" stroke-width="2" stroke-linecap="round" />
+  <line x1="25" y1="44" x2="54" y2="44" stroke="white" stroke-width="2" stroke-linecap="round" />
+  <line x1="25" y1="50" x2="48" y2="50" stroke="white" stroke-width="2" stroke-linecap="round" />
   
-  <!-- Checkmark -->
-  <path d="M42 58l3 3 6-6" stroke="#10B981" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Signature line -->
+  <line x1="25" y1="60" x2="53" y2="60" stroke="rgba(255,255,255,0.7)" stroke-width="1.5" stroke-linecap="round" />
+  
+  <!-- Purple Checkmark with white background -->
+  <circle 
+    cx="75" 
+    cy="75" 
+    r="10" 
+    fill="white" 
+    stroke="url(#contractBorderC)" 
+    stroke-width="2"
+  />
+  <path
+    d="M71 75l2.5 2.5 5-5"
+    stroke="url(#purpleCheckGradient)"
+    stroke-width="2.5"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  />
   
   <defs>
-    <linearGradient id="faviconGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#8B5CF6"/>
-      <stop offset="100%" stop-color="#6366F1"/>
+    <linearGradient id="contractGradientC1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#7C3AED" />
+      <stop offset="100%" stop-color="#6366F1" />
+    </linearGradient>
+    <linearGradient id="contractGradientC2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#6366F1" />
+      <stop offset="50%" stop-color="#8B5CF6" />
+      <stop offset="100%" stop-color="#7C3AED" />
+    </linearGradient>
+    <linearGradient id="contractBorderC" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4F46E5" />
+      <stop offset="100%" stop-color="#6B21A8" />
+    </linearGradient>
+    <linearGradient id="purpleCheckGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#8B5CF6" />
+      <stop offset="100%" stop-color="#7C3AED" />
     </linearGradient>
   </defs>
 </svg>
