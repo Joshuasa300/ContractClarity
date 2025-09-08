@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useLocation } from 'wouter';
+import { queryClient } from '@/lib/queryClient';
 import Header from '@/components/Header';
 import LoginForm from '@/components/LoginForm';
 import RegistrationForm from '@/components/RegistrationForm';
@@ -16,8 +17,12 @@ export default function AuthPage() {
   const [verificationUserId, setVerificationUserId] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
 
-  const handleLoginSuccess = () => {
-    window.location.href = '/dashboard';
+  const handleLoginSuccess = async () => {
+    // Invalidate the auth query to refresh user data immediately
+    await queryClient.invalidateQueries({ queryKey: ["/api/user"] });
+    
+    // Use programmatic navigation instead of hard reload
+    setLocation('/dashboard');
   };
 
   const handleRegistrationSuccess = (email: string, userId: string) => {
