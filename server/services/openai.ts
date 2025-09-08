@@ -38,7 +38,9 @@ Focus on:
 2. Practical implications for the signer
 3. Potential risks and red flags
 4. Actionable recommendations
-5. Key financial, legal, and operational terms`;
+5. Key financial, legal, and operational terms
+
+IMPORTANT: Order keyTerms by risk level with high-risk terms first, followed by medium-risk, then low-risk terms.`;
 
   const languageInstructions = {
     'en': '',
@@ -152,10 +154,18 @@ export async function analyzeContract(
 
     const analysis = JSON.parse(response.choices[0].message.content || "{}");
     
+    // Sort key terms by risk level (high -> medium -> low)
+    const sortedKeyTerms = (analysis.keyTerms || []).sort((a: any, b: any) => {
+      const riskOrder = { 'high': 0, 'medium': 1, 'low': 2 };
+      const aOrder = riskOrder[a.riskLevel as keyof typeof riskOrder] ?? 3;
+      const bOrder = riskOrder[b.riskLevel as keyof typeof riskOrder] ?? 3;
+      return aOrder - bOrder;
+    });
+    
     return {
       summary: analysis.summary || "Unable to generate summary",
       riskAssessment: analysis.riskAssessment || { high: [], medium: [], low: [] },
-      keyTerms: analysis.keyTerms || [],
+      keyTerms: sortedKeyTerms,
       recommendations: analysis.recommendations || [],
     };
   } catch (error) {
