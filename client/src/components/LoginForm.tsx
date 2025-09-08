@@ -29,7 +29,9 @@ export default function LoginForm({
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+    // Normalize email to lowercase for case-insensitive matching
+    const normalizedValue = name === 'email' ? value.toLowerCase() : value;
+    setFormData(prev => ({ ...prev, [name]: normalizedValue }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {

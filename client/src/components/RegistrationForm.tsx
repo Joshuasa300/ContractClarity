@@ -29,7 +29,9 @@ export default function RegistrationForm({
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+    // Normalize email to lowercase for case-insensitive matching
+    const normalizedValue = name === 'email' ? value.toLowerCase() : value;
+    setFormData(prev => ({ ...prev, [name]: normalizedValue }));
   };
 
   const validateForm = () => {
@@ -49,7 +51,7 @@ export default function RegistrationForm({
     }
     
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(formData.email)) {
+    if (!emailRegex.test(formData.email.toLowerCase())) {
       setError('Please enter a valid email address');
       return false;
     }
