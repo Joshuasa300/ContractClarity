@@ -991,17 +991,18 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ message: 'Email and password are required' });
       }
 
-      // Check if user already exists
-      const existingUser = await storage.getUserByEmail(email);
+      // Check if user already exists (normalize email for case-insensitive check)
+      const normalizedEmail = email.toLowerCase().trim();
+      const existingUser = await storage.getUserByEmail(normalizedEmail);
       if (existingUser) {
         return res.status(400).json({ message: 'Email already registered' });
       }
 
       // Check if there's already a pending registration
-      const existingPending = await storage.getPendingRegistration(email);
+      const existingPending = await storage.getPendingRegistration(normalizedEmail);
       if (existingPending) {
         // Delete old pending registration to allow new one
-        await storage.deletePendingRegistration(email);
+        await storage.deletePendingRegistration(normalizedEmail);
       }
 
       // Hash password
@@ -1013,7 +1014,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       // Create pending registration (not actual user yet)
       const { id, expiresAt } = await storage.createPendingRegistration({
-        email,
+        email: normalizedEmail,
         firstName: firstName || undefined,
         lastName: lastName || undefined,
         password: hashedPassword,
@@ -1022,7 +1023,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       // Send verification email with 6-digit code
       const emailSent = await emailService.sendVerificationEmail({
-        to: email,
+        to: normalizedEmail,
         firstName: firstName || '',
         verificationCode,
       });
@@ -1032,11 +1033,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
         // Don't fail registration, user can resend later
       }
 
-      console.log('✅ Pending registration created, verification email sent:', email);
+      console.log('✅ Pending registration created, verification email sent:', normalizedEmail);
       res.status(201).json({
         message: 'Registration initiated. Please check your email for a 6-digit verification code.',
         requiresVerification: true,
-        email: email,
+        email: normalizedEmail,
         expiresAt: expiresAt.toISOString(),
       });
     } catch (error) {
@@ -1053,8 +1054,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ message: 'Email and verification code are required' });
       }
 
-      // Complete pending registration with 6-digit code
-      const result = await storage.completePendingRegistration(email, code);
+      // Complete pending registration with 6-digit code (normalize email)
+      const result = await storage.completePendingRegistration(email.toLowerCase().trim(), code);
 
       if (result.success && result.user) {
         console.log('✅ Email verified and user created successfully:', email);
@@ -1108,14 +1109,17 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ message: 'Email is required' });
       }
 
+      // Normalize email for case-insensitive lookup
+      const normalizedEmail = email.toLowerCase().trim();
+      
       // Check if user already exists (email already verified)
-      const existingUser = await storage.getUserByEmail(email);
+      const existingUser = await storage.getUserByEmail(normalizedEmail);
       if (existingUser) {
         return res.status(400).json({ message: 'Email is already registered and verified' });
       }
 
       // Check for pending registration
-      const pendingReg = await storage.getPendingRegistration(email);
+      const pendingReg = await storage.getPendingRegistration(normalizedEmail);
       if (!pendingReg) {
         return res.status(404).json({ message: 'No pending registration found for this email' });
       }
@@ -1133,9 +1137,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const newVerificationCode = emailService.generateVerificationCode();
 
       // Update pending registration with new code
-      await storage.deletePendingRegistration(email);
+      await storage.deletePendingRegistration(normalizedEmail);
       await storage.createPendingRegistration({
-        email: pendingReg.email,
+        email: normalizedEmail,
         firstName: pendingReg.firstName || undefined,
         lastName: pendingReg.lastName || undefined,
         password: pendingReg.password, // Already hashed
@@ -1144,7 +1148,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       // Send new verification email
       const emailSent = await emailService.sendVerificationEmail({
-        to: email,
+        to: normalizedEmail,
         firstName: pendingReg.firstName || '',
         verificationCode: newVerificationCode,
       });
@@ -1193,7 +1197,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ message: 'Email and password are required' });
       }
 
-      const user = await storage.getUserByEmail(email);
+      const user = await storage.getUserByEmail(email.toLowerCase().trim());
       if (!user || !user.password || user.authProvider !== 'local') {
         return res.status(401).json({ message: 'Invalid email or password' });
       }
