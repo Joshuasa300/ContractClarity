@@ -80,7 +80,18 @@ function Router() {
       <Route path="/subscription-success" component={SubscriptionSuccess} />
       <Route path="/logo-demo" component={LogoDemo} />
       
-      {isLoading || !isAuthenticated ? (
+      {isLoading ? (
+        <>
+          {/* Show protected routes during loading to prevent 404 flash */}
+          <Route path="/" component={Home} />
+          <Route path="/dashboard" component={Home} />
+          <Route path="/analysis/:contractId" component={Analysis} />
+          <Route path="/templates" component={() => <PaidFeatureRoute component={Templates} />} />
+          <Route path="/clauses" component={() => <PaidFeatureRoute component={Clauses} />} />
+          <Route path="/settings" component={Settings} />
+          <Route path="/demo/page-limits" component={PageLimitsDemo} />
+        </>
+      ) : !isAuthenticated ? (
         <>
           <Route path="/" component={Landing} />
         </>
@@ -95,7 +106,7 @@ function Router() {
           <Route path="/demo/page-limits" component={PageLimitsDemo} />
         </>
       )}
-      <Route component={NotFound} />
+      {!isLoading && <Route component={NotFound} />}
     </Switch>
   );
 }
