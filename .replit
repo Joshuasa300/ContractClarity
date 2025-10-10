@@ -10,10 +10,6 @@ deploymentTarget = "autoscale"
 build = ["npm", "run", "build"]
 run = ["npm", "run", "start"]
 
-[[ports]]
-localPort = 41013
-externalPort = 80
-
 [workflows]
 runButton = "Start application"
 
@@ -50,3 +46,7 @@ args = "npm run dev"
 
 [agent]
 integrations = ["javascript_sendgrid:1.0.0", "javascript_stripe:1.0.0"]
+
+[[ports]]
+localPort = 45161
+externalPort = 80
