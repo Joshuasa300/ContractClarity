@@ -48,5 +48,5 @@ args = "npm run dev"
 integrations = ["javascript_sendgrid:1.0.0", "javascript_stripe:1.0.0"]
 
 [[ports]]
-localPort = 36001
-externalPort = 3000
+localPort = 41031
+externalPort = 80
