@@ -10,8 +10,11 @@ import { CheckCircle } from 'lucide-react';
 type AuthMode = 'login' | 'register' | 'verify';
 
 export default function AuthPage() {
-  const [, setLocation] = useLocation();
-  const [mode, setMode] = useState<AuthMode>('login');
+  const [location, setLocation] = useLocation();
+  // Check URL for mode parameter, default to login
+  const urlParams = new URLSearchParams(window.location.search);
+  const initialMode = (urlParams.get('mode') as AuthMode) || 'login';
+  const [mode, setMode] = useState<AuthMode>(initialMode);
   const [verificationEmail, setVerificationEmail] = useState('');
   const [verificationUserId, setVerificationUserId] = useState('');
   const [successMessage, setSuccessMessage] = useState('');

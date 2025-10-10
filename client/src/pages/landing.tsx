@@ -13,15 +13,15 @@ export default function Landing() {
   const { t } = useLanguage();
   
   const handleGetStarted = () => {
-    setLocation("/auth");
+    setLocation("/auth?mode=register");
   };
 
   const handleSignIn = () => {
-    setLocation("/auth");
+    setLocation("/auth?mode=login");
   };
 
   const handleSignUp = () => {
-    setLocation("/auth");
+    setLocation("/auth?mode=register");
   };
 
   return (

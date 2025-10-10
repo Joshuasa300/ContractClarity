@@ -49,12 +49,14 @@ export default function Navigation({ onSignIn, onGetStarted, onSignUp }: Navigat
                   variant="ghost"
                   onClick={onSignIn}
                   className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20"
+                  data-testid="button-signin"
                 >
                   Sign In
                 </Button>
                 <Button
                   onClick={onGetStarted}
                   className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white shadow-lg hover:shadow-xl transition-all duration-300"
+                  data-testid="button-get-started"
                 >
                   Get Started
                 </Button>
@@ -113,6 +115,7 @@ export default function Navigation({ onSignIn, onGetStarted, onSignUp }: Navigat
                     onSignIn();
                   }}
                   className="w-full justify-center text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50/50 dark:hover:bg-blue-900/20 h-11 rounded-lg transition-all duration-200 active:scale-95"
+                  data-testid="button-signin-mobile"
                 >
                   Sign In
                 </Button>
@@ -122,6 +125,7 @@ export default function Navigation({ onSignIn, onGetStarted, onSignUp }: Navigat
                     onGetStarted();
                   }}
                   className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white shadow-lg hover:shadow-xl h-11 rounded-lg transition-all duration-200 active:scale-95"
+                  data-testid="button-get-started-mobile"
                 >
                   Get Started
                 </Button>
