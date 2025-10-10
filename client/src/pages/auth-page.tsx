@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useLocation } from 'wouter';
 import Header from '@/components/Header';
 import LoginForm from '@/components/LoginForm';
@@ -11,7 +11,12 @@ type AuthMode = 'login' | 'register' | 'verify';
 
 export default function AuthPage() {
   const [, setLocation] = useLocation();
-  const [mode, setMode] = useState<AuthMode>('login');
+  
+  // Check URL params for initial mode
+  const urlParams = new URLSearchParams(window.location.search);
+  const initialMode = urlParams.get('mode') === 'register' ? 'register' : 'login';
+  
+  const [mode, setMode] = useState<AuthMode>(initialMode);
   const [verificationEmail, setVerificationEmail] = useState('');
   const [verificationUserId, setVerificationUserId] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
