@@ -1448,11 +1448,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
               const priceId = subscription.items.data[0].price.id;
               console.log('💰 Checkout processing price ID:', priceId);
               
-              if (priceId === 'price_1Rj2flPqwDXcpBrtJ39fCStw') {
+              if (priceId === 'price_1SI82XLKZQv1tTWk97PxJJYv') {
                 planType = 'plus';
-              } else if (priceId === 'price_1Rj6HEPqwDXcpBrtKKqY5JBI') {
+              } else if (priceId === 'price_1SI887LKZQv1tTWkp4R6fNS7') {
                 planType = 'pro';
-              } else if (priceId === 'price_1Rj6HiPqwDXcpBrtGH8WqjO8') {
+              } else if (priceId === 'price_1SI88XLKZQv1tTWkhvszn2fa') {
                 planType = 'premium';
               }
             }
@@ -1521,17 +1521,17 @@ export async function registerRoutes(app: Express): Promise<Server> {
             
             // Log all price IDs for debugging
             console.log('🎯 Checking against known price IDs:');
-            console.log('   Plus: price_1Rj2flPqwDXcpBrtJ39fCStw');
-            console.log('   Pro: price_1Rj6HEPqwDXcpBrtKKqY5JBI'); 
-            console.log('   Premium: price_1Rj6HiPqwDXcpBrtGH8WqjO8');
+            console.log('   Plus: price_1SI82XLKZQv1tTWk97PxJJYv');
+            console.log('   Pro: price_1SI887LKZQv1tTWkp4R6fNS7'); 
+            console.log('   Premium: price_1SI88XLKZQv1tTWkhvszn2fa');
             
-            if (priceId === 'price_1Rj2flPqwDXcpBrtJ39fCStw') {
+            if (priceId === 'price_1SI82XLKZQv1tTWk97PxJJYv') {
               planType = 'plus';
               console.log('✅ Matched Plus plan');
-            } else if (priceId === 'price_1Rj6HEPqwDXcpBrtKKqY5JBI') {
+            } else if (priceId === 'price_1SI887LKZQv1tTWkp4R6fNS7') {
               planType = 'pro';
               console.log('✅ Matched Pro plan');
-            } else if (priceId === 'price_1Rj6HiPqwDXcpBrtGH8WqjO8') {
+            } else if (priceId === 'price_1SI88XLKZQv1tTWkhvszn2fa') {
               planType = 'premium';
               console.log('✅ Matched Premium plan');
             } else {
@@ -1693,11 +1693,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
                 let planType = 'free';
                 if (successSubscription.status === 'active' && successSubscription.items.data.length > 0) {
                   const priceId = successSubscription.items.data[0].price.id;
-                  if (priceId === 'price_1Rj2flPqwDXcpBrtJ39fCStw') {
+                  if (priceId === 'price_1SI82XLKZQv1tTWk97PxJJYv') {
                     planType = 'plus';
-                  } else if (priceId === 'price_1Rj6HEPqwDXcpBrtKKqY5JBI') {
+                  } else if (priceId === 'price_1SI887LKZQv1tTWkp4R6fNS7') {
                     planType = 'pro';
-                  } else if (priceId === 'price_1Rj6HiPqwDXcpBrtGH8WqjO8') {
+                  } else if (priceId === 'price_1SI88XLKZQv1tTWkhvszn2fa') {
                     planType = 'premium';
                   }
                 }
