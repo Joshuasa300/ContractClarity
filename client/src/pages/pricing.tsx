@@ -156,15 +156,15 @@ export default function Pricing() {
               key={plan.id} 
               className={`relative overflow-visible ${plan.popular ? 'border-2 border-blue-500 shadow-lg' : ''} ${isCurrentPlan(plan.id) ? 'bg-blue-50' : ''}`}
             >
-              <CardHeader className="text-center">
-                <div className="flex items-center justify-center gap-2">
-                  <CardTitle className="text-2xl font-bold">{plan.name}</CardTitle>
-                  {plan.popular && (
-                    <span className="bg-blue-500 text-white px-3 py-1 rounded-full text-sm font-medium whitespace-nowrap">
-                      Most Popular
-                    </span>
-                  )}
+              {plan.popular && (
+                <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 z-10">
+                  <span className="bg-blue-500 text-white px-4 py-1 rounded-full text-sm font-medium whitespace-nowrap shadow-sm">
+                    Most Popular
+                  </span>
                 </div>
+              )}
+              <CardHeader className="text-center">
+                <CardTitle className="text-2xl font-bold">{plan.name}</CardTitle>
                 <CardDescription className="text-3xl font-bold text-gray-900">
                   £{plan.price}
                   <span className="text-base font-normal text-gray-600">
