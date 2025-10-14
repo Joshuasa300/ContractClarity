@@ -787,7 +787,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Map plan to Stripe price ID
       const priceIds = {
         'plus': 'price_1SI82XLKZQv1tTWk97PxJJYv',
-        'pro': 'price_1Rj6HEPqwDXcpBrtKKqY5JBI',
+        'pro': 'price_1SI887LKZQv1tTWkp4R6fNS7',
         'premium': 'price_1SI88XLKZQv1tTWkhvszn2fa'
       };
 
