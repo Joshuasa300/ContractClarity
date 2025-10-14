@@ -788,7 +788,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const priceIds = {
         'plus': 'price_1Rj2flPqwDXcpBrtJ39fCStw',
         'pro': 'price_1Rj6HEPqwDXcpBrtKKqY5JBI',
-        'premium': 'price_1Rj6HiPqwDXcpBrtGH8WqjO8'
+        'premium': 'price_1SI88XLKZQv1tTWkhvszn2fa'
       };
 
       const priceId = priceIds[planId];
