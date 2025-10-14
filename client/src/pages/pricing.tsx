@@ -157,7 +157,7 @@ export default function Pricing() {
               className={`relative overflow-visible ${plan.popular ? 'border-2 border-blue-500 shadow-lg' : ''} ${isCurrentPlan(plan.id) ? 'bg-blue-50' : ''}`}
             >
               {plan.popular && (
-                <div className="absolute -top-6 left-1/2 transform -translate-x-1/2 z-10">
+                <div className="absolute -top-10 left-1/2 transform -translate-x-1/2 z-10">
                   <span className="bg-blue-500 text-white px-4 py-1.5 rounded-full text-sm font-medium whitespace-nowrap shadow-md">
                     Most Popular
                   </span>
