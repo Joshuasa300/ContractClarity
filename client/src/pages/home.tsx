@@ -678,16 +678,15 @@ export default function Home() {
                 key={plan.id} 
                 className={`relative overflow-visible ${plan.popular ? 'border-2 border-blue-500 shadow-lg' : ''} ${isCurrentPlan(plan.id) ? 'bg-blue-50' : ''}`}
               >
-                {plan.popular && (
-                  <div className="absolute -top-10 left-1/2 transform -translate-x-1/2 z-10">
-                    <span className="bg-blue-500 text-white px-4 py-1.5 rounded-full text-sm font-medium whitespace-nowrap shadow-md">
-                      Most Popular
-                    </span>
-                  </div>
-                )}
-
                 <CardHeader className="text-center pb-2">
-                  <CardTitle className="text-xl font-bold">{plan.name}</CardTitle>
+                  <div className="flex items-center justify-center gap-2">
+                    <CardTitle className="text-xl font-bold">{plan.name}</CardTitle>
+                    {plan.popular && (
+                      <span className="bg-blue-500 text-white px-3 py-1 rounded-full text-xs font-medium whitespace-nowrap">
+                        Most Popular
+                      </span>
+                    )}
+                  </div>
                   <CardDescription className="text-2xl font-bold text-gray-900">
                     £{plan.price}
                     <span className="text-sm font-normal text-gray-600">
