@@ -806,7 +806,34 @@ export async function registerRoutes(app: Express): Promise<Server> {
         const user = await storage.getUser(userId);
         
         if (user?.stripeCustomerId) {
-          customerId = user.stripeCustomerId;
+          // Validate that the stored customer ID exists in Stripe
+          try {
+            await stripe.customers.retrieve(user.stripeCustomerId);
+            customerId = user.stripeCustomerId;
+          } catch (error: any) {
+            // If customer doesn't exist (e.g., deleted or from different Stripe account)
+            if (error.type === 'StripeInvalidRequestError' && error.code === 'resource_missing') {
+              console.log(`Stored customer ${user.stripeCustomerId} not found in Stripe, creating new customer`);
+              // Create a new customer
+              if (user.email) {
+                const customer = await stripe.customers.create({
+                  email: user.email,
+                  metadata: { userId: user.id }
+                });
+                customerId = customer.id;
+                
+                // Update user with new Stripe customer ID
+                await storage.updateUserSubscription(user.id, {
+                  accountStatus: user.accountStatus,
+                  stripeCustomerId: customerId,
+                  subscriptionExpiresAt: user.subscriptionExpiresAt
+                });
+              }
+            } else {
+              // Re-throw other errors
+              throw error;
+            }
+          }
         } else if (user?.email) {
           // Create Stripe customer for existing user
           const customer = await stripe.customers.create({
@@ -879,7 +906,27 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Create or get existing customer
       let customer;
       if (user.stripeCustomerId) {
-        customer = await stripe.customers.retrieve(user.stripeCustomerId);
+        try {
+          customer = await stripe.customers.retrieve(user.stripeCustomerId);
+        } catch (error: any) {
+          // If customer doesn't exist (e.g., deleted or from different Stripe account)
+          if (error.type === 'StripeInvalidRequestError' && error.code === 'resource_missing') {
+            console.log(`Stored customer ${user.stripeCustomerId} not found in Stripe, creating new customer`);
+            customer = await stripe.customers.create({
+              email: user.email,
+              metadata: { userId: user.id }
+            });
+            
+            // Update user with new Stripe customer ID
+            await storage.updateUserSubscription(user.id, {
+              accountStatus: user.accountStatus,
+              stripeCustomerId: customer.id
+            });
+          } else {
+            // Re-throw other errors
+            throw error;
+          }
+        }
       } else {
         customer = await stripe.customers.create({
           email: user.email,
