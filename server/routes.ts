@@ -1761,7 +1761,59 @@ export async function registerRoutes(app: Express): Promise<Server> {
           }
           break;
 
-
+        case 'charge.refunded':
+          const refundedCharge = event.data.object as Stripe.Charge;
+          console.log('💰 Refund processed for charge:', refundedCharge.id);
+          
+          if (refundedCharge.customer) {
+            const refundedCustomer = await stripe.customers.retrieve(refundedCharge.customer as string);
+            if (!refundedCustomer.deleted) {
+              const refundedUserId = refundedCustomer.metadata?.userId;
+              let userToDowngrade = null;
+              
+              if (refundedUserId) {
+                userToDowngrade = await storage.getUser(refundedUserId);
+              } else {
+                // Fallback: try to find user by Stripe customer ID
+                userToDowngrade = await storage.getUserByStripeCustomerId(refundedCharge.customer as string);
+              }
+              
+              if (userToDowngrade) {
+                console.log(`⬇️ Refund issued - downgrading user ${userToDowngrade.email} to free tier`);
+                
+                // Cancel their active subscription if they have one
+                if (userToDowngrade.stripeCustomerId) {
+                  try {
+                    const subscriptions = await stripe.subscriptions.list({
+                      customer: userToDowngrade.stripeCustomerId,
+                      status: 'active',
+                      limit: 1
+                    });
+                    
+                    if (subscriptions.data.length > 0) {
+                      const activeSubscription = subscriptions.data[0];
+                      await stripe.subscriptions.cancel(activeSubscription.id);
+                      console.log(`🚫 Cancelled active subscription ${activeSubscription.id} due to refund`);
+                    }
+                  } catch (cancelError) {
+                    console.error('⚠️ Error cancelling subscription during refund:', cancelError);
+                  }
+                }
+                
+                // Downgrade to free tier
+                await storage.updateUserSubscription(userToDowngrade.id, {
+                  accountStatus: 'free',
+                  subscriptionExpiresAt: null,
+                  paymentFailed: false,
+                });
+                
+                console.log(`✅ User ${userToDowngrade.email} downgraded to free tier after refund`);
+              } else {
+                console.warn('⚠️ Could not find user for refunded charge. Customer ID:', refundedCharge.customer);
+              }
+            }
+          }
+          break;
 
         default:
           console.log(`Unhandled event type: ${event.type}`);

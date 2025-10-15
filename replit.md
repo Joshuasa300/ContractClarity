@@ -31,7 +31,7 @@ Preferred communication style: Simple, everyday language.
 - **Authentication**: Secure session-based authentication with protected routes.
 - **Contract Management**: Upload, storage, and user-specific isolation of contracts.
 - **AI Analysis Engine**: Integration with OpenAI for structured contract analysis.
-- **Subscription Management**: Integration with Stripe for tiered pricing (Free, Plus, Pro, Premium) with usage tracking (contract analysis counts), automatic payment enforcement, and subscription lifecycle management via webhooks. Payment failures trigger soft downgrade to free tier with read-only mode (users can view existing contracts but cannot upload new ones until payment is resolved).
+- **Subscription Management**: Integration with Stripe for tiered pricing (Free, Plus, Pro, Premium) with usage tracking (contract analysis counts), automatic payment enforcement, and subscription lifecycle management via webhooks. Payment failures trigger soft downgrade to free tier with read-only mode (users can view existing contracts but cannot upload new ones until payment is resolved). Refunds automatically cancel active subscriptions and downgrade users to free tier.
 - **User Management**: Profile editing, password reset (for local accounts), and secure account deletion with automatic Stripe subscription cancellation.
 - **Legal Pages**: Dedicated Privacy Policy and Terms of Service pages emphasizing that the service is not a substitute for legal advice.
 - **Support**: Contact form and support page integration.
