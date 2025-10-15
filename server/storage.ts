@@ -76,6 +76,7 @@ export interface IStorage {
       accountStatus: string;
       stripeCustomerId?: string;
       subscriptionExpiresAt?: Date;
+      paymentFailed?: boolean;
     },
     resetUsage?: boolean
   ): Promise<User>;
@@ -505,6 +506,7 @@ export class DatabaseStorage implements IStorage {
       accountStatus: string;
       stripeCustomerId?: string;
       subscriptionExpiresAt?: Date;
+      paymentFailed?: boolean;
     },
     resetUsage?: boolean
   ): Promise<User> {
@@ -519,6 +521,7 @@ export class DatabaseStorage implements IStorage {
         accountStatus: subscriptionData.accountStatus,
         stripeCustomerId: subscriptionData.stripeCustomerId,
         subscriptionExpiresAt: subscriptionData.subscriptionExpiresAt,
+        paymentFailed: subscriptionData.paymentFailed ?? false,
         updatedAt: new Date(),
       })
       .where(eq(users.id, userId))

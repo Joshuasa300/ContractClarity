@@ -67,6 +67,16 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.post('/api/contracts', isAuthenticated, upload.single('contract'), async (req: any, res) => {
     try {
       const userId = req.user.id;
+      
+      // Check if user has payment failed - read-only mode
+      const user = await storage.getUser(userId);
+      if (user?.paymentFailed) {
+        return res.status(403).json({ 
+          message: "Your payment method failed. Please update your payment details to continue uploading contracts.",
+          paymentFailed: true
+        });
+      }
+      
       const file = req.file;
       
       if (!file) {
@@ -1479,7 +1489,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
               await storage.updateUserSubscription(user.id, {
                 accountStatus: planType,
                 stripeCustomerId: customer.id,
-                subscriptionExpiresAt: subscription ? new Date(subscription.current_period_end * 1000) : null
+                subscriptionExpiresAt: subscription ? new Date(subscription.current_period_end * 1000) : null,
+                paymentFailed: false,
               }, isUpgrade);
               console.log('✅ Checkout subscription update successful');
             } else if (customer.email) {
@@ -1583,7 +1594,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
               await storage.updateUserSubscription(user.id, {
                 accountStatus: planType,
                 stripeCustomerId: customerId,
-                subscriptionExpiresAt: expirationDate
+                subscriptionExpiresAt: expirationDate,
+                paymentFailed: false,
               }, isUpgrade);
               console.log('✅ User subscription updated successfully');
             } catch (updateError) {
@@ -1702,13 +1714,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
                   }
                 }
                 
-                // Restore user access by updating their plan
+                // Restore user access by updating their plan and clearing payment failed flag
                 await storage.updateUserSubscription(userToRestore.id, {
                   accountStatus: planType,
                   subscriptionExpiresAt: new Date(successSubscription.current_period_end * 1000),
+                  paymentFailed: false,
                 });
                 
-                console.log(`Payment succeeded - restored user ${userToRestore.email} to ${planType} plan`);
+                console.log(`✅ Payment succeeded - restored user ${userToRestore.email} to ${planType} plan`);
               }
             }
           }
@@ -1716,30 +1729,32 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
         case 'invoice.payment_failed':
           const failedInvoice = event.data.object as Stripe.Invoice;
-          console.log('Payment failed for invoice:', failedInvoice.id);
+          console.log('💳 Payment failed for invoice:', failedInvoice.id);
           
           if (failedInvoice.customer && failedInvoice.subscription) {
             const failedCustomer = await stripe.customers.retrieve(failedInvoice.customer as string);
             if (!failedCustomer.deleted) {
               const failedUserId = failedCustomer.metadata?.userId;
               if (failedUserId) {
-                // Set user to null status - complete lockout until payment is resolved
+                // Downgrade to free with payment_failed flag - soft lockout
                 await storage.updateUserSubscription(failedUserId, {
-                  accountStatus: 'null',
+                  accountStatus: 'free',
                   subscriptionExpiresAt: null,
+                  paymentFailed: true,
                 });
                 
-                console.log(`Payment failed - locked out user with null status (Customer: ${failedInvoice.customer})`);
+                console.log(`⬇️ Payment failed - downgraded user to free tier with payment_failed flag (Customer: ${failedInvoice.customer})`);
               } else {
                 // Fallback: try to find user by Stripe customer ID
                 const failedPaymentUser = await storage.getUserByStripeCustomerId(failedInvoice.customer as string);
                 if (failedPaymentUser) {
                   await storage.updateUserSubscription(failedPaymentUser.id, {
-                    accountStatus: 'null',
+                    accountStatus: 'free',
                     subscriptionExpiresAt: null,
+                    paymentFailed: true,
                   });
                   
-                  console.log(`Payment failed - locked out user ${failedPaymentUser.email} with null status`);
+                  console.log(`⬇️ Payment failed - downgraded user ${failedPaymentUser.email} to free tier with payment_failed flag`);
                 }
               }
             }

@@ -24,6 +24,7 @@ import { Link } from "wouter";
 import ContractUpload from "@/components/ContractUpload";
 import Header from "@/components/Header";
 import { SocialFooter } from "@/components/SocialFooter";
+import PaymentFailedBanner from "@/components/PaymentFailedBanner";
 
 import type { Contract, User } from "@shared/schema";
 
@@ -317,6 +318,7 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-bg-primary">
       <Header />
+      <PaymentFailedBanner />
 
       <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-8 py-4 sm:py-8">
         {/* Plan Status Box */}

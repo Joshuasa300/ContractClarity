@@ -48,9 +48,10 @@ export const users = pgTable("users", {
   passwordResetTokenExpiresAt: timestamp("password_reset_token_expires_at"), // Token expiration (24 hours)
   passwordResetRequestedAt: timestamp("password_reset_requested_at"), // Rate limiting for requests
   // Subscription fields
-  accountStatus: varchar("account_status").default("free"), // 'free', 'plus', 'pro', 'premium', 'null' (payment failed)
+  accountStatus: varchar("account_status").default("free"), // 'free', 'plus', 'pro', 'premium'
   stripeCustomerId: varchar("stripe_customer_id").unique(), // Stripe customer ID
   subscriptionExpiresAt: timestamp("subscription_expires_at"), // Subscription expiration date
+  paymentFailed: boolean("payment_failed").default(false), // True if downgraded due to payment failure
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
 });
