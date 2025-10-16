@@ -28,6 +28,8 @@ export default function Settings() {
   const [isChangingPassword, setIsChangingPassword] = useState(false);
   const [showCurrentPassword, setShowCurrentPassword] = useState(false);
   const [showNewPassword, setShowNewPassword] = useState(false);
+  const [showCancelDialog, setShowCancelDialog] = useState(false);
+  const [isCanceling, setIsCanceling] = useState(false);
   const [editForm, setEditForm] = useState({
     firstName: '',
     lastName: '',
@@ -220,6 +222,42 @@ export default function Settings() {
     }
   };
 
+  const handleCancelSubscription = async () => {
+    if (!user) return;
+
+    setIsCanceling(true);
+    try {
+      const response = await fetch('/api/cancel-subscription', {
+        method: 'POST',
+        credentials: 'include',
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || 'Failed to cancel subscription');
+      }
+
+      toast({
+        title: "Subscription Cancelled",
+        description: "Your subscription has been cancelled. You'll be downgraded to the free plan.",
+      });
+
+      setShowCancelDialog(false);
+      // Refresh user data
+      setTimeout(() => window.location.reload(), 1500);
+    } catch (error: any) {
+      console.error('Error cancelling subscription:', error);
+      toast({
+        title: "Error",
+        description: error.message || "Failed to cancel subscription. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsCanceling(false);
+    }
+  };
+
   return (
     <>
       <Header 
@@ -361,6 +399,32 @@ export default function Settings() {
                   >
                     <Key className="h-4 w-4" />
                     Change Password
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          )}
+
+          {/* Subscription Management */}
+          {user && ['plus', 'pro', 'premium'].includes(user.accountStatus || '') && (
+            <Card>
+              <CardHeader>
+                <CardTitle>Subscription</CardTitle>
+                <CardDescription>Manage your active subscription</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="flex justify-between items-center">
+                  <div>
+                    <h4 className="font-medium">Current Plan: {user.accountStatus?.charAt(0).toUpperCase() + user.accountStatus?.slice(1)}</h4>
+                    <p className="text-sm text-gray-600">Cancel your subscription and return to the free plan</p>
+                  </div>
+                  <Button 
+                    variant="outline" 
+                    onClick={() => setShowCancelDialog(true)}
+                    className="gap-2 border-orange-500 text-orange-600 hover:bg-orange-50"
+                    data-testid="button-cancel-subscription"
+                  >
+                    Cancel Subscription
                   </Button>
                 </div>
               </CardContent>
@@ -521,6 +585,48 @@ export default function Settings() {
               disabled={isChangingPassword}
             >
               {isChangingPassword ? 'Changing...' : 'Change Password'}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Cancel Subscription Dialog */}
+      <Dialog open={showCancelDialog} onOpenChange={setShowCancelDialog}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle className="text-orange-600">Cancel Subscription</DialogTitle>
+            <DialogDescription>
+              Are you sure you want to cancel your subscription? You'll be downgraded to the free plan and lose access to premium features.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="bg-orange-50 border border-orange-200 rounded-lg p-4">
+            <p className="text-sm text-orange-800">
+              <strong>What happens next:</strong>
+              <ul className="list-disc list-inside mt-2 space-y-1">
+                <li>Your subscription will be cancelled immediately</li>
+                <li>You'll be moved to the free plan</li>
+                <li>You'll keep your existing contracts but won't be able to upload new ones</li>
+                <li>You can resubscribe at any time</li>
+              </ul>
+            </p>
+          </div>
+          <DialogFooter className="gap-2">
+            <Button
+              variant="outline"
+              onClick={() => setShowCancelDialog(false)}
+              disabled={isCanceling}
+              data-testid="button-cancel-dialog-close"
+            >
+              Keep Subscription
+            </Button>
+            <Button
+              variant="destructive"
+              onClick={handleCancelSubscription}
+              disabled={isCanceling}
+              className="bg-orange-600 hover:bg-orange-700"
+              data-testid="button-confirm-cancel-subscription"
+            >
+              {isCanceling ? 'Cancelling...' : 'Yes, Cancel Subscription'}
             </Button>
           </DialogFooter>
         </DialogContent>
