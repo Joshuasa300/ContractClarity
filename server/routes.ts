@@ -972,6 +972,73 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Cancel subscription endpoint
+  app.post('/api/cancel-subscription', isAuthenticated, async (req: any, res) => {
+    try {
+      const user = req.user;
+
+      if (!user) {
+        return res.status(401).json({ message: 'User not authenticated' });
+      }
+
+      // Check if user has a Stripe customer ID
+      if (!user.stripeCustomerId) {
+        return res.status(400).json({ message: 'No subscription found' });
+      }
+
+      console.log(`🚫 Cancelling subscription for user: ${user.email}`);
+
+      // Find all cancellable subscriptions with pagination
+      const cancellableStatuses = ['active', 'trialing', 'past_due', 'unpaid'];
+      const allCancellableSubscriptions: Stripe.Subscription[] = [];
+      
+      // Fetch subscriptions with pagination
+      let hasMore = true;
+      let startingAfter: string | undefined = undefined;
+      
+      while (hasMore) {
+        const subscriptions = await stripe.subscriptions.list({
+          customer: user.stripeCustomerId,
+          limit: 100,
+          starting_after: startingAfter
+        });
+        
+        // Filter and collect cancellable subscriptions
+        const cancellable = subscriptions.data.filter(sub => 
+          cancellableStatuses.includes(sub.status)
+        );
+        allCancellableSubscriptions.push(...cancellable);
+        
+        hasMore = subscriptions.has_more;
+        if (hasMore && subscriptions.data.length > 0) {
+          startingAfter = subscriptions.data[subscriptions.data.length - 1].id;
+        }
+      }
+
+      if (allCancellableSubscriptions.length === 0) {
+        return res.status(400).json({ message: 'No active subscription found' });
+      }
+
+      // Cancel all cancellable subscriptions
+      const cancelPromises = allCancellableSubscriptions.map(subscription => 
+        stripe.subscriptions.cancel(subscription.id)
+      );
+
+      await Promise.all(cancelPromises);
+
+      console.log(`✅ Successfully cancelled ${allCancellableSubscriptions.length} subscription(s) for ${user.email}`);
+      console.log('📡 Stripe will send customer.subscription.deleted webhook to update user status');
+
+      res.json({ 
+        success: true,
+        message: 'Subscription cancelled successfully. You will be downgraded to the free plan shortly.'
+      });
+    } catch (error: any) {
+      console.error('Subscription cancellation error:', error);
+      res.status(500).json({ message: error.message || 'Failed to cancel subscription' });
+    }
+  });
+
   // Test endpoint to verify webhook connectivity
   app.get('/api/webhook-test', (req, res) => {
     console.log('🔧 Webhook test endpoint called');
