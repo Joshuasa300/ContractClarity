@@ -870,7 +870,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         }],
         mode: 'subscription',
         success_url: `${req.protocol}://${req.get('host')}/?success=true`,
-        cancel_url: `${req.protocol}://${req.get('host')}/pricing?canceled=true`,
+        cancel_url: `${req.protocol}://${req.get('host')}/?canceled=true`,
         metadata: {
           planId: planId,
           ...(userId && { userId })
