@@ -192,6 +192,7 @@ class EmailService {
       <body>
         <div class="container">
           <div class="logo">
+            <img src="https://contractclarity.co.uk/logo.png" alt="Contract Clarity Logo" style="max-width: 120px; height: auto; margin-bottom: 10px;">
             <h1>Contract Clarity</h1>
           </div>
           
@@ -351,6 +352,7 @@ Need help? Contact our support team or visit our help center.
         <div class="container">
           <div class="header">
             <div class="logo">
+              <img src="https://contractclarity.co.uk/logo.png" alt="Contract Clarity Logo" style="max-width: 120px; height: auto; margin-bottom: 10px;">
               <h1>Contract Clarity</h1>
             </div>
             <h2>New Contact Form Submission</h2>
@@ -513,6 +515,7 @@ This email was sent from the Contract Clarity contact form.
       <body>
         <div class="container">
           <div class="logo">
+            <img src="https://contractclarity.co.uk/logo.png" alt="Contract Clarity Logo" style="max-width: 120px; height: auto; margin-bottom: 10px;">
             <h1>Contract Clarity</h1>
           </div>
           
