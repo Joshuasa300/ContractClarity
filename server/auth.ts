@@ -10,6 +10,7 @@ import { storage } from "./storage";
 import { type User as DbUser } from "@shared/schema";
 import connectPg from "connect-pg-simple";
 import Stripe from "stripe";
+import { loginLimiter, registrationLimiter } from "./rateLimit";
 
 declare global {
   namespace Express {
@@ -232,7 +233,7 @@ export function setupAuth(app: Express) {
   // Auth Routes
   
   // Traditional registration
-  app.post("/api/register", async (req, res, next) => {
+  app.post("/api/register", registrationLimiter, async (req, res, next) => {
     try {
       const { email, password, firstName, lastName } = req.body;
 
@@ -273,7 +274,7 @@ export function setupAuth(app: Express) {
   });
 
   // Traditional login
-  app.post("/api/login", passport.authenticate("local"), (req, res) => {
+  app.post("/api/login", loginLimiter, passport.authenticate("local"), (req, res) => {
     const user = req.user!;
     res.json({
       id: user.id,
