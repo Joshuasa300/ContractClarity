@@ -62,7 +62,7 @@ export const passwordResetLimiter = rateLimit({
 // Rate limiter for email verification
 export const emailVerificationLimiter = rateLimit({
   windowMs: 60 * 60 * 1000, // 1 hour
-  max: 5, // 5 verification attempts per hour
+  max: 10, // 10 verification attempts per hour
   message: {
     message: 'Too many verification attempts. Please try again in 1 hour.',
     retryAfter: 60 * 60
@@ -123,19 +123,19 @@ export const apiLimiter = rateLimit({
 
 // Strict rate limiter for Stripe checkout to prevent payment spam
 export const checkoutLimiter = rateLimit({
-  windowMs: 60 * 60 * 1000, // 1 hour
-  max: 10, // 10 checkout attempts per hour
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 5, // 5 checkout attempts per 15 minutes
   message: {
     message: 'Too many checkout attempts. Please try again later.',
-    retryAfter: 60 * 60
+    retryAfter: 15 * 60
   },
   standardHeaders: true,
   legacyHeaders: false,
   handler: (req, res) => {
     console.log(`⚠️ Rate limit exceeded for checkout from IP: ${req.ip}`);
     res.status(429).json({
-      message: 'Too many checkout attempts. Please try again in 1 hour.',
-      retryAfter: 60 * 60
+      message: 'Too many checkout attempts. Please try again in 15 minutes.',
+      retryAfter: 15 * 60
     });
   }
 });
