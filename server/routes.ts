@@ -15,6 +15,15 @@ import bcrypt from "bcryptjs";
 import PDFParser from "pdf2json";
 // Mammoth for DOCX text extraction
 import mammoth from "mammoth";
+// Rate limiting
+import { 
+  apiLimiter, 
+  fileUploadLimiter, 
+  passwordResetLimiter, 
+  emailVerificationLimiter,
+  registrationLimiter,
+  checkoutLimiter 
+} from "./rateLimit";
 
 // Configure multer for file uploads
 const upload = multer({ 
@@ -63,8 +72,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Auth middleware
   setupAuth(app);
 
+  // Apply general API rate limiter to all API routes
+  app.use('/api', apiLimiter);
+
   // Contract routes
-  app.post('/api/contracts', isAuthenticated, upload.single('contract'), async (req: any, res) => {
+  app.post('/api/contracts', isAuthenticated, fileUploadLimiter, upload.single('contract'), async (req: any, res) => {
     try {
       const userId = req.user.id;
       
@@ -786,7 +798,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Stripe checkout session routes (allows unauthenticated users)
-  app.post('/api/create-checkout-session', async (req: any, res) => {
+  app.post('/api/create-checkout-session', checkoutLimiter, async (req: any, res) => {
     try {
       const { planId } = req.body;
       
@@ -892,7 +904,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Stripe subscription routes
-  app.post('/api/create-subscription', isAuthenticated, async (req: any, res) => {
+  app.post('/api/create-subscription', isAuthenticated, checkoutLimiter, async (req: any, res) => {
     try {
       const { planId } = req.body;
       const user = req.user;
@@ -1106,7 +1118,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Email verification routes - New approach: only create account after verification
-  app.post('/api/auth/register', async (req, res) => {
+  app.post('/api/auth/register', registrationLimiter, async (req, res) => {
     try {
       const { email, password, firstName, lastName } = req.body;
 
@@ -1170,7 +1182,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.post('/api/auth/verify-email', async (req, res) => {
+  app.post('/api/auth/verify-email', emailVerificationLimiter, async (req, res) => {
     try {
       const { email, code } = req.body;
 
@@ -1363,7 +1375,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Password reset routes
-  app.post('/api/auth/forgot-password', async (req, res) => {
+  app.post('/api/auth/forgot-password', passwordResetLimiter, async (req, res) => {
     try {
       const { email } = req.body;
 
