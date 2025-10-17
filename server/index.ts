@@ -1,4 +1,5 @@
 import express, { type Request, Response, NextFunction } from "express";
+import helmet from "helmet";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
 
@@ -20,6 +21,25 @@ app.use('/api/webhook', express.raw({ type: 'application/json' }));
 // Increase body size limits to handle large document uploads for all other routes
 app.use(express.json({ limit: '100mb' }));
 app.use(express.urlencoded({ extended: false, limit: '100mb' }));
+
+// Security headers with Helmet
+app.use(helmet({
+  contentSecurityPolicy: {
+    directives: {
+      defaultSrc: ["'self'"],
+      scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'"], // Needed for Vite dev and React
+      styleSrc: ["'self'", "'unsafe-inline'"], // Needed for styled components
+      imgSrc: ["'self'", "data:", "https:", "blob:"], // Allow images from various sources
+      connectSrc: ["'self'", "https://checkout.stripe.com", "https://api.stripe.com"], // Allow Stripe API
+      frameSrc: ["'self'", "https://checkout.stripe.com", "https://js.stripe.com"], // Allow Stripe checkout
+      fontSrc: ["'self'", "data:"],
+      objectSrc: ["'none'"],
+      upgradeInsecureRequests: [],
+    },
+  },
+  crossOriginEmbedderPolicy: false, // Disable for better compatibility with external services
+  crossOriginResourcePolicy: { policy: "cross-origin" }, // Allow resources from other origins
+}));
 
 app.use((req, res, next) => {
   const start = Date.now();
