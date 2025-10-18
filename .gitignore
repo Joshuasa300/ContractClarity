@@ -3,6 +3,9 @@ node_modules
 /.pnp
 .pnp.js
 
+#environment variables
+.env
+
 # Production builds
 /dist
 /build
@@ -75,3 +78,4 @@ attached_assets/
 translation-helper.js
 trigger_analysis.js
 cookies.txt
+#environment variables
