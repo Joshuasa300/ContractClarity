@@ -16,6 +16,9 @@ export default defineConfig({
         ]
       : []),
   ],
+  define: {
+    'import.meta.env.VITE_STRIPE_PUBLIC_KEY': JSON.stringify('pk_live_51RiODgLKZQv1tTWkjF7OSTJtEycQx7fhYedcO7fNNT5sEmSOX8lF36EDOKXThwT3qaL0KeZIFBfDNakex0c4azWy00sngQd7Sg'),
+  },
   resolve: {
     alias: {
       "@": path.resolve(path.dirname(new URL(import.meta.url).pathname), "client", "src"),
