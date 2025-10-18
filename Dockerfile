@@ -1,26 +1,34 @@
-# Use Node.js 18 LTS as base image
-FROM node:18-alpine
+# Dockerfile (multi-stage, Railway-ready)
 
-# Set working directory
+# ---- Build stage ----
+FROM node:18-alpine AS build
 WORKDIR /app
 
-# Copy package files
+# Install deps with cache-friendly layers
 COPY package*.json ./
+RUN npm ci
 
-# Install dependencies
-RUN npm ci --only=production=false
-
-# Copy source code
+# Copy source and build client + server
 COPY . .
-
-# Build the application
+ARG BUILD_TIME
+ENV BUILD_TIME=${BUILD_TIME}
 RUN npm run build
 
-# Expose port 5000
-EXPOSE 5000
-
-# Set environment to production
+# ---- Runtime stage ----
+FROM node:18-alpine AS runtime
+WORKDIR /app
 ENV NODE_ENV=production
 
-# Start the application
-CMD ["npm", "start"]
+# Only production deps for the server runtime
+COPY package*.json ./
+RUN npm ci --omit=dev
+
+# Bring built artifacts
+COPY --from=build /app/server-dist ./server-dist
+COPY --from=build /app/client-dist ./client-dist
+
+# Railway injects $PORT; do not hardcode. EXPOSE is informational.
+EXPOSE 8080
+
+# Start the server bundle (must bind process.env.PORT internally)
+CMD ["node", "server-dist/index.js"]
