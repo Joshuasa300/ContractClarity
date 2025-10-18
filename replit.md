@@ -57,6 +57,12 @@ Preferred communication style: Simple, everyday language.
   - Credentials enabled for session cookies
   - Preflight caching for 24 hours
   - Allowed methods: GET, POST, PUT, DELETE, PATCH, OPTIONS
+- **Session Cookie Security**: Secure session configuration with CSRF protection:
+  - httpOnly: true (prevents JavaScript access)
+  - secure: true in production (HTTPS only)
+  - sameSite: 'lax' (CSRF protection while allowing top-level navigation)
+  - maxAge: 7 days
+  - PostgreSQL-backed session store
 - **Debug Endpoints**: All debug/test endpoints removed from production routes
 - **File Upload Security**: Strict validation (PDF, DOCX, TXT only, 10MB limit, MIME type checking)
 
