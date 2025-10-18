@@ -22,16 +22,24 @@ app.use('/api/webhook', express.raw({ type: 'application/json' }));
 app.use(express.json({ limit: '100mb' }));
 app.use(express.urlencoded({ extended: false, limit: '100mb' }));
 
-// Security headers with Helmet
+// Security headers with Helmet - environment-aware CSP
+const isDevelopment = process.env.NODE_ENV === 'development';
+
 app.use(helmet({
   contentSecurityPolicy: {
     directives: {
       defaultSrc: ["'self'"],
-      scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'"], // Needed for Vite dev and React
-      styleSrc: ["'self'", "'unsafe-inline'"], // Needed for styled components
-      imgSrc: ["'self'", "data:", "https:", "blob:"], // Allow images from various sources
-      connectSrc: ["'self'", "https://checkout.stripe.com", "https://api.stripe.com"], // Allow Stripe API
-      frameSrc: ["'self'", "https://checkout.stripe.com", "https://js.stripe.com"], // Allow Stripe checkout
+      // Production: strict scriptSrc (no unsafe-inline/eval) but allows necessary third-party scripts
+      // Development: relaxed scriptSrc for Vite dev server
+      scriptSrc: isDevelopment 
+        ? ["'self'", "'unsafe-inline'", "'unsafe-eval'"] 
+        : ["'self'", "https://js.stripe.com"],
+      // Allow inline styles for both environments (required for React components & shadcn/ui)
+      // Note: Inline styles pose minimal XSS risk compared to inline scripts
+      styleSrc: ["'self'", "'unsafe-inline'"],
+      imgSrc: ["'self'", "data:", "https:", "blob:"],
+      connectSrc: ["'self'", "https://checkout.stripe.com", "https://api.stripe.com"],
+      frameSrc: ["'self'", "https://checkout.stripe.com", "https://js.stripe.com"],
       fontSrc: ["'self'", "data:"],
       objectSrc: ["'none'"],
       upgradeInsecureRequests: [],

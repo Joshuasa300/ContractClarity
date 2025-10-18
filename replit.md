@@ -36,6 +36,24 @@ Preferred communication style: Simple, everyday language.
 - **Legal Pages**: Dedicated Privacy Policy and Terms of Service pages emphasizing that the service is not a substitute for legal advice.
 - **Support**: Contact form and support page integration.
 
+### Security
+- **Rate Limiting**: Comprehensive rate limiting using express-rate-limit middleware across all sensitive endpoints:
+  - Login: 5 attempts per 15 minutes (blocks brute force)
+  - Registration: 3 attempts per hour
+  - Password Reset: 3 requests per hour
+  - Email Verification: 10 attempts per hour
+  - File Uploads: 20 uploads per hour
+  - Checkout/Subscriptions: 5 attempts per 15 minutes
+  - General API: 100 requests per 15 minutes (excludes webhooks)
+- **Security Headers**: Helmet middleware with environment-aware Content Security Policy:
+  - Production: Strict CSP without 'unsafe-inline' or 'unsafe-eval' for XSS protection
+  - Development: Relaxed CSP allowing Vite dev server and React
+  - HSTS (Strict-Transport-Security) for HTTPS enforcement
+  - X-Content-Type-Options, X-Frame-Options, X-XSS-Protection
+  - Allows Stripe domains for payment processing
+- **Debug Endpoints**: All debug/test endpoints removed from production routes
+- **File Upload Security**: Strict validation (PDF, DOCX, TXT only, 10MB limit, MIME type checking)
+
 ## External Dependencies
 
 - **Database**: Neon serverless PostgreSQL
