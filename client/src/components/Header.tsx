@@ -55,6 +55,7 @@ export default function Header({ breadcrumbs }: HeaderProps) {
     const baseItems = [
       { label: "Home", href: "/", icon: null },
       { label: "Settings", href: "/settings", icon: null },
+      { label: "Support", href: "/support", icon: null },
     ];
 
     // Only show Templates and Clauses for paid plans
@@ -64,6 +65,7 @@ export default function Header({ breadcrumbs }: HeaderProps) {
         { label: "Templates", href: "/templates", icon: null },
         { label: "Clauses", href: "/clauses", icon: null },
         { label: "Settings", href: "/settings", icon: null },
+        { label: "Support", href: "/support", icon: null },
       ];
     }
 
