@@ -167,6 +167,7 @@ export default function Checkout() {
 
         <div className="mt-6 text-center text-sm text-gray-500">
           <p>By subscribing, you agree to our Terms of Service and Privacy Policy.</p>
+          {/* Trigger rebuild for environment variables */}
           <p className="mt-2">✓ Secure payment processing ✓ Cancel anytime ✓ 30-day money-back guarantee</p>
         </div>
       </div>
