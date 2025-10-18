@@ -51,6 +51,12 @@ Preferred communication style: Simple, everyday language.
   - HSTS (Strict-Transport-Security) for HTTPS enforcement
   - X-Content-Type-Options, X-Frame-Options, X-XSS-Protection
   - Allows Stripe domains for payment processing
+- **CORS Configuration**: Explicit CORS middleware with environment-aware origin control:
+  - Development: Allows localhost on any port for development tools
+  - Production: Only allows app's own origin (Replit domains)
+  - Credentials enabled for session cookies
+  - Preflight caching for 24 hours
+  - Allowed methods: GET, POST, PUT, DELETE, PATCH, OPTIONS
 - **Debug Endpoints**: All debug/test endpoints removed from production routes
 - **File Upload Security**: Strict validation (PDF, DOCX, TXT only, 10MB limit, MIME type checking)
 

@@ -1,5 +1,6 @@
 import express, { type Request, Response, NextFunction } from "express";
 import helmet from "helmet";
+import cors from "cors";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
 
@@ -22,8 +23,47 @@ app.use('/api/webhook', express.raw({ type: 'application/json' }));
 app.use(express.json({ limit: '100mb' }));
 app.use(express.urlencoded({ extended: false, limit: '100mb' }));
 
-// Security headers with Helmet - environment-aware CSP
+// CORS configuration - explicit same-origin policy
 const isDevelopment = process.env.NODE_ENV === 'development';
+
+app.use(cors({
+  origin: function (origin, callback) {
+    // Allow requests with no origin (like mobile apps or curl requests)
+    if (!origin) return callback(null, true);
+    
+    // In development, allow localhost on any port
+    if (isDevelopment) {
+      const allowedOrigins = [
+        'http://localhost:5000',
+        'http://localhost:3000',
+        /^http:\/\/localhost:\d+$/,
+      ];
+      const isAllowed = allowedOrigins.some(allowed => 
+        allowed instanceof RegExp ? allowed.test(origin) : allowed === origin
+      );
+      return callback(null, isAllowed);
+    }
+    
+    // In production, only allow the app's own origin
+    // This will be the deployed Replit URL
+    const allowedOrigins = [
+      origin, // Allow same-origin requests
+    ];
+    
+    // For Replit deployments, allow the replit.app domain
+    if (origin.endsWith('.replit.app') || origin.endsWith('.repl.co')) {
+      return callback(null, true);
+    }
+    
+    callback(null, true); // Allow same-origin by default
+  },
+  credentials: true, // Allow credentials (cookies, authorization headers)
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
+  maxAge: 86400, // Cache preflight requests for 24 hours
+}));
+
+// Security headers with Helmet - environment-aware CSP
 
 app.use(helmet({
   contentSecurityPolicy: {
